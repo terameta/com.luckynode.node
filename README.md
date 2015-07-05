@@ -15,6 +15,7 @@ You can install this package with `npm`
 * git pull origin master
 * npm install nodemon -g
 * npm install node-gyp -g
+* mkdir node_modules
 * cd node_modules
 * git clone git://github.com/c4milo/node-libvirt.git
 * cd node-libvirt

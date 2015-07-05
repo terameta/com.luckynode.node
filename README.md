@@ -7,6 +7,7 @@ of recent versions of GNU/Linux (and other OSes). (reference: [Libvirt][libvirt_
 
 Node-Libvirt is a set of bindings to Libvirt API, which allows to use it from Javascript.
 
+
 ### Virtualization Technologies Supported
 
    * The [Xen][xen_home] hypervisor on Linux and Solaris hosts.

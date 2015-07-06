@@ -29,7 +29,7 @@ module.exports = function App(db) {
 	app.set('port', 14413);
 
 
-	var server = app.listen(app.get('port'), '127.0.0.1', function() {
+	var server = app.listen(app.get('port'), '0.0.0.0', function() {
 		console.log('Express server listening on port ' + server.address().port);
 	});
 

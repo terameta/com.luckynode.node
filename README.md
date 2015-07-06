@@ -19,6 +19,7 @@ You can install this package with `npm`
     $ cd node_modules
     $ git clone git://github.com/c4milo/node-libvirt.git
     $ cd node-libvirt
+    $ npm install nan
     $ node-gyp configure
     $ node-gyp build
     $ npm link

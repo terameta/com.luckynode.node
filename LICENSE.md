@@ -1,0 +1,1 @@
+This application has a closed license

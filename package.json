@@ -11,7 +11,7 @@
     "url": "https://alirizadikici@bitbucket.org/alirizadikici/com.luckynode.node.git"
   },
   "author": "LuckyNode",
-  "license": "Private",
+  "license": "LicenseRef-LICENSE",
   "dependencies": {
     "bcrypt-nodejs": "0.0.3",
     "express": "^4.13.1",

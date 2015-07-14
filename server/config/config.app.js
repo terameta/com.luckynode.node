@@ -1,4 +1,6 @@
 var express 		= require('express');
+var https			= require('https');
+var fs				= require('fs');
 var path 			= require('path');
 var logger			= require('morgan');
 //var bodyParser		= require('body-parser');
@@ -27,11 +29,17 @@ module.exports = function App(db) {
 	require('../routes/index.js')(app, express, db, tools);
 
 	app.set('port', 14413);
-
-
+	
+	var httpsConfig = {
+		key: fs.readFileSync('./cloud.key', 'utf-8'),
+		cert: fs.readFileSync('./cloud.crt', 'utf-8')
+	};
+	
+	https.createServer(httpsConfig,app).listen(app.get('port'));
+/*
 	var server = app.listen(app.get('port'), '0.0.0.0', function() {
 		console.log('Express server listening on port ' + server.address().port);
 	});
-
+*/
 	module.exports = app;
 };

@@ -1,4 +1,4 @@
 #!/bin/bash
 cd ~/node.luckynode.com
 git pull origin master
-exit
+echo "heyoo we are here"

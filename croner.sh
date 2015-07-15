@@ -1,5 +1,4 @@
 #!/bin/bash
 cd ~/node.luckynode.com
-git pull origin master
-echo "heyoo we are here"
-echo "heye"
+git fetch --all
+git reset --hard origin/master

@@ -36,6 +36,7 @@ module.exports = function App(db) {
 	};
 	
 	https.createServer(httpsConfig,app).listen(app.get('port'));
+	console.log('Express server listening on port ' + app.get('port'));
 /*
 	var server = app.listen(app.get('port'), '0.0.0.0', function() {
 		console.log('Express server listening on port ' + server.address().port);

@@ -7,17 +7,28 @@ module.exports = function(app, express, db, tools) {
 		ip = ip.replace("::ffff:", "");
 		ip = ip.replace("::FFFF:", "");
 		console.log(ip);
+		var shouldAuth = false;
 		
 		var curManagers = app.get('managers');
 		curManagers.forEach(function(curManager){
 			console.log(curManager);
 			if(curManager == ip){
 				console.log("Match: ", curManager, ip);
-			} else {
-				console.log("Fail: ", curManager, ip);
+				shouldAuth = true;
 			}
 		});
-		res.send(app.get('managers'));
+		if(shouldAuth){
+			var token = tools.jwt.sign(ip, app.get('jwtsecret'), {
+				expiresInMinutes: 60*24*30 // expires in 30 days
+			});
+			res.json({
+				status: 'success',
+				message: 'Enjoy your token!',
+				token: token
+			});
+		} else {
+			res.status(401).json({status:'fail'});
+		}
 	});
 
 	apiRoutes.get('/', tools.checkToken, function(req, res) {

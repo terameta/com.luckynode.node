@@ -3,7 +3,8 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 
 	apiRoutes.get('/authenticate', function(req, res) {
-		console.log(req);
+		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+		console.log(ip);
 		res.send(app.get('managers'));
 	});
 

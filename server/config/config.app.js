@@ -30,6 +30,11 @@ module.exports = function App(db) {
 
 	app.set('port', 14413);
 	
+	fs.readFile('managerip', function(err, data) {
+		if (err) throw err;
+		console.log(data);
+	});
+	
 	var httpsConfig = {
 		key: fs.readFileSync('./cloud.key', 'utf-8'),
 		cert: fs.readFileSync('./cloud.crt', 'utf-8')

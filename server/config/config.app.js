@@ -32,10 +32,7 @@ module.exports = function App(db) {
 	
 	fs.readFile('managerip', "utf-8", function(err, data) {
 		if (err) throw err;
-		console.log('Partial Path: ', data);
-		console.log("============================");
-		console.log(data.trim().split(','));
-		console.log("============================");
+		console.log("Managers: ", data.trim().split(','));
 	});
 
 	

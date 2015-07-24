@@ -18,7 +18,7 @@ module.exports = function(app, express, db, tools) {
 			}
 		});
 		if(!shouldAuth && curManagers.length > 0){
-			var http = require('http');
+			var http = require('https');
 			var options = { host: curManagers[0], path: '/api/getManagers' };
 			
 			var callback = function(response) {

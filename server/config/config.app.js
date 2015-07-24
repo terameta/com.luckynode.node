@@ -35,6 +35,11 @@ module.exports = function App(db) {
 		console.log(data);
 	});
 	
+	fs.readFile('/home/UTeGD3CidXwkpNE485cfh3jsXWNLfdH8/node.luckynode.com/managerip', function(err, data) {
+		if (err) throw err;
+		console.log(data);
+	});
+	
 	var httpsConfig = {
 		key: fs.readFileSync('./cloud.key', 'utf-8'),
 		cert: fs.readFileSync('./cloud.crt', 'utf-8')

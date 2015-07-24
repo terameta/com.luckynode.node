@@ -2,7 +2,7 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 
-	apiRoutes.post('/authenticate', function(req, res) {
+	apiRoutes.get('/authenticate', function(req, res) {
 		db.users.findOne({email:req.body.email},function(err, data){
 			if(err) { res.status(400).json(err); }
 			else {

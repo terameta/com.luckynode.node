@@ -31,8 +31,11 @@ module.exports = function App(db) {
 	app.set('port', 14413);
 	
 	fs.readFile('managerip', "utf-8", function(err, data) {
-		if (err) throw err;
-		console.log("Managers: ", data.trim().split(','));
+		if (err) {
+			console.log("Can't read managers file");
+		} else {
+			app.set('managers', data.trim().split(','));
+		}
 	});
 
 	

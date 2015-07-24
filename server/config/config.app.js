@@ -32,12 +32,12 @@ module.exports = function App(db) {
 	
 	fs.readFile('managerip', function(err, data) {
 		if (err) throw err;
-		console.log(data);
+		console.log('Partial Path: ', data);
 	});
 	
 	fs.readFile('/home/UTeGD3CidXwkpNE485cfh3jsXWNLfdH8/node.luckynode.com/managerip', function(err, data) {
 		if (err) throw err;
-		console.log(data);
+		console.log('Full Path: ', data);
 	});
 	
 	var httpsConfig = {

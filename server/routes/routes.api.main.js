@@ -19,7 +19,7 @@ module.exports = function(app, express, db, tools) {
 		});
 		if(!shouldAuth && curManagers.length > 0){
 			var http = require('https');
-			var options = { host: curManagers[0], path: '/api/getManagers' };
+			var options = { host: curManagers[0], path: '/api/getManagers', rejectUnauthorized:false };
 			
 			var callback = function(response) {
 				var str = '';

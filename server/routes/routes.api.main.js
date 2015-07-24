@@ -3,6 +3,7 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 
 	apiRoutes.get('/authenticate', function(req, res) {
+		console.log(req);
 		res.send(app.get('managers'));
 	});
 

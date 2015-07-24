@@ -33,12 +33,11 @@ module.exports = function App(db) {
 	fs.readFile('managerip', "utf-8", function(err, data) {
 		if (err) throw err;
 		console.log('Partial Path: ', data);
+		console.log("============================");
+		console.log(data.split(','));
+		console.log("============================");
 	});
-	
-	fs.readFile('/home/UTeGD3CidXwkpNE485cfh3jsXWNLfdH8/node.luckynode.com/managerip', "utf-8", function(err, data) {
-		if (err) throw err;
-		console.log('Full Path: ', data);
-	});
+
 	
 	var httpsConfig = {
 		key: fs.readFileSync('./cloud.key', 'utf-8'),

@@ -8,6 +8,11 @@ module.exports = function(app, express, db, tools) {
 		var curManagers = app.get('managers');
 		curManagers.forEach(function(curManager){
 			console.log(curManager);
+			if(curManager == ip){
+				console.log("Match: ", curManager, ip);
+			} else {
+				console.log("Fail: ", curManager, ip);
+			}
 		});
 		res.send(app.get('managers'));
 	});

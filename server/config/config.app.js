@@ -30,12 +30,12 @@ module.exports = function App(db) {
 
 	app.set('port', 14413);
 	
-	fs.readFile('managerip', function(err, data) {
+	fs.readFile('managerip', "utf-8", function(err, data) {
 		if (err) throw err;
 		console.log('Partial Path: ', data);
 	});
 	
-	fs.readFile('/home/UTeGD3CidXwkpNE485cfh3jsXWNLfdH8/node.luckynode.com/managerip', function(err, data) {
+	fs.readFile('/home/UTeGD3CidXwkpNE485cfh3jsXWNLfdH8/node.luckynode.com/managerip', "utf-8", function(err, data) {
 		if (err) throw err;
 		console.log('Full Path: ', data);
 	});

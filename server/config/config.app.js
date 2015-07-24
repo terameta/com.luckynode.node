@@ -34,7 +34,7 @@ module.exports = function App(db) {
 		if (err) throw err;
 		console.log('Partial Path: ', data);
 		console.log("============================");
-		console.log(data.split(','));
+		console.log(data.trim().split(','));
 		console.log("============================");
 	});
 

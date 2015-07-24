@@ -4,7 +4,10 @@ module.exports = function(app, express, db, tools) {
 
 	apiRoutes.get('/authenticate', function(req, res) {
 		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
+		ip = ip.replace("::ffff:", "");
+		ip = ip.replace("::FFFF:", "");
 		console.log(ip);
+		
 		var curManagers = app.get('managers');
 		curManagers.forEach(function(curManager){
 			console.log(curManager);

@@ -19,6 +19,7 @@ module.exports = function(app, express, db, tools) {
 		
 			//the whole response has been recieved, so we just print it out here
 			response.on('end', function() {
+				console.log(deferred);
 				deferred.resolve(str);
 			});
 		};

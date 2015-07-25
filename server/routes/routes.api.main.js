@@ -4,7 +4,7 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 	
 	function sendHTTPSRequest(host, path, shouldReject){
-		var deferred = Q.defer;
+		var deferred = Q.defer();
 		
 		var http = require('https');
 		var options = { host: host, path: path, rejectUnauthorized:shouldReject };

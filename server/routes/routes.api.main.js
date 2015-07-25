@@ -52,7 +52,7 @@ module.exports = function(app, express, db, tools) {
 		
 		var curManagers = app.get('managers');
 		curManagers.forEach(function(curManager){
-			curManager = curManager.replace("::ffff:", "").replace("::FFFF:", "");
+			curManager = simplifyIP(curManager);
 			if(curManager == ip){
 				shouldAuth = true;
 				sendToken(ip, res);
@@ -72,9 +72,12 @@ module.exports = function(app, express, db, tools) {
 						}
 					});
 					if(!shouldAuth){
+						var promises = [];
 						listofIPs.forEach(function(curManager){
 							curManager = curManager.replace("::ffff:", "").replace("::FFFF:", "");
-							sendHTTPSRequest(curManager, '/api/getMyIPs', false).then(
+							var curPromise = sendHTTPSRequest(curManager, '/api/getMyIPs', false);
+							promises.push(curPromise);
+							curPromise.then(
 								function(mResult){ 
 									var listofCurIPs = JSON.parse(mResult); 
 									listofCurIPs.forEach(function(curManagerIP){
@@ -93,7 +96,9 @@ module.exports = function(app, express, db, tools) {
 								}
 							);
 						});
-						res.status(401).json({status:'fail'});
+						Q.all(promises).
+							then( function(){ res.status(401).json({status:'fail'}); }).
+							fail( function(){ res.status(401).json({status:'fail'}); });
 					}
 				}
 			).fail(
@@ -102,6 +107,8 @@ module.exports = function(app, express, db, tools) {
 					res.status(401).json({status:'fail'});
 				}
 			);
+		} else {
+			res.status(500).json({status:'fail'});
 		}
 	});
 

@@ -23,11 +23,9 @@ module.exports = function(app, express, db, tools) {
 			});
 		};
 		
-		var req = http.request(options, callback).end();
-		
-		req.on('error', function(e) {
+		http.request(options, callback).on('error', function(e) {
 		  deferred.reject('problem with request: ' + e.message);
-		});
+		}).end();
 		
 		return deferred.promise;
 	}

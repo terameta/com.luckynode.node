@@ -47,6 +47,7 @@ module.exports = function(app, express, db, tools) {
 			sendHTTPSRequest(curManagers[0], '/api/getManagers', false).then(
 				function(result){
 					console.log("Result: ", result);
+					console.log(typeof result);
 				}
 			).fail(
 				function(issue){

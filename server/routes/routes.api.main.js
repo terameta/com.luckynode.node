@@ -2,6 +2,31 @@ module.exports = function(app, express, db, tools) {
 	var Q			= require('q');
 
 	var apiRoutes = express.Router();
+	
+	function sendHTTPSRequest(host, path, shouldReject){
+		var deferred = Q.defer;
+		
+		var http = require('https');
+		var options = { host: host, path: path, rejectUnauthorized:shouldReject };
+		
+		var callback = function(response) {
+			var str = '';
+		
+			//another chunk of data has been recieved, so append it to `str`
+			response.on('data', function(chunk) {
+				str += chunk;
+			});
+		
+			//the whole response has been recieved, so we just print it out here
+			response.on('end', function() {
+				deferred.resolve(str);
+			});
+		};
+		
+		http.request(options, callback).end();
+		
+		return deferred.promise;
+	}
 
 	apiRoutes.get('/authenticate', function(req, res) {
 		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
@@ -42,31 +67,6 @@ module.exports = function(app, express, db, tools) {
 			res.status(401).json({status:'fail'});
 		}
 	});
-	
-	function sendHTTPSRequest(host, path, shouldReject){
-		var deferred = Q.defer;
-		
-		var http = require('https');
-		var options = { host: host, path: path, rejectUnauthorized:shouldReject };
-		
-		var callback = function(response) {
-			var str = '';
-		
-			//another chunk of data has been recieved, so append it to `str`
-			response.on('data', function(chunk) {
-				str += chunk;
-			});
-		
-			//the whole response has been recieved, so we just print it out here
-			response.on('end', function() {
-				deferred.resolve(str);
-			});
-		};
-		
-		http.request(options, callback).end();
-		
-		return deferred.promise;
-	}
 
 	apiRoutes.get('/', tools.checkToken, function(req, res) {
 		res.json({ message: 'Welcome to the coolest API on earth!' });

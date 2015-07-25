@@ -23,7 +23,11 @@ module.exports = function(app, express, db, tools) {
 			});
 		};
 		
-		http.request(options, callback).end();
+		var req = http.request(options, callback).end();
+		
+		req.on('error', function(e) {
+		  deferred.reject('problem with request: ' + e.message);
+		});
 		
 		return deferred.promise;
 	}

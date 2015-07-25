@@ -7,7 +7,7 @@ module.exports = function(app, express, db, tools) {
 		var deferred = Q.defer();
 		
 		var http = require('https');
-		var options = { host: host, path: path, rejectUnauthorized:shouldReject };
+		var options = { host: host+'a', path: path, rejectUnauthorized:shouldReject };
 		
 		var callback = function(response) {
 			var str = '';

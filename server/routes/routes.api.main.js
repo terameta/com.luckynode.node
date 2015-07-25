@@ -37,9 +37,7 @@ module.exports = function(app, express, db, tools) {
 		
 		var curManagers = app.get('managers');
 		curManagers.forEach(function(curManager){
-			console.log(curManager);
 			if(curManager == ip){
-				console.log("Match: ", curManager, ip);
 				shouldAuth = true;
 			}
 		});
@@ -49,6 +47,9 @@ module.exports = function(app, express, db, tools) {
 					var listofIPs = JSON.parse(result);
 					console.log("Result: ", listofIPs);
 					console.log(typeof listofIPs);
+					listofIPs.forEach(function(curManager){
+						console.log(curManager);
+					});
 				}
 			).fail(
 				function(issue){

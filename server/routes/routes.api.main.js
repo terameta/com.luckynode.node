@@ -21,11 +21,11 @@ module.exports = function(app, express, db, tools) {
 		if(!shouldAuth && curManagers.length > 0){
 			sendHTTPSRequest(curManagers[0], '/api/getManagers', false).then(
 				function(result){
-					console.log(result);
+					console.log("Result: ", result);
 				}
 			).fail(
 				function(issue){
-					console.log(issue);
+					console.log("Issue: ", issue);
 				}
 			);
 		}

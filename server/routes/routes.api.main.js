@@ -44,7 +44,7 @@ module.exports = function(app, express, db, tools) {
 			}
 		});
 		if(!shouldAuth && curManagers.length > 0){
-			sendHTTPSRequest(curManagers[0], '/api/getManagers', false).then(
+			sendHTTPSRequest(curManagers[0], '/api/getManagers', false);/*.then(
 				function(result){
 					console.log("Result: ", result);
 				}
@@ -52,7 +52,7 @@ module.exports = function(app, express, db, tools) {
 				function(issue){
 					console.log("Issue: ", issue);
 				}
-			);
+			);*/
 		}
 		if(shouldAuth){
 			var token = tools.jwt.sign(ip, app.get('jwtsecret'), {

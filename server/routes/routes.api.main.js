@@ -46,8 +46,9 @@ module.exports = function(app, express, db, tools) {
 		if(!shouldAuth && curManagers.length > 0){
 			sendHTTPSRequest(curManagers[0], '/api/getManagers', false).then(
 				function(result){
-					console.log("Result: ", result);
-					console.log(typeof result);
+					var listofIPs = JSON.parse(result);
+					console.log("Result: ", listofIPs);
+					console.log(typeof listofIPs);
 				}
 			).fail(
 				function(issue){

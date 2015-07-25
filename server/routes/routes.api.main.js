@@ -7,7 +7,7 @@ module.exports = function(app, express, db, tools) {
 		var deferred = Q.defer();
 		
 		var http = require('https');
-		var options = { host: host+'a', path: path, rejectUnauthorized:shouldReject };
+		var options = { host: host, path: path, rejectUnauthorized:shouldReject };
 		
 		var callback = function(response) {
 			var str = '';
@@ -34,7 +34,6 @@ module.exports = function(app, express, db, tools) {
 		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
 		ip = ip.replace("::ffff:", "");
 		ip = ip.replace("::FFFF:", "");
-		console.log(ip);
 		var shouldAuth = false;
 		
 		var curManagers = app.get('managers');
@@ -51,6 +50,13 @@ module.exports = function(app, express, db, tools) {
 					console.log(typeof listofIPs);
 					listofIPs.forEach(function(curManager){
 						console.log(curManager);
+						sendHTTPSRequest(curManager, '/api/getMyIPs', false).then(
+							function(mResult){ console.log(mResult); }
+						).fail(
+							function(mIssue){
+								console.log(mIssue);
+							}
+						);
 					});
 				}
 			).fail(

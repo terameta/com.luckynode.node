@@ -1,5 +1,9 @@
+var Q			= require('q');
+var config 		= require('../config/config.main.js');
+var jwt			= require('jsonwebtoken');
+
 module.exports = function(app, express, db, tools) {
-	var Q			= require('q');
+	
 
 	var apiRoutes = express.Router();
 	
@@ -44,6 +48,31 @@ module.exports = function(app, express, db, tools) {
 	function simplifyIP(ip){
 		return ip.replace("::ffff:", "").replace("::FFFF:", "");
 	}
+	
+	apiRoutes.post('/verifytoken', function(req, res){
+		var token = req.body.token || req.query.token || req.headers['x-access-token'];
+		if (token) {
+			jwt.verify(token, config.secret, function(err, decoded) {
+				if (err) {
+					res.status(401).json({
+						status: 'fail',
+						message: 'Failed to authenticate token.'
+					});
+				}
+				else {
+					res.send('ok');
+				}
+			});
+
+		}
+		else {
+			res.status(401).send({
+				status: 'fail',
+				message: 'No token provided.'
+			});
+
+		}
+	});
 
 	apiRoutes.get('/authenticate', function(req, res) {
 		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;

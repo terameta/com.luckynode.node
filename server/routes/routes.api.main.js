@@ -61,6 +61,7 @@ module.exports = function(app, express, db, tools) {
 					});
 				}
 				else {
+					console.log(decoded);
 					res.send('ok');
 				}
 			});

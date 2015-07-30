@@ -88,11 +88,9 @@ module.exports = function(app, express, db, tools) {
 			if(curManager == ip){
 				shouldAuth = true;
 				isTokenSent = true; sendToken(ip, res);
-				console.log("we should see this");
-				return 0;
-				console.log("please don't be here");
 			}
 		});
+		if(shouldAuth) return 0;
 		if(!shouldAuth && curManagers.length > 0){
 			sendHTTPSRequest(curManagers[0], '/api/getManagers', false).then(
 				function(result){

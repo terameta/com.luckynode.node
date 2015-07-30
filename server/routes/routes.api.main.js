@@ -80,14 +80,17 @@ module.exports = function(app, express, db, tools) {
 		var ip = req.headers['x-forwarded-for'] || req.connection.remoteAddress || req.socket.remoteAddress || req.connection.socket.remoteAddress;
 		ip = simplifyIP(ip);
 		var shouldAuth = false;
+		var isTokenSent = false;
 		
 		var curManagers = app.get('managers');
 		curManagers.forEach(function(curManager){
 			curManager = simplifyIP(curManager);
 			if(curManager == ip){
 				shouldAuth = true;
-				sendToken(ip, res);
+				isTokenSent = true; sendToken(ip, res);
+				console.log("we should see this");
 				return 0;
+				console.log("please don't be here");
 			}
 		});
 		if(!shouldAuth && curManagers.length > 0){
@@ -98,7 +101,7 @@ module.exports = function(app, express, db, tools) {
 						curManager = curManager.replace("::ffff:", "").replace("::FFFF:", "");
 						if(curManager == ip){
 							shouldAuth = true;
-							sendToken(ip, res);
+							if(!isTokenSent){ isTokenSent = true; sendToken(ip, res);}
 							return 0;
 						}
 					});
@@ -115,7 +118,7 @@ module.exports = function(app, express, db, tools) {
 										curManagerIP = curManagerIP.replace("::ffff:", "").replace("::FFFF:", "");
 										if(curManagerIP == ip){
 											shouldAuth = true;
-											sendToken(ip, res);
+											if(!isTokenSent){ isTokenSent = true; sendToken(ip, res);}
 											return 0;
 										}
 									});

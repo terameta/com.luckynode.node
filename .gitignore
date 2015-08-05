@@ -7,3 +7,4 @@ cloud.crt
 cloud.key
 log/croner.log
 node_modules/*
+node_modules/**

@@ -16,8 +16,8 @@ cd ~/node.luckynode.com
 #else
 #    echo nochange
 #fi
-#date
 
+date
 git fetch origin
 reslog=$(git log HEAD..origin/master --oneline)
 echo $reslog

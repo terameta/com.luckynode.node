@@ -21,7 +21,7 @@ date
 git fetch origin
 reslog=$(git log HEAD..origin/master --oneline)
 echo $reslog
-if [[ "${reslog}" != "" ]] ; then
+if [ "$reslog" != "" ] ; then
     echo thereischange
     git merge origin/master # completing the pull
 else

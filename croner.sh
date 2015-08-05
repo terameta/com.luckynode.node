@@ -20,6 +20,7 @@ cd ~/node.luckynode.com
 
 git fetch origin
 reslog=$(git log HEAD..origin/master --oneline)
+echo $reslog
 if [[ "${reslog}" != "" ]] ; then
     echo thereischange
     git merge origin/master # completing the pull

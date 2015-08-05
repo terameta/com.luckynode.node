@@ -3,9 +3,9 @@ cd ~/node.luckynode.com
 
 STATUS="Hello World!"
 echo $STATUS
-STATUS=git --git-dir=".git" diff --quiet
-echo $STATUS            
-            
+STATAS=git --git-dir=".git" diff --quiet
+echo $STATAS
+
 if ! git --git-dir=".git" diff --quiet
 then
     echo thereischange

@@ -15,3 +15,4 @@ then
 else
     echo nochange
 fi
+date

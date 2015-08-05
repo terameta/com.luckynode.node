@@ -2,9 +2,9 @@
 cd ~/node.luckynode.com
 
 STATUS="Hello World!"
-echo $STR
+echo $STATUS
 STATUS=git --git-dir=".git" diff --quiet
-echo $STR            
+echo $STATUS            
             
 if ! git --git-dir=".git" diff --quiet
 then

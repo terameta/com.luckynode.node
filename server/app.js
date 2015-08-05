@@ -1,5 +1,3 @@
-
-
 var cluster         = require( 'cluster' );
 var cCPUs           = require('os').cpus().length;
 

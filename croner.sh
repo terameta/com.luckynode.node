@@ -3,7 +3,8 @@ cd ~/node.luckynode.com
 
 STATUS="Hello World!"
 echo $STATUS
-STATAS=$(git --git-dir=".git" diff --quiet)
+git fetch origin
+STATAS=$(git log HEAD..origin/master --oneline)
 echo $STATAS
 
 if ! git --git-dir=".git" diff --quiet

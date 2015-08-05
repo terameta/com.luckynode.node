@@ -23,7 +23,9 @@ reslog=$(git log HEAD..origin/master --oneline)
 echo $reslog
 if [ "$reslog" != "" ] ; then
     echo thereischange
-    git merge origin/master # completing the pull
+    git reset --hard origin/master
+    git merge origin/master
+    forever restart nodeluckynode
 else
     echo nochange
 fi

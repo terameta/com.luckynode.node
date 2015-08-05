@@ -7,5 +7,3 @@ module.exports = function(app, passport) {
 		res.send(app.get('managers'));
 	});
 };
-
-

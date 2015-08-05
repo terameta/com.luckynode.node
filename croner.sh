@@ -18,8 +18,6 @@ cd ~/node.luckynode.com
 #fi
 #date
 
-
-
 git fetch origin
 reslog=$(git log HEAD..origin/master --oneline)
 if [[ "${reslog}" != "" ]] ; then

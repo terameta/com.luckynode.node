@@ -8,7 +8,8 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 	
 	apiRoutes.get('/assignstoragepools', tools.checkToken, function(req, res) {
-		res.json({ message: 'Welcome to the coolest API on earth!' });
+		console.log(req.body);
+		res.json({ message: 'ok' });
 	});
 
 	app.use('/api/command', apiRoutes);

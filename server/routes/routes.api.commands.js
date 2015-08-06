@@ -7,7 +7,7 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
-	apiRoutes.get('/assignstoragepools', tools.checkToken, function(req, res) {
+	apiRoutes.post('/assignstoragepools', tools.checkToken, function(req, res) {
 		console.log(req.body);
 		res.json({ message: 'ok' });
 	});

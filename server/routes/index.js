@@ -11,8 +11,6 @@ module.exports = function(app, express, db, tools) {
 			if(stat.isDirectory()){
 				parseFolder(fullName);
 			} else if( fullName.substr(fullName.lastIndexOf('.') + 1) == 'js' && curItem != 'index.js' ){
-				console.log("We are including");
-				console.log(fullName);
 				require(fullName)(app, express, db, tools);
 			}
 		});

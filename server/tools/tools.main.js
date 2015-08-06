@@ -5,6 +5,7 @@ var config 			= require('../config/config.main.js');
 module.exports = {
 	checkToken : function (req, res, next) {
 		var token = req.headers['x-access-token'];
+		console.log(req.body);
 		if(!token){
 			if(req.body){
 				if(req.body.token){

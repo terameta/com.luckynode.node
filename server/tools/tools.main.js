@@ -5,6 +5,13 @@ var config 			= require('../config/config.main.js');
 module.exports = {
 	checkToken : function (req, res, next) {
 		var token = req.headers['x-access-token'];
+		if(!token){
+			if(req.body){
+				if(req.body.token){
+					token = req.body.token;
+				}
+			}
+		}
 		if (token) {
 			jwt.verify(token, config.secret, function(err, decoded) {
 				if (err) {

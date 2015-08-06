@@ -1,4 +1,3 @@
 {
     "ignore": ["client/**", "server/views/**", "log/**", "croner.sh"]
 }
-

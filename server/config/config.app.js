@@ -21,7 +21,6 @@ module.exports = function App(db) {
 	app.enable("trust proxy");
 
 	app.use(logger('short'));
-	app.use(express.bodyParser());
 	app.use(bodyParser.json({ limit: '50mb' }));
 	app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 

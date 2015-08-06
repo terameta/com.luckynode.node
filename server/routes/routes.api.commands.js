@@ -9,6 +9,7 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/assignstoragepools', tools.checkToken, function(req, res) {
 		console.log("Body: ", req.body);
+		
 		res.json({ message: 'ok' });
 	});
 

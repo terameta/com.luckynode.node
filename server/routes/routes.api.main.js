@@ -50,7 +50,7 @@ module.exports = function(app, express, db, tools) {
 	}
 	
 	apiRoutes.get('/verifytoken', function(req, res){
-		var token = req.headers['x-access-token'] || req.query.token;
+		var token = req.headers['x-access-token'];
 		
 		if (token) {
 			jwt.verify(token, config.secret, function(err, decoded) {

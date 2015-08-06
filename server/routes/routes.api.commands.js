@@ -9,6 +9,14 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/assignstoragepools', tools.checkToken, function(req, res) {
 		console.log(req.body);
+		var exec = require('child_process').exec;
+		var cmd = 'virsh pool-list';
+		
+		exec(cmd, function(error, stdout, stderr) {
+		  console.log("Error: ", error);
+		  console.log("StdOut: ", stdout);
+		  console.log("StdErr: ", stderr);
+		});
 		res.json({ message: 'ok' });
 	});
 

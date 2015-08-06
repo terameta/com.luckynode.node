@@ -14,8 +14,10 @@ module.exports = function(app, express, db, tools) {
 		
 		exec(cmd, function(error, stdout, stderr) {
 		  console.log("Error: ", error);
-		  console.log("StdOut: ", stdout);
-		  console.log("StdErr: ", stderr);
+		  console.log("StdOut: ");
+		  console.log(stdout);
+		  console.log("StdErr: ");
+		  console.log(stderr);
 		});
 		res.json({ message: 'ok' });
 	});

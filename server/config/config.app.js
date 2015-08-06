@@ -3,7 +3,7 @@ var https			= require('https');
 var fs				= require('fs');
 var path 			= require('path');
 var logger			= require('morgan');
-//var bodyParser		= require('body-parser');
+var bodyParser		= require('body-parser');
 //var cookieParser	= require('cookie-parser');
 var config			= require('../config/config.main.js');
 var tools			= require('../tools/tools.main.js');
@@ -21,8 +21,9 @@ module.exports = function App(db) {
 	app.enable("trust proxy");
 
 	app.use(logger('short'));
-	//app.use(bodyParser.json({ limit: '50mb' }));
-	//app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
+	app.use(express.bodyParser());
+	app.use(bodyParser.json({ limit: '50mb' }));
+	app.use(bodyParser.urlencoded({ extended: true, limit: '50mb' }));
 
 	//app.use(express.static(path.join(__dirname, '../../client')));
 

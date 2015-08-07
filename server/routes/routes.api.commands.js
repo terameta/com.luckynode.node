@@ -16,7 +16,8 @@ module.exports = function(app, express, db, tools) {
 			if (error) {
 				console.log(stderr);
 			} else {
-				console.log(stdout);
+				var result = stdout.split("\n");
+				console.log(result);
 			}
 		});
 		res.json({ message: 'ok' });

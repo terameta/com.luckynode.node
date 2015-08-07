@@ -18,7 +18,7 @@ module.exports = function(app, express, db, tools) {
 			} else {
 				var result = stdout.trim().split("\n");
 				if(result.length>0){
-					var headers = result[0].split(/[\s,]+/);
+					var headers = result[0].trim().split(/[\s,]+/);
 					console.log(headers);
 				}
 				console.log(result);

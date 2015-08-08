@@ -35,6 +35,7 @@ module.exports = function(app, express, db, tools) {
 					console.log("================================");
 					console.log("===We will now identify non-existing pools");
 					for(var curNewPool = 0; curNewPool < newPools.length; curNewPool++){
+						var virshCommand = '';
 						console.log("======Working on:", newPools[curNewPool].name);
 						var curPoolDef = [];
 						var shouldDefine = true;
@@ -46,7 +47,7 @@ module.exports = function(app, express, db, tools) {
 						if(shouldDefine){
 							console.log("======This pool is not yet defined. We will now define");
 							console.log("virsh pool-define-as store0 netfs --source-host=store0.luckynode.com --source-path=/var/store0 --target=/var/store0");
-							var virshCommand = "virsh pool-define-as " + newPools[curNewPool].name + " netfs";
+							virshCommand = "virsh pool-define-as " + newPools[curNewPool].name + " netfs";
 							virshCommand += " --source-host=" + newPools[curNewPool].source.split(":")[0];
 							virshCommand += " --source-path=" + newPools[curNewPool].source.split(":")[1];
 							virshCommand += " --target=/mnt/luckynodepools/"+newPools[curNewPool].name;
@@ -59,6 +60,13 @@ module.exports = function(app, express, db, tools) {
 							console.log(virshCommand);
 							console.log(newPools[curNewPool]);
 						}
+						
+						virshCommand = 'virsh pool-build ' + newPools[curNewPool].name;
+						tools.runLocalCommand(virshCommand).then(
+							function(result){ console.log(result); }
+						).fail(
+							function(issue){ console.log(issue); }
+						);
 					}
 				}
 			});

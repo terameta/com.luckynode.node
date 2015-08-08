@@ -28,8 +28,10 @@ module.exports = function(app, express, db, tools) {
 				console.log("================================");
 				console.log("List below:");
 				console.log("================================");
+				var curPoolDef = [];
 				for(var curPool = 2; curPool < result.length; curPool++){
-					console.log(result[curPool]);
+					curPoolDef = result[curPool].trim().split(/[\s,]+/);
+					console.log(result[curPool], ">>>>>>>>>>>>>>>>>>>>>>>>",curPoolDef);
 				}
 				console.log("================================");
 				console.log("End of list");

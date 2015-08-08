@@ -63,9 +63,22 @@ module.exports = function(app, express, db, tools) {
 						
 						virshCommand = 'virsh pool-build ' + newPools[curNewPool].name;
 						tools.runLocalCommand(virshCommand).then(
-							function(result){ console.log(result); }
+							function(result){ console.log(result.trim()); }
 						).fail(
-							function(issue){ console.log(issue); }
+							function(issue){ console.log(issue.trim()); }
+						);
+						
+						virshCommand = 'virsh pool-autostart ' + newPools[curNewPool].name;
+						tools.runLocalCommand(virshCommand).then(
+							function(result){ console.log(result.trim()); }
+						).fail(
+							function(issue){ console.log(issue.trim()); }
+						);
+						virshCommand = 'virsh pool-start ' + newPools[curNewPool].name;
+						tools.runLocalCommand(virshCommand).then(
+							function(result){ console.log(result.trim()); }
+						).fail(
+							function(issue){ console.log(issue.trim()); }
 						);
 					}
 				}

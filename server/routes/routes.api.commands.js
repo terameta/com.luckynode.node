@@ -37,13 +37,13 @@ module.exports = function(app, express, db, tools) {
 					for(var curNewPool = 0; curNewPool < newPools.length; curNewPool++){
 						console.log("======Working on:", newPools[curNewPool].name);
 						var curPoolDef = [];
-						var shouldCreate = true;
+						var shouldDefine = true;
 						for(var curPool = 2; curPool < result.length; curPool++){
 							curPoolDef = result[curPool].trim().split(/[\s,]+/);
 							console.log(result[curPool], ">>>>>>>>>>>>>>>>>>>>>>>>",curPoolDef);
-							if(curPoolDef[0] == newPools[curNewPool].name) shouldCreate = false;
+							if(curPoolDef[0] == newPools[curNewPool].name) shouldDefine = false;
 						}
-						if(shouldCreate){
+						if(shouldDefine){
 							console.log("======This pool is not yet defined. We will now define");
 							console.log("virsh pool-define-as store0 netfs --source-host=store0.luckynode.com --source-path=/var/store0 --target=/var/store0");
 							var virshCommand = "virsh pool-define-as " + newPools[curNewPool].name + " netfs";

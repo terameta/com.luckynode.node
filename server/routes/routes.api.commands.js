@@ -22,7 +22,10 @@ module.exports = function(app, express, db, tools) {
 					
 					console.log(headers);
 				}
+				var numPools = result.length - 2;
 				console.log(result);
+				console.log("===============================");
+				console.log("Number of already defined pools: ", numPools);
 			}
 		});
 		res.json({ message: 'ok' });

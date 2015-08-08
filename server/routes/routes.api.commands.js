@@ -35,7 +35,7 @@ module.exports = function(app, express, db, tools) {
 					console.log("================================");
 					console.log("===We will now identify non-existing pools");
 					for(var curNewPool = 0; curNewPool < newPools.length; curNewPool++){
-						console.log("======Working on: ", newPools[curNewPool].name);
+						console.log("======Working on:", newPools[curNewPool].name);
 						var curPoolDef = [];
 						var shouldCreate = true;
 						for(var curPool = 2; curPool < result.length; curPool++){
@@ -45,6 +45,11 @@ module.exports = function(app, express, db, tools) {
 						}
 						if(shouldCreate){
 							console.log("======This pool is not yet defined. We will now define");
+							console.log("virsh pool-define-as store0 netfs --source-host=store0.luckynode.com --source-path=/var/store0 --target=/var/store0");
+							var virshCommand = "virsh pool-define-as " + newPools[curNewPool].name + " netfs --source-host=";
+							
+							console.log(virshCommand);
+							console.log(newPools[curNewPool]);
 						}
 					}
 				}

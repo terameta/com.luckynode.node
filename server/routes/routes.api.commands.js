@@ -22,7 +22,7 @@ module.exports = function(app, express, db, tools) {
 				if (error) {
 					console.log(stderr);
 				} else {
-					
+					console.log(stdout);
 					
 					
 					var result = stdout.trim().split("\n");

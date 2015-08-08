@@ -54,6 +54,7 @@ module.exports = function(app, express, db, tools) {
 							exec(virshCommand, function(verror, vstdout, vstderr){
 								if(verror){
 									console.log("ohh noooo");
+									console.log(vstdout);
 								} else {
 									console.log(vstdout);
 								}

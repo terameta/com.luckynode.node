@@ -46,8 +46,10 @@ module.exports = function(app, express, db, tools) {
 						if(shouldCreate){
 							console.log("======This pool is not yet defined. We will now define");
 							console.log("virsh pool-define-as store0 netfs --source-host=store0.luckynode.com --source-path=/var/store0 --target=/var/store0");
-							var virshCommand = "virsh pool-define-as " + newPools[curNewPool].name + " netfs --source-host=";
-							virshCommand += newPools[curNewPool].source.split(":")[0];
+							var virshCommand = "virsh pool-define-as " + newPools[curNewPool].name + " netfs";
+							virshCommand += " --source-host=" + newPools[curNewPool].source.split(":")[0];
+							virshCommand += " --source-path=" + newPools[curNewPool].source.split(":")[1];
+							virshCommand += " --target=/mnt/luckynodepools/"+newPools[curNewPool].name;
 							
 							console.log(virshCommand);
 							console.log(newPools[curNewPool]);

@@ -22,16 +22,18 @@ module.exports = function(app, express, db, tools) {
 				if (error) {
 					console.log(stderr);
 				} else {
-					console.log(req.body.details);
+					
 					
 					
 					var result = stdout.trim().split("\n");
-					if(result.length>0){
-						var headers = result[0].trim().split(/[\s,]+/);
-						
-						console.log(headers);
-					}
 					var numPools = result.length - 2;
+					if(numPools < 0) numPools = 0;
+					
+					
+					console.log("===# new Pools: ", newPools.length);
+					console.log("===# exs Pools: ", numPools);
+					
+					
 					console.log("================================");
 					console.log("Number of already defined pools: ", numPools);
 					console.log("================================");

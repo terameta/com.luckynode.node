@@ -31,7 +31,8 @@ module.exports = function(app, express, db, tools) {
 				for(var curPool = 2; curPool < result.length; curPool++){
 					console.log(result[curPool]);
 				}
-				
+				console.log("================================");
+				console.log("End of list");
 			}
 		});
 		res.json({ message: 'ok' });

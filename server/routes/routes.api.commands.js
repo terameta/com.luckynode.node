@@ -32,9 +32,11 @@ module.exports = function(app, express, db, tools) {
 					
 					console.log("===# new Pools: ", newPools.length);
 					console.log("===# exs Pools: ", numPools);
-					
-					
 					console.log("================================");
+					console.log("===We will now identify non-existing pools");
+					for(var curNewPool = 0; curNewPool < newPools.length; curNewPool++){
+						console.log("======Working on: ", newPools[curNewPool].name);
+					}
 					console.log("Number of already defined pools: ", numPools);
 					console.log("================================");
 					console.log("List below:");

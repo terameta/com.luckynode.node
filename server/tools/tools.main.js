@@ -1,8 +1,21 @@
+var Q				= require('q');
 var bcrypt   		= require('bcrypt-nodejs');
 var jwt				= require('jsonwebtoken');
 var config 			= require('../config/config.main.js');
+var exec 			= require('child_process').exec;
 
 module.exports = {
+	runLocalCommand: function(command){
+		var deferred = Q.defer();
+		exec(command, function(error, stdout, stderr){
+			if(error){
+				deferred.reject(stderr);
+			} else {
+				deferred.resolve(stdout);
+			}
+		});
+		return deferred.promise;
+	},
 	checkToken : function (req, res, next) {
 		var token = req.headers['x-access-token'];
 		if (token) {

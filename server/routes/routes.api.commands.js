@@ -51,15 +51,11 @@ module.exports = function(app, express, db, tools) {
 							virshCommand += " --source-path=" + newPools[curNewPool].source.split(":")[1];
 							virshCommand += " --target=/mnt/luckynodepools/"+newPools[curNewPool].name;
 							
-							exec(virshCommand, function(verror, vstdout, vstderr){
-								if(verror){
-									console.log("ohh noooo");
-									console.log(vstdout);
-								} else {
-									console.log(vstdout);
-								}
-							});
-							
+							tools.runLocalCommand(virshCommand).then(
+								function(result){ console.log(result); }
+							).fail(
+								function(issue){ console.log(issue); }
+							);
 							console.log(virshCommand);
 							console.log(newPools[curNewPool]);
 						}

@@ -36,18 +36,17 @@ module.exports = function(app, express, db, tools) {
 					console.log("===We will now identify non-existing pools");
 					for(var curNewPool = 0; curNewPool < newPools.length; curNewPool++){
 						console.log("======Working on: ", newPools[curNewPool].name);
+						var curPoolDef = [];
+						var shouldCreate = true;
+						for(var curPool = 2; curPool < result.length; curPool++){
+							curPoolDef = result[curPool].trim().split(/[\s,]+/);
+							console.log(result[curPool], ">>>>>>>>>>>>>>>>>>>>>>>>",curPoolDef);
+							if(curPoolDef[0] == newPools[curNewPool].name) shouldCreate = false;
+						}
+						if(shouldCreate){
+							console.log("======This pool is not yet defined. We will now define");
+						}
 					}
-					console.log("Number of already defined pools: ", numPools);
-					console.log("================================");
-					console.log("List below:");
-					console.log("================================");
-					var curPoolDef = [];
-					for(var curPool = 2; curPool < result.length; curPool++){
-						curPoolDef = result[curPool].trim().split(/[\s,]+/);
-						console.log(result[curPool], ">>>>>>>>>>>>>>>>>>>>>>>>",curPoolDef);
-					}
-					console.log("================================");
-					console.log("End of list");
 				}
 			});
 			res.send("ok");

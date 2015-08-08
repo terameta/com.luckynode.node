@@ -16,7 +16,7 @@ module.exports = function(app, express, db, tools) {
 		if(newPools.length > 0){
 		
 			var exec = require('child_process').exec;
-			var cmd = 'virsh pool-list';
+			var cmd = 'virsh pool-list --all';
 			
 			exec(cmd, function(error, stdout, stderr) {
 				if (error) {

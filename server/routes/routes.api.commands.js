@@ -40,7 +40,7 @@ module.exports = function(app, express, db, tools) {
 						var shouldDefine = true;
 						for(var curPool = 2; curPool < result.length; curPool++){
 							curPoolDef = result[curPool].trim().split(/[\s,]+/);
-							console.log(result[curPool], ">>>>>>>>>>>>>>>>>>>>>>>>",curPoolDef);
+							console.log(result[curPool].trim(), ">>>>>>>>>>>>>>>>>>>>>>>>",curPoolDef);
 							if(curPoolDef[0] == newPools[curNewPool].name) shouldDefine = false;
 						}
 						if(shouldDefine){

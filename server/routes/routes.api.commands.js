@@ -15,7 +15,7 @@ module.exports = function(app, express, db, tools) {
 			if (error) {
 				console.log(stderr);
 			} else {
-				console.log(req.body);
+				console.log(req.body.details);
 				
 				var result = stdout.trim().split("\n");
 				if(result.length>0){

@@ -23,9 +23,15 @@ module.exports = function(app, express, db, tools) {
 					console.log(headers);
 				}
 				var numPools = result.length - 2;
-				console.log(result);
-				console.log("===============================");
+				console.log("================================");
 				console.log("Number of already defined pools: ", numPools);
+				console.log("================================");
+				console.log("List below:");
+				console.log("================================");
+				for(var curPool = 2; curPool < result.length; curPool++){
+					console.log(result[curPool]);
+				}
+				
 			}
 		});
 		res.json({ message: 'ok' });

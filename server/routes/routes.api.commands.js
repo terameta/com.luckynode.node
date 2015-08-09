@@ -87,7 +87,7 @@ module.exports = function(app, express, db, tools) {
 					console.log("===========================================================");
 					for(var curPool = 2; curPool < result.length; curPool++){
 						curPoolDef = result[curPool].trim().split(/[\s,]+/);
-						var exsPoolName = curPoolDef[2] || 'NoName|||||||||||||||||||||||||||||';
+						var exsPoolName = curPoolDef[0] || 'NoName|||||||||||||||||||||||||||||';
 						var shouldRemove = true;
 						for(var curNewPool = 0; curNewPool < newPools.length; curNewPool++){
 							console.log(newPools[curNewPool]);

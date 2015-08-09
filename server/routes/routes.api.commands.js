@@ -20,8 +20,6 @@ module.exports = function(app, express, db, tools) {
 			var poolsToRemove = [];
 			virsh.poolList().then(
 				function(exsPools){
-					console.log(exsPools);
-					console.log(newPools);
 					newPools.forEach(function(curNewPool){
 						var shouldDefine = true;
 						exsPools.forEach(function(curExsPool){
@@ -66,7 +64,6 @@ module.exports = function(app, express, db, tools) {
 					);
 				}
 			);
-			
 			res.send("ok");
 		} else {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });

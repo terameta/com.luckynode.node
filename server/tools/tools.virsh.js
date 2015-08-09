@@ -21,11 +21,8 @@ module.exports = {
 					curPool.isactive = curPool.isactive == 'active' ? true : false;
 					curPool.isautostart = curPoolDef[2] || 'NoAutoStart';
 					curPool.isautostart = curPool.isautostart == 'yes' ? true : false;
-					console.log(curPool);
-					console.log("___________________");
+					toReturn.push(curPool);
 				});
-				
-				
 				deferred.resolve(toReturn);
 			}
 		).fail( function(issue){ deferred.reject(issue); } );

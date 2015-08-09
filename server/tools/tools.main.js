@@ -88,7 +88,12 @@ function runLocalCommands(commandList){
 					}
 				);
 			}
-		).fail(function(issue){ console.log(issue); deferred.reject(issue); });
+		).fail(
+			function(issue){ 
+				console.log("CurCommand Failed:", issue); 
+				deferred.reject(issue); 
+			}
+		);
 	} else {
 		deferred.resolve('');
 	}

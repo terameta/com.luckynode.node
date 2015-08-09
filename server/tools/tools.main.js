@@ -11,7 +11,11 @@ module.exports = {
 	runIfLocalCommand: function(command, resolveTo, ifStat){
 		if(!ifStat){
 			var deferred = Q.defer();
-			deferred.resolve("No need to run this command");
+			if(resolveTo){
+				deferred.resolve(resolveTo);
+			} else {
+				deferred.resolve("No need to run this command");
+			}
 			return deferred.promise;
 		} else {
 			return runLocalCommand(command);

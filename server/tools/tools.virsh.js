@@ -43,6 +43,8 @@ function poolDefine(curPool){
 }
 
 function poolsRemove(poolList){
+	console.log("We are now running pools remove");
+	console.log(poolList);
 	var promises = [];
 	poolList.forEach(function(curPool){
 		var deferred = Q.defer();
@@ -61,6 +63,9 @@ function poolsRemove(poolList){
 }
 
 function poolRemove(curPool){
+	console.log("==========================");
+	console.log("Running poolRemove");
+	console.log(curPool);
 	var deferred = Q.defer();
 	var cL = []; //command List
 	cL.push('virsh pool-destroy ' + curPool.name);

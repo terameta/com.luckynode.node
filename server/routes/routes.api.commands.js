@@ -30,7 +30,9 @@ module.exports = function(app, express, db, tools) {
 				console.log(_exsPools);
 			}
 			
-			function poolsToRemove()
+			function poolsToRemove(){
+				
+			}
 			
 			return 0;
 			

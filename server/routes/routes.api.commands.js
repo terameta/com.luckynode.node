@@ -34,10 +34,6 @@ module.exports = function(app, express, db, tools) {
 						}
 					});
 					
-					console.log("Pools to define");
-					console.log("===============");
-					console.log(poolsToDefine);
-					
 					exsPools.forEach(function(curExsPool){
 						var shouldRemove = true;
 						newPools.forEach(function(curNewPool){
@@ -49,11 +45,6 @@ module.exports = function(app, express, db, tools) {
 							poolsToRemove.push(curExsPool);
 						}
 					});
-					
-					console.log("Pools to Remove");
-					console.log("===============");
-					console.log(poolsToRemove);
-					console.log("===============");console.log("===============");console.log("===============");console.log("===============");
 					
 					virsh.poolsDefine(poolsToDefine).then(
 						function(result){
@@ -70,7 +61,7 @@ module.exports = function(app, express, db, tools) {
 						}
 					).fail(
 						function(issue){
-							console.log("At the top: Pools Remove Failed:", issue);
+							console.log("Pools Remove Failed:", issue);
 						}
 					);
 				}

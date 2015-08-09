@@ -66,9 +66,6 @@ module.exports = {
 };
 
 function runLocalCommands(commandList){
-	console.log("We are now running runLocalCommands");
-	console.log("???????????????????????????????????");
-	console.log(commandList);
 	var deferred = Q.defer();
 	if(commandList.length > 0){
 		var curCommand = commandList.shift();
@@ -76,21 +73,16 @@ function runLocalCommands(commandList){
 			function(){
 				runLocalCommands(commandList).then(
 					function(result){
-						console.log("CurCommand Succeeded:", curCommand);
-						console.log("CurCommand Succeeded:", result);
 						deferred.resolve(result);
 					}
 				).fail(
 					function(issue){
-						console.log("CurCommand Failed:", curCommand);
-						console.log("CurCommand Failed:", issue);
 						deferred.reject(issue);
 					}
 				);
 			}
 		).fail(
 			function(issue){ 
-				console.log("CurCommand Failed:", issue); 
 				deferred.reject(issue); 
 			}
 		);
@@ -103,7 +95,6 @@ function runLocalCommands(commandList){
 
 function runLocalCommand(command, resolveTo){
 	var deferred = Q.defer();
-	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",command);
 	exec(command, function(error, stdout, stderr){
 		if(error){
 			console.log("Failed command: ", command);

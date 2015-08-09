@@ -16,6 +16,8 @@ module.exports = {
 					console.log("Error is not discarded");
 					console.log(">>>>>>>>>>>", errorToDiscard, "|||");
 					console.log(">>>>>>>>>>>", stderr, "|||");
+					console.log(error);
+					console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 					deferred.reject(stderr);
 				}
 			} else {

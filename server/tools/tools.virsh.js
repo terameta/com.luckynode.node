@@ -5,7 +5,9 @@ var tools			= require('../tools/tools.main.js');
 module.exports = {
 	poolList: poolList,
 	poolsDefine: poolsDefine,
-	poolDefine: poolDefine
+	poolDefine: poolDefine,
+	poolsRemove: poolsRemove,
+	poolRemove: poolRemove
 };
 
 function poolsDefine(poolList){
@@ -37,6 +39,36 @@ function poolDefine(curPool){
 		function(result){ console.log(result); deferred.resolve(result); }
 	).fail(deferred.reject);
 	
+	return deferred.promise;
+}
+
+function poolsRemove(poolList){
+	var promises = [];
+	poolList.forEach(function(curPool){
+		var deferred = Q.defer();
+		poolRemove(curPool).then(
+			function(result){
+				deferred.resolve(result);
+			}
+		).fail(
+			function(issue){
+				deferred.reject(issue);
+			}
+		);
+		promises.push(deferred);
+	});
+	return Q.all(promises);
+}
+
+function poolRemove(curPool){
+	var deferred = Q.defer();
+	var cL = []; //command List
+	cL.push('virsh pool-destroy ' + curPool.name);
+	cL.push('virsh pool-delete ' + curPool.name);
+	cL.push('virsh pool-undefine ' + curPool.name);
+	tools.runLocalCommands(cL).then(
+		function(result){ console.log(result); deferred.resolve(result); }
+	).fail(deferred.reject);
 	return deferred.promise;
 }
 

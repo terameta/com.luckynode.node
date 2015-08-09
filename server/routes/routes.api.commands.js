@@ -22,6 +22,38 @@ module.exports = function(app, express, db, tools) {
 				function(exsPools){
 					console.log(exsPools);
 					console.log(newPools);
+					newPools.forEach(function(curNewPool){
+						var shouldDefine = true;
+						exsPools.forEach(function(curExsPool){
+							if(curExsPool.name == curNewPool.name && curExsPool.isactive && curExsPool.isautostart){
+								shouldDefine = false;
+							}
+						});
+						if(shouldDefine){
+							poolsToDefine.push(curNewPool);
+						}
+					});
+					
+					console.log("Pools to define");
+					console.log("===============");
+					console.log(poolsToDefine);
+					
+					exsPools.forEach(function(curExsPool){
+						var shouldRemove = true;
+						newPools.forEach(function(curNewPool){
+							if(curExsPool.name == curNewPool.name){
+								shouldRemove = false;
+							}
+						});
+						if(shouldRemove){
+							poolsToRemove.push(curExsPool);
+						}
+					});
+					
+					console.log("Pools to Remove");
+					console.log("===============");
+					console.log(poolsToRemove);
+					console.log("===============");console.log("===============");console.log("===============");console.log("===============");
 				}
 			);
 			

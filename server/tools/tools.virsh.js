@@ -64,7 +64,8 @@ function poolsRemove(poolList){
 			function(result){
 				console.log("PoolsRemove Called Success", deferred);
 				deferred.resolve(result);
-			}, 
+			}).
+		fail(
 			function(issue){
 				console.log("PoolsRemove Called Failure", deferred);
 				deferred.reject(issue);

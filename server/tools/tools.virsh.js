@@ -11,7 +11,6 @@ module.exports = {
 };
 
 function poolsDefine(poolList){
-	var topDeferred = Q.defer();
 	var promises = [];
 	poolList.forEach(function(curPool){
 		var deferred = Q.defer();
@@ -24,18 +23,9 @@ function poolsDefine(poolList){
 				deferred.reject(issue);
 			}
 		);
-		promises.push(deferred);
+		promises.push(deferred.promise);
 	});
-	Q.all(promises).then(
-		function(result){
-			topDeferred.resolve(result);
-		},
-		function(issue){
-			topDeferred.reject(issue);
-		}
-	);
-	
-	return topDeferred.promise;
+	return Q.all(promises);
 }
 
 function poolDefine(curPool){
@@ -47,7 +37,9 @@ function poolDefine(curPool){
 	cL.push('virsh pool-start ' + curPool.name);
 	tools.runLocalCommands(cL).then(
 		function(result){ console.log(result); deferred.resolve(result); }
-	).fail(deferred.reject);
+	).fail(
+		function(issue){ deferred.reject(issue); }
+	);
 	
 	return deferred.promise;
 }

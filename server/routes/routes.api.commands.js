@@ -101,7 +101,7 @@ module.exports = function(app, express, db, tools) {
 						}
 						if(shouldRemove){
 							virshCommand = "virsh pool-destroy " + exsPoolName;
-							tools.runLocalCommand(virshCommand, exsPoolIsActive).then(
+							tools.runIfLocalCommand(virshCommand, exsPoolIsActive).then(
 								function(result){
 									console.log(result);
 									virshCommand = "virsh pool-delete " + exsPoolName;

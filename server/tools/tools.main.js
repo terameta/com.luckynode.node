@@ -86,7 +86,7 @@ function runLocalCommands(commandList){
 			}
 		).fail(function(issue){ console.log(issue); deferred.reject(issue); });
 	} else {
-		deferred.resolve();
+		deferred.resolve('');
 	}
 	
 	return deferred.promise;

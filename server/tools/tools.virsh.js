@@ -62,8 +62,7 @@ function poolsRemove(poolList){
 		poolRemove(curPool).then(
 			function(result){
 				deferred.resolve(result);
-			}
-		).fail(
+			}, 
 			function(issue){
 				deferred.reject(issue);
 			}

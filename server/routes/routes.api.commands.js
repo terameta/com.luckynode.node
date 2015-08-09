@@ -54,6 +54,8 @@ module.exports = function(app, express, db, tools) {
 					console.log("===============");
 					console.log(poolsToRemove);
 					console.log("===============");console.log("===============");console.log("===============");console.log("===============");
+					
+					virsh.poolsDefine(poolsToDefine).then(console.log(result)).fail(console.log(issue));
 				}
 			);
 			

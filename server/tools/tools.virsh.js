@@ -26,6 +26,16 @@ module.exports = {
 		).fail( function(issue){ deferred.reject(issue); } );
 		return deferred.promise;
 	},
+	poolsDefine: function(poolList){
+		var promises = [];
+		poolList.forEach(function(curPool){
+			var deferred = Q.defer();
+			console.log("This is promised: ", curPool);
+			deferred.resolve();
+			promises.push(deferred);
+		});
+		return Q.all(promises);
+	},
 	poolDefine: function(command, resolveTo){
 		return tools.runLocalCommand(command);
 	}

@@ -55,7 +55,7 @@ module.exports = function(app, express, db, tools) {
 					console.log(poolsToRemove);
 					console.log("===============");console.log("===============");console.log("===============");console.log("===============");
 					
-					virsh.poolsDefine(poolsToDefine).then(
+					/*virsh.poolsDefine(poolsToDefine).then(
 						function(result){
 							console.log("Pools Define Succeded:", result);
 						}
@@ -63,7 +63,7 @@ module.exports = function(app, express, db, tools) {
 						function(issue){
 							console.log("Pools Define Failed:", issue);
 						}
-					);
+					);*/
 					virsh.poolsRemove(poolsToRemove).then(
 						function(result){
 							console.log("Pools Remove Succeeded:", result);

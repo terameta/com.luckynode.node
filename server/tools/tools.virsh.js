@@ -11,7 +11,6 @@ module.exports = {
 };
 
 function poolsDefine(poolList){
-	return true;
 	var topDeferred = Q.defer();
 	var promises = [];
 	poolList.forEach(function(curPool){

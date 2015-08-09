@@ -97,8 +97,7 @@ function poolRemove(curPool){
 		function(result){ 
 			console.log("PoolRemove Result: ", result); 
 			deferred.resolve(result); 
-		}
-	).fail(
+		},
 		function(issue){
 			console.log("PoolRemove Issue: ", issue); 
 			deferred.reject(issue);

@@ -119,7 +119,10 @@ module.exports = function(app, express, db, tools) {
 								}
 							).fail(
 								function(issue){
+									console.log("<<<<<<<<<<<<<<<<<<<<<<<<||||||||||||||||||||||||||||||>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+									console.log("<<<<<<<<<<<<<<<<<<<<<<<<There is an issue with command>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 									console.log(issue);
+									console.log(virshCommand);
 								}
 							);
 						}

@@ -59,6 +59,7 @@ function poolsRemove(poolList){
 	var promises = [];
 	poolList.forEach(function(curPool){
 		var deferred = Q.defer();
+		promises.push(deferred);
 		poolRemove(curPool).then(
 			function(result){
 				deferred.resolve(result);
@@ -67,7 +68,6 @@ function poolsRemove(poolList){
 				deferred.reject(issue);
 			}
 		);
-		promises.push(deferred);
 	});
 	Q.all(promises).then(
 		function(result){

@@ -17,8 +17,11 @@ module.exports = {
 					var curPool = {};
 					var curPoolDef = tools.splitBySpace(curPoolSrc);
 					curPool.name = curPoolDef[0] || 'NoAssignedName';
-					curPool.isactive = curPoolDef[1] || 'NoAssignedName';
-					curPool.hede = curPoolDef[2] || 'Zobelek';
+					curPool.isactive = curPoolDef[1] || 'NoActive';
+					curPool.isactive = curPool.isactive == 'active' ? true : false;
+					curPool.isautostart = curPoolDef[2] || 'NoAutoStart';
+					curPool.isautostart = curPool.isautostart == 'yes' ? true : false;
+					console.log(curPool);
 					console.log("___________________");
 				});
 				

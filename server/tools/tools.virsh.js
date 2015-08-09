@@ -7,8 +7,6 @@ module.exports = {
 		var deferred = Q.defer();
 		tools.runLocalCommand('virsh pool-list --all').then(
 			function(result){
-				console.log(result);
-				console.log("___________________");
 				result = result.trim().split("\n");
 				result.splice(0,2);
 				

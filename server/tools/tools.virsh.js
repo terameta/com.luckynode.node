@@ -72,9 +72,11 @@ function poolsRemove(poolList){
 	});
 	Q.all(promises).then(
 		function(result){
+			console.log("Top deferred will now be resolved:", result);
 			topDeferred.resolve(result);
 		},
 		function(issue){
+			console.log("Top deferred will now be rejected:", issue);
 			topDeferred.reject(issue);
 		}
 	);

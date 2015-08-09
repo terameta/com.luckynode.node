@@ -11,6 +11,7 @@ module.exports = {
 };
 
 function poolsDefine(poolList){
+	var topDeferred = Q.defer();
 	var promises = [];
 	poolList.forEach(function(curPool){
 		var deferred = Q.defer();
@@ -25,7 +26,16 @@ function poolsDefine(poolList){
 		);
 		promises.push(deferred);
 	});
-	return Q.all(promises);
+	Q.all(promises).then(
+		function(result){
+			topDeferred.resolve(result);
+		},
+		function(issue){
+			topDeferred.reject(issue);
+		}
+	);
+	
+	return topDeferred.promise;
 }
 
 function poolDefine(curPool){
@@ -43,6 +53,7 @@ function poolDefine(curPool){
 }
 
 function poolsRemove(poolList){
+	var topDeferred = Q.defer();
 	console.log("We are now running pools remove");
 	console.log(poolList);
 	var promises = [];
@@ -59,7 +70,16 @@ function poolsRemove(poolList){
 		);
 		promises.push(deferred);
 	});
-	return Q.all(promises);
+	Q.all(promises).then(
+		function(result){
+			topDeferred.resolve(result);
+		},
+		function(issue){
+			topDeferred.reject(issue);
+		}
+	);
+	
+	return topDeferred.promise;
 }
 
 function poolRemove(curPool){
@@ -72,7 +92,10 @@ function poolRemove(curPool){
 	cL.push('virsh pool-delete ' + curPool.name);
 	cL.push('virsh pool-undefine ' + curPool.name);
 	tools.runLocalCommands(cL).then(
-		function(result){ console.log("PoolRemove Result: ", result); deferred.resolve(result); }
+		function(result){ 
+			console.log("PoolRemove Result: ", result); 
+			deferred.resolve(result); 
+		}
 	).fail(
 		function(issue){
 			deferred.reject(issue);

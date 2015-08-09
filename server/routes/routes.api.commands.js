@@ -88,6 +88,10 @@ module.exports = function(app, express, db, tools) {
 					for(var curPool = 2; curPool < result.length; curPool++){
 						curPoolDef = result[curPool].trim().split(/[\s,]+/);
 						console.log(result[curPool].trim(), ">>>>>>>>>>>>>>>>>>>>>>>>",curPoolDef);
+						var shouldRemove = true;
+						for(var curNewPool = 0; curNewPool < newPools.length; curNewPool++){
+							console.log(newPools[curNewPool]);
+						}
 					}
 				}
 			});

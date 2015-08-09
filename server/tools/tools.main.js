@@ -14,8 +14,8 @@ module.exports = {
 					deferred.resolve("Discarded error: "+ stderr);
 				} else {
 					console.log("Error is not discarded");
-					console.log(">>>>>>>>>>>", errorToDiscard);
-					console.log(">>>>>>>>>>>", stderr);
+					console.log(">>>>>>>>>>>", errorToDiscard, "|||");
+					console.log(">>>>>>>>>>>", stderr, "|||");
 					deferred.reject(stderr);
 				}
 			} else {

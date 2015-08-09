@@ -1,6 +1,7 @@
 var Q			= require('q');
 var config 		= require('../config/config.main.js');
 var jwt			= require('jsonwebtoken');
+var virsh 		= require('../tools/tools.virsh.js');
 
 module.exports = function(app, express, db, tools) {
 	
@@ -17,6 +18,12 @@ module.exports = function(app, express, db, tools) {
 		
 			var exec = require('child_process').exec;
 			var cmd = 'virsh pool-list --all';
+			virsh.poolList().then(
+				function(result){
+					console.log(result);
+				}
+			);
+			return 0;
 			
 			exec(cmd, function(error, stdout, stderr) {
 				if (error) {

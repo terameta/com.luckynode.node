@@ -100,6 +100,7 @@ function poolRemove(curPool){
 		}
 	).fail(
 		function(issue){
+			console.log("PoolRemove Issue: ", issue); 
 			deferred.reject(issue);
 		}
 	);

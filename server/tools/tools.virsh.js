@@ -84,7 +84,7 @@ function poolsRemove(poolList){
 		}
 	).done(
 		function(hede){
-			console.log(hede);
+			console.log("This part is on done:",hede);
 		}
 	);
 	

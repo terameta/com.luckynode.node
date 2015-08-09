@@ -7,6 +7,10 @@ module.exports = {
 		var deferred = Q.defer();
 		tools.runLocalCommand('virsh pool-list --all').then(
 			function(result){
+				result = result.trim().split("\n");
+				
+				
+				
 				deferred.resolve(result);
 			}
 		).fail( function(issue){ deferred.reject(issue); } );

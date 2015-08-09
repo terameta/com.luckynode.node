@@ -102,7 +102,7 @@ function runLocalCommand(command, resolveTo){
 	exec(command, function(error, stdout, stderr){
 		if(error){
 			console.log("Failed command: ", command);
-			console.log(stderr);
+			console.log("Failed command: ", stderr);
 			deferred.reject(stderr);
 		} else {
 			if(resolveTo){

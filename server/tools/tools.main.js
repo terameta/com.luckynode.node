@@ -5,10 +5,10 @@ var config 			= require('../config/config.main.js');
 var exec 			= require('child_process').exec;
 
 module.exports = {
-	runLocalCommand: function(command){
+	runLocalCommand: function(command, resolveTo){
 		return runLocalCommand(command);
 	},
-	runIfLocalCommand: function(command, ifStat){
+	runIfLocalCommand: function(command, resolveTo, ifStat){
 		if(!ifStat){
 			var deferred = Q.defer();
 			deferred.resolve("No need to run this command");
@@ -60,13 +60,17 @@ module.exports = {
 };
 
 
-function runLocalCommand(command){
+function runLocalCommand(command, resolveTo){
 	var deferred = Q.defer();
 	exec(command, function(error, stdout, stderr){
 		if(error){
 			deferred.reject(stderr);
 		} else {
-			deferred.resolve(stdout);
+			if(resolveTo){
+				deferred.resolve(resolveTo);
+			} else {
+				deferred.resolve(stdout);
+			}
 		}
 	});
 	return deferred.promise;

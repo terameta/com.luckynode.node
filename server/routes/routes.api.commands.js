@@ -104,16 +104,16 @@ module.exports = function(app, express, db, tools) {
 							console.log("<<<<<<<<<<<<<<<<<<<<<<<<||||||||||||||||||||||||||||||>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 							console.log("<<<<<<<<<<<<<<<<<<<<<<<<We are running removal for " + exsPoolName + ">>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 							virshCommand = "virsh pool-destroy " + exsPoolName;
-							tools.runIfLocalCommand(virshCommand, exsPoolIsActive).then(
-								function(result){
-									console.log(result);
-									virshCommand = "virsh pool-delete " + exsPoolName;
-									return tools.runLocalCommand(virshCommand);
+							tools.runIfLocalCommand(virshCommand, exsPoolName, exsPoolIsActive).then(
+								function(curPoolName){
+									console.log(curPoolName);
+									virshCommand = "virsh pool-delete " + curPoolName;
+									return tools.runLocalCommand(virshCommand, curPoolName);
 								}
 							).then(
-								function(result){
-									console.log(result);
-									virshCommand = "virsh pool-undefine " + exsPoolName;
+								function(curPoolName){
+									console.log(curPoolName);
+									virshCommand = "virsh pool-undefine " + curPoolName;
 									return tools.runLocalCommand(virshCommand);
 								}
 							).then(

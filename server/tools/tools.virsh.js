@@ -7,13 +7,18 @@ module.exports = {
 		var deferred = Q.defer();
 		tools.runLocalCommand('virsh pool-list --all').then(
 			function(result){
+				console.log(result);
+				console.log("___________________");
 				result = result.trim().split("\n");
 				result.splice(0,2);
 				
 				var toReturn = [];
-				result.forEach(function(curPool){
-					console.log(curPool.trim());
-					console.log(tools.splitBySpace(curPool));
+				result.forEach(function(curPoolSrc){
+					var curPool = {};
+					var curPoolDef = tools.splitBySpace(curPoolSrc);
+					curPool.name = curPoolDef[0] || 'NoAssignedName';
+					curPool.isactive = curPoolDef[1] || 'NoAssignedName';
+					curPool.hede = curPoolDef[2] || 'Zobelek';
 					console.log("___________________");
 				});
 				

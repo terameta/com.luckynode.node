@@ -10,6 +10,7 @@ module.exports = {
 		exec(command, function(error, stdout, stderr){
 			if(error){
 				if(errorToDiscard == error){
+					console.log("Error being descarded");
 					deferred.resolve("Discarded error: "+ error);
 				} else {
 					deferred.reject(stderr);

@@ -62,9 +62,11 @@ function poolsRemove(poolList){
 		promises.push(deferred);
 		poolRemove(curPool).then(
 			function(result){
+				console.log("PoolsRemove Called Success", deferred);
 				deferred.resolve(result);
 			}, 
 			function(issue){
+				console.log("PoolsRemove Called Failure", deferred);
 				deferred.reject(issue);
 			}
 		);

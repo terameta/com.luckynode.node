@@ -12,8 +12,15 @@ function poolsDefine(poolList){
 	var promises = [];
 	poolList.forEach(function(curPool){
 		var deferred = Q.defer();
-		console.log("This is promised: ", curPool);
-		deferred.resolve();
+		poolDefine(curPool).then(
+			function(result){
+				deferred.resolve(result);
+			}
+		).fail(
+			function(issue){
+				deferred.reject(issue);
+			}
+		);
 		promises.push(deferred);
 	});
 	return Q.all(promises);
@@ -21,7 +28,15 @@ function poolsDefine(poolList){
 
 function poolDefine(curPool){
 	var deferred = Q.defer();
-	deferred.resolve();
+	var cL = []; //command List
+	cL.push("virsh pool-define-as "+curPool.name+" netfs --source-host="+curPool.source.split(":")[0]+" --source-path="+curPool.source.split(":")[1]+" --target=/mnt/luckynodepools/"+curPool.name);
+	cL.push('virsh pool-build ' + curPool.name);
+	cL.push('virsh pool-autostart ' + curPool.name);
+	cL.push('virsh pool-start ' + curPool.name);
+	tools.runLocalCommands(cL).then(
+		function(result){ console.log(result); deferred.resolve(result); }
+	).fail(deferred.reject);
+	
 	return deferred.promise;
 }
 

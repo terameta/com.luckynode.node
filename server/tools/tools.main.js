@@ -8,9 +8,8 @@ module.exports = {
 	splitBySpace: function(source){
 		return source.trim().split(/[\s,]+/);
 	},
-	runLocalCommand: function(command, resolveTo){
-		return runLocalCommand(command);
-	},
+	runLocalCommand: runLocalCommand,
+	runLocalCommands: runLocalCommands,
 	runIfLocalCommand: function(command, resolveTo, ifStat){
 		if(!ifStat){
 			var deferred = Q.defer();
@@ -66,6 +65,21 @@ module.exports = {
 
 };
 
+function runLocalCommands(commandList){
+	var deferred = Q.defer();
+	if(commandList.length > 0){
+		var curCommand = commandList.shift();
+		runLocalCommand(curCommand).then(
+			function(){
+				deferred.resolve(runLocalCommands(commandList));
+			}
+		).fail(deferred.reject);
+	} else {
+		deferred.resolve();
+	}
+	
+	return deferred.promise;
+}
 
 function runLocalCommand(command, resolveTo){
 	var deferred = Q.defer();

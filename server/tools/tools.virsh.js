@@ -8,7 +8,7 @@ module.exports = {
 		tools.runLocalCommand('virsh pool-list --all').then(
 			function(result){
 				result = result.trim().split("\n");
-				
+				result.splice(0,2);
 				
 				
 				deferred.resolve(result);

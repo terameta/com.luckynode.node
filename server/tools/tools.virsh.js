@@ -82,6 +82,10 @@ function poolsRemove(poolList){
 			console.log("PoolsRemove Top deferred will now be rejected:", issue);
 			//topDeferred.reject(issue);
 		}
+	).done(
+		function(hede){
+			console.log(hede);
+		}
 	);
 	
 	return topDeferred.promise;

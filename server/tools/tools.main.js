@@ -9,7 +9,7 @@ module.exports = {
 		var deferred = Q.defer();
 		exec(command, function(error, stdout, stderr){
 			if(error){
-				if(errorToDiscard == error){
+				if(errorToDiscard == stderr){
 					console.log("Error being discarded");
 					deferred.resolve("Discarded error: "+ error);
 				} else {

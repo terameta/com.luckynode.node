@@ -82,6 +82,9 @@ module.exports = function(app, express, db, tools) {
 						);
 					}
 					
+					console.log("===========================================================");
+					console.log("Removing the non-assigned ones");
+					console.log("===========================================================");
 					for(var curPool = 2; curPool < result.length; curPool++){
 						curPoolDef = result[curPool].trim().split(/[\s,]+/);
 						console.log(result[curPool].trim(), ">>>>>>>>>>>>>>>>>>>>>>>>",curPoolDef);

@@ -98,6 +98,30 @@ module.exports = function(app, express, db, tools) {
 							}
 							console.log("Should Remove:", shouldRemove);
 						}
+						if(shouldRemove){
+							virshCommand = "virsh pool-destroy " + exsPoolName;
+							tools.runLocalCommand(virshCommand).then(
+								function(result){
+									console.log(result);
+									virshCommand = "virsh pool-delete " + exsPoolName;
+									return tools.runLocalCommand(virshCommand);
+								}
+							).then(
+								function(result){
+									console.log(result);
+									virshCommand = "virsh pool-undefine " + exsPoolName;
+									return tools.runLocalCommand(virshCommand);
+								}
+							).then(
+								function(result){
+									console.log(result);
+								}
+							).fail(
+								function(issue){
+									console.log(issue);
+								}
+							);
+						}
 					}
 				}
 			});

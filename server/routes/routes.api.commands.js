@@ -70,7 +70,7 @@ module.exports = function(app, express, db, tools) {
 						}
 					).fail(
 						function(issue){
-							console.log("Pools Remove Failed:", issue);
+							console.log("At the top: Pools Remove Failed:", issue);
 						}
 					);
 				}

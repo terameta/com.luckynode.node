@@ -73,7 +73,8 @@ function poolsRemove(poolList){
 		function(result){
 			console.log("PoolsRemove Top deferred will now be resolved:", result);
 			topDeferred.resolve(result);
-		},
+		}
+	).fail(
 		function(issue){
 			console.log("PoolsRemove Top deferred will now be rejected:", issue);
 			topDeferred.reject(issue);

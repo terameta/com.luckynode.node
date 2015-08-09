@@ -5,26 +5,17 @@ var config 			= require('../config/config.main.js');
 var exec 			= require('child_process').exec;
 
 module.exports = {
-	runLocalCommand: function(command, errorToDiscard){
-		var deferred = Q.defer();
-		exec(command, function(error, stdout, stderr){
-			if(error){
-				if(errorToDiscard == stderr){
-					console.log("Error being discarded");
-					deferred.resolve("Discarded error: "+ stderr);
-				} else {
-					console.log("Error is not discarded");
-					console.log(">>>>>>>>>>>", errorToDiscard, "|||");
-					console.log(">>>>>>>>>>>", stderr, "|||");
-					console.log(error);
-					console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-					deferred.reject(stderr);
-				}
-			} else {
-				deferred.resolve(stdout);
-			}
-		});
-		return deferred.promise;
+	runLocalCommand: function(command){
+		return runLocalCommand(command);
+	},
+	runIfLocalCommand: function(command, ifStat){
+		if(!ifStat){
+			var deferred = Q.defer();
+			deferred.resolve("No need to run this command");
+			return deferred.promise;
+		} else {
+			return runLocalCommand(command);
+		}
 	},
 	checkToken : function (req, res, next) {
 		var token = req.headers['x-access-token'];
@@ -67,3 +58,16 @@ module.exports = {
 	jwt : jwt
 
 };
+
+
+function runLocalCommand(command){
+	var deferred = Q.defer();
+	exec(command, function(error, stdout, stderr){
+		if(error){
+			deferred.reject(stderr);
+		} else {
+			deferred.resolve(stdout);
+		}
+	});
+	return deferred.promise;
+}

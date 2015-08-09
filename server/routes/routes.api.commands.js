@@ -88,6 +88,7 @@ module.exports = function(app, express, db, tools) {
 					for(var curPool = 2; curPool < result.length; curPool++){
 						curPoolDef = result[curPool].trim().split(/[\s,]+/);
 						var exsPoolName = curPoolDef[0] || 'NoName|||||||||||||||||||||||||||||';
+						var exsPoolIsActive = curPoolDef[1] == 'active' ? true : false;
 						var shouldRemove = true;
 						for(var curNewPool = 0; curNewPool < newPools.length; curNewPool++){
 							console.log(newPools[curNewPool]);
@@ -100,7 +101,7 @@ module.exports = function(app, express, db, tools) {
 						}
 						if(shouldRemove){
 							virshCommand = "virsh pool-destroy " + exsPoolName;
-							tools.runLocalCommand(virshCommand, "error: Failed to destroy pool " + exsPoolName).then(
+							tools.runLocalCommand(virshCommand, exsPoolIsActive).then(
 								function(result){
 									console.log(result);
 									virshCommand = "virsh pool-delete " + exsPoolName;

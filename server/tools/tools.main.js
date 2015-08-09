@@ -11,11 +11,11 @@ module.exports = {
 			if(error){
 				if(errorToDiscard == stderr){
 					console.log("Error being discarded");
-					deferred.resolve("Discarded error: "+ error);
+					deferred.resolve("Discarded error: "+ stderr);
 				} else {
 					console.log("Error is not discarded");
 					console.log(">>>>>>>>>>>", errorToDiscard);
-					console.log(">>>>>>>>>>>", error);
+					console.log(">>>>>>>>>>>", stderr);
 					deferred.reject(stderr);
 				}
 			} else {

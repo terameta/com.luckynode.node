@@ -10,8 +10,13 @@ module.exports = {
 				result = result.trim().split("\n");
 				result.splice(0,2);
 				
+				var toReturn = [];
+				result.forEach(function(curPool){
+					console.log(curPool.trim());
+				});
 				
-				deferred.resolve(result);
+				
+				deferred.resolve(toReturn);
 			}
 		).fail( function(issue){ deferred.reject(issue); } );
 		return deferred.promise;

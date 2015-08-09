@@ -5,11 +5,15 @@ var config 			= require('../config/config.main.js');
 var exec 			= require('child_process').exec;
 
 module.exports = {
-	runLocalCommand: function(command){
+	runLocalCommand: function(command, errorToDiscard){
 		var deferred = Q.defer();
 		exec(command, function(error, stdout, stderr){
 			if(error){
-				deferred.reject(stderr);
+				if(errorToDiscard == error){
+					deferred.resolve("Discarded error: "+ error);
+				} else {
+					deferred.reject(stderr);
+				}
 			} else {
 				deferred.resolve(stdout);
 			}

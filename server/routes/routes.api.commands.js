@@ -16,13 +16,22 @@ module.exports = function(app, express, db, tools) {
 		
 		if(newPools.length > 0){
 		
-			var exec = require('child_process').exec;
-			var cmd = 'virsh pool-list --all';
+			//Get the Existing Pools List
+			var exsPools = [];
 			virsh.poolList().then(
 				function(result){
-					console.log(result);
+					exsPools = result;
+					poolsTodefine(newPools, exsPools);
 				}
 			);
+			
+			function poolsToDefine(_newPools, _exsPools){
+				console.log(_newPools);
+				console.log(_exsPools);
+			}
+			
+			function poolsToRemove()
+			
 			return 0;
 			
 			exec(cmd, function(error, stdout, stderr) {

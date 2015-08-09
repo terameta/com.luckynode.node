@@ -76,10 +76,12 @@ function runLocalCommands(commandList){
 			function(){
 				runLocalCommands(commandList).then(
 					function(result){
+						console.log("CurCommand Succeeded:", curCommand);
 						deferred.resolve(result);
 					}
 				).fail(
 					function(issue){
+						console.log("CurCommand Failed:", curCommand);
 						deferred.reject(issue);
 					}
 				);

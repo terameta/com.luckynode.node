@@ -5,6 +5,9 @@ var config 			= require('../config/config.main.js');
 var exec 			= require('child_process').exec;
 
 module.exports = {
+	splitBySpace: function(source){
+		return source.trim().split(/[\s,]+/);
+	},
 	runLocalCommand: function(command, resolveTo){
 		return runLocalCommand(command);
 	},

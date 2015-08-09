@@ -13,6 +13,8 @@ module.exports = {
 				var toReturn = [];
 				result.forEach(function(curPool){
 					console.log(curPool.trim());
+					console.log(tools.splitBySpace(curPool));
+					console.log("___________________");
 				});
 				
 				

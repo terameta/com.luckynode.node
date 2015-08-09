@@ -71,7 +71,7 @@ function runLocalCommands(commandList){
 		var curCommand = commandList.shift();
 		runLocalCommand(curCommand).then(
 			function(){
-				deferred.resolve(function(){return runLocalCommands(commandList);});
+				return runLocalCommands(commandList);
 			}
 		).fail(deferred.reject);
 	} else {

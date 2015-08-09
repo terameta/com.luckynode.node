@@ -15,6 +15,15 @@ module.exports = function(app, express, db, tools) {
 		} } }
 		
 		if(newPools.length > 0){
+			
+			function poolsToDefine(_newPools, _exsPools){
+				console.log(_newPools);
+				console.log(_exsPools);
+			}
+			
+			function poolsToRemove(){
+				
+			}
 		
 			//Get the Existing Pools List
 			var exsPools = [];
@@ -25,14 +34,7 @@ module.exports = function(app, express, db, tools) {
 				}
 			);
 			
-			function poolsToDefine(_newPools, _exsPools){
-				console.log(_newPools);
-				console.log(_exsPools);
-			}
 			
-			function poolsToRemove(){
-				
-			}
 			
 			return 0;
 			

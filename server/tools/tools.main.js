@@ -83,6 +83,7 @@ function runLocalCommands(commandList){
 
 function runLocalCommand(command, resolveTo){
 	var deferred = Q.defer();
+	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<",command);
 	exec(command, function(error, stdout, stderr){
 		if(error){
 			deferred.reject(stderr);

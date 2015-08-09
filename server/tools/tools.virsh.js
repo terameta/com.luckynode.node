@@ -72,8 +72,12 @@ function poolRemove(curPool){
 	cL.push('virsh pool-delete ' + curPool.name);
 	cL.push('virsh pool-undefine ' + curPool.name);
 	tools.runLocalCommands(cL).then(
-		function(result){ console.log(result); deferred.resolve(result); }
-	).fail(deferred.reject);
+		function(result){ console.log("PoolRemove Result: ", result); deferred.resolve(result); }
+	).fail(
+		function(issue){
+			deferred.reject(issue);
+		}
+	);
 	return deferred.promise;
 }
 

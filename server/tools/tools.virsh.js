@@ -53,13 +53,11 @@ function poolDefine(curPool){
 }
 
 function poolsRemove(poolList){
-	var topDeferred = Q.defer();
 	console.log("We are now running pools remove");
 	console.log(poolList);
 	var promises = [];
 	poolList.forEach(function(curPool){
 		var deferred = Q.defer();
-		promises.push(deferred);
 		poolRemove(curPool).then(
 			function(result){
 				console.log("PoolsRemove Called Success", deferred);
@@ -71,24 +69,9 @@ function poolsRemove(poolList){
 				deferred.reject(issue);
 			}
 		);
+		promises.push(deferred.promise);
 	});
-	Q.all(promises).then(
-		function(result){
-			console.log("PoolsRemove Top deferred will now be resolved:", result);
-			//topDeferred.resolve(result);
-		}
-	).fail(
-		function(issue){
-			console.log("PoolsRemove Top deferred will now be rejected:", issue);
-			//topDeferred.reject(issue);
-		}
-	).done(
-		function(hede){
-			console.log("This part is on done:",hede);
-		}
-	);
-	
-	return topDeferred.promise;
+	return Q.all(promises);
 }
 
 function poolRemove(curPool){

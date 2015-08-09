@@ -98,6 +98,7 @@ module.exports = function(app, express, db, tools) {
 								shouldRemove = false;
 							}
 							console.log("Should Remove:", shouldRemove);
+							console.log("Should Remove:", exsPoolName);
 						}
 						if(shouldRemove){
 							virshCommand = "virsh pool-destroy " + exsPoolName;

@@ -1,6 +1,6 @@
 var Q			= require('q');
-var config 		= require('../config/config.main.js');
-var jwt			= require('jsonwebtoken');
+//var config 		= require('../config/config.main.js');
+//var jwt			= require('jsonwebtoken');
 var virsh 		= require('../tools/tools.virsh.js');
 
 module.exports = function(app, express, db, tools) {

@@ -26,6 +26,14 @@ module.exports = function(app, express, db, tools) {
 	
 			for(var netKey in networkInterfaces){
 				networkInterfaces[netKey].forEach(function(curAddr){
+					if(curAddr.address == iptobridge){
+						console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+						console.log("NetKey:",netKey);
+						console.log("NIC:", networkInterfaces[netKey]);
+						console.log("CurAddr:", curAddr);
+						console.log("IPtoBridge", iptobridge);
+						console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+					}
 					if(!curAddr.internal){
 						toReturn.push(curAddr.address);
 					}

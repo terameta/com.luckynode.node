@@ -21,6 +21,8 @@ module.exports = function(app, express, db, tools) {
 			var os = require( 'os' );
 	
 			var networkInterfaces = os.networkInterfaces( );
+			console.log(networkInterfaces);
+			console.log("==================================================");
 	
 			for(var netKey in networkInterfaces){
 				networkInterfaces[netKey].forEach(function(curAddr){

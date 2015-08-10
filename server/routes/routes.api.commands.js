@@ -8,6 +8,10 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
+	apiRoutes.post('definenetworkbridge', tools.checkToken, function(req, res){
+		res.send("ok");
+	});
+	
 	apiRoutes.post('/assignstoragepools', tools.checkToken, function(req, res) {
 		var newPools = [];
 		if(req.body){ if(req.body.details){ if(req.body.details.length > 0){

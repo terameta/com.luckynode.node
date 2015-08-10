@@ -10,7 +10,15 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/definenetworkbridge', tools.checkToken, function(req, res){
 		console.log(req.body);
-		res.send("ok");
+		var iptobridge = '';
+		if(req.body){ if(req.body.details) { if(req.body.details.ip){
+			iptobridge = req.body.details.ip;
+		} } }
+		if( iptobridge === '' ){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			res.send(iptobridge);
+		}
 	});
 	
 	apiRoutes.post('/assignstoragepools', tools.checkToken, function(req, res) {

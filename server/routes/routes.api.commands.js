@@ -28,6 +28,7 @@ module.exports = function(app, express, db, tools) {
 						toReturn.push(curAddr.address);
 					}
 				});
+				console.log(networkInterfaces[netKey]);
 			}
 			console.log(toReturn);
 			res.send(iptobridge);

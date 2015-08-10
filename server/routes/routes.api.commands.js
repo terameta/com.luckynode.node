@@ -17,6 +17,11 @@ module.exports = function(app, express, db, tools) {
 		if( iptobridge === '' ){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
+			tools.runLocalCommand("ifconfig --all").then(function(result){
+				console.log(result);
+			}).fail(function(issue){
+				console.log(issue);
+			});
 			res.send(iptobridge);
 		}
 	});

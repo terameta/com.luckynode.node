@@ -9,6 +9,7 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 	
 	apiRoutes.post('/definenetworkbridge', tools.checkToken, function(req, res){
+		console.log(req.body);
 		res.send("ok");
 	});
 	

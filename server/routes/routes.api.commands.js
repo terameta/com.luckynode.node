@@ -17,11 +17,19 @@ module.exports = function(app, express, db, tools) {
 		if( iptobridge === '' ){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			tools.runLocalCommand("ifconfig --all").then(function(result){
-				console.log(result);
-			}).fail(function(issue){
-				console.log(issue);
-			});
+			var toReturn = [];
+			var os = require( 'os' );
+	
+			var networkInterfaces = os.networkInterfaces( );
+	
+			for(var netKey in networkInterfaces){
+				networkInterfaces[netKey].forEach(function(curAddr){
+					if(!curAddr.internal){
+						toReturn.push(curAddr.address);
+					}
+				});
+			}
+			console.log(toReturn);
 			res.send(iptobridge);
 		}
 	});

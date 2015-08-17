@@ -10,6 +10,8 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/defineServer', tools.checkToken, function(req, res){
 		console.log(req.body);
+		console.log(req.body.details._id);
+		console.log(req.body.details._id.toString());
 		res.send('ok');
 	});
 	

@@ -8,8 +8,13 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
-	apiRoutes.post('/definenetworkbridge', tools.checkToken, function(req, res){
+	apiRoutes.post('/defineServer', tools.checkToken, function(req, res){
 		console.log(req.body);
+		res.send('ok');
+	});
+	
+	apiRoutes.post('/defineNetworkBridge', tools.checkToken, function(req, res){
+		//console.log(req.body);
 		var iptobridge = '';
 		if(req.body){ if(req.body.details) { if(req.body.details.ip){
 			iptobridge = req.body.details.ip;
@@ -45,7 +50,7 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
-	apiRoutes.post('/assignstoragepools', tools.checkToken, function(req, res) {
+	apiRoutes.post('/assignStoragePools', tools.checkToken, function(req, res) {
 		var newPools = [];
 		if(req.body){ if(req.body.details){ if(req.body.details.length > 0){
 			newPools = req.body.details;

@@ -13,7 +13,7 @@ module.exports = {
 
 function serverDefine(cSrv){
 	var deferred = Q.defer();
-	console.log(cSrv);
+	//console.log(cSrv);
 	var theCommand = 'virt-install -n ' + cSrv.id;
 		theCommand += ' --description "'+ cSrv.name +'"';
 		theCommand += ' --virt-type kvm';
@@ -26,9 +26,7 @@ function serverDefine(cSrv){
 		theCommand += ' -w bridge=br0,model=virtio';		//Virtio part should be defined with the template.
 		theCommand += ' --noautoconsole --import --wait=0';
 		theCommand += ' --mac=' + cSrv.mac;
-	console.log(theCommand);
-	
-	/*
+	//console.log(theCommand);
 	
 	tools.runLocalCommand(theCommand).
 		then(function(result){
@@ -37,8 +35,7 @@ function serverDefine(cSrv){
 		fail(function(issue){
 			deferred.reject(issue);
 		});
-	*/
-	deferred.resolve();
+	
 	return deferred.promise;
 }
 

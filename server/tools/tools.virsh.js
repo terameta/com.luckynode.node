@@ -14,8 +14,12 @@ module.exports = {
 function serverDefine(serverInformation){
 	var deferred = Q.defer();
 	console.log(serverInformation);
+	var theCommand = 'virt-install -n ' + serverInformation.id;
+		theCommand += '--description "Deneme Windows" --virt-type kvm --os-type=windows --os-variant=win2k8 --ram=8192 --vcpus=4,cores=4 --disk path=/mnt/luckynodepools/store0/deneme.qcow2,device=disk,bus=virtio,cache=none,format=qcow2 --graphics vnc,password=astalavista,listen=0.0.0.0 -w bridge=br0,model=virtio --noautoconsole --mac=00:50:56:00:58:27 --import --wait=0';
+	console.log(theCommand);
+	
 	/*
-	var theCommand = 'virt-install -n deneme --description "Deneme Windows" --virt-type kvm --os-type=windows --os-variant=win2k8 --ram=8192 --vcpus=4,cores=4 --disk path=/mnt/luckynodepools/store0/deneme.qcow2,device=disk,bus=virtio,cache=none,format=qcow2 --graphics vnc,password=astalavista,listen=0.0.0.0 -w bridge=br0,model=virtio --noautoconsole --mac=00:50:56:00:58:27 --import --wait=0';
+	
 	tools.runLocalCommand(theCommand).
 		then(function(result){
 			deferred.resolve(result);

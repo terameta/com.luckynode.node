@@ -11,11 +11,21 @@ module.exports = {
 	serverDefine:serverDefine
 };
 
-function serverDefine(serverInformation){
+function serverDefine(cSrv){
 	var deferred = Q.defer();
-	console.log(serverInformation);
-	var theCommand = 'virt-install -n ' + serverInformation.id;
-		theCommand += '--description "Deneme Windows" --virt-type kvm --os-type=windows --os-variant=win2k8 --ram=8192 --vcpus=4,cores=4 --disk path=/mnt/luckynodepools/store0/deneme.qcow2,device=disk,bus=virtio,cache=none,format=qcow2 --graphics vnc,password=astalavista,listen=0.0.0.0 -w bridge=br0,model=virtio --noautoconsole --mac=00:50:56:00:58:27 --import --wait=0';
+	console.log(cSrv);
+	var theCommand = 'virt-install -n ' + cSrv.id;
+		theCommand += ' --description "'+ cSrv.name +'"';
+		theCommand += ' --virt-type kvm';
+		theCommand += ' --os-type=windows';			//This should be redefined with the template
+		theCommand += ' --os-variant=win2k8';		//This should be redefined with the template
+		theCommand += ' --ram=' + cSrv.ram;
+		theCommand += ' --vcpus='+ cSrv.cpu +',cores='+cSrv.cpu;
+		theCommand += ' --disk path=/mnt/luckynodepools/store0/deneme.qcow2,device=disk,bus=virtio,cache=none,format=qcow2';		//This should be redefined with the template (also the virtio part)
+		theCommand += ' --graphics vnc,password=astalavista,listen=0.0.0.0';		//This should be redefined with a better logic
+		theCommand += ' -w bridge=br0,model=virtio';		//Virtio part should be defined with the template.
+		theCommand += ' --noautoconsole --import --wait=0';
+		theCommand += ' --mac=' + cSrv.mac;
 	console.log(theCommand);
 	
 	/*

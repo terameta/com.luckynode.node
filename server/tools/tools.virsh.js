@@ -14,7 +14,7 @@ module.exports = {
 function serverDefine(cSrv){
 	var deferred = Q.defer();
 	//console.log(cSrv);
-	var theCommand = 'virt-install -n ' + cSrv.id;
+	var theCommand = 'sudo virt-install -n ' + cSrv.id;
 		theCommand += ' --description "'+ cSrv.name +'"';
 		theCommand += ' --virt-type kvm';
 		theCommand += ' --os-type=windows';			//This should be redefined with the template

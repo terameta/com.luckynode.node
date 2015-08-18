@@ -9,9 +9,14 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 	
 	apiRoutes.post('/defineServer', tools.checkToken, function(req, res){
-		console.log(req.body);
-		
-		res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			virsh.serverDefine(req.body.details);
+			res.send('ok');
+		}
 	});
 	
 	apiRoutes.post('/defineNetworkBridge', tools.checkToken, function(req, res){

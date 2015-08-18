@@ -7,8 +7,13 @@ module.exports = {
 	poolsDefine: poolsDefine,
 	poolDefine: poolDefine,
 	poolsRemove: poolsRemove,
-	poolRemove: poolRemove
+	poolRemove: poolRemove,
+	serverDefine:serverDefine
 };
+
+function serverDefine(serverInformation){
+	
+}
 
 function poolsDefine(poolList){
 	var promises = [];

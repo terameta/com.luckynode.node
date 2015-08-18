@@ -10,10 +10,8 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/defineServer', tools.checkToken, function(req, res){
 		console.log(req.body);
-		console.log(req.body.details._id);
-		console.log(req.body.details._id.id);
-		console.log(req.body.details._id.id.toString());
-		res.send('ok');
+		
+		res.status(400).json({ status: 'fail', detail: 'no data provided' });
 	});
 	
 	apiRoutes.post('/defineNetworkBridge', tools.checkToken, function(req, res){

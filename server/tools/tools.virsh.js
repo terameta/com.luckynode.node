@@ -186,6 +186,8 @@ function getMostAvailablePool(){
 		result.splice(0,2);
 		console.log("======================================");
 		console.log("Listing pool capacities");
+		var curMaxFree = 0;
+		var curMax = '';
 		result.forEach(function(curPoolDetails){
 			console.log(curPoolDetails);
 			var curPool = tools.splitBySpace(curPoolDetails);
@@ -199,9 +201,36 @@ function getMostAvailablePool(){
 			console.log("Allocation Measure: ", "|"+curPool[7]+"|");
 			console.log("Available: ", "|"+curPool[8]+"|");
 			console.log("Available Measure: ", "|"+curPool[9]+"|");
+			var curSize = parseInt(curPool[8],10);
+			if(curPool[9] == 'k') 		curSize *= 1000;
+			if(curPool[9] == 'KB'		curSize *= 1000;
+			if(curPool[9] == 'KiB') 	curSize *= 1024;
+			if(curPool[9] == 'M') 		curSize *= 1000000;
+			if(curPool[9] == 'MB') 		curSize *= 1000000;
+			if(curPool[9] == 'MiB') 	curSize *= 1048576;
+			if(curPool[9] == 'G') 		curSize *= 1000000000;
+			if(curPool[9] == 'GB') 		curSize *= 1000000000;
+			if(curPool[9] == 'GiB') 	curSize *= 1073741824;
+			if(curPool[9] == 'T') 		curSize *= 1000000000000;
+			if(curPool[9] == 'TB') 		curSize *= 1000000000000;
+			if(curPool[9] == 'TiB') 	curSize *= 1099511627776;
+			if(curPool[9] == 'P') 		curSize *= 1000000000000000;
+			if(curPool[9] == 'PB') 		curSize *= 1000000000000000;
+			if(curPool[9] == 'PiB') 	curSize *= 1125899906842624;
+			if(curPool[9] == 'E') 		curSize *= 1000000000000000000;
+			if(curPool[9] == 'EB') 		curSize *= 1000000000000000000;
+			if(curPool[9] == 'EiB') 	curSize *= 1152921504606846976;
+			console.log(curSize);
+			if(curSize > curMaxFree){
+				curMaxFree = curSize;
+				curMax = curPool[0];
+			}
+			
 		});
 		console.log("======================================");
-		deferred.resolve();
+		console.log(curMax, curMaxFree);
+		console.log("======================================");
+		deferred.resolve(curMax);
 	}).fail(function(issue){deferred.reject(issue);});
 	return deferred.promise;
 }

@@ -17,7 +17,15 @@ function serverDefine(cSrv){
 	
 	var theXML = ''
 	+ '<domain type=\'kvm\'>\n'
-	+ '	<name>'+ cSrv.name +'</name>\n'
+	+ '	<name>'+ cSrv.id +'</name>\n'
+	//  <uuid>e5c82363-ceea-74a2-a678-c05ab504c669</uuid>
+	+ '	<description>'+ cSrv.name +'</description>'
+	+ '	<memory unit=\'MiB\'>'+ cSrv.ram +'</memory>'
+	+ '	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'
+	+ '	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'
+	
+	
+
 	+ '</domain>'
 	;
 	console.log(theXML);

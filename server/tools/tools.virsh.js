@@ -16,23 +16,22 @@ function serverDefine(cSrv){
 	//console.log(cSrv);
 	
 	var theXML = ''
-	+ '<domain type=\'kvm\'>'																			+ '\n'
-	+ '	<name>'+ cSrv.id +'</name>'																		+ '\n'
+	+ 	'<domain type=\'kvm\'>'																			+ '\n'
+	+ 	'	<name>'+ cSrv.id +'</name>'																		+ '\n'
 	//  <uuid>e5c82363-ceea-74a2-a678-c05ab504c669</uuid>												+ '\n'
-	+ '	<description>'+ cSrv.name +'</description>'														+ '\n'
-	+ '	<memory unit=\'MiB\'>'+ cSrv.ram +'</memory>'													+ '\n'
-	+ '	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'												+ '\n'
-	+ '	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'					+ '\n'
-	+ '	<os>'																							+ '\n'
-	+ '		<type arch=\'x86_64\' machine=\'pc\'>hvm</type>'											+ '\n'
-	+ '		<boot dev=\'hd\' />'																		+ '\n'
-	+ '		<boot dev=\'cdrom\' />'																		+ '\n'
-	+ '		<bootmenu enable=\'yes\'  timeout=\'3000\' />'												+ '\n'
-	+ '	</os>'																							+ '\n'
+	+ 	'	<description>'+ cSrv.name +'</description>'														+ '\n'
+	+ 	'	<memory unit=\'MiB\'>'+ cSrv.ram +'</memory>'													+ '\n'
+	+ 	'	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'												+ '\n'
+	+ 	'	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'					+ '\n'
+	+ 	'	<os>'																							+ '\n'
+	+ 	'		<type arch=\'x86_64\' machine=\'pc\'>hvm</type>'											+ '\n'
+	+ 	'		<boot dev=\'hd\' />'																		+ '\n'
+	+ 	'		<boot dev=\'cdrom\' />'																		+ '\n'
+	+ 	'		<bootmenu enable=\'yes\'  timeout=\'3000\' />'												+ '\n'
+	+ 	'	</os>'																							+ '\n'
 
 
-	+ '</domain>'
-	;
+	+ 	'</domain>';
 	console.log(theXML);
 	deferred.resolve(theXML);
 	

@@ -191,7 +191,7 @@ function getMostAvailablePool(){
 		result.forEach(function(curPoolDetails){
 			console.log(curPoolDetails);
 			var curPool = tools.splitBySpace(curPoolDetails);
-			console.log("Name: ", "|"+curPool[0]+"|");
+			/*		console.log("Name: ", "|"+curPool[0]+"|");
 			console.log("Status: ", "|"+curPool[1]+"|");
 			console.log("AutoStart: ", "|"+curPool[2]+"|");
 			console.log("Persistent: ", "|"+curPool[3]+"|");
@@ -200,7 +200,7 @@ function getMostAvailablePool(){
 			console.log("Allocation: ", "|"+curPool[6]+"|");
 			console.log("Allocation Measure: ", "|"+curPool[7]+"|");
 			console.log("Available: ", "|"+curPool[8]+"|");
-			console.log("Available Measure: ", "|"+curPool[9]+"|");
+			console.log("Available Measure: ", "|"+curPool[9]+"|");*/
 			var curSize = parseInt(curPool[8],10);
 			if(curPool[9] == 'k') 		curSize *= 1000;
 			if(curPool[9] == 'KB')		curSize *= 1000;
@@ -227,10 +227,11 @@ function getMostAvailablePool(){
 			}
 			
 		});
-		console.log("======================================");
-		console.log(curMax, curMaxFree);
-		console.log("======================================");
-		deferred.resolve(curMax);
+		if(curMax !=''){
+			deferred.resolve(curMax);
+		} else {
+			deferred.reject('There are no stores available');
+		}
 	}).fail(function(issue){deferred.reject(issue);});
 	return deferred.promise;
 }

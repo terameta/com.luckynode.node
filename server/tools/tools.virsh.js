@@ -203,7 +203,7 @@ function getMostAvailablePool(){
 			console.log("Available Measure: ", "|"+curPool[9]+"|");
 			var curSize = parseInt(curPool[8],10);
 			if(curPool[9] == 'k') 		curSize = curSize * 1000;
-			if(curPool[9] == 'KB'		curSize = curSize * 1000;
+			if(curPool[9] == 'KB')		curSize = curSize * 1000;
 			if(curPool[9] == 'KiB') 	curSize = curSize * 1024;
 			if(curPool[9] == 'M') 		curSize = curSize * 1000000;
 			if(curPool[9] == 'MB') 		curSize = curSize * 1000000;

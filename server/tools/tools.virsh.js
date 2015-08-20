@@ -13,7 +13,9 @@ module.exports = {
 
 function serverDefine(cSrv){
 	var deferred = Q.defer();
+	console.log("=====================================");
 	console.log(cSrv);
+	console.log("=====================================");
 	
 	var theXML = ''
 	+ 	'<domain type=\'kvm\'>'																					+ '\n'

@@ -50,7 +50,7 @@ function serverDefine(cSrv){
 	+	'			<model type=\'virtio\' />'																	+ '\n'
 	+	'			<source bridge=\'br1\'/>'																	+ '\n'
 	//for below target dev we should find a proper naming mechanism
-	+	'			<target dev=\'kvm255.0\'/>'																	+ '\n'
+//	+	'			<target dev=\'kvm255.0\'/>'																	+ '\n'
 	+	'			<mac address=\''+ cSrv.mac +'\'/>'															+ '\n'
 	+	'		</interface>'																					+ '\n'
 	+	'		<input type=\'tablet\'/>'																		+ '\n'
@@ -63,39 +63,21 @@ function serverDefine(cSrv){
 	+ 	'</domain>';
 	console.log(theXML);
 	var fs = require('fs');
-	fs.writeFile('/tmp/'+cSrv.id+'.xml', theXML, function(err, data) {
+	fs.writeFile('/tmp/'+cSrv.id+'.xml', theXML, function(err) {
 		if (err){
 			console.log(err);
 		} else {
-			console.log(data);
+			var theCommand = 'virsh create /tmp/'+cSrv.id+'.xml';
+			tools.runLocalCommand(theCommand).
+				then(function(result){
+					deferred.resolve(result);
+				}).
+				fail(function(issue){
+					deferred.reject(issue);
+				});
 		}
 	});
 	
-	deferred.resolve(theXML);
-	
-	/*
-	var theCommand = 'sudo virt-install -n ' + cSrv.id;
-		theCommand += ' --description "'+ cSrv.name +'"';
-		theCommand += ' --virt-type kvm';
-		theCommand += ' --os-type=windows';			//This should be redefined with the template
-		theCommand += ' --os-variant=win2k8';		//This should be redefined with the template
-		theCommand += ' --ram=' + cSrv.ram;
-		theCommand += ' --vcpus='+ cSrv.cpu +',cores='+cSrv.cpu;
-		theCommand += ' --disk path=/mnt/luckynodepools/store0/deneme.qcow2,device=disk,bus=virtio,cache=none,format=qcow2';		//This should be redefined with the template (also the virtio part)
-		theCommand += ' --graphics vnc,password=astalavista,listen=0.0.0.0';		//This should be redefined with a better logic
-		theCommand += ' -w bridge=br0,model=virtio';		//Virtio part should be defined with the template.
-		theCommand += ' --noautoconsole --import --wait=0';
-		theCommand += ' --mac=' + cSrv.mac;
-	//console.log(theCommand);
-	
-	tools.runLocalCommand(theCommand).
-		then(function(result){
-			deferred.resolve(result);
-		}).
-		fail(function(issue){
-			deferred.reject(issue);
-		});
-	*/
 	return deferred.promise;
 }
 

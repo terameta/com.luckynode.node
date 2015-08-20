@@ -19,6 +19,8 @@ function serverDefine(cSrv){
 	if(!cSrv.architecture) 	cSrv.architecture = 'x86_64';
 	if(!cSrv.imageType) 	cSrv.imageType = 'qcow2';
 	
+	getMostAvailablePool();
+	
 	var theXML = ''
 	+ 	'<domain type=\'kvm\'>'																					+ '\n'
 	+ 	'	<name>'+ cSrv.id +'</name>'																			+ '\n'
@@ -174,5 +176,21 @@ function poolList(){
 			deferred.resolve(toReturn);
 		}
 	).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function getMostAvailablePool(){
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh pool-list --details').then(function(result){
+		result = result.trim().split("\n");
+		result.splice(0,2);
+		console.log("======================================");
+		console.log("Listing pool capacities");
+		result.forEach(function(curPoolDetails){
+			console.log(curPoolDetails);
+		});
+		console.log("======================================");
+		deferred.resolve();
+	}).fail(function(issue){deferred.reject(issue);});
 	return deferred.promise;
 }

@@ -222,7 +222,7 @@ function composeDomainXML(cSrv){
 	+	'	<devices>'																							+ '\n'
 	+	'		<disk type=\'file\' device=\'disk\'>'															+ '\n'
 	+	'			<driver name=\'qemu\' type=\''+ cSrv.imageType +'\' cache=\'none\' />'						+ '\n'
-	+	'			<source file=\'/mnt/luckynodepools/'+ cSrv.store +'/deneme.qcow2\' />'						+ '\n'
+	+	'			<source file=\'/mnt/luckynodepools/'+ cSrv.store +'/'+ cSrv.id +'.qcow2\' />'				+ '\n'
 	+	'			<target dev=\'vda\' bus=\'virtio\'/>'														+ '\n'
 	// if ide use this +	'			<target dev=\'hda\' bus=\'ide\'/>'										+ '\n'
 	+	'		</disk>'																						+ '\n'
@@ -237,14 +237,14 @@ function composeDomainXML(cSrv){
 	+	'		</interface>'																					+ '\n'
 	+	'		<input type=\'tablet\'/>'																		+ '\n'
 	+	'		<input type=\'mouse\'/>'																		+ '\n'
-	+	'		<graphics type=\'vnc\' port=\'-1\' autoport=\'yes\' passwd=\'Xw2oACxc\' listen=\'0.0.0.0\'/>'	+ '\n'
+	+	'		<graphics type=\'vnc\' port=\'-1\' autoport=\'yes\' passwd=\''+ cSrv.id +'\' listen=\'0.0.0.0\'/>'	+ '\n'
 	//We should eventually control the vnc ports
-// 	+	'		<graphics type=\'vnc\' port=\'5901\' autoport=\'yes\' passwd=\'Xw2oACxc\' listen=\'0.0.0.0\'/>'	+ '\n'
+// 	+	'		<graphics type=\'vnc\' port=\'5901\' passwd=\'Xw2oACxc\' listen=\'0.0.0.0\'/>'	+ '\n'
 	+	'		<video><model type=\'vga\' vram=\'9216\' heads=\'1\'/></video>'									+ '\n'
 	+	'	</devices>'																							+ '\n'
 	+ 	'</domain>';
 	cSrv.theXML = theXML;
-	console.log(theXML);
+	console.log(cSrv);
 	deferred.resolve(cSrv);
 	return deferred.promise;
 }

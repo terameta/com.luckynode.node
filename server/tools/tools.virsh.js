@@ -16,20 +16,54 @@ function serverDefine(cSrv){
 	console.log(cSrv);
 	
 	var theXML = ''
-	+ 	'<domain type=\'kvm\'>'																			+ '\n'
-	+ 	'	<name>'+ cSrv.id +'</name>'																		+ '\n'
-	//  <uuid>e5c82363-ceea-74a2-a678-c05ab504c669</uuid>												+ '\n'
-	+ 	'	<description>'+ cSrv.name +'</description>'														+ '\n'
-	+ 	'	<memory unit=\'MiB\'>'+ cSrv.ram +'</memory>'													+ '\n'
-	+ 	'	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'												+ '\n'
-	+ 	'	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'					+ '\n'
-	+ 	'	<os>'																							+ '\n'
-	+ 	'		<type arch=\'x86_64\' machine=\'pc\'>hvm</type>'											+ '\n'
-	+ 	'		<boot dev=\'hd\' />'																		+ '\n'
-	+ 	'		<boot dev=\'cdrom\' />'																		+ '\n'
-	+ 	'		<bootmenu enable=\'yes\'  timeout=\'3000\' />'												+ '\n'
-	+ 	'	</os>'																							+ '\n'
-
+	+ 	'<domain type=\'kvm\'>'																					+ '\n'
+	+ 	'	<name>'+ cSrv.id +'</name>'																			+ '\n'
+	//  <uuid>e5c82363-ceea-74a2-a678-c05ab504c669</uuid>														+ '\n'
+	+ 	'	<description>'+ cSrv.name +'</description>'															+ '\n'
+	+ 	'	<memory unit=\'MiB\'>'+ cSrv.ram +'</memory>'														+ '\n'
+	+ 	'	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'													+ '\n'
+	+ 	'	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'						+ '\n'
+	+ 	'	<os>'																								+ '\n'
+	+ 	'		<type arch=\'x86_64\' machine=\'pc\'>hvm</type>'												+ '\n'
+	+ 	'		<boot dev=\'hd\' />'																			+ '\n'
+	+ 	'		<boot dev=\'cdrom\' />'																			+ '\n'
+	+ 	'		<bootmenu enable=\'yes\' timeout=\'3000\' />'													+ '\n'
+	+ 	'	</os>'																								+ '\n'
+	+	'	<features><acpi/><apic/><pae/></features>'															+ '\n'
+	+	'	<clock offset=\'localtime\'/>'																		+ '\n'
+	+	'	<on_poweroff>destroy</on_poweroff>'																	+ '\n'
+	+	'	<on_reboot>restart</on_reboot>'																		+ '\n'
+	+	'	<on_crash>restart</on_crash>'																		+ '\n'
+	+	'	<devices>'																							+ '\n'
+	+	'		<emulator>/usr/bin/kvm</emulator>'																+ '\n'
+	+	'		<disk type=\'file\' device=\'disk\'>'															+ '\n'
+	// below, type should come from the image definition, default to qcow2
+	+	'			<driver name=\'qemu\' type=\'qcow2\' cache=\'none\' />'										+ '\n'
+	+	'			<source file=\'/mnt/luckynodepools/store0/deneme.qcow2\' />'								+ '\n'
+	+	'			<target dev=\'vda\' bus=\'virtio\'/>'														+ '\n'
+	// if ide use this +	'			<target dev=\'hda\' bus=\'ide\'/>'										+ '\n'
+	+	'		</disk>'																						+ '\n'
+	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'					+ '\n'
+	+	'		<interface type=\'bridge\'>'																	+ '\n'
+	// if other driver we should write e1000 or stg
+	+	'			<model type=\'virtio\' />'																	+ '\n'
+	+	'			<source bridge=\'br1\'/>'																	+ '\n'
+	//for below target dev we should find a proper naming mechanism
+	+	'			<target dev=\'kvm255.0\'/>'																	+ '\n'
+	+	'			<mac address=\''+ cSrv.mac +'\'/>'															+ '\n'
+	+	'		</interface>'																					+ '\n'
+	+	'		<input type=\'tablet\'/>'																		+ '\n'
+	+	'		<input type=\'mouse\'/>'																		+ '\n'
+	+	'		<graphics type=\'vnc\' port=\'-1\' autoport=\'yes\' passwd=\'Xw2oACxc\' listen=\'0.0.0.0\'/>'	+ '\n'
+	//We should eventually control the vnc ports
+// 	+	'		<graphics type=\'vnc\' port=\'5901\' autoport=\'yes\' passwd=\'Xw2oACxc\' listen=\'0.0.0.0\'/>'	+ '\n'
+	+	'		<video><model type=\'vga\' vram=\'9216\' heads=\'1\'/></video>'									+ '\n'
+	
+	
+	
+	
+	
+	+	'	</devices>'																						+ '\n'
 
 	+ 	'</domain>';
 	console.log(theXML);

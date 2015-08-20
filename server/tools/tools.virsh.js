@@ -62,8 +62,15 @@ function serverDefine(cSrv){
 	+	'	</devices>'																							+ '\n'
 	+ 	'</domain>';
 	console.log(theXML);
-	theXML = theXML.replace(/(?:\r\n|\r|\n)/g, '<br />');
-	console.log(theXML);
+	var fs = require('fs');
+	fs.writeFile('/tmp/'+cSrv.id+'.xml', theXML, function(err, data) {
+		if (err){
+			console.log(err);
+		} else {
+			console.log(data);
+		}
+	});
+	
 	deferred.resolve(theXML);
 	
 	/*

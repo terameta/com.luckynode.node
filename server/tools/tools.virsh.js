@@ -13,11 +13,9 @@ module.exports = {
 
 function serverDefine(cSrv){
 	var deferred = Q.defer();
-	console.log("=====================================");
-	console.log(cSrv);
-	console.log("=====================================");
-	if(!cSrv.architecture) 	cSrv.architecture = 'x86_64';
-	if(!cSrv.imageType) 	cSrv.imageType = 'qcow2';
+	if(!cSrv.architecture) 											cSrv.architecture = 'x86_64';
+	if(!cSrv.imageType) 											cSrv.imageType = 'qcow2';
+	if(cSrv.netdriver != 'rtl8139' && cSrv.netdriver != 'e1000') 	cSrv.netdriver = 'virtio';
 	
 	getMostAvailablePool(cSrv).
 		then(composeDomainXML).
@@ -228,8 +226,7 @@ function composeDomainXML(cSrv){
 	+	'		</disk>'																						+ '\n'
 	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'					+ '\n'
 	+	'		<interface type=\'bridge\'>'																	+ '\n'
-	// if other driver we should write e1000 or stg
-	+	'			<model type=\'virtio\' />'																	+ '\n'
+	+	'			<model type=\''+ cSrv.netdriver +'\' />'													+ '\n'
 	+	'			<source bridge=\'br0\'/>'																	+ '\n'
 	//for below target dev we should find a proper naming mechanism
 //	+	'			<target dev=\'kvm255.0\'/>'																	+ '\n'

@@ -48,7 +48,7 @@ function serverDefine(cSrv){
 	+	'		<interface type=\'bridge\'>'																	+ '\n'
 	// if other driver we should write e1000 or stg
 	+	'			<model type=\'virtio\' />'																	+ '\n'
-	+	'			<source bridge=\'br1\'/>'																	+ '\n'
+	+	'			<source bridge=\'br0\'/>'																	+ '\n'
 	//for below target dev we should find a proper naming mechanism
 //	+	'			<target dev=\'kvm255.0\'/>'																	+ '\n'
 	+	'			<mac address=\''+ cSrv.mac +'\'/>'															+ '\n'

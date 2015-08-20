@@ -148,12 +148,9 @@ function getMostAvailablePool(cSrv){
 	tools.runLocalCommand('virsh pool-list --details').then(function(result){
 		result = result.trim().split("\n");
 		result.splice(0,2);
-		console.log("======================================");
-		console.log("Listing pool capacities");
 		var curMaxFree = 0;
 		var curMax = '';
 		result.forEach(function(curPoolDetails){
-			console.log(curPoolDetails);
 			var curPool = tools.splitBySpace(curPoolDetails);
 			/*		console.log("Name: ", "|"+curPool[0]+"|");
 			console.log("Status: ", "|"+curPool[1]+"|");

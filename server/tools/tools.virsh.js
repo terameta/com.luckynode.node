@@ -35,7 +35,8 @@ function serverDefine(cSrv){
 	+	'	<on_reboot>restart</on_reboot>'																		+ '\n'
 	+	'	<on_crash>restart</on_crash>'																		+ '\n'
 	+	'	<devices>'																							+ '\n'
-	+	'		<emulator>/usr/bin/kvm</emulator>'																+ '\n'
+	//Below line is omitted for now, let's see how it behaves
+//	+	'		<emulator>/usr/bin/kvm</emulator>'																+ '\n'
 	+	'		<disk type=\'file\' device=\'disk\'>'															+ '\n'
 	// below, type should come from the image definition, default to qcow2
 	+	'			<driver name=\'qemu\' type=\'qcow2\' cache=\'none\' />'										+ '\n'
@@ -58,14 +59,10 @@ function serverDefine(cSrv){
 	//We should eventually control the vnc ports
 // 	+	'		<graphics type=\'vnc\' port=\'5901\' autoport=\'yes\' passwd=\'Xw2oACxc\' listen=\'0.0.0.0\'/>'	+ '\n'
 	+	'		<video><model type=\'vga\' vram=\'9216\' heads=\'1\'/></video>'									+ '\n'
-	
-	
-	
-	
-	
-	+	'	</devices>'																						+ '\n'
-
+	+	'	</devices>'																							+ '\n'
 	+ 	'</domain>';
+	console.log(theXML);
+	theXML = theXML.replace(/(?:\r\n|\r|\n)/g, '<br />');
 	console.log(theXML);
 	deferred.resolve(theXML);
 	

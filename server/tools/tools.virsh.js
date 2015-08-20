@@ -69,7 +69,7 @@ function serverDefine(cSrv){
 		} else {
 			var theCmds = [];
 			theCmds.push('virsh define /tmp/'+cSrv.id+'.xml');
-			theCmds.push('virsh start '+cSrv.id);
+			//theCmds.push('virsh start '+cSrv.id);
 			tools.runLocalCommands(theCmds).
 				then(function(result){
 					deferred.resolve(result);

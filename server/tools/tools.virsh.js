@@ -17,6 +17,7 @@ function serverDefine(cSrv){
 	
 	var theXML = ''
 	+ '<domain type=\'kvm\'>\n'
+	+ '	<name>'+ cSrv.name +'</name>\n'
 	+ '</domain>'
 	;
 	console.log(theXML);

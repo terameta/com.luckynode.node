@@ -16,6 +16,8 @@ function serverDefine(cSrv){
 	console.log("=====================================");
 	console.log(cSrv);
 	console.log("=====================================");
+	if(!cSrv.architecture) 	cSrv.architecture = 'x86_64';
+	if(!cSrv.imageType) 	cSrv.imageType = 'qcow2';
 	
 	var theXML = ''
 	+ 	'<domain type=\'kvm\'>'																					+ '\n'
@@ -26,22 +28,19 @@ function serverDefine(cSrv){
 	+ 	'	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'													+ '\n'
 	+ 	'	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'						+ '\n'
 	+ 	'	<os>'																								+ '\n'
-	+ 	'		<type arch=\'x86_64\' machine=\'pc\'>hvm</type>'												+ '\n'
+	+ 	'		<type arch=\''+ cSrv.architecture +'\' machine=\'pc\'>hvm</type>'								+ '\n'
 	+ 	'		<boot dev=\'hd\' />'																			+ '\n'
 	+ 	'		<boot dev=\'cdrom\' />'																			+ '\n'
 	+ 	'		<bootmenu enable=\'yes\' timeout=\'3000\' />'													+ '\n'
 	+ 	'	</os>'																								+ '\n'
-	+	'	<features><acpi/><apic/><pae/></features>'															+ '\n'
-	+	'	<clock offset=\'localtime\'/>'																		+ '\n'
+	+	'	<features><acpi /><apic /><pae /></features>'														+ '\n'
+	+	'	<clock sync=\'localtime\'/>'																		+ '\n'
 	+	'	<on_poweroff>destroy</on_poweroff>'																	+ '\n'
 	+	'	<on_reboot>restart</on_reboot>'																		+ '\n'
 	+	'	<on_crash>restart</on_crash>'																		+ '\n'
 	+	'	<devices>'																							+ '\n'
-	//Below line is omitted for now, let's see how it behaves
-//	+	'		<emulator>/usr/bin/kvm</emulator>'																+ '\n'
 	+	'		<disk type=\'file\' device=\'disk\'>'															+ '\n'
-	// below, type should come from the image definition, default to qcow2
-	+	'			<driver name=\'qemu\' type=\'qcow2\' cache=\'none\' />'										+ '\n'
+	+	'			<driver name=\'qemu\' type=\''+ cSrv.imageType +'\' cache=\'none\' />'						+ '\n'
 	+	'			<source file=\'/mnt/luckynodepools/store0/deneme.qcow2\' />'								+ '\n'
 	+	'			<target dev=\'vda\' bus=\'virtio\'/>'														+ '\n'
 	// if ide use this +	'			<target dev=\'hda\' bus=\'ide\'/>'										+ '\n'
@@ -70,7 +69,7 @@ function serverDefine(cSrv){
 			console.log(err);
 		} else {
 			var theCmds = [];
-			theCmds.push('virsh define /tmp/'+cSrv.id+'.xml');
+			//theCmds.push('virsh define /tmp/'+cSrv.id+'.xml');
 			//theCmds.push('virsh start '+cSrv.id);
 			tools.runLocalCommands(theCmds).
 				then(function(result){

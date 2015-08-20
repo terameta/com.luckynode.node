@@ -26,7 +26,7 @@ function serverDefine(cSrv){
 		});
 
 	var fs = require('fs');
-	fs.writeFile('/tmp/'+cSrv.id+'.xml', csrv.theXML, function(err) {
+	fs.writeFile('/tmp/'+cSrv.id+'.xml', cSrv.theXML, function(err) {
 		if (err){
 			console.log(err);
 		} else {
@@ -225,7 +225,7 @@ function composeDomainXML(cSrv){
 	+	'	<devices>'																							+ '\n'
 	+	'		<disk type=\'file\' device=\'disk\'>'															+ '\n'
 	+	'			<driver name=\'qemu\' type=\''+ cSrv.imageType +'\' cache=\'none\' />'						+ '\n'
-	+	'			<source file=\'/mnt/luckynodepools/'+ cSrv.store +'/deneme.qcow2\' />'								+ '\n'
+	+	'			<source file=\'/mnt/luckynodepools/'+ cSrv.store +'/deneme.qcow2\' />'						+ '\n'
 	+	'			<target dev=\'vda\' bus=\'virtio\'/>'														+ '\n'
 	// if ide use this +	'			<target dev=\'hda\' bus=\'ide\'/>'										+ '\n'
 	+	'		</disk>'																						+ '\n'

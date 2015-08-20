@@ -14,6 +14,15 @@ module.exports = {
 function serverDefine(cSrv){
 	var deferred = Q.defer();
 	//console.log(cSrv);
+	
+	var theXML = ''
+	+ '<domain type=\'kvm\'>\n'
+	+ '</domain>'
+	;
+	console.log(theXML);
+	deferred.resolve(theXML);
+	
+	/*
 	var theCommand = 'sudo virt-install -n ' + cSrv.id;
 		theCommand += ' --description "'+ cSrv.name +'"';
 		theCommand += ' --virt-type kvm';
@@ -35,7 +44,7 @@ function serverDefine(cSrv){
 		fail(function(issue){
 			deferred.reject(issue);
 		});
-	
+	*/
 	return deferred.promise;
 }
 

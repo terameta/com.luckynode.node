@@ -16,6 +16,8 @@ function serverDefine(cSrv){
 	if(!cSrv.architecture) 											cSrv.architecture = 'x86_64';
 	if(!cSrv.imageType) 											cSrv.imageType = 'qcow2';
 	if(cSrv.netdriver != 'rtl8139' && cSrv.netdriver != 'e1000') 	cSrv.netdriver = 'virtio';
+	if(cSrv.diskdriver != 'ide')									cSrv.diskdriver = 'virtio';
+	if(!cSrv.bridge)												cSrv.bridge = 'br0';
 	
 	getMostAvailablePool(cSrv).
 		then(composeDomainXML).
@@ -226,7 +228,7 @@ function composeDomainXML(cSrv){
 	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'							+ '\n'
 	+	'		<interface type=\'bridge\'>'																			+ '\n'
 	+	'			<model type=\''+ cSrv.netdriver +'\' />'															+ '\n'
-	+	'			<source bridge=\'br0\'/>'																			+ '\n'
+	+	'			<source bridge=\''+ cSrv.bridge +'\'/>'																			+ '\n'
 	//for below target dev we should find a proper naming mechanism
 //	+	'			<target dev=\'kvm255.0\'/>'																			+ '\n'
 	+	'			<mac address=\''+ cSrv.mac +'\'/>'																	+ '\n'

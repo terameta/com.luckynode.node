@@ -196,6 +196,7 @@ function getMostAvailablePool(cSrv){
 
 function composeDomainXML(cSrv){
 	var deferred = Q.defer();
+	var diskFile = '/mnt/luckynodepools/'+ cSrv.store +'/'+ cSrv.id +(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
 	var theXML = ''
 	+ 	'<domain type=\'kvm\'>'																							+ '\n'
 	+ 	'	<name>'+ cSrv.id +'</name>'																					+ '\n'
@@ -218,13 +219,13 @@ function composeDomainXML(cSrv){
 	+	'	<devices>'																									+ '\n'
 	+	'		<disk type=\'file\' device=\'disk\'>'																	+ '\n'
 	+	'			<driver name=\'qemu\' type=\''+ cSrv.imageType +'\' cache=\'none\' />'								+ '\n'
-	+	'			<source file=\'/mnt/luckynodepools/'+ cSrv.store +'/'+ cSrv.id +'.qcow2\' />'						+ '\n'
+	+	'			<source file=\''+ diskFile +'\' />'																	+ '\n'
 	+	'			<target dev=\''+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +'\' bus=\''+ cSrv.diskdriver +'\'/>'	+ '\n'
 	+	'		</disk>'																								+ '\n'
 	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'							+ '\n'
 	+	'		<interface type=\'bridge\'>'																			+ '\n'
 	+	'			<model type=\''+ cSrv.netdriver +'\' />'															+ '\n'
-	+	'			<source bridge=\''+ cSrv.bridge +'\'/>'																			+ '\n'
+	+	'			<source bridge=\''+ cSrv.bridge +'\'/>'																+ '\n'
 	//for below target dev we should find a proper naming mechanism
 //	+	'			<target dev=\'kvm255.0\'/>'																			+ '\n'
 	+	'			<mac address=\''+ cSrv.mac +'\'/>'																	+ '\n'
@@ -256,5 +257,18 @@ function saveDomainXML(cSrv){
 			deferred.resolve(cSrv);
 		}
 	});
+	return deferred.promise;
+}
+
+function createDomainDiskFile(cSrv){
+	var deferred = Q.defer();
+	var theCmd  = 	'virsh vol-create-as --pool '+ cSrv.store;
+		theCmd +=	' --name '+ cSrv.id;
+		theCmd +=	(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
+		theCmd +=	' --capacity '+ cSrv.hdd +'G';
+		theCmd += 	' --format ' + (cSrv.imageType == 'qcow2' ? 'qcow2' : 'raw');
+		theCmd +=	(cSrv.imageType == 'qcow2' ? ' --prealloc-metadata' : '');
+	console.log(theCmd);
+	deferred.resolve(cSrv);
 	return deferred.promise;
 }

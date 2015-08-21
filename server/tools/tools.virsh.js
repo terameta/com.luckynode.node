@@ -23,23 +23,10 @@ function serverDefine(cSrv){
 		then(composeDomainXML).
 		then(saveDomainXML).
 		then(createDomainDiskFile).
-		fail(function(issue){
-			deferred.reject(issue);
-		});
-		
-		var theCmds = [];
-			//theCmds.push('virsh define /tmp/'+cSrv.id+'.xml');
-			//theCmds.push('virsh start '+cSrv.id);
-			tools.runLocalCommands(theCmds).
-				then(function(result){
-					deferred.resolve(result);
-				}).
-				fail(function(issue){
-					deferred.reject(issue);
-				});
+		then(createDomainandStart).
+		then(function(result){ deferred.resolve('OK'); }).
+		fail(function(issue){ deferred.reject(issue); });
 
-	
-	
 	return deferred.promise;
 }
 
@@ -273,5 +260,20 @@ function createDomainDiskFile(cSrv){
 	tools.runLocalCommand(theCmd).
 		then(function(result){ deferred.resolve(cSrv); }).
 		fail(function(issue){ deferred.reject(issue); });
+	return deferred.promise;
+}
+
+function createDomainandStart(cSrv){
+	var deferred = Q.defer();
+	var theCmds = [];
+	theCmds.push('virsh define /tmp/'+cSrv.id+'.xml');
+	theCmds.push('virsh start '+cSrv.id);
+	tools.runLocalCommands(theCmds).
+		then(function(result){
+			deferred.resolve(cSrv);
+		}).
+		fail(function(issue){
+			deferred.reject(issue);
+		});
 	return deferred.promise;
 }

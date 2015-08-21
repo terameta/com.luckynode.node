@@ -22,6 +22,7 @@ function serverDefine(cSrv){
 	getMostAvailablePool(cSrv).
 		then(composeDomainXML).
 		then(saveDomainXML).
+		then(createDomainDiskFile).
 		fail(function(issue){
 			deferred.reject(issue);
 		});
@@ -269,6 +270,8 @@ function createDomainDiskFile(cSrv){
 		theCmd += 	' --format ' + (cSrv.imageType == 'qcow2' ? 'qcow2' : 'raw');
 		theCmd +=	(cSrv.imageType == 'qcow2' ? ' --prealloc-metadata' : '');
 	console.log(theCmd);
-	deferred.resolve(cSrv);
+	tools.runLocalCommand(theCmd).
+		then(function(result){ deferred.resolve(cSrv); }).
+		fail(function(issue){ deferred.reject(issue); });
 	return deferred.promise;
 }

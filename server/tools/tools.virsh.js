@@ -244,6 +244,7 @@ function composeDomainXML(cSrv){
 	cSrv.theXML = theXML;
 	console.log(cSrv);
 	console.log(cSrv.theXML);
+	
 	deferred.resolve(cSrv);
 	return deferred.promise;
 }

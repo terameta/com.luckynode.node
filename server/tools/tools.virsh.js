@@ -21,16 +21,12 @@ function serverDefine(cSrv){
 	
 	getMostAvailablePool(cSrv).
 		then(composeDomainXML).
+		then(saveDomainXML).
 		fail(function(issue){
 			deferred.reject(issue);
 		});
-
-	var fs = require('fs');
-	fs.writeFile('/tmp/'+cSrv.id+'.xml', cSrv.theXML, function(err) {
-		if (err){
-			console.log(err);
-		} else {
-			var theCmds = [];
+		
+		var theCmds = [];
 			//theCmds.push('virsh define /tmp/'+cSrv.id+'.xml');
 			//theCmds.push('virsh start '+cSrv.id);
 			tools.runLocalCommands(theCmds).
@@ -40,8 +36,8 @@ function serverDefine(cSrv){
 				fail(function(issue){
 					deferred.reject(issue);
 				});
-		}
-	});
+
+	
 	
 	return deferred.promise;
 }
@@ -246,5 +242,19 @@ function composeDomainXML(cSrv){
 	console.log(cSrv.theXML);
 	
 	deferred.resolve(cSrv);
+	return deferred.promise;
+}
+
+function saveDomainXML(cSrv){
+	var deferred = Q.defer();
+	var fs = require('fs');
+	fs.writeFile('/tmp/'+cSrv.id+'.xml', cSrv.theXML, function(err) {
+		if (err){
+			deferred.reject(err);
+		} else {
+			console.log("XML file for the new server " + cSrv.id + " is saved.");
+			deferred.resolve(cSrv);
+		}
+	});
 	return deferred.promise;
 }

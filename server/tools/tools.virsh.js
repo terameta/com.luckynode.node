@@ -16,9 +16,9 @@ module.exports = {
 
 function serverDelete(cSrv){
 	var deferred = Q.defer();
-	
+	deferred.resolve();
 	return deferred.promise;
-}; 
+}
 
 function serverDestroy(cSrv){
 	var deferred = Q.defer();

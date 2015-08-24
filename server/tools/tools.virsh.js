@@ -28,7 +28,7 @@ function serverDestroy(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh destroy '+cSrv.id).
 		then( function(result){ 	deferred.resolve(result);	}).
-		fail( function(issue){ 		deferred.reject(issue); 	});
+		fail( function(issue){ 	console.log(issue);	deferred.reject(issue); 	});
 	return deferred.promise;
 }
 

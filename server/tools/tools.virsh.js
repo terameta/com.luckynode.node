@@ -66,7 +66,7 @@ function serverDestroy(cSrv){
 function serverDeleteDiskFiles(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh vol-delete --vol '+ cSrv.id +'.qcow2 --pool ' + cSrv.store).
-		then( function(result){ 	deferred.resolve(result);	}).
+		then( function(result){ 	deferred.resolve(cSrv);	}).
 		fail( function(issue){ 		deferred.reject(issue); 	});
 	return deferred.promise;
 }

@@ -16,7 +16,11 @@ module.exports = {
 
 function serverDelete(cSrv){
 	var deferred = Q.defer();
-	deferred.resolve();
+	serverDestroy(cSrv).
+		then(serverDeleteDiskFiles).
+		then(serverUndefine).
+		then( function(result){ 	deferred.resolve(result);	}).
+		fail( function(issue){ 		deferred.reject(issue); 	});
 	return deferred.promise;
 }
 
@@ -31,6 +35,14 @@ function serverDestroy(cSrv){
 function serverDeleteDiskFiles(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh vol-delete --vol deneme.qcow2 --pool store0').
+		then( function(result){ 	deferred.resolve(result);	}).
+		fail( function(issue){ 		deferred.reject(issue); 	});
+	return deferred.promise;
+}
+
+function serverUndefine(cSrv){
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh undefine '+ cSrv.id).
 		then( function(result){ 	deferred.resolve(result);	}).
 		fail( function(issue){ 		deferred.reject(issue); 	});
 	return deferred.promise;

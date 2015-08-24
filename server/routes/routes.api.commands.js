@@ -25,6 +25,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverDelete', tools.checkToken, function(req, res){
+		console.log("ServerDelete is called");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details) {

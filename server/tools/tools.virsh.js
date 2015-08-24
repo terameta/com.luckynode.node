@@ -16,6 +16,7 @@ module.exports = {
 
 function serverDelete(cSrv){
 	var deferred = Q.defer();
+	console.log(cSrv);
 	serverState(cSrv).
 		then(serverDestroy).
 		then(serverDeleteDiskFiles).

@@ -16,7 +16,6 @@ module.exports = {
 
 function serverDelete(cSrv){
 	var deferred = Q.defer();
-	console.log(cSrv);
 	serverState(cSrv).
 		then(serverDestroy).
 		then(serverDeleteDiskFiles).
@@ -88,7 +87,6 @@ function serverDeleteDiskFiles(cSrv){
 
 function serverCheckDiskFiles(cSrv){
 	var deferred = Q.defer();
-	console.log(cSrv);
 	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --details').
 		then(
 			function(result){

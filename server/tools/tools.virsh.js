@@ -8,8 +8,33 @@ module.exports = {
 	poolDefine: poolDefine,
 	poolsRemove: poolsRemove,
 	poolRemove: poolRemove,
-	serverDefine:serverDefine
+	serverDefine:serverDefine,
+	serverDelete:serverDelete,
+	serverDestroy:serverDestroy,
+	serverDeleteDiskFiles:serverDeleteDiskFiles
 };
+
+function serverDelete(cSrv){
+	var deferred = Q.defer();
+	
+	return deferred.promise;
+}; 
+
+function serverDestroy(cSrv){
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh destroy '+cSrv.id).
+		then( function(result){ 	deferred.resolve(result);	}).
+		fail( function(issue){ 		deferred.reject(issue); 	});
+	return deferred.promise;
+}
+
+function serverDeleteDiskFiles(cSrv){
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh vol-delete --vol deneme.qcow2 --pool store0').
+		then( function(result){ 	deferred.resolve(result);	}).
+		fail( function(issue){ 		deferred.reject(issue); 	});
+	return deferred.promise;
+}
 
 function serverDefine(cSrv){
 	var deferred = Q.defer();
@@ -24,7 +49,7 @@ function serverDefine(cSrv){
 		then(saveDomainXML).
 		then(createDomainDiskFile).
 		then(createDomainandStart).
-		then(function(result){ deferred.resolve('OK'); }).
+		then(function(result){ deferred.resolve(cSrv); }).
 		fail(function(issue){ deferred.reject(issue); });
 
 	return deferred.promise;

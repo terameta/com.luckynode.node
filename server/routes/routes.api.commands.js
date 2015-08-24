@@ -8,7 +8,7 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
-	apiRoutes.post('/defineServer', tools.checkToken, function(req, res){
+	apiRoutes.post('/serverDefine', tools.checkToken, function(req, res){
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details) {
@@ -21,6 +21,16 @@ module.exports = function(app, express, db, tools) {
 				fail(function(issue){
 					res.status(500).json({ status: 'fail', detail: issue});
 				});
+		}
+	});
+	
+	apiRoutes.post('/serverDelete', tools.checkToken, function(req, res){
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			
 		}
 	});
 	

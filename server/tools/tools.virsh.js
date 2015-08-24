@@ -65,8 +65,44 @@ function serverDestroy(cSrv){
 
 function serverDeleteDiskFiles(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh vol-delete --vol '+ cSrv.id +'.qcow2 --pool ' + cSrv.store).
+	serverCheckDiskFiles(cSrv).
+		then(
+			function(diskList){
+				var ideferred = Q.defer();
+				var theCmds = [];
+				diskList.forEach(function(curDisk){
+					theCmds.push('virsh vol-delete --vol '+curDisk+' --pool ' + cSrv.store);
+				});
+				tools.runLocalCommands(theCmds).
+					then(function(result){ ideferred.resolve(cSrv); }).
+					fail(function(issue){ ideferred.reject(issue); });
+				
+				return ideferred.promise;
+			}
+		).
 		then( function(result){ 	deferred.resolve(cSrv);	}).
+		fail( function(issue){ 		deferred.reject(issue); 	});
+	return deferred.promise;
+}
+
+function serverCheckDiskFiles(cSrv){
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --deatils').
+		then(
+			function(result){
+				result = result.trim().split("\n");
+				result.splice(0,2);
+				
+				var toReturn = [];
+				result.forEach(function(curVolSrc){
+					var curVol = {};
+					var curVolDef = tools.splitBySpace(curVolSrc);
+					curVol.name = curVolDef[0] || 'NoAssignedName';
+					if(curVol.name.indexOf(cSrv.id.toString()) >= 0 ) toReturn.push(curVol.name);
+				});
+				deferred.resolve(toReturn);
+			}
+		).
 		fail( function(issue){ 		deferred.reject(issue); 	});
 	return deferred.promise;
 }

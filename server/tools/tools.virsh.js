@@ -80,7 +80,7 @@ function serverDeleteDiskFiles(cSrv){
 				return ideferred.promise;
 			}
 		).
-		then( function(result){ 	deferred.resolve(cSrv);	}).
+		then( function(result){ 	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
 		fail( function(issue){ 		deferred.reject(issue); 	});
 	return deferred.promise;
 }
@@ -110,7 +110,7 @@ function serverCheckDiskFiles(cSrv){
 function serverUndefine(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh undefine '+ cSrv.id).
-		then( function(result){ 	deferred.resolve(result);	}).
+		then( function(result){ 	cSrv.serverUndefineResult = result; deferred.resolve(cSrv);	}).
 		fail( function(issue){ 		deferred.reject(issue); 	});
 	return deferred.promise;
 }

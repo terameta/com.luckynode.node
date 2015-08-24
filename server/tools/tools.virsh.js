@@ -87,7 +87,7 @@ function serverDeleteDiskFiles(cSrv){
 
 function serverCheckDiskFiles(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --deatils').
+	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --details').
 		then(
 			function(result){
 				result = result.trim().split("\n");

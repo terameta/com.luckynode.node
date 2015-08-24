@@ -32,12 +32,8 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
 			virsh.serverDelete(req.body.details).
-				then(function(result){
-					res.send(result);
-				}).
-				fail(function(issue){
-					res.status(500).json({ status: 'fail', detail: issue});
-				});
+				then(function(result){ 		res.send(result); 											}).
+				fail(function(issue){ 		res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}
 	});
 	

@@ -88,6 +88,7 @@ function serverDeleteDiskFiles(cSrv){
 
 function serverCheckDiskFiles(cSrv){
 	var deferred = Q.defer();
+	console.log(cSrv);
 	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --details').
 		then(
 			function(result){

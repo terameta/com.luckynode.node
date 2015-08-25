@@ -40,6 +40,22 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
+	apiRoutes.post('/serverDiskList', tools.checkToken, function(req, res){
+		console.log("serverDiskList is posted");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.id) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			console.log("serverDiskList is posted for " + req.body.details.id);
+			virsh.serverDiskList(req.body.details).
+				then(function(result){ 		console.log("serverDiskList post succeeded for " + req.body.details.id);						res.send(result); 											}).
+				fail(function(issue){ 		console.log("serverDiskList post failed for " + req.body.details.id);		console.log(issue);	res.status(500).json({ status: 'fail', detail: issue}); 	});
+		}
+	});
+	
 	apiRoutes.post('/defineNetworkBridge', tools.checkToken, function(req, res){
 		//console.log(req.body);
 		var iptobridge = '';

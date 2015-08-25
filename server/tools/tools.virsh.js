@@ -12,8 +12,33 @@ module.exports = {
 	serverDelete:serverDelete,
 	serverDestroy:serverDestroy,
 	serverDeleteDiskFiles:serverDeleteDiskFiles,
-	serverList:serverList
+	serverList:serverList,
+	serverDiskList:serverDiskList
 };
+
+function serverDiskList(cSrv){
+	console.log("serverDiskList is called for " + cSrv.id);
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh domblklist '+ cSrv.id +' --details').then(
+		function(result){
+			var toReturn = [];
+			result = result.trim().split("\n");
+			result.splice(0,2);
+			result.forEach(function(curDiskSrc){
+				var curDisk = {};
+				var curDiskDef = tools.splitBySpace(curDiskSrc);
+				curDisk.type 	= curDiskDef[0] || 'NoType';
+				curDisk.device 	= curDiskDef[1] || 'NoDevice';
+				curDisk.target	= curDiskDef[2] || 'NoTarget';
+				curDisk.source	= curDiskDef[3] || 'NoSource';
+				toReturn.push(curDisk);
+			});
+			console.log("serverDiskList succeeded for " + cSrv.id);
+			deferred.resolve(toReturn);
+		}
+	).fail( console.log("serverDiskList failed for " + cSrv.id); function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
 
 function serverList(){
 	var deferred = Q.defer();

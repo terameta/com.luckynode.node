@@ -25,15 +25,18 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverDelete', tools.checkToken, function(req, res){
-		console.log("ServerDelete is called");
+		console.log("serverDelete is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.id) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
+			console.log("serverDelete is posted for " + req.body.details.id);
 			virsh.serverDelete(req.body.details).
-				then(function(result){ 		res.send(result); 											}).
-				fail(function(issue){ 		res.status(500).json({ status: 'fail', detail: issue}); 	});
+				then(function(result){ 		console.log("serverDelete post succeeded for " + req.body.details.id);						res.send(result); 											}).
+				fail(function(issue){ 		console.log("serverDelete post failed for " + req.body.details.id);		console.log(issue);	res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}
 	});
 	

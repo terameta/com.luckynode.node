@@ -54,6 +54,7 @@ function serverDelete(cSrv){
 }
 
 function serverState(cSrv){
+	console.log("serverState called for " + cSrv.id);
 	var deferred = Q.defer();
 	serverList().then(
 		function(domList){
@@ -61,9 +62,10 @@ function serverState(cSrv){
 			domList.forEach(function(curDom){
 				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
 			});
+			console.log("serverState succeeded for " + cSrv.id);
 			deferred.resolve(cSrv);
 		}
-	).fail( function(issue){ deferred.reject(issue); } );
+	).fail( function(issue){ console.log("serverState failed for " + cSrv.id);		deferred.reject(issue); } );
 	return deferred.promise;
 }
 

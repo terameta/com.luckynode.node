@@ -13,8 +13,31 @@ module.exports = {
 	serverDestroy:serverDestroy,
 	serverDeleteDiskFiles:serverDeleteDiskFiles,
 	serverList:serverList,
-	serverDiskList:serverDiskList
+	serverDiskList:serverDiskList,
+	nodeInterfaceList:nodeInterfaceList
 };
+
+function nodeInterfaceList(){
+	console.log("nodeInterfaceList is called");
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh iface-list --all').then(
+		function(result){
+			var toReturn = [];
+			result = result.trim().split("\n");
+			result.splice(0,2);
+			result.forEach(function(curInterfaceSrc){
+				var curInterface = {};
+				var curInterfaceDef = tools.splitBySpace(curInterfaceSrc);
+				curInterface.name = curInterfaceDef[0] || 'NoName';
+				curInterface.state = curInterfaceDef[1] || 'NoState';
+				curInterface.mac = curInterfaceDef[2] || 'NoMac';
+				toReturn.push(curInterface);
+			});
+			console.log("nodeInterfaceList succeeded");
+		}
+	).fail( function(issue){ console.log("nodeInterfaceList failed"); deferred.reject(issue); } );
+	return deferred.promise;
+}
 
 function serverDiskList(cSrv){
 	console.log("serverDiskList is called for " + cSrv.id);

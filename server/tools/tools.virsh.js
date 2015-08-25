@@ -390,8 +390,8 @@ function composeDomainXML(cSrv){
 	+	'	</devices>'																									+ '\n'
 	+ 	'</domain>';
 	cSrv.theXML = theXML;
-	console.log(cSrv);
-	console.log(cSrv.theXML);
+	//console.log(cSrv);
+	//console.log(cSrv.theXML);
 	
 	deferred.resolve(cSrv);
 	return deferred.promise;

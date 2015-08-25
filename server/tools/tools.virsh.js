@@ -68,15 +68,18 @@ function serverState(cSrv){
 }
 
 function serverDestroy(cSrv){
+	console.log("serverDestroy called for " + cSrv.id);
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'shutoff'){
+		console.log("serverDestroy succeeded for " + cSrv.id);
 		deferred.resolve(cSrv);
 	} else if(cSrv.domstate == 'notexist'){
+		console.log("serverDestroy succeeded for " + cSrv.id);
 		deferred.resolve(cSrv);
 	} else {
 		tools.runLocalCommand('virsh destroy '+cSrv.id).
-			then( function(result){ 	cSrv.serverDestroyResult = result; deferred.resolve(cSrv);	}).
-			fail( function(issue){ 	console.log(issue);	deferred.reject(issue); 	});
+			then( function(result){ 	console.log("serverDestroy succeeded for " + cSrv.id); 	cSrv.serverDestroyResult = result; 		deferred.resolve(cSrv);	}).
+			fail( function(issue){ 		console.log("serverDestroy failed for " + cSrv.id);		console.log(issue);						deferred.reject(issue); 	});
 	}
 	return deferred.promise;
 }

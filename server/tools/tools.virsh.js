@@ -41,14 +41,15 @@ function serverList(){
 }
 
 function serverDelete(cSrv){
+	console.log("serverDelete called for " + cSrv.id);
 	var deferred = Q.defer();
 	
 	serverState(cSrv).
 		then(serverDestroy).
 		then(serverDeleteDiskFiles).
 		then(serverUndefine).
-		then( function(result){ 	deferred.resolve(result);	}).
-		fail( function(issue){ 		deferred.reject(issue); 	});
+		then( function(result){ 	console.log("serverDelete succeeded for " + cSrv.id);	deferred.resolve(result);	}).
+		fail( function(issue){ 		console.log("serverDelete failed for " + cSrv.id);		deferred.reject(issue); 	});
 	
 	return deferred.promise;
 }
@@ -104,8 +105,8 @@ function serverDeleteDiskFiles(cSrv){
 				return ideferred.promise;
 			}
 		).
-		then( function(result){ 	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
-		fail( function(issue){ 		deferred.reject(issue); 	});
+		then( function(result){ 	console.log("serverDeleteDiskFiles succeeded for " + cSrv.id);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
+		fail( function(issue){ 		console.log("serverDeleteDiskFiles failed for " + cSrv.id);		deferred.reject(issue); 	});
 	return deferred.promise;
 }
 

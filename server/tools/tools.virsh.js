@@ -127,9 +127,13 @@ function serverCheckDiskFiles(cSrv){
 
 function serverUndefine(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh undefine '+ cSrv.id).
-		then( function(result){ 	cSrv.serverUndefineResult = result; deferred.resolve(cSrv);	}).
-		fail( function(issue){ 		deferred.reject(issue); 	});
+	if(cSrv.domstate == 'notexist'){
+		deferred.resolve(cSrv);
+	} else {
+		tools.runLocalCommand('virsh undefine '+ cSrv.id).
+			then( function(result){ 	cSrv.serverUndefineResult = result; deferred.resolve(cSrv);	}).
+			fail( function(issue){ 		deferred.reject(issue); 	});
+	}
 	return deferred.promise;
 }
 

@@ -36,7 +36,7 @@ function serverDiskList(cSrv){
 			console.log("serverDiskList succeeded for " + cSrv.id);
 			deferred.resolve(toReturn);
 		}
-	).fail( console.log("serverDiskList failed for " + cSrv.id); function(issue){ deferred.reject(issue); } );
+	).fail( function(issue){ console.log("serverDiskList failed for " + cSrv.id); deferred.reject(issue); } );
 	return deferred.promise;
 }
 

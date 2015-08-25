@@ -48,7 +48,7 @@ function serverDelete(cSrv){
 		then(serverDestroy).
 		then(serverDeleteDiskFiles).
 		then(serverUndefine).
-		then( function(result){ 	console.log("serverDelete succeeded for " + cSrv.id);	deferred.resolve(result);	}).
+		then( function(result){ 	console.log("serverDelete succeeded for " + cSrv.id);	deferred.resolve('success');	}).
 		fail( function(issue){ 		console.log("serverDelete failed for " + cSrv.id);		deferred.reject(issue); 	});
 	
 	return deferred.promise;

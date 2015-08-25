@@ -315,6 +315,7 @@ function composeDomainXML(cSrv){
 	+	'			<target dev=\''+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +'\' bus=\''+ cSrv.diskdriver +'\'/>'	+ '\n'
 	+	'		</disk>'																								+ '\n'
 	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'							+ '\n'
+	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'							+ '\n'
 	+	'		<interface type=\'bridge\'>'																			+ '\n'
 	+	'			<model type=\''+ cSrv.netdriver +'\' />'															+ '\n'
 	+	'			<source bridge=\''+ cSrv.bridge +'\'/>'																+ '\n'

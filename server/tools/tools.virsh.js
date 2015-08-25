@@ -82,6 +82,7 @@ function serverDestroy(cSrv){
 }
 
 function serverDeleteDiskFiles(cSrv){
+	console.log("serverDeleteDiskFiles is called for " + cSrv.id);
 	var deferred = Q.defer();
 	serverCheckDiskFiles(cSrv).
 		then(
@@ -126,6 +127,7 @@ function serverCheckDiskFiles(cSrv){
 }
 
 function serverUndefine(cSrv){
+	console.log("serverUndefine is called for " + cSrv.id );
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'notexist'){
 		deferred.resolve(cSrv);

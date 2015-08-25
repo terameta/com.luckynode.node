@@ -11,29 +11,18 @@ module.exports = {
 	serverDefine:serverDefine,
 	serverDelete:serverDelete,
 	serverDestroy:serverDestroy,
-	serverDeleteDiskFiles:serverDeleteDiskFiles
+	serverDeleteDiskFiles:serverDeleteDiskFiles,
+	serverList:serverList
 };
 
-function serverDelete(cSrv){
-	var deferred = Q.defer();
-	serverState(cSrv).
-		then(serverDestroy).
-		then(serverDeleteDiskFiles).
-		then(serverUndefine).
-		then( function(result){ 	deferred.resolve(result);	}).
-		fail( function(issue){ 		deferred.reject(issue); 	});
-	return deferred.promise;
-}
-
-function serverState(cSrv){
+function serverList(){
 	var deferred = Q.defer();
 	
 	tools.runLocalCommand('virsh list --all').then(
 		function(result){
+			var toReturn = [];
 			result = result.trim().split("\n");
 			result.splice(0,2);
-			
-			cSrv.domstate = 'shutoff';
 			result.forEach(function(curDomSrc){
 				var curDom = {};
 				curDomSrc = curDomSrc.replace(/shut down/gi, "shutdown");
@@ -42,18 +31,47 @@ function serverState(cSrv){
 				curDom.Id 		= curDomDef[0] || 'NoId';
 				curDom.Name 	= curDomDef[1] || 'NoName';
 				curDom.State 	= curDomDef[2] || 'shutoff';
-				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
+				toReturn.push(curDom);
 			});
-			deferred.resolve(cSrv);
+			deferred.resolve(toReturn);
 		}
 	).fail( function(issue){ deferred.reject(issue); } );
 	
 	return deferred.promise;
 }
 
+function serverDelete(cSrv){
+	var deferred = Q.defer();
+	
+	serverState(cSrv).
+		then(serverDestroy).
+		then(serverDeleteDiskFiles).
+		then(serverUndefine).
+		then( function(result){ 	deferred.resolve(result);	}).
+		fail( function(issue){ 		deferred.reject(issue); 	});
+	
+	return deferred.promise;
+}
+
+function serverState(cSrv){
+	var deferred = Q.defer();
+	serverList().then(
+		function(domList){
+			cSrv.domstate = 'notexist';
+			domList.forEach(function(curDom){
+				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
+			});
+			deferred.resolve(cSrv);
+		}
+	).fail( function(issue){ deferred.reject(issue); } );
+	return deferred.promise;
+}
+
 function serverDestroy(cSrv){
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'shutoff'){
+		deferred.resolve(cSrv);
+	} else if(cSrv.domstate == 'notexist'){
 		deferred.resolve(cSrv);
 	} else {
 		tools.runLocalCommand('virsh destroy '+cSrv.id).

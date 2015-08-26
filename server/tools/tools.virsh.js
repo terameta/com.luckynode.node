@@ -15,8 +15,22 @@ module.exports = {
 	serverList:serverList,
 	serverDiskList:serverDiskList,
 	nodeInterfaceList:nodeInterfaceList,
-	nodeBridgeAssign:nodeBridgeAssign
+	nodeBridgeAssign:nodeBridgeAssign,
+	nodeBridgeDetach:nodeBridgeDetach
 };
+
+function nodeBridgeDetach(bridge){
+	console.log("nodeBridgeDetach is called for bridge " + bridge);
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh iface-unbridge --bridge ' + bridge).then(function(result){
+		console.log("nodeBridgeDetach succeeded for bridge "+ bridge);
+		deferred.resolve(result);
+	}).fail(function(issue){
+		console.log("nodeBridgeDetach failed for bridge "+ bridge);
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
 
 function nodeBridgeAssign(bridge, iface){
 	console.log("nodeBridgeAssign is called for bridge "+ bridge +" and interface " + iface);

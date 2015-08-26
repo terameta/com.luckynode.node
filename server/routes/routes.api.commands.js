@@ -79,7 +79,7 @@ module.exports = function(app, express, db, tools) {
 				then(function(result){ 		console.log("nodeBridgeAssign post succeeded");								res.send(result); 											}).
 				fail(function(issue){ 		console.log("nodeBridgeAssign post failed");		console.log(issue);		res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}
-	}
+	});
 	/*
 	apiRoutes.post('/defineNetworkBridge', tools.checkToken, function(req, res){
 		//console.log(req.body);

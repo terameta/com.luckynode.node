@@ -25,14 +25,31 @@ function nodeBridgeDetach(bridge){
 	
 	var interfaceCandidate = bridge.toString().replace("br", "eth");
 	
-	var cL = []; //command List
-	cL.push('virsh iface-unbridge --bridge ' + bridge);
-	cL.push('virsh iface-start --interface ' + interfaceCandidate);
-	tools.runLocalCommands(cL).then(function(result){
+	tools.runLocalCommand('virsh iface-unbridge --bridge ' + bridge).then(function(result){
 		console.log("nodeBridgeDetach succeeded for bridge "+ bridge);
 		deferred.resolve(result);
 	}).fail(function(issue){
 		console.log("nodeBridgeDetach failed for bridge "+ bridge);
+		nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
+			nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
+				nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
+					nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
+						nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
+							deferred.reject(issue);
+						});
+					});
+				});
+			});
+		});
+	});
+	return deferred.promise;
+}
+
+function nodeBridgeDetachStartEthernet(adapter){
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh iface-start --interface ' + adapter).then(function(result){
+		deferred.resolve(result);
+	}).fail(function(issue){
 		deferred.reject(issue);
 	});
 	return deferred.promise;

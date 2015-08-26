@@ -76,7 +76,7 @@ function nodeBridgeDetachStopAdapter(adapter){
 function nodeBridgeAssign(bridge, iface){
 	console.log("nodeBridgeAssign is called for bridge "+ bridge +" and interface " + iface);
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh iface-bridge --no-stp --delay 0 --interface '+ iface +' --bridge ' +bridge).then(function(result){
+	tools.runLocalCommand('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp').then(function(result){
 		console.log("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface);
 		deferred.resolve(result);
 	}).fail(function(issue){

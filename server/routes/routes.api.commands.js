@@ -63,6 +63,24 @@ module.exports = function(app, express, db, tools) {
 			fail(function(issue){	console.log("nodeInterfaceList post failed");	console.log(issue);		res.status(500).json({status:'fail', detail: issue});	});
 	});
 	
+	apiRoutes.post('/nodeBridgeAssign', tools.checkToken, function(req, res){
+		console.log('nodeBridgeAssign is posted');
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.bridge) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.iface) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			console.log("serverDiskList is posted for " + req.body.details.id);
+			virsh.nodeBridgeAssign(req.body.details.bridge, req.body.details.iface).
+				then(function(result){ 		console.log("nodeBridgeAssign post succeeded");								res.send(result); 											}).
+				fail(function(issue){ 		console.log("nodeBridgeAssign post failed");		console.log(issue);		res.status(500).json({ status: 'fail', detail: issue}); 	});
+		}
+	}
+	/*
 	apiRoutes.post('/defineNetworkBridge', tools.checkToken, function(req, res){
 		//console.log(req.body);
 		var iptobridge = '';
@@ -99,7 +117,7 @@ module.exports = function(app, express, db, tools) {
 			res.send(iptobridge);
 		}
 	});
-	
+	*/
 	apiRoutes.post('/assignStoragePools', tools.checkToken, function(req, res) {
 		var newPools = [];
 		if(req.body){ if(req.body.details){ if(req.body.details.length > 0){

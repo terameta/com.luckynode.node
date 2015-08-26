@@ -14,8 +14,22 @@ module.exports = {
 	serverDeleteDiskFiles:serverDeleteDiskFiles,
 	serverList:serverList,
 	serverDiskList:serverDiskList,
-	nodeInterfaceList:nodeInterfaceList
+	nodeInterfaceList:nodeInterfaceList,
+	nodeBridgeAssign:nodeBridgeAssign
 };
+
+function nodeBridgeAssign(bridge, iface){
+	console.log("nodeBridgeAssign is called for bridge "+ bridge +" and interface " + iface);
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh iface-bridge --interface '+ iface +' --bridge ' +bridge).then(function(result){
+		console.log("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface);
+		deferred.resolve(result);
+	}).fail(function(issue){
+		console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface);
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
 
 function nodeInterfaceList(){
 	console.log("nodeInterfaceList is called");

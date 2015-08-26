@@ -22,7 +22,13 @@ module.exports = {
 function nodeBridgeDetach(bridge){
 	console.log("nodeBridgeDetach is called for bridge " + bridge);
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh iface-unbridge --bridge ' + bridge).then(function(result){
+	
+	var interfaceCandidate = bridge.toString().replace("br", "eth");
+	
+	var cL = []; //command List
+	cL.push('virsh iface-unbridge --bridge ' + bridge);
+	cL.push('virsh iface-start --interface ' + interfaceCandidate);
+	tools.runLocalCommands(cL).then(function(result){
 		console.log("nodeBridgeDetach succeeded for bridge "+ bridge);
 		deferred.resolve(result);
 	}).fail(function(issue){

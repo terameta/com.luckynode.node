@@ -56,7 +56,7 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
-	apiRoutes.post('nodeInterfaceList', tools.checkToken, function(req, res){
+	apiRoutes.post('/nodeInterfaceList', tools.checkToken, function(req, res){
 		console.log('nodeInterfaceList is posted');
 		virsh.nodeInterfaceList().
 			then(function(result){	console.log("nodeInterfaceList post succeeded"); 						res.json(result);										}).

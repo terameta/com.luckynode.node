@@ -89,7 +89,7 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.bridge) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			virsh.nodeBridgeAssign(req.body.details.bridge).
+			virsh.nodeBridgeDetach(req.body.details.bridge).
 				then(function(result){ 		console.log("nodeBridgeDetach post succeeded");								res.send(result); 											}).
 				fail(function(issue){ 		console.log("nodeBridgeDetach post failed");		console.log(issue);		res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}

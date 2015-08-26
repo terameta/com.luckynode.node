@@ -47,6 +47,7 @@ function nodeBridgeDetach(bridge){
 
 function nodeBridgeDetachStartEthernet(adapter){
 	var deferred = Q.defer();
+	tools.runLocalCommand('virsh iface-list --all').then(function(result){ console.log(result);});
 	tools.runLocalCommand('virsh iface-start --interface ' + adapter).then(function(result){
 		deferred.resolve(result);
 	}).fail(function(issue){

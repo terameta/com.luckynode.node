@@ -34,6 +34,7 @@ function nodeInterfaceList(){
 				toReturn.push(curInterface);
 			});
 			console.log("nodeInterfaceList succeeded");
+			deferred.resolve(toReturn);
 		}
 	).fail( function(issue){ console.log("nodeInterfaceList failed"); deferred.reject(issue); } );
 	return deferred.promise;

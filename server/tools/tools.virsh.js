@@ -30,12 +30,14 @@ function nodeBridgeDetach(bridge){
 		deferred.resolve(result);
 	}).fail(function(issue){
 		console.log("nodeBridgeDetach failed for bridge "+ bridge);
-		nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
+		nodeBridgeDetachStopEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
 			nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
 				nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
 					nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
 						nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
-							deferred.reject(issue);
+							nodeBridgeDetachStartEthernet(interfaceCandidate).then(function(result){ deferred.resolve(result);}).fail(function(issue){
+								deferred.reject(issue);
+							});
 						});
 					});
 				});
@@ -49,6 +51,17 @@ function nodeBridgeDetachStartEthernet(adapter){
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh iface-list --all').then(function(result){ console.log(result);});
 	tools.runLocalCommand('virsh iface-start --interface ' + adapter).then(function(result){
+		deferred.resolve(result);
+	}).fail(function(issue){
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function nodeBridgeDetachStopEthernet(adapter){
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh iface-list --all').then(function(result){ console.log(result);});
+	tools.runLocalCommand('virsh iface-destroy --interface ' + adapter).then(function(result){
 		deferred.resolve(result);
 	}).fail(function(issue){
 		deferred.reject(issue);

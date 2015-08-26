@@ -8,6 +8,7 @@ module.exports = {
 	splitBySpace: function(source){
 		return source.trim().split(/[\s,]+/);
 	},
+	unfortunateWaiter:unfortunateWaiter,
 	runLocalCommand: runLocalCommand,
 	runLocalCommands: runLocalCommands,
 	runIfLocalCommand: function(command, resolveTo, ifStat){
@@ -108,4 +109,13 @@ function runLocalCommand(command, resolveTo){
 		}
 	});
 	return deferred.promise;
+}
+
+function unfortunateWaiter(time){
+    var stop = new Date().getTime();
+    console.log("starting wait");
+    while(new Date().getTime() < stop + time) {
+        ;
+    }
+    console.log("completed wait");
 }

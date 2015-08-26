@@ -34,15 +34,6 @@ function nodeBridgeDetach(bridge){
 	return deferred.promise;
 }
 
-function unfortunateWaiter(time){
-    var stop = new Date().getTime();
-    console.log("starting wait");
-    while(new Date().getTime() < stop + time) {
-        ;
-    }
-    console.log("completed wait");
-}
-
 function nodeBridgeAssign(bridge, iface){
 	console.log("nodeBridgeAssign is called for bridge "+ bridge +" and interface " + iface);
 	var deferred = Q.defer();
@@ -51,8 +42,8 @@ function nodeBridgeAssign(bridge, iface){
 		deferred.resolve(result);
 	}).fail(function(issue){
 		console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface);
-		console.log("We will cross check");
-		unfortunateWaiter(5000);
+		console.log("We will cross check, but before, we will wait for 5 seconds");
+		tools.unfortunateWaiter(5000);
 		nodeInterfaceList().then(function(result){
 			var shouldResolve = false;
 			result.forEach(function(curAdapter){

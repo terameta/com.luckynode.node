@@ -25,6 +25,7 @@ function nodeBridgeDetach(bridge){
 	
 	var interfaceCandidate = bridge.toString().replace("br", "eth");
 	
+	
 	nodeBridgeDetachStopAdapter(bridge).done(function(result){
 		tools.runLocalCommand('virsh iface-unbridge --bridge ' + bridge).then(function(result){
 			console.log("nodeBridgeDetach succeeded for bridge "+ bridge);

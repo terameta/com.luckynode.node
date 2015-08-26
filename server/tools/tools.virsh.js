@@ -30,7 +30,7 @@ function nodeBridgeDetach(bridge){
 		console.log("nodeBridgeDetach failed for bridge "+ bridge);
 		deferred.resolve(issue);
 	});
-	 
+	
 	return deferred.promise;
 }
 

@@ -93,7 +93,6 @@ module.exports = function(app, express, db, tools) {
 				then(function(result){ 		console.log("nodeBridgeDetach post succeeded");								res.send(result); 											}).
 				fail(function(issue){ 		console.log("nodeBridgeDetach post failed");		console.log(issue);		res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}
-		res.send("ok");
 	});
 	
 	/*

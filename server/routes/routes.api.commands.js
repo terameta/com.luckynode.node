@@ -74,7 +74,6 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.iface) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			console.log("serverDiskList is posted for " + req.body.details.id);
 			virsh.nodeBridgeAssign(req.body.details.bridge, req.body.details.iface).
 				then(function(result){ 		console.log("nodeBridgeAssign post succeeded");								res.send(result); 											}).
 				fail(function(issue){ 		console.log("nodeBridgeAssign post failed");		console.log(issue);		res.status(500).json({ status: 'fail', detail: issue}); 	});
@@ -83,6 +82,17 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/nodeBridgeDetach', tools.checkToken, function(req, res){
 		console.log('nodeBridgeDetach is posted');
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.bridge) {
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			virsh.nodeBridgeAssign(req.body.details.bridge).
+				then(function(result){ 		console.log("nodeBridgeDetach post succeeded");								res.send(result); 											}).
+				fail(function(issue){ 		console.log("nodeBridgeDetach post failed");		console.log(issue);		res.status(500).json({ status: 'fail', detail: issue}); 	});
+		}
 		res.send("ok");
 	});
 	

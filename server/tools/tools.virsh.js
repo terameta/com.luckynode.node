@@ -419,6 +419,8 @@ function composeDomainXML(cSrv){
 	//  <uuid>e5c82363-ceea-74a2-a678-c05ab504c669</uuid>																+ '\n'
 	+ 	'	<description>'+ cSrv.name +'</description>'																	+ '\n'
 	+ 	'	<memory unit=\'MiB\'>'+ cSrv.ram +'</memory>'																+ '\n'
+	+ 	'	<maxMemory unit=\'MiB\'>'+ cSrv.ram +'</memory>'															+ '\n'
+	+ 	'	<currentMemory unit=\'MiB\'>'+ cSrv.ram +'</memory>'														+ '\n'
 	+ 	'	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'															+ '\n'
 	+ 	'	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'								+ '\n'
 	+ 	'	<os>'																										+ '\n'

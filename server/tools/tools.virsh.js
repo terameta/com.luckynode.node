@@ -411,7 +411,6 @@ function getMostAvailablePool(cSrv){
 }
 
 function composeDomainXML(cSrv){
-	
 	var deferred = Q.defer();
 	var diskFile = '/mnt/luckynodepools/'+ cSrv.store +'/'+ cSrv.id +(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
 	var theXML = ''

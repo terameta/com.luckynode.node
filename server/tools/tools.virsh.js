@@ -24,11 +24,27 @@ function poolListIsos(storage){
 	console.log("poolListIsos is colled for pool " + storage.name);
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh vol-list '+ storage.name +' --details').then(function(result) {
-	   console.log(result);
-	   deferred.resolve(result);
+		console.log(result);
+		var toReturn = [];
+		result = result.trim().split('\n');
+		result.splice(0,2);
+		result.forEach(function(curIsoSrc){
+			var curIso = {};
+			var curIsoDef = tools.splitBySpace(curIsoSrc);
+			curIso.name = curIsoDef[0] || 'NoName';
+			curIso.path = curIsoDef[1] || 'NoPath';
+			curIso.type = curIsoDef[2] || 'NoType';
+			curIso.capacity = curIsoDef[3] || 'NoCapacity';
+			curIso.allocation = curIsoDef[4] || 'NoAllocation';
+			if(curIso.path.substr(curIso.path.length - 4) == '.iso'){
+				toReturn.push(curIso);
+			}
+		});
+		console.log(toReturn);
+		deferred.resolve(toReturn);
 	}).fail(function(issue) {
-	   console.log(issue);
-	   deferred.reject(issue);
+		console.log(issue);
+		deferred.reject(issue);
 	});
 	return deferred.promise;
 }

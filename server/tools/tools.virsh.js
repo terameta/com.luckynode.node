@@ -23,7 +23,7 @@ module.exports = {
 function poolListIsos(storage){
 	console.log("poolListIsos is colled for pool " + storage.name);
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh vol-list '+ storage.name +' --deatils').then(function(result) {
+	tools.runLocalCommand('virsh vol-list '+ storage.name +' --details').then(function(result) {
 	   console.log(result);
 	   deferred.resolve(result);
 	}).fail(function(issue) {

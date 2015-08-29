@@ -34,8 +34,8 @@ function poolListIsos(storage){
 			curIso.name = curIsoDef[0] || 'NoName';
 			curIso.path = curIsoDef[1] || 'NoPath';
 			curIso.type = curIsoDef[2] || 'NoType';
-			curIso.capacity = curIsoDef[3] || 'NoCapacity';
-			curIso.allocation = curIsoDef[4] || 'NoAllocation';
+			curIso.capacity = curIsoDef[3]+curIsoDef[4] || 'NoCapacity';
+			curIso.allocation = curIsoDef[5]+curIsoDef[6] || 'NoAllocation';
 			if(curIso.path.substr(curIso.path.length - 4) == '.iso'){
 				toReturn.push(curIso);
 			}

@@ -20,10 +20,16 @@ module.exports = {
 	nodeBridgeDetach:nodeBridgeDetach
 };
 
-function poolListIsos(id){
-	console.log("poolListIsos is colled for pool " + id);
+function poolListIsos(storage){
+	console.log("poolListIsos is colled for pool " + storage.name);
 	var deferred = Q.defer();
-	
+	tools.runLocalCommand('virsh vol-list '+ storage.name +' --deatils').then(function(result) {
+	   console.log(result);
+	   deferred.resolve(result);
+	}).fail(function(issue) {
+	   console.log(issue);
+	   deferred.reject(issue);
+	});
 	return deferred.promise;
 }
 

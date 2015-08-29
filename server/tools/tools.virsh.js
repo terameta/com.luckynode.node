@@ -4,6 +4,7 @@ var tools			= require('../tools/tools.main.js');
 
 module.exports = {
 	poolList: poolList,
+	poolListIsos: poolListIsos,
 	poolsDefine: poolsDefine,
 	poolDefine: poolDefine,
 	poolsRemove: poolsRemove,
@@ -18,6 +19,13 @@ module.exports = {
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach
 };
+
+function poolListIsos(id){
+	console.log("poolListIsos is colled for pool " + id);
+	var deferred = Q.defer();
+	
+	return deferred.promise;
+}
 
 function nodeBridgeDetach(bridge){
 	console.log("nodeBridgeDetach is called for bridge " + bridge);

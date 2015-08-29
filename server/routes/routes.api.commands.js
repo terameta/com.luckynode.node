@@ -101,9 +101,10 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
-		} else if(!req.body.details.id){
+		} else if(!req.body.details._id){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
+			console.log(req.body.details);
 			res.send("o6k");
 		}
 	});

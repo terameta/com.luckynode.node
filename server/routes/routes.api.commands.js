@@ -104,8 +104,11 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details._id){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			virsh.poolListIsos(req.body.details);
-			res.send("o6k");
+			virsh.poolListIsos(req.body.details).then(function(result){
+				res.json(result);
+			}).fail(function(issue){
+				res.status(500).json({ status: 'fail', detail: issue });
+			});
 		}
 	});
 	

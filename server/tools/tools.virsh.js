@@ -21,10 +21,9 @@ module.exports = {
 };
 
 function poolListIsos(storage){
-	console.log("poolListIsos is colled for pool " + storage.name);
+	console.log("poolListIsos is called for pool " + storage.name);
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh vol-list '+ storage.name +' --details').then(function(result) {
-		console.log(result);
 		var toReturn = [];
 		result = result.trim().split('\n');
 		result.splice(0,2);
@@ -40,10 +39,10 @@ function poolListIsos(storage){
 				toReturn.push(curIso);
 			}
 		});
-		console.log(toReturn);
+		console.log("poolListIsos succeeded for pool " + storage.name);
 		deferred.resolve(toReturn);
 	}).fail(function(issue) {
-		console.log(issue);
+		console.log("poolListIsos failed for pool " + storage.name);
 		deferred.reject(issue);
 	});
 	return deferred.promise;

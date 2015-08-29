@@ -95,6 +95,19 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
+	apiRoutes.post('/poolListIsos', tools.checkToken, function(req, res){
+		console.log("poolListIsos is posted");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.id){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			res.send("o6k");
+		}
+	});
+	
 	/*
 	apiRoutes.post('/defineNetworkBridge', tools.checkToken, function(req, res){
 		//console.log(req.body);

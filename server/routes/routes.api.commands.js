@@ -88,10 +88,8 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
 			virsh.serverEjectISO(req.body.details).then(function(result){
-				console.log("Success:", result);
-				res.json(JSON.parse(result));
+				res.send(result);
 			}).fail(function(issue){
-				console.log("We failed here");
 				res.status(500).json({ status: 'fail', detail: issue });
 			});
 		}

@@ -74,7 +74,6 @@ module.exports = function(app, express, db, tools) {
 				console.log(issue);
 				res.send(issue);
 			});
-			res.send("OK");
 		}
 		
 	});

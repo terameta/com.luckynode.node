@@ -84,12 +84,15 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
-		} else if(!req.body.details.target){
+		} else if(!req.body.details.target || !req.body.details.server){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			res.send("OK");
+			virsh.serverEjectISO(req.body.details).then(function(result){
+				res.json(JSON.parse(result));
+			}).fail(function(issue){
+				res.status(500).json({ status: 'fail', detail: issue });
+			});
 		}
-		
 	});
 	
 	apiRoutes.post('/nodeInterfaceList', tools.checkToken, function(req, res){

@@ -16,6 +16,7 @@ module.exports = {
 	serverList:serverList,
 	serverDiskList:serverDiskList,
 	serverAttachISO:serverAttachISO,
+	serverEjectISO:serverEjectISO,
 	nodeInterfaceList:nodeInterfaceList,
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach
@@ -43,6 +44,14 @@ function serverAttachISO(details){
 		deferred.reject(issue);
 	});
 	tools.runLocalCommand();
+	return deferred.promise;
+}
+
+function serverEjectISO(details){
+	console.log("serverEjectISO is called for:", details);
+	var deferred = Q.defer();
+	var theCommand = 'virsh change-media --domain '+ details.server +' --path '+ details.target +' --config --live --eject';
+	deferred.resolve(theCommand);
 	return deferred.promise;
 }
 

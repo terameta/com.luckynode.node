@@ -51,6 +51,7 @@ function serverEjectISO(details){
 	console.log("serverEjectISO is called for:", details);
 	var deferred = Q.defer();
 	var theCommand = 'virsh change-media --domain '+ details.server +' --path '+ details.target +' --config --live --eject';
+	console.log(theCommand);
 	deferred.resolve(theCommand);
 	return deferred.promise;
 }

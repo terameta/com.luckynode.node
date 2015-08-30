@@ -78,6 +78,11 @@ module.exports = function(app, express, db, tools) {
 		
 	});
 	
+	apiRoutes.post('/serverEjectISO', tools.checkToken, function(req, res){
+		console.log("serverEjectISO is posted");
+		res.send("OK");
+	});
+	
 	apiRoutes.post('/nodeInterfaceList', tools.checkToken, function(req, res){
 		console.log('nodeInterfaceList is posted');
 		virsh.nodeInterfaceList().

@@ -80,7 +80,16 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/serverEjectISO', tools.checkToken, function(req, res){
 		console.log("serverEjectISO is posted");
-		res.send("OK");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.target){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			res.send("OK");
+		}
+		
 	});
 	
 	apiRoutes.post('/nodeInterfaceList', tools.checkToken, function(req, res){

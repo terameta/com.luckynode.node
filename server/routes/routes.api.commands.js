@@ -65,7 +65,7 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.iso || !req.body.details.pool || !req.body.details.server){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			console.log("serverAttachISO is posted with:", req.body.details.toString());
+			console.log("serverAttachISO is posted with:", req.body.details);
 			res.send("OK");
 		}
 		

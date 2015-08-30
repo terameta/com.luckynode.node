@@ -15,10 +15,18 @@ module.exports = {
 	serverDeleteDiskFiles:serverDeleteDiskFiles,
 	serverList:serverList,
 	serverDiskList:serverDiskList,
+	serverAttachISO:serverAttachISO,
 	nodeInterfaceList:nodeInterfaceList,
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach
 };
+
+function serverAttachISO(details){
+	console.log("serverAttachISO is called for:", details);
+	var deferred = Q.defer();
+	tools.runLocalCommand();
+	return deferred.promise;
+}
 
 function poolListIsos(storage){
 	console.log("poolListIsos is called for pool " + storage.name);

@@ -24,17 +24,15 @@ module.exports = {
 function serverAttachISO(details){
 	console.log("serverAttachISO is called for:", details);
 	var deferred = Q.defer();
-	var theCommand = 'virsh attach-disk'
+	var theCommand = 'virsh change-media'
 						+' --domain '+ details.server 
 						+' --source /mnt/luckynodepools/'+ details.pool +'/'+ details.iso
-						+' --target '+ details.target
-						+' --type cdrom --mode readonly --persistent';
+						+' --path '+ details.target
+						+' --persistent --config';
 	var theCurDom = {id: details.server};
 	serverState(theCurDom).then(function(result){
 		if(theCurDom.domstate == 'running'){
 			theCommand += ' --live';
-		} else {
-			theCommand += ' --config';
 		}
 		tools.runLocalCommand(theCommand).then(function(result){
 			deferred.resolve(result);

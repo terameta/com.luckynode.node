@@ -27,7 +27,7 @@ function serverAttachISO(details){
 	var theCommand = 'virsh attach-disk'
 						+' --domain '+ details.server 
 						+' --source /mnt/luckynodepools/'+ details.pool +'/'+ details.iso
-						+' --target targetname '+ details.target
+						+' --target '+ details.target
 						+' --type cdrom --mode readonly --persistent';
 	var theCurDom = {id: details.server};
 	serverState(theCurDom).then(function(result){

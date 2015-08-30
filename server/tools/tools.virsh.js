@@ -28,7 +28,7 @@ function serverAttachISO(details){
 						+' --domain '+ details.server 
 						+' --source /mnt/luckynodepools/'+ details.pool +'/'+ details.iso
 						+' --target targetname '+ details.target
-						+' --type cdrom --mode readonly --driver file --persistent';
+						+' --type cdrom --mode readonly --persistent';
 	var theCurDom = {id: details.server};
 	serverState(theCurDom).then(function(result){
 		if(theCurDom.domstate == 'running'){

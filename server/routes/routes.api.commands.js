@@ -66,6 +66,14 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
 			console.log("serverAttachISO is posted with:", req.body.details);
+			virsh.serverAttachISO(req.body.details).then(function(result){
+				console.log("serverAttachISO post succeeded for " + req.body.details.server);
+				res.send(result);
+			}).fail(function(issue){
+				console.log("serverAttachISO post failed for " + req.body.details.server);
+				console.log(issue);
+				res.send(issue);
+			});
 			res.send("OK");
 		}
 		

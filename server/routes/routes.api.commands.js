@@ -56,6 +56,21 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
+	apiRoutes.post('/serverAttachISO', tools.checkToken, function(req, res){
+		console.log("serverAttachISO is posted");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.iso || !req.body.details.pool || !req.body.details.server){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			console.log("serverAttachISO is posted with:", req.body.details);
+			res.send("OK");
+		}
+		
+	});
+	
 	apiRoutes.post('/nodeInterfaceList', tools.checkToken, function(req, res){
 		console.log('nodeInterfaceList is posted');
 		virsh.nodeInterfaceList().

@@ -24,6 +24,14 @@ module.exports = {
 function serverAttachISO(details){
 	console.log("serverAttachISO is called for:", details);
 	var deferred = Q.defer();
+	var theCommand = 'virsh attach-disk --domain zobelek --source /mnt/luckynodepools/storename/filename.iso --target targetname --type cdrom --mode readonly --driver file --live';
+	var theCurDom = {id: details.server};
+	serverState(theCurDom).then(function(result){
+		deferred.resolve(result);
+		console.log(theCurDom);
+	}).fail(function(issue){
+		deferred.reject(issue);
+	});
 	tools.runLocalCommand();
 	return deferred.promise;
 }

@@ -28,7 +28,7 @@ function serverAttachISO(details){
 						+' --domain '+ details.server 
 						+' --source /mnt/luckynodepools/'+ details.pool +'/'+ details.iso
 						+' --path '+ details.target
-						+' --persistent --config';
+						+' --config';
 	var theCurDom = {id: details.server};
 	serverState(theCurDom).then(function(result){
 		if(theCurDom.domstate == 'running'){

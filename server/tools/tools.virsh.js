@@ -17,10 +17,73 @@ module.exports = {
 	serverDiskList:serverDiskList,
 	serverAttachISO:serverAttachISO,
 	serverEjectISO:serverEjectISO,
+	serverShutDown:serverShutDown,
+	serverStart:serverStart,
+	serverPowerOff:serverPowerOff,
 	nodeInterfaceList:nodeInterfaceList,
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach
 };
+
+function serverStart(cSrv){
+	console.log("serverStart is called for:", cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh start ' + cSrv.id;
+	serverState(cSrv).then(function(result) {
+		if(cSrv.domstate == 'shutoff'){
+			tools.runLocalCommand(theCommand).then(function(result) {
+				deferred.resolve(cSrv);
+			}).fail(function(issue) {
+				deferred.reject(issue);
+			});
+		} else {
+			deferred.resolve(cSrv);
+		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function serverPowerOff(cSrv){
+	console.log("serverPowerOff is called for:", cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh destroy ' + cSrv.id;
+	serverState(cSrv).then(function(result) {
+		if(cSrv.domstate == 'running'){
+			tools.runLocalCommand(theCommand).then(function(result) {
+				deferred.resolve(cSrv);
+			}).fail(function(issue) {
+				deferred.reject(issue);
+			});
+		} else {
+			deferred.resolve(cSrv);
+		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function serverShutDown(cSrv){
+	console.log("serverShutDown is called for:", cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh shutdown ' + cSrv.id;
+	serverState(cSrv).then(function(result) {
+		if(cSrv.domstate == 'running'){
+			tools.runLocalCommand(theCommand).then(function(result) {
+				deferred.resolve(cSrv);
+			}).fail(function(issue) {
+				deferred.reject(issue);
+			});
+		} else {
+			deferred.resolve(cSrv);
+		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
 
 function serverAttachISO(details){
 	console.log("serverAttachISO is called for:", details);
@@ -57,10 +120,10 @@ function serverEjectISO(details){
 		tools.runLocalCommand(theCommand).then(function(result){
 			deferred.resolve(result);
 		}).fail(function(issue) {
-		    deferred.reject(issue);
+			deferred.reject(issue);
 		});
 	}).fail(function(issue) {
-	    deferred.reject(issue);
+		deferred.reject(issue);
 	});
 	return deferred.promise;
 }

@@ -130,7 +130,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverStart', tools.checkToken, function(req, res) {
-		console.log("serverSrat is posted");
+		console.log("serverStart is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -147,7 +147,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverVNCAddress', tools.checkToken, function(req, res) {
-		console.log("serverSrat is posted");
+		console.log("serverVNCAddress is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){

@@ -20,10 +20,34 @@ module.exports = {
 	serverShutDown:serverShutDown,
 	serverStart:serverStart,
 	serverPowerOff:serverPowerOff,
+	serverVNCAddress:serverVNCAddress,
 	nodeInterfaceList:nodeInterfaceList,
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach
 };
+
+function serverVNCAddress(cSrv){
+	console.log("serverVNCAddress is called for:", cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh vncdisplay ' + cSrv.id;
+	serverState(cSrv).then(function(result){
+		if(cSrv.domstate != 'running'){
+			cSrv.vncport = -1;
+			deferred.resolve(cSrv);
+		} else {
+			tools.runLocalCommand(theCommand).then(function(result) {
+				result = parseInt(result.replace(":", ""),10) + 5900;
+				cSrv.vncport = result;
+				deferred.resolve(cSrv);
+			}).fail(function(issue) {
+				deferred.reject(issue);
+			});
+		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
 
 function serverStart(cSrv){
 	console.log("serverStart is called for:", cSrv.id);
@@ -593,8 +617,6 @@ function composeDomainXML(cSrv){
 	+	'		<input type=\'tablet\'/>'																				+ '\n'
 	+	'		<input type=\'mouse\'/>'																				+ '\n'
 	+	'		<graphics type=\'vnc\' port=\'-1\' autoport=\'yes\' passwd=\''+ cSrv.id +'\' listen=\'0.0.0.0\'/>'		+ '\n'
-	//We should eventually control the vnc ports
-// 	+	'		<graphics type=\'vnc\' port=\'5901\' passwd=\'Xw2oACxc\' listen=\'0.0.0.0\'/>'	+ '\n'
 	+	'		<video><model type=\'vga\' vram=\'9216\' heads=\'1\'/></video>'											+ '\n'
 	+	'	</devices>'																									+ '\n'
 	+ 	'</domain>';

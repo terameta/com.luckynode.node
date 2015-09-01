@@ -140,6 +140,21 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
+	apiRoutes.post('/serverReboot', tools.checkToken, function(req, res) {
+		console.log("serverReboot is posted");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			virsh.serverReboot(req.body.details).then(function(result){
+				res.send(result);
+			}).fail(function(issue){
+				res.status(500).json({ status: 'fail', detail: issue });
+			});
+		}
+	});
+	
 	apiRoutes.post('/serverVNCAddress', tools.checkToken, function(req, res) {
 		console.log("serverVNCAddress is posted");
 		if(!req.body){

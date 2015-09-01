@@ -19,6 +19,7 @@ module.exports = {
 	serverEjectISO:serverEjectISO,
 	serverShutDown:serverShutDown,
 	serverStart:serverStart,
+	serverReboot:serverReboot,
 	serverPowerOff:serverPowerOff,
 	serverVNCAddress:serverVNCAddress,
 	nodeInterfaceList:nodeInterfaceList,
@@ -42,6 +43,26 @@ function serverVNCAddress(cSrv){
 			}).fail(function(issue) {
 				deferred.reject(issue);
 			});
+		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function serverReboot(cSrv){
+	console.log("serverReboot is called for:", cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh reboot ' + cSrv.id;
+	serverState(cSrv).then(function(result) {
+		if(cSrv.domstate == 'shutoff'){
+			tools.runLocalCommand(theCommand).then(function(result) {
+				deferred.resolve(cSrv);
+			}).fail(function(issue) {
+				deferred.reject(issue);
+			});
+		} else {
+			deferred.resolve(cSrv);
 		}
 	}).fail(function(issue) {
 		deferred.reject(issue);

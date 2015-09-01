@@ -101,10 +101,8 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
-		} else if(!req.body.details.server){
-			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			virsh.serverShutDown(req.body.details.server).then(function(result){
+			virsh.serverShutDown(req.body.details).then(function(result){
 				res.send(result);
 			}).fail(function(issue){
 				res.status(500).json({ status: 'fail', detail: issue });

@@ -55,7 +55,7 @@ function serverReboot(cSrv){
 	var deferred = Q.defer();
 	var theCommand = 'virsh reboot ' + cSrv.id;
 	serverState(cSrv).then(function(result) {
-		if(cSrv.domstate == 'shutoff'){
+		if(cSrv.domstate == 'running'){
 			tools.runLocalCommand(theCommand).then(function(result) {
 				deferred.resolve(cSrv);
 			}).fail(function(issue) {

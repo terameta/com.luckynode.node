@@ -224,7 +224,7 @@ function nodeBridgeAssign(bridge, iface){
 	//theCommands.push('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0');
 	theCommands.push('sudo echo INTERFACE=\"'+ bridge +'\" > /etc/default/isc-dhcp-server');
 	theCommands.push('sudo service isc-dhcp-server restart');
-	tools.runLocalCommand('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0').then(function(result){
+	tools.runLocalCommands(theCommands).then(function(result){
 		console.log("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface);
 		deferred.resolve(result);	
 	}).fail(function(issue){

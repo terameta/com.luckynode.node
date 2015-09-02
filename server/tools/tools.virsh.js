@@ -221,7 +221,7 @@ function nodeBridgeAssign(bridge, iface){
 	console.log("nodeBridgeAssign is called for bridge "+ bridge +" and interface " + iface);
 	var deferred = Q.defer();
 	var theCommands = [];
-	theCommands.push('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0');
+	//theCommands.push('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0');
 	theCommands.push('sudo echo INTERFACE=\"'+ bridge +'\" > /etc/default/isc-dhcp-server');
 	theCommands.push('sudo service isc-dhcp-server restart');
 	tools.runLocalCommand('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0').then(function(result){

@@ -226,6 +226,7 @@ function nodeBridgeAssign(bridge, iface){
 	theCommands.push('sudo service isc-dhcp-server restart');
 	theCommands.push('cd && sudo sh -c \'echo subnet 0.0.0.0 netmask 0.0.0.0 {authoritative;default-lease-time 21600000;max-lease-time 432000000;}\\nddns-update-style none;\\n > dhcpd.conf.head');
 	
+	
 	tools.runLocalCommands(theCommands).then(function(result){
 		console.log("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface);
 		deferred.resolve(result);	

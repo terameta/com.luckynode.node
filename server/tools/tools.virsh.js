@@ -225,8 +225,8 @@ function nodeBridgeAssign(bridge, iface){
 	theCommands.push('sudo sh -c \'echo INTERFACE=\\\"'+ bridge +'\\\" > /etc/default/isc-dhcp-server\'');
 	//theCommands.push('sudo service isc-dhcp-server restart');
 	theCommands.push('cd && echo "subnet 0.0.0.0 netmask 0.0.0.0 {authoritative;default-lease-time 21600000;max-lease-time 432000000;}\\nddns-update-style none;\\n" > dhcpd.conf.head');
-	theCommands.push('cd && echo "-------.0\\n" > dhcpd.conf.body.0');
-	theCommands.push('cd && echo "-------.1\\n" > dhcpd.conf.body.1');
+	theCommands.push('cd && echo "\\n" > dhcpd.conf.body.0');
+	theCommands.push('cd && echo "\\n" > dhcpd.conf.body.1');
 	theCommands.push('cd && sudo sh -c "cat dhcpd.conf.head dhcpd.conf.body* > /etc/dhcp/dhcpd.conf"');
 	theCommands.push('sudo service isc-dhcp-server restart');
 	

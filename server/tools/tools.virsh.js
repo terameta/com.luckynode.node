@@ -17,6 +17,7 @@ module.exports = {
 	serverDiskList:serverDiskList,
 	serverAttachISO:serverAttachISO,
 	serverEjectISO:serverEjectISO,
+	serverState:serverState,
 	serverShutDown:serverShutDown,
 	serverStart:serverStart,
 	serverReboot:serverReboot,

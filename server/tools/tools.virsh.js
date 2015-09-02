@@ -222,7 +222,14 @@ function nodeBridgeAssign(bridge, iface){
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0').then(function(result){
 		console.log("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface);
-		deferred.resolve(result);
+		var dhcpcommand = 'sudo echo INTERFACE="'+ bridge +'" > /etc/default/isc-dhcp-server';
+		tools.runLocalCommand(dhcpcommand).then(function(result){
+			console.log("nodeBridgeAssign DHCP assignment succeeded");
+			deferred.resolve(result);	
+		}).fail(function(issue) {
+		    console.log("nodeBridgeAssign DHCP assignment failed");
+		    deferred.reject("notok");
+		});
 	}).fail(function(issue){
 		console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface);
 		console.log("We will cross check, but before, we will wait for 5 seconds");

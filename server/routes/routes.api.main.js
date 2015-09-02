@@ -83,13 +83,15 @@ module.exports = function(app, express, db, tools) {
 		var isTokenSent = false;
 		
 		var curManagers = app.get('managers');
-		curManagers.forEach(function(curManager){
-			curManager = simplifyIP(curManager);
-			if(curManager == ip){
-				shouldAuth = true;
-				isTokenSent = true; sendToken(ip, res);
-			}
-		});
+		if(curManagers){
+			curManagers.forEach(function(curManager){
+				curManager = simplifyIP(curManager);
+				if(curManager == ip){
+					shouldAuth = true;
+					isTokenSent = true; sendToken(ip, res);
+				}
+			});
+		}
 		if(shouldAuth) return 0;
 		if(!shouldAuth && curManagers.length > 0){
 			sendHTTPSRequest(curManagers[0], '/api/getManagers', false).then(

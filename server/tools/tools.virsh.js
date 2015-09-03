@@ -236,12 +236,12 @@ function nodeBridgeAssign(bridge, iface){
 			});
 			if(shouldResolve){
 				deferred.resolve("ok");
+				refreshDHCPConfig();
 			} else {
 				console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways."); deferred.reject("notok");
 			}
 		}).fail(function(issue){ console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways."); deferred.reject(issue); });
 	});
-	refreshDHCPConfig(bridge);
 	
 	return deferred.promise;
 }

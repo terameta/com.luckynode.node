@@ -293,7 +293,7 @@ function nodeInterfaceList(){
 				curInterface.state = curInterfaceDef[1] || 'NoState';
 				curInterface.mac = curInterfaceDef[2] || 'NoMac';
 				toReturn.push(curInterface);
-				console.log(curInterface);
+				//console.log(curInterface);
 			});
 			console.log("nodeInterfaceList succeeded");
 			deferred.resolve(toReturn);

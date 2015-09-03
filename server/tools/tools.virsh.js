@@ -221,7 +221,7 @@ function nodeBridgeAssign(bridge, iface){
 	console.log("nodeBridgeAssign is called for bridge "+ bridge +" and interface " + iface);
 	var deferred = Q.defer();
 	var theCommands = [];
-	theCommands.push('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0');
+	/*theCommands.push('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0');
 	tools.runLocalCommands(theCommands).then(function(result){
 		console.log("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface);
 		deferred.resolve(result);	
@@ -240,7 +240,7 @@ function nodeBridgeAssign(bridge, iface){
 				console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways."); deferred.reject("notok");
 			}
 		}).fail(function(issue){ console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways."); deferred.reject(issue); });
-	});
+	});*/
 	refreshDHCPConfig(bridge);
 	
 	return deferred.promise;

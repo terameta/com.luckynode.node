@@ -209,6 +209,7 @@ function nodeBridgeDetach(bridge){
 	tools.runLocalCommand('virsh iface-unbridge --bridge ' + bridge).then(function(result){
 		console.log("nodeBridgeDetach succeeded for bridge "+ bridge);
 		deferred.resolve(result);
+		refreshDHCPConfig();
 	}).fail(function(issue){
 		console.log("nodeBridgeDetach failed for bridge "+ bridge);
 		deferred.resolve(issue);

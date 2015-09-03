@@ -75,19 +75,21 @@ function serverStart(cSrv){
 	console.log("serverStart is called for:", cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh start ' + cSrv.id;
-	serverState(cSrv).then(function(result) {
-		if(cSrv.domstate == 'shutoff'){
-			tools.runLocalCommand(theCommand).then(function(result) {
+	serverState(cSrv).
+		then(serverWriteDHCPItem).
+		then(function(result) {
+			if(cSrv.domstate == 'shutoff'){
+				tools.runLocalCommand(theCommand).then(function(result) {
+					deferred.resolve(cSrv);
+				}).fail(function(issue) {
+					deferred.reject(issue);
+				});
+			} else {
 				deferred.resolve(cSrv);
-			}).fail(function(issue) {
-				deferred.reject(issue);
-			});
-		} else {
-			deferred.resolve(cSrv);
-		}
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
+			}
+		}).fail(function(issue) {
+			deferred.reject(issue);
+		});
 	return deferred.promise;
 }
 
@@ -244,6 +246,33 @@ function nodeBridgeAssign(bridge, iface){
 		}).fail(function(issue){ console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways."); deferred.reject(issue); });
 	});
 	
+	return deferred.promise;
+}
+
+function serverWriteDHCPItem(cSrv){
+	console.log("writeServerDHCPItem is called");
+	var deferred = Q.defer();
+	var theCommands = [];
+	var nameservers = [];
+		if(cSrv.nameserver1) nameservers.push(cSrv.nameserver1);
+		if(cSrv.nameserver2) nameservers.push(cSrv.nameserver2);
+	var theContent  = 'host '+ cSrv.id + '{';
+		theContent += 'hardware ethernet '+ cSrv.mac +';';
+		theContent += 'option routers '+ cSrv.gateway +';';
+		theContent += 'option subnet-mask '+ cSrv.netmask +';';
+		theContent += 'fixed-address '+ cSrv.ip +';';
+		theContent += 'option domain-name-servers '+ nameservers.join(',') +';';
+		theContent += '}';
+
+	
+	theCommands.push('cd && echo "'+ theContent +'" > dhcpd.conf.body.'+cSrv.id);
+	tools.runLocalCommands(theCommands).
+		then(refreshDHCPConfig).
+		then(function(result){
+			deferred.resolve(cSrv);
+		}).fail(function(issue){
+			deferred.reject(issue);
+		});
 	return deferred.promise;
 }
 
@@ -472,7 +501,8 @@ function serverDefine(cSrv){
 	if(cSrv.diskdriver != 'ide')									cSrv.diskdriver = 'virtio';
 	if(!cSrv.bridge)												cSrv.bridge = 'br0';
 	
-	getMostAvailablePool(cSrv).
+	serverWriteDHCPItem(cSrv).
+		then(getMostAvailablePool).
 		then(composeDomainXML).
 		then(saveDomainXML).
 		then(createDomainDiskFile).

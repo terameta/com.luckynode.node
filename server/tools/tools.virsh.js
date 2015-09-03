@@ -276,6 +276,21 @@ function serverWriteDHCPItem(cSrv){
 	return deferred.promise;
 }
 
+function serverDeleteDHCPItem(cSrv){
+	console.log("writeServerDHCPItem is called");
+	var deferred = Q.defer();
+	var theCommands = [];
+	theCommands.push('cd && rm dhcpd.conf.body.'+cSrv.id);
+	tools.runLocalCommands(theCommands).
+		then(refreshDHCPConfig).
+		then(function(result){
+			deferred.resolve(cSrv);
+		}).fail(function(issue){
+			deferred.reject(issue);
+		});
+	return deferred.promise;
+}
+
 function refreshDHCPConfig(){
 	console.log("refreshDHCPConfig is called");
 	var interfaceString = '';
@@ -386,6 +401,7 @@ function serverDelete(cSrv){
 	var deferred = Q.defer();
 	
 	serverState(cSrv).
+		then(serverDeleteDHCPItem).
 		then(serverDestroy).
 		then(serverDeleteDiskFiles).
 		then(serverUndefine).

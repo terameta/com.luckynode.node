@@ -250,6 +250,11 @@ function refreshDHCPConfig(bridge){
 	console.log("refreshDHCPConfig is called");
 	var deferred = Q.defer();
 	var theCommands = [];
+	nodeInterfaceList().then(function(result){
+		console.log(result);
+	}).fail(function(issue) {
+		
+	});
 	theCommands.push('sudo sh -c \'echo INTERFACE=\\\"'+ bridge +'\\\" > /etc/default/isc-dhcp-server\'');
 	theCommands.push('cd && echo "subnet 0.0.0.0 netmask 0.0.0.0 {authoritative;default-lease-time 21600000;max-lease-time 432000000;}\\nddns-update-style none;\\n" > dhcpd.conf.head');
 	theCommands.push('cd && echo "\\n" > dhcpd.conf.body.0');

@@ -252,6 +252,14 @@ function refreshDHCPConfig(bridge){
 	var theCommands = [];
 	nodeInterfaceList().then(function(result){
 		console.log(result);
+		var interfaceList = [];
+		result.forEach(function(curInterface){
+			if(curInterface.name != 'lo'){
+				interfaceList.push(curInterface.name);
+			}
+		});
+		console.log(interfaceList);
+		console.log(interfaceList.join(' '));
 	}).fail(function(issue) {
 		
 	});

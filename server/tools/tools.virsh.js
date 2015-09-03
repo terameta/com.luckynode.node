@@ -222,13 +222,6 @@ function nodeBridgeAssign(bridge, iface){
 	var deferred = Q.defer();
 	var theCommands = [];
 	theCommands.push('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0');
-	theCommands.push('sudo sh -c \'echo INTERFACE=\\\"'+ bridge +'\\\" > /etc/default/isc-dhcp-server\'');
-	theCommands.push('cd && echo "subnet 0.0.0.0 netmask 0.0.0.0 {authoritative;default-lease-time 21600000;max-lease-time 432000000;}\\nddns-update-style none;\\n" > dhcpd.conf.head');
-	theCommands.push('cd && echo "\\n" > dhcpd.conf.body.0');
-	theCommands.push('cd && echo "\\n" > dhcpd.conf.body.1');
-	theCommands.push('cd && sudo sh -c "cat dhcpd.conf.head dhcpd.conf.body* > /etc/dhcp/dhcpd.conf"');
-	theCommands.push('sudo service isc-dhcp-server restart');
-	
 	tools.runLocalCommands(theCommands).then(function(result){
 		console.log("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface);
 		deferred.resolve(result);	
@@ -248,6 +241,28 @@ function nodeBridgeAssign(bridge, iface){
 			}
 		}).fail(function(issue){ console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways."); deferred.reject(issue); });
 	});
+	refreshDHCPConfig(bridge);
+	
+	return deferred.promise;
+}
+
+function refreshDHCPConfig(bridge){
+	console.log("refreshDHCPConfig is called");
+	var deferred = Q.defer();
+	var theCommands = [];
+	theCommands.push('sudo sh -c \'echo INTERFACE=\\\"'+ bridge +'\\\" > /etc/default/isc-dhcp-server\'');
+	theCommands.push('cd && echo "subnet 0.0.0.0 netmask 0.0.0.0 {authoritative;default-lease-time 21600000;max-lease-time 432000000;}\\nddns-update-style none;\\n" > dhcpd.conf.head');
+	theCommands.push('cd && echo "\\n" > dhcpd.conf.body.0');
+	theCommands.push('cd && echo "\\n" > dhcpd.conf.body.1');
+	theCommands.push('cd && sudo sh -c "cat dhcpd.conf.head dhcpd.conf.body* > /etc/dhcp/dhcpd.conf"');
+	theCommands.push('sudo service isc-dhcp-server restart');
+	tools.runLocalCommands(theCommands).then(function(result) {
+		console.log("refreshDHCPConfig succeeded with bridge:", bridge);
+		deferred.resolve(result);
+	}).fail(function(issue) {
+		console.log("refreshDHCPConfig failed with bridge:", bridge);
+		deferred.reject(issue);
+	});
 	return deferred.promise;
 }
 
@@ -266,6 +281,7 @@ function nodeInterfaceList(){
 				curInterface.state = curInterfaceDef[1] || 'NoState';
 				curInterface.mac = curInterfaceDef[2] || 'NoMac';
 				toReturn.push(curInterface);
+				console.log(curInterface);
 			});
 			console.log("nodeInterfaceList succeeded");
 			deferred.resolve(toReturn);

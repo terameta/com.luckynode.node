@@ -320,7 +320,7 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.server || !req.body.details.target){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			virsh.volCloneFromServer(req.body.details).then(function(result){
+			virsh.volCloneFromServer(req.body.details.server, req.body.details.target).then(function(result){
 				res.json(result);
 			}).fail(function(issue){
 				res.status(500).json({ status: 'fail', detail: issue });

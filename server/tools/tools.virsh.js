@@ -165,7 +165,6 @@ function serverWaitForShutDown(cSrv, deferred){
 	}).fail(function(issue){ deferred.reject(issue);});
 }
 
-
 function serverAttachISO(details){
 	console.log("serverAttachISO is called for:", details);
 	var deferred = Q.defer();

@@ -584,9 +584,9 @@ function poolsRemove(poolList){
 function poolRemove(curPool){
 	var deferred = Q.defer();
 	var cL = []; //command List
-	if(curPool.isactive) cL.push('virsh pool-destroy ' + curPool.id);
-	cL.push('virsh pool-delete ' + curPool.id);
-	cL.push('virsh pool-undefine ' + curPool.id);
+	if(curPool.isactive) cL.push('virsh pool-destroy ' + curPool.name);
+	cL.push('virsh pool-delete ' + curPool.name);
+	cL.push('virsh pool-undefine ' + curPool.name);
 	tools.runLocalCommands(cL).then(
 		function(result){ 
 			deferred.resolve(result); 

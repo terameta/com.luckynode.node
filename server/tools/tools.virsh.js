@@ -445,7 +445,6 @@ function serverDelete(cSrv){
 
 function serverState(cSrv){
 	console.log("serverState called for " + cSrv.id);
-	console.log(cSrv);
 	var deferred = Q.defer();
 	serverList().then(
 		function(domList){

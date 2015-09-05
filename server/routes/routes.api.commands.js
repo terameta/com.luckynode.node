@@ -288,6 +288,9 @@ module.exports = function(app, express, db, tools) {
 		
 		if(newPools.length > 0){
 			if(newPools[0].pool == 'NoAssignedPoolForTheNode' ) newPools = [];
+			newPools.forEach(function(curNewPool) {
+			   curNewPool.name = curNewPool.id; 
+			});
 			//Get the Existing Pools List
 			var poolsToDefine = [];
 			var poolsToRemove = [];

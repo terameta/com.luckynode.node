@@ -40,9 +40,10 @@ function volCloneFromServer(cSrv, cTarget){
 			return deferred.promise;
 		}).
 		then(function(cSrv){
-			console.log(cSrv);
-			console.log(cTarget);
-			deferred.resolve(cSrv);
+			return tools.runLocalCommand('virsh vol-clone --vol '+cSrv.id+'.qcow2 --newname '+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
+		}).
+		then(function(result){
+			deferred.resolve(result);
 		}).
 		fail(function(issue){
 			deferred.reject(issue);

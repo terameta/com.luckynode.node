@@ -317,7 +317,7 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
-		} else if(!req.body.details._id){
+		} else if(!req.body.details.server || !req.body.details.target){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
 			virsh.volCloneFromServer(req.body.details).then(function(result){

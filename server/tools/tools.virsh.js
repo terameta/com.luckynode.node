@@ -25,8 +25,30 @@ module.exports = {
 	serverVNCAddress:serverVNCAddress,
 	nodeInterfaceList:nodeInterfaceList,
 	nodeBridgeAssign:nodeBridgeAssign,
-	nodeBridgeDetach:nodeBridgeDetach
+	nodeBridgeDetach:nodeBridgeDetach,
+	volCloneFromServer:volCloneFromServer
 };
+
+function volCloneFromServer(cSrv, cTarget){
+	console.log("volCloneFromServer is called");
+	var deferred = Q.defer();
+	serverState(cSrv).
+		then(serverShutDown).
+		then(function(cSrv){
+			var deferred = Q.defer();
+			serverWaitForShutDown(cSrv, deferred);
+			return deferred.promise;
+		}).
+		then(function(cSrv){
+			console.log(cSrv);
+			console.log(cTarget);
+			deferred.resolve(cSrv);
+		}).
+		fail(function(issue){
+			deferred.reject(issue);
+		});
+	return deferred.promise;
+}
 
 function serverVNCAddress(cSrv){
 	console.log("serverVNCAddress is called for:", cSrv.id);
@@ -131,6 +153,16 @@ function serverShutDown(cSrv){
 		deferred.reject(issue);
 	});
 	return deferred.promise;
+}
+
+function serverWaitForShutDown(cSrv, deferred){
+	serverState(cSrv).then(function(result){
+		if(result.domstate == 'shutoff'){
+			deferred.resolve(cSrv);
+		} else {
+			setTimeout(function(){ serverWaitForShutDown(cSrv, deferred);}, 1000);
+		}
+	}).fail(function(issue){ deferred.reject(issue);});
 }
 
 function serverAttachISO(details){

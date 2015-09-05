@@ -241,44 +241,6 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
-	/*
-	apiRoutes.post('/defineNetworkBridge', tools.checkToken, function(req, res){
-		//console.log(req.body);
-		var iptobridge = '';
-		if(req.body){ if(req.body.details) { if(req.body.details.ip){
-			iptobridge = req.body.details.ip;
-		} } }
-		if( iptobridge === '' ){
-			res.status(400).json({ status: 'fail', detail: 'no data provided' });
-		} else {
-			var toReturn = [];
-			var os = require( 'os' );
-	
-			var networkInterfaces = os.networkInterfaces( );
-			console.log(networkInterfaces);
-			console.log("==================================================");
-	
-			for(var netKey in networkInterfaces){
-				networkInterfaces[netKey].forEach(function(curAddr){
-					if(curAddr.address == iptobridge){
-						console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-						console.log("NetKey:",netKey);
-						console.log("NIC:", networkInterfaces[netKey]);
-						console.log("CurAddr:", curAddr);
-						console.log("IPtoBridge", iptobridge);
-						console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-					}
-					if(!curAddr.internal){
-						toReturn.push(curAddr.address);
-					}
-				});
-				console.log(networkInterfaces[netKey]);
-			}
-			console.log(toReturn);
-			res.send(iptobridge);
-		}
-	});
-	*/
 	apiRoutes.post('/assignStoragePools', tools.checkToken, function(req, res) {
 		var newPools = [];
 		console.log(req.body.details);
@@ -349,5 +311,22 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 
+	apiRoutes.post('/volCloneFromServer', tools.checkToken, function(req, res){
+		console.log("volCloneFromServer is posted");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details._id){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			virsh.volCloneFromServer(req.body.details).then(function(result){
+				res.json(result);
+			}).fail(function(issue){
+				res.status(500).json({ status: 'fail', detail: issue });
+			});
+		}
+	});
+	
 	app.use('/api/command', apiRoutes);
 };

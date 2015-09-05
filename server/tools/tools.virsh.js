@@ -550,10 +550,10 @@ function poolsDefine(poolList){
 function poolDefine(curPool){
 	var deferred = Q.defer();
 	var cL = []; //command List
-	cL.push("virsh pool-define-as "+curPool.name+" netfs --source-host="+curPool.source.split(":")[0]+" --source-path="+curPool.source.split(":")[1]+" --target=/mnt/luckynodepools/"+curPool.name);
-	cL.push('virsh pool-build ' + curPool.name);
-	cL.push('virsh pool-autostart ' + curPool.name);
-	cL.push('virsh pool-start ' + curPool.name);
+	cL.push("virsh pool-define-as "+curPool.id+" netfs --source-host="+curPool.source.split(":")[0]+" --source-path="+curPool.source.split(":")[1]+" --target=/mnt/luckynodepools/"+curPool.name);
+	cL.push('virsh pool-build ' + curPool.id);
+	cL.push('virsh pool-autostart ' + curPool.id);
+	cL.push('virsh pool-start ' + curPool.id);
 	tools.runLocalCommands(cL).then(
 		function(result){ deferred.resolve(result); }
 	).fail(

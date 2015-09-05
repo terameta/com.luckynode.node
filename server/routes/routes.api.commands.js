@@ -281,6 +281,7 @@ module.exports = function(app, express, db, tools) {
 	*/
 	apiRoutes.post('/assignStoragePools', tools.checkToken, function(req, res) {
 		var newPools = [];
+		console.log(req.body.details);
 		if(req.body){ if(req.body.details){ if(req.body.details.length > 0){
 			newPools = req.body.details;
 		} } }

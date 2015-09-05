@@ -284,10 +284,10 @@ module.exports = function(app, express, db, tools) {
 		console.log(req.body.details);
 		if(req.body){ if(req.body.details){ if(req.body.details.length > 0){
 			newPools = req.body.details;
-			if(newPools[0].pool == 'NoAssignedPoolForTheNode' ) newPools = [];
 		} } }
 		
 		if(newPools.length > 0){
+			if(newPools[0].pool == 'NoAssignedPoolForTheNode' ) newPools = [];
 			//Get the Existing Pools List
 			var poolsToDefine = [];
 			var poolsToRemove = [];

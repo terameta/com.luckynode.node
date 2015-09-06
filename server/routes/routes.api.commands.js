@@ -328,5 +328,22 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
+	apiRoutes.post('/volDelete', tools.checkToken, function(req, res) {
+		console.log("volDelete is posted");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details.volume){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			virsh.volDelete(req.body.details.volume).then(function(result){
+				res.json(result);
+			}).fail(function(issue){
+				res.status(500).json({ status: 'fail', detail: issue });
+			});
+		}
+	});
+	
 	app.use('/api/command', apiRoutes);
 };

@@ -26,8 +26,20 @@ module.exports = {
 	nodeInterfaceList:nodeInterfaceList,
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach,
-	volCloneFromServer:volCloneFromServer
+	volCloneFromServer:volCloneFromServer,
+	volDelete:volDelete
 };
+
+function volDelete(cVol){
+	console.log("volDelete is called for " + cVol.name);
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh vol-delete --vol '+ cVol.name +' --pool '+ cVol.pool).then(function(result){
+		deferred.resolve(result);
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
 
 function volCloneFromServer(cSrv, cTarget){
 	console.log("volCloneFromServer is called");

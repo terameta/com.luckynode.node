@@ -33,7 +33,7 @@ module.exports = {
 function volDelete(cVol){
 	console.log("volDelete is called for " + cVol.name);
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh vol-delete --vol '+ cVol.name +' --pool '+ cVol.pool).then(function(result){
+	tools.runLocalCommand('virsh vol-delete --vol '+ cVol.id +'.qcow2 --pool '+ cVol.pool).then(function(result){
 		deferred.resolve(result);
 	}).fail(function(issue) {
 		deferred.reject(issue);

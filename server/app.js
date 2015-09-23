@@ -13,6 +13,7 @@ catch (err) {
 	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
 	if (err.code !== 'ENOENT') throw err;
 	tools.sendHTTPSRequest(curManagers[0], '/api/getDBConfigForNode', false).then(function(result){
+		fs.writeFileSync("dbconf.conf", result, "utf-8");
 		console.log("Heyoo gettik aldık database config", result);
 		process.exit(1);
 	}).fail(function(issue){

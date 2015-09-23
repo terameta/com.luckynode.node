@@ -17,7 +17,7 @@ catch (err) {
 	}).fail(function(issue){
 		console.log("Gettik sıçtık database config", issue);
 	});
-	// Handle a file-not-found error
+	// Handle a file-not-found error aa
 }
 
 

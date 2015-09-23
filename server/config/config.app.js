@@ -15,6 +15,7 @@ module.exports = function App(db) {
 	console.log(db);
 	db.users.find({}, function(err, data){
 		console.log("==================================");
+		console.log("Testing");
 		if(err){
 			console.log("err", err);
 		}

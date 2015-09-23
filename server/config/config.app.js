@@ -13,6 +13,14 @@ var Q				= require('q');
 module.exports = function App(db) {
 	console.log("Database");
 	console.log(db);
+	db.users.find({}, function(err, data){
+		console.log("==================================");
+		if(err){
+			console.log("err", err);
+		}
+		console.log("data", data);
+		console.log("==================================");
+	});
 	console.log("==================================");
 	var app = express();
 

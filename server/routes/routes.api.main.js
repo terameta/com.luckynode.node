@@ -7,33 +7,6 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
-	function sendHTTPSRequest(host, path, shouldReject){
-		var deferred = Q.defer();
-		
-		var http = require('https');
-		var options = { host: host, path: path, rejectUnauthorized:shouldReject };
-		
-		var callback = function(response) {
-			var str = '';
-		
-			//another chunk of data has been recieved, so append it to `str`
-			response.on('data', function(chunk) {
-				str += chunk;
-			});
-		
-			//the whole response has been recieved, so we just print it out here
-			response.on('end', function() {
-				deferred.resolve(str);
-			});
-		};
-		
-		http.request(options, callback).on('error', function(e) {
-		  deferred.reject('problem with request: ' + e.message);
-		}).end();
-		
-		return deferred.promise;
-	}
-	
 	function sendToken(ip, res){
 		var token = tools.jwt.sign(ip, app.get('jwtsecret'), {
 			expiresInMinutes: 60*24*30 // expires in 30 days
@@ -94,7 +67,7 @@ module.exports = function(app, express, db, tools) {
 		}
 		if(shouldAuth) return 0;
 		if(!shouldAuth && curManagers.length > 0){
-			sendHTTPSRequest(curManagers[0], '/api/getManagers', false).then(
+			tools.sendHTTPSRequest(curManagers[0], '/api/getManagers', false).then(
 				function(result){
 					var listofIPs = JSON.parse(result);
 					listofIPs.forEach(function(curManager){

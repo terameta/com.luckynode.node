@@ -1,7 +1,12 @@
 var cluster         = require( 'cluster' );
 var cCPUs           = require('os').cpus().length;
+var fs				= require('fs');
 
 var mongojs 		= require('mongojs');
+
+var dbconfig = fs.readFileSync("dbconf.conf", "utf8");
+console.log(dbconfig);
+
 var db = {};
     db.users		= mongojs('cloud',['users']).users;
     db.datacenters	= mongojs('cloud',['datacenters']).datacenters;

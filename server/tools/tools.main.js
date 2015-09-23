@@ -62,7 +62,8 @@ module.exports = {
 		toReturn += ('0' + (parseInt(curDate.getSeconds()))).substr(-2);
 		return toReturn;
 	},
-	jwt : jwt
+	jwt : jwt,
+	sendHTTPSRequest : sendHTTPSRequest
 
 };
 
@@ -118,4 +119,31 @@ function unfortunateWaiter(time){
         ;
     }
     console.log("completed wait");
+}
+
+function sendHTTPSRequest(host, path, shouldReject){
+	var deferred = Q.defer();
+	
+	var http = require('https');
+	var options = { host: host, path: path, rejectUnauthorized:shouldReject };
+	
+	var callback = function(response) {
+		var str = '';
+	
+		//another chunk of data has been recieved, so append it to `str`
+		response.on('data', function(chunk) {
+			str += chunk;
+		});
+	
+		//the whole response has been recieved, so we just print it out here
+		response.on('end', function() {
+			deferred.resolve(str);
+		});
+	};
+	
+	http.request(options, callback).on('error', function(e) {
+	  deferred.reject('problem with request: ' + e.message);
+	}).end();
+	
+	return deferred.promise;
 }

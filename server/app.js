@@ -1,7 +1,7 @@
 var cluster         = require( 'cluster' );
 var cCPUs           = require('os').cpus().length;
 var fs				= require('fs');
-var tools			= require('../tools.main.js');
+var tools			= require('./tools/tools.main.js');
 
 var mongojs 		= require('mongojs');
 

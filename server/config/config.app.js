@@ -7,9 +7,13 @@ var bodyParser		= require('body-parser');
 //var cookieParser	= require('cookie-parser');
 var config			= require('../config/config.main.js');
 var tools			= require('../tools/tools.main.js');
+var Q				= require('q');
 
 
 module.exports = function App(db) {
+	console.log("Database");
+	console.log(db);
+	console.log("==================================");
 	var app = express();
 
 	//view engine setup

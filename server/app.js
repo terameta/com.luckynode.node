@@ -7,6 +7,7 @@ var mongojs 		= require('mongojs');
 
 try {
 	var dbconfig = fs.readFileSync("dbconf.conf", "utf8");
+	console.log("dbconfig exists", dbconfig);
 }
 catch (err) {
 	// If the type is not what you want, then just throw the error again.
@@ -14,7 +15,7 @@ catch (err) {
 	if (err.code !== 'ENOENT') throw err;
 	tools.sendHTTPSRequest(curManagers[0], '/api/getDBConfigForNode', false).then(function(result){
 		fs.writeFileSync("dbconf.conf", result, "utf-8");
-		console.log("Heyoo gettik aldık database config", result);
+		console.log("Database config is received, we will now restart the system");
 		process.exit(1);
 	}).fail(function(issue){
 		process.exit(1);

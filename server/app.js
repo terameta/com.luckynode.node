@@ -1,11 +1,27 @@
 var cluster         = require( 'cluster' );
 var cCPUs           = require('os').cpus().length;
 var fs				= require('fs');
+var tools			= require('../tools/tools.main.js');
 
 var mongojs 		= require('mongojs');
 
-var dbconfig = fs.readFileSync("dbconf.conf", "utf8");
-console.log(dbconfig);
+try {
+	var dbconfig = fs.readFileSync("dbconf.conf", "utf8");
+}
+catch (err) {
+	// If the type is not what you want, then just throw the error again.
+	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
+	if (err.code !== 'ENOENT') throw err;
+	tools.sendHTTPSRequest(curManagers[0], '/api/getDBConfigForNode', false).then(function(result){
+		console.log("Heyoo gettik aldık database config", result);
+	}).fail(function(issue){
+		console.log("Gettik sıçtık database config", issue);
+	});
+	// Handle a file-not-found error
+}
+
+
+
 
 var db = {};
     db.users		= mongojs('cloud',['users']).users;

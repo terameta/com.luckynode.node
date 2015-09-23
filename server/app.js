@@ -14,7 +14,9 @@ catch (err) {
 	if (err.code !== 'ENOENT') throw err;
 	tools.sendHTTPSRequest(curManagers[0], '/api/getDBConfigForNode', false).then(function(result){
 		console.log("Heyoo gettik aldık database config", result);
+		process.exit(1);
 	}).fail(function(issue){
+		process.exit(1);
 		console.log("Gettik sıçtık database config", issue);
 	});
 	// Handle a file-not-found error aa

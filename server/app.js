@@ -31,6 +31,8 @@ var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs',
 var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: dbconfig.pemfile	});
 //console.log(db);
 db.nodes.find({}, function(err, data){
+	console.log("err", err);
+	console.log("Buradayız");
 	console.log(data);
 });
 

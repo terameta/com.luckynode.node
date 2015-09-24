@@ -2,6 +2,7 @@ var Q			= require('q');
 //var config 		= require('../config/config.main.js');
 //var jwt			= require('jsonwebtoken');
 var virsh 		= require('../tools/tools.virsh.js');
+var mongojs 	= require('mongojs');
 
 module.exports = function(app, express, db, tools) {
 	
@@ -320,10 +321,15 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.server || !req.body.details.target){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
+			res.send("ok");
 			virsh.volCloneFromServer(req.body.details.server, req.body.details.target).then(function(result){
-				res.json(result);
+				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: result}}, function(err, data){
+					
+				});
 			}).fail(function(issue){
-				res.status(500).json({ status: 'fail', detail: issue });
+				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: issue}}, function(err, data){
+					
+				});
 			});
 		}
 	});

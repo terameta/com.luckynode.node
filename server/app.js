@@ -30,6 +30,9 @@ var cloudConnStr	= dbconfig.user+':'+dbconfig.pass+'@'+dbconfig.server+':'+dbcon
 var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs','nodetokens','managers','plans','servers','images','isofiles'];
 var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: dbconfig.pemfile	});
 console.log(db);
+db.nodes.find({}, function(err, data){
+	console.log(data);
+});
 
 var App             = require('./config/config.app.js');
 var cronerpid 		= 0;

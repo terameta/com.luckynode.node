@@ -8,7 +8,6 @@ var mongojs 		= require('mongojs');
 try {
 	var dbconfig = fs.readFileSync("dbconf.conf", "utf8");
 	console.log("dbconfig exists", dbconfig);
-	
 }
 catch (err) {
 	// If the type is not what you want, then just throw the error again.

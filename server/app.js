@@ -8,7 +8,7 @@ var mongojs 		= require('mongojs');
 var dbconfig;
 
 try {
-	dbconfig = fs.readFileSync("dbconf.conf", "utf8");
+	dbconfig = JSON.parse(fs.readFileSync("dbconf.conf", "utf8"));
 	console.log("dbconfig exists");
 }
 catch (err) {

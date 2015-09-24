@@ -5,9 +5,11 @@ var tools			= require('./tools/tools.main.js');
 
 var mongojs 		= require('mongojs');
 
+var dbconfig;
+
 try {
-	var dbconfig = fs.readFileSync("dbconf.conf", "utf8");
-	console.log("dbconfig exists", dbconfig);
+	dbconfig = fs.readFileSync("dbconf.conf", "utf8");
+	console.log("dbconfig exists");
 }
 catch (err) {
 	// If the type is not what you want, then just throw the error again.
@@ -24,15 +26,10 @@ catch (err) {
 	// Handle a file-not-found error aa
 }
 
-
-
-
-var db = {};
-    db.users		= mongojs('cloud',['users']).users;
-    db.datacenters	= mongojs('cloud',['datacenters']).datacenters;
-    db.nodes		= mongojs('cloud',['nodes']).nodes;
-    db.ipblocks		= mongojs('cloud',['ipblocks']).ipblocks;
-    db.storages		= mongojs('cloud',['storages']).storages;
+var cloudConnStr	= dbconfig.user+':'+dbconfig.pass+'@'+dbconfig.server+':'+dbconfig.port+'/'+dbconfig.database;
+var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs','nodetokens','managers','plans','servers','images','isofiles'];
+var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: dbconfig.pemfile	});
+console.log(db);
 
 var App             = require('./config/config.app.js');
 var cronerpid 		= 0;

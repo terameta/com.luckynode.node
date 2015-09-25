@@ -52,6 +52,7 @@ function volCloneFromServer(cSrv, cTarget){
 			return deferred.promise;
 		}).
 		then(function(cSrv){
+			volCloneFromServer(cSrv, cTarget, deferred.promise);
 			return tools.runLocalCommand('virsh vol-clone --vol '+cSrv.id+'.qcow2 --newname '+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
 		}).
 		then(function(result){
@@ -61,6 +62,15 @@ function volCloneFromServer(cSrv, cTarget){
 			deferred.reject(issue);
 		});
 	return deferred.promise;
+}
+
+function volCloneFromServerStatusCheck(cSrv, cTarget, thePromise){
+	console.log("The State:", thePromise.state);
+	console.log(cSrv.id);
+	console.log(cTarget.id);
+	setTimeout(function(){
+		volCloneFromServerStatusCheck(cSrv, cTarget, thePromise);
+	}, 5000);
 }
 
 function serverVNCAddress(cSrv){

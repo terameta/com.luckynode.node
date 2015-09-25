@@ -338,6 +338,8 @@ module.exports = function(app, express, db, tools) {
 						console.log("The issue was:", issue);
 					}
 				});
+			}).progress(function(status){
+				console.log("Status:", status);
 			});
 		}
 	});

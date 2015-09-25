@@ -20,8 +20,8 @@ catch (err) {
 		console.log("Database config is received, we will now restart the system");
 		process.exit(1);
 	}).fail(function(issue){
-		process.exit(1);
 		console.log("Gettik sıçtık database config", issue);
+		process.exit(1);
 	});
 	// Handle a file-not-found error aa
 }

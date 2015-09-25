@@ -323,12 +323,20 @@ module.exports = function(app, express, db, tools) {
 		} else {
 			res.send("ok");
 			virsh.volCloneFromServer(req.body.details.server, req.body.details.target).then(function(result){
-				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: result}}, function(err, data){
-					
+				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: 'Ready'}}, function(err, data){
+					if(err){
+						console.log("We were supposed to update the status of volume " + req.body.details.target.id);
+						console.log("This is failed with error", err);
+						console.log("The result was:", result);
+					}
 				});
 			}).fail(function(issue){
-				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: issue}}, function(err, data){
-					
+				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: 'Failed: '+issue}}, function(err, data){
+					if(err){
+						console.log("We were supposed to update the status of volume " + req.body.details.target.id);
+						console.log("This is failed with error", err);
+						console.log("The issue was:", issue);
+					}
 				});
 			});
 		}

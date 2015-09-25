@@ -80,12 +80,12 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 		var targetSize = 0;
 		
 		tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cSrv.id+'.qcow2').then(function(result) {
-		    sourceSize = result;
+		    sourceSize = parseInt(result.trim().split(' ')[0], 10);
 		    console.log(sourceSize);
 		    tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cTarget.id+'.qcow2').then(function(result) {
-		        targetSize = result;
+		        targetSize = parseInt(result.trim().split(' ')[0], 10);
 		        console.log(targetSize);
-		        theDeferred.notify(sourceSize + targetSize);
+		        theDeferred.notify((sourceSize / targetSize * 100) + '%');
 		    });
 		});
 		theDeferred.notify("keke");

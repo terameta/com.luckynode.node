@@ -53,11 +53,11 @@ function volCloneFromServer(cSrv, cTarget){
 		}).
 		then(function(cSrv){
 			volCloneFromServerStatusCheck(cSrv, cTarget, deferred);
-			//return tools.runLocalCommand('virsh vol-clone --vol '+cSrv.id+'.qcow2 --newname '+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
-			setTimeout(function(){
+			return tools.runLocalCommand('virsh vol-clone --vol '+cSrv.id+'.qcow2 --newname '+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
+			/*setTimeout(function(){
 				deferred.resolve();
 			}, 30000);
-			return deferred.promise;
+			return deferred.promise;*/
 		}).
 		then(function(result){
 			deferred.resolve(result);

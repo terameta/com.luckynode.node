@@ -52,7 +52,7 @@ function volCloneFromServer(cSrv, cTarget){
 			return deferred.promise;
 		}).
 		then(function(cSrv){
-			volCloneFromServer(cSrv, cTarget, deferred.promise);
+			volCloneFromServerStatusCheck(cSrv, cTarget, deferred.promise);
 			return tools.runLocalCommand('virsh vol-clone --vol '+cSrv.id+'.qcow2 --newname '+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
 		}).
 		then(function(result){

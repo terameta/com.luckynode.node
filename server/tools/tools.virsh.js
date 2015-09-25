@@ -72,11 +72,10 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 	console.log("The State:", theDeferred.promise.state);
 	console.log("The Promise", theDeferred.promise);
 	console.log("The isPending", theDeferred.promise.isPending());
-	console.log("The isPending", theDeferred.isPending());
 	console.log(cSrv.id);
 	console.log(cTarget.id);
 	console.log(theDeferred);
-	if(theDeferred.promise.state === 'pending' || 1===1){
+	if(theDeferred.promise.isPending()){
 		var sourceSize = 0;
 		var targetSize = 0;
 		

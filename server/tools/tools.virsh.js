@@ -69,29 +69,20 @@ function volCloneFromServer(cSrv, cTarget){
 }
 
 function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
-	console.log("The State:", theDeferred.promise.state);
-	console.log("The Promise", theDeferred.promise);
-	console.log("The isPending", theDeferred.promise.isPending());
-	console.log(cSrv.id);
-	console.log(cTarget.id);
-	console.log(theDeferred);
 	if(theDeferred.promise.isPending()){
 		var sourceSize = 0;
 		var targetSize = 0;
 		
 		tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cSrv.id+'.qcow2').then(function(result) {
 		    sourceSize = parseInt(result.trim().split(' ')[0], 10);
-		    console.log(sourceSize);
 		    tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cTarget.id+'.qcow2').then(function(result) {
 		        targetSize = parseInt(result.trim().split(' ')[0], 10);
-		        console.log(targetSize);
-		        theDeferred.notify((sourceSize / targetSize * 100) + '%');
+		        theDeferred.notify((targetSize / sourceSize * 100) + '%');
 		    });
 		});
-		theDeferred.notify("keke");
 		setTimeout(function(){
 			volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred);
-		}, 5000);
+		}, 10000);
 	}
 }
 

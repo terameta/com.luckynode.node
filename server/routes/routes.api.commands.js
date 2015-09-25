@@ -340,6 +340,13 @@ module.exports = function(app, express, db, tools) {
 				});
 			}).progress(function(status){
 				console.log("Status:", status);
+				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: status}}, function(err, data){
+					if(err){
+						console.log("We were supposed to update the status of volume " + req.body.details.target.id);
+						console.log("This is failed with error", err);
+						console.log("The status was:", status);
+					}
+				});
 			});
 		}
 	});

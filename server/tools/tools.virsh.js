@@ -64,14 +64,27 @@ function volCloneFromServer(cSrv, cTarget){
 	return deferred.promise;
 }
 
-function volCloneFromServerStatusCheck(cSrv, cTarget, thePromise){
-	console.log("The State:", thePromise.state);
+function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
+	console.log("The State:", theDeferred.promise.state);
 	console.log(cSrv.id);
 	console.log(cTarget.id);
-	console.log(thePromise);
-	setTimeout(function(){
-		volCloneFromServerStatusCheck(cSrv, cTarget, thePromise);
-	}, 5000);
+	console.log(theDeferred);
+	if(theDeferred.promise.state === 'pending'){
+		var sourceSize = 0;
+		var targetSize = 0;
+		
+		tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cSrv.id+'.qcow2').then(function(result) {
+		    sourceSize = result;
+		    tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cTarget.id+'.qcow2').then(function(result) {
+		        targetSize = result;
+		        theDeferred.notify(sourceSize + targetSize);
+		    });
+		});
+		theDeferred.notify("keke");
+		setTimeout(function(){
+			volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred);
+		}, 5000);
+	}
 }
 
 function serverVNCAddress(cSrv){

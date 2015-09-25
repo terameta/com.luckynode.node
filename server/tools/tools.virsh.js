@@ -71,7 +71,7 @@ function volCloneFromServer(cSrv, cTarget){
 function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 	console.log("The State:", theDeferred.promise.state);
 	console.log("The Promise", theDeferred.promise);
-	console.log("The JSON", JSON.parse(theDeferred.promise.inspect()));
+	console.log("The JSON", theDeferred.promise.inspect());
 	console.log(cSrv.id);
 	console.log(cTarget.id);
 	console.log(theDeferred);

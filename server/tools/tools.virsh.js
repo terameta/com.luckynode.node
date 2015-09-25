@@ -81,8 +81,10 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 		
 		tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cSrv.id+'.qcow2').then(function(result) {
 		    sourceSize = result;
+		    console.log(sourceSize);
 		    tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cTarget.id+'.qcow2').then(function(result) {
 		        targetSize = result;
+		        console.log(targetSize);
 		        theDeferred.notify(sourceSize + targetSize);
 		    });
 		});

@@ -68,6 +68,7 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, thePromise){
 	console.log("The State:", thePromise.state);
 	console.log(cSrv.id);
 	console.log(cTarget.id);
+	console.log(thePromise);
 	setTimeout(function(){
 		volCloneFromServerStatusCheck(cSrv, cTarget, thePromise);
 	}, 5000);

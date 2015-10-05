@@ -77,7 +77,7 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 		    sourceSize = parseInt(result.trim().split(' ')[0], 10);
 		    tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cTarget.id+'.qcow2').then(function(result) {
 		        targetSize = parseInt(result.trim().split(' ')[0], 10);
-		        theDeferred.notify((targetSize / sourceSize * 100) + '%');
+		        theDeferred.notify(parseInt((targetSize / sourceSize * 100), 10) + '%');
 		    });
 		});
 		setTimeout(function(){
@@ -578,6 +578,9 @@ function serverUndefine(cSrv){
 }
 
 function serverDefine(cSrv){
+	console.log("====================================");
+	console.log(cSrv);
+	console.log("====================================");
 	var deferred = Q.defer();
 	if(!cSrv.architecture) 											cSrv.architecture = 'x86_64';
 	if(!cSrv.imageType) 											cSrv.imageType = 'qcow2';

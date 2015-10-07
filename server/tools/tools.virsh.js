@@ -587,6 +587,9 @@ function serverDefine(cSrv){
 	if(cSrv.netdriver != 'rtl8139' && cSrv.netdriver != 'e1000') 	cSrv.netdriver = 'virtio';
 	if(cSrv.diskdriver != 'ide')									cSrv.diskdriver = 'virtio';
 	if(!cSrv.bridge)												cSrv.bridge = 'br0';
+	console.log("====================================");
+	console.log(cSrv);
+	console.log("====================================");
 	
 	serverWriteDHCPItem(cSrv).
 		then(getMostAvailablePool).
@@ -694,6 +697,7 @@ function poolList(){
 }
 
 function getMostAvailablePool(cSrv){
+	console.log("getMostAvailablePool is called for ", cSrv.id);
 	var deferred = Q.defer();
 	if(cSrv.store){
 		deferred.resolve();

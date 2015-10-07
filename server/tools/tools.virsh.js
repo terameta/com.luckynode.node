@@ -820,6 +820,9 @@ function saveDomainXML(cSrv){
 }
 
 function createDomainDiskFile(cSrv){
+	console.log("=========================================================");
+	console.log("=========================================================");
+	console.log("=========================================================");
 	var deferred = Q.defer();
 	var theCmd  = 	'virsh vol-create-as --pool '+ cSrv.store;
 		theCmd +=	' --name '+ cSrv.id;
@@ -827,7 +830,11 @@ function createDomainDiskFile(cSrv){
 		theCmd +=	' --capacity '+ cSrv.hdd +'G';
 		theCmd += 	' --format ' + (cSrv.imageType == 'qcow2' ? 'qcow2' : 'raw');
 		theCmd +=	(cSrv.imageType == 'qcow2' ? ' --prealloc-metadata' : '');
+	console.log("=========================================================");
+	console.log("=========================================================");
 	console.log(theCmd);
+	console.log("=========================================================");
+	console.log("=========================================================");
 	tools.runLocalCommand(theCmd).
 		then(function(result){ deferred.resolve(cSrv); }).
 		fail(function(issue){ deferred.reject(issue); });

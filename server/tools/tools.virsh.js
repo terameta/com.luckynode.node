@@ -337,8 +337,10 @@ function serverWriteDHCPItem(cSrv){
 	tools.runLocalCommands(theCommands).
 		then(refreshDHCPConfig).
 		then(function(result){
+			tools.logger.info("writeServerDHCPItem is succeeded", result);
 			deferred.resolve(cSrv);
 		}).fail(function(issue){
+			tools.logger.error("writeServerDHCPItem is failed", issue);
 			deferred.reject(issue);
 		});
 	return deferred.promise;

@@ -34,7 +34,6 @@ module.exports = function(app, express, db, tools) {
 					});
 				}
 				else {
-					console.log(decoded);
 					res.send('ok');
 				}
 			});
@@ -98,7 +97,7 @@ module.exports = function(app, express, db, tools) {
 								}
 							).fail(
 								function(mIssue){
-									console.log(mIssue);
+									tools.logger.error("Failure to verify manager", mIssue);
 									res.status(401).json({status:'fail'});
 								}
 							);
@@ -110,7 +109,7 @@ module.exports = function(app, express, db, tools) {
 				}
 			).fail(
 				function(issue){
-					console.log("Issue: ", issue);
+					tools.logger.error("Failure to reach to first manager", issue);
 					res.status(401).json({status:'fail'});
 				}
 			);

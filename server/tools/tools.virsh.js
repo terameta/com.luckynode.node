@@ -31,7 +31,7 @@ module.exports = {
 };
 
 function volDelete(cVol){
-	console.log("volDelete is called for " + cVol.name);
+	tools.logger.info("volDelete is called for " + cVol.name);
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh vol-delete --vol '+ cVol.id +'.qcow2 --pool '+ cVol.pool).then(function(result){
 		deferred.resolve(result);
@@ -42,7 +42,7 @@ function volDelete(cVol){
 }
 
 function volCloneFromServer(cSrv, cTarget){
-	console.log("volCloneFromServer is called");
+	tools.logger.info("volCloneFromServer is called");
 	var deferred = Q.defer();
 	serverState(cSrv).
 		then(serverShutDown).
@@ -87,7 +87,7 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 }
 
 function serverVNCAddress(cSrv){
-	console.log("serverVNCAddress is called for:", cSrv.id);
+	tools.logger.info("serverVNCAddress is called for:"+cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh vncdisplay ' + cSrv.id;
 	serverState(cSrv).then(function(result){
@@ -110,7 +110,7 @@ function serverVNCAddress(cSrv){
 }
 
 function serverReboot(cSrv){
-	console.log("serverReboot is called for:", cSrv.id);
+	tools.logger.info("serverReboot is called for:"+cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh reboot ' + cSrv.id;
 	serverState(cSrv).then(function(result) {
@@ -130,7 +130,7 @@ function serverReboot(cSrv){
 }
 
 function serverStart(cSrv){
-	console.log("serverStart is called for:", cSrv.id);
+	tools.logger.info("serverStart is called for:" + cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh start ' + cSrv.id;
 	serverState(cSrv).
@@ -152,7 +152,7 @@ function serverStart(cSrv){
 }
 
 function serverPowerOff(cSrv){
-	console.log("serverPowerOff is called for:", cSrv.id);
+	tools.logger.info("serverPowerOff is called for:" + cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh destroy ' + cSrv.id;
 	serverState(cSrv).then(function(result) {
@@ -172,7 +172,7 @@ function serverPowerOff(cSrv){
 }
 
 function serverShutDown(cSrv){
-	console.log("serverShutDown is called for:", cSrv.id);
+	tools.logger.info("serverShutDown is called for:"+ cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh shutdown ' + cSrv.id;
 	serverState(cSrv).then(function(result) {
@@ -202,7 +202,7 @@ function serverWaitForShutDown(cSrv, deferred){
 }
 
 function serverAttachISO(details){
-	console.log("serverAttachISO is called for:", details);
+	tools.logger.info("serverAttachISO is called", details);
 	var deferred = Q.defer();
 	var theCommand = 'virsh change-media'
 						+' --domain '+ details.server 
@@ -226,7 +226,7 @@ function serverAttachISO(details){
 }
 
 function serverEjectISO(details){
-	console.log("serverEjectISO is called for:", details);
+	tools.logger.info("serverEjectISO is called", details);
 	var deferred = Q.defer();
 	var theCommand = 'virsh change-media --domain '+ details.server +' --path '+ details.target +' --config --eject';
 	serverState({id: details.server}).then(function(result){
@@ -245,7 +245,7 @@ function serverEjectISO(details){
 }
 
 function poolListIsos(storage){
-	console.log("poolListIsos is called for pool " + storage.name);
+	tools.logger.info("poolListIsos is called for pool " + storage.name);
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh vol-list '+ storage.name +' --details').then(function(result) {
 		var toReturn = [];
@@ -263,25 +263,25 @@ function poolListIsos(storage){
 				toReturn.push(curIso);
 			}
 		});
-		console.log("poolListIsos succeeded for pool " + storage.name);
+		tools.logger.info("poolListIsos succeeded for pool " + storage.name, result);
 		deferred.resolve(toReturn);
 	}).fail(function(issue) {
-		console.log("poolListIsos failed for pool " + storage.name);
+		tools.logger.error("poolListIsos failed for pool " + storage.name, issue);
 		deferred.reject(issue);
 	});
 	return deferred.promise;
 }
 
 function nodeBridgeDetach(bridge){
-	console.log("nodeBridgeDetach is called for bridge " + bridge);
+	tools.logger.info("nodeBridgeDetach is called for bridge " + bridge);
 	var deferred = Q.defer();
 	
 	tools.runLocalCommand('virsh iface-unbridge --bridge ' + bridge).then(function(result){
-		console.log("nodeBridgeDetach succeeded for bridge "+ bridge);
+		tools.logger.info("nodeBridgeDetach succeeded for bridge "+ bridge, result);
 		deferred.resolve(result);
 		refreshDHCPConfig();
 	}).fail(function(issue){
-		console.log("nodeBridgeDetach failed for bridge "+ bridge);
+		tools.logger.error("nodeBridgeDetach failed for bridge "+ bridge, issue);
 		deferred.resolve(issue);
 	});
 	
@@ -289,16 +289,16 @@ function nodeBridgeDetach(bridge){
 }
 
 function nodeBridgeAssign(bridge, iface){
-	console.log("nodeBridgeAssign is called for bridge "+ bridge +" and interface " + iface);
+	tools.logger.info("nodeBridgeAssign is called for bridge "+ bridge +" and interface " + iface);
 	var deferred = Q.defer();
 	var theCommands = [];
 	theCommands.push('virsh iface-bridge --interface '+ iface +' --bridge '+ bridge +' --no-stp --delay 0');
 	tools.runLocalCommands(theCommands).then(function(result){
-		console.log("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface);
+		tools.logger.info("nodeBridgeAssign succeeded for bridge "+ bridge +" and interface " + iface, result);
 		deferred.resolve(result);	
 	}).fail(function(issue){
-		console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface);
-		console.log("We will cross check, but before, we will wait for 5 seconds");
+		tools.logger.error("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface, issue);
+		tools.logger.info( "We will cross check, but before, we will wait for 5 seconds");
 		tools.unfortunateWaiter(5000);
 		nodeInterfaceList().then(function(result){
 			var shouldResolve = false;
@@ -309,16 +309,16 @@ function nodeBridgeAssign(bridge, iface){
 				deferred.resolve("ok");
 				refreshDHCPConfig();
 			} else {
-				console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways."); deferred.reject("notok");
+				tools.logger.error("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways.", issue); deferred.reject("notok");
 			}
-		}).fail(function(issue){ console.log("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways."); deferred.reject(issue); });
+		}).fail(function(issue){ tools.logger.info("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways.", issue); deferred.reject(issue); });
 	});
 	
 	return deferred.promise;
 }
 
 function serverWriteDHCPItem(cSrv){
-	console.log("writeServerDHCPItem is called");
+	tools.logger.info("writeServerDHCPItem is called");
 	var deferred = Q.defer();
 	var theCommands = [];
 	var nameservers = [];
@@ -345,7 +345,7 @@ function serverWriteDHCPItem(cSrv){
 }
 
 function serverDeleteDHCPItem(cSrv){
-	console.log("writeServerDHCPItem is called");
+	tools.logger.info("writeServerDHCPItem is called");
 	var deferred = Q.defer();
 	var theCommands = [];
 	theCommands.push('cd && rm dhcpd.conf.body.'+cSrv.id);
@@ -360,7 +360,7 @@ function serverDeleteDHCPItem(cSrv){
 }
 
 function refreshDHCPConfig(){
-	console.log("refreshDHCPConfig is called");
+	tools.logger.info("refreshDHCPConfig is called");
 	var interfaceString = '';
 	var deferred = Q.defer();
 	var theCommands = [];
@@ -379,10 +379,10 @@ function refreshDHCPConfig(){
 		theCommands.push('cd && sudo sh -c "cat dhcpd.conf.head dhcpd.conf.body* > /etc/dhcp/dhcpd.conf"');
 		theCommands.push('sudo service isc-dhcp-server restart');
 		tools.runLocalCommands(theCommands).then(function(result) {
-			console.log("refreshDHCPConfig succeeded with interfaces:", interfaceString);
+			tools.logger.info("refreshDHCPConfig succeeded with interfaces:"+interfaceString, result);
 			deferred.resolve(result);
 		}).fail(function(issue) {
-			console.log("refreshDHCPConfig failed with interfaces:", interfaceString);
+			tools.logger.error("refreshDHCPConfig failed with interfaces:"+interfaceString, issue);
 			deferred.reject(issue);
 		});
 	}).fail(function(issue) {
@@ -392,7 +392,7 @@ function refreshDHCPConfig(){
 }
 
 function nodeInterfaceList(){
-	console.log("nodeInterfaceList is called");
+	tools.logger.info("nodeInterfaceList is called");
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh iface-list --all').then(
 		function(result){
@@ -408,15 +408,15 @@ function nodeInterfaceList(){
 				toReturn.push(curInterface);
 				//console.log(curInterface);
 			});
-			console.log("nodeInterfaceList succeeded");
+			tools.logger.info("nodeInterfaceList succeeded");
 			deferred.resolve(toReturn);
 		}
-	).fail( function(issue){ console.log("nodeInterfaceList failed"); deferred.reject(issue); } );
+	).fail( function(issue){ tools.logger.info("nodeInterfaceList failed", issue); deferred.reject(issue); } );
 	return deferred.promise;
 }
 
 function serverDiskList(cSrv){
-	console.log("serverDiskList is called for " + cSrv.id);
+	tools.logger.info("serverDiskList is called for " + cSrv.id);
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh domblklist '+ cSrv.id +' --details').then(
 		function(result){
@@ -432,10 +432,10 @@ function serverDiskList(cSrv){
 				curDisk.source	= curDiskDef[3] || 'NoSource';
 				toReturn.push(curDisk);
 			});
-			console.log("serverDiskList succeeded for " + cSrv.id);
+			tools.logger.info("serverDiskList succeeded for " + cSrv.id, result);
 			deferred.resolve(toReturn);
 		}
-	).fail( function(issue){ console.log("serverDiskList failed for " + cSrv.id); deferred.reject(issue); } );
+	).fail( function(issue){ tools.logger.info("serverDiskList failed for " + cSrv.id, issue); deferred.reject(issue); } );
 	return deferred.promise;
 }
 
@@ -465,7 +465,7 @@ function serverList(){
 }
 
 function serverDelete(cSrv){
-	console.log("serverDelete called for " + cSrv.id);
+	tools.logger.info("serverDelete called for " + cSrv.id);
 	var deferred = Q.defer();
 	
 	serverState(cSrv).
@@ -473,14 +473,14 @@ function serverDelete(cSrv){
 		then(serverDestroy).
 		then(serverDeleteDiskFiles).
 		then(serverUndefine).
-		then( function(result){ 	console.log("serverDelete succeeded for " + cSrv.id);	deferred.resolve('success');	}).
-		fail( function(issue){ 		console.log("serverDelete failed for " + cSrv.id);		deferred.reject(issue); 	});
+		then( function(result){ 	tools.logger.info( "serverDelete succeeded for " + cSrv.id, cSrv);	deferred.resolve('success');	}).
+		fail( function(issue){ 		tools.logger.error("serverDelete failed for " + cSrv.id, cSrv);		deferred.reject(issue); 		});
 	
 	return deferred.promise;
 }
 
 function serverState(cSrv){
-	console.log("serverState called for " + cSrv.id);
+	tools.logger.info("serverState called for " + cSrv.id);
 	var deferred = Q.defer();
 	serverList().then(
 		function(domList){
@@ -488,32 +488,32 @@ function serverState(cSrv){
 			domList.forEach(function(curDom){
 				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
 			});
-			console.log("serverState succeeded for " + cSrv.id);
+			tools.logger.info("serverState succeeded for " + cSrv.id, cSrv);
 			deferred.resolve(cSrv);
 		}
-	).fail( function(issue){ console.log("serverState failed for " + cSrv.id);		deferred.reject(issue); } );
+	).fail( function(issue){ tools.logger.info("serverState failed for " + cSrv.id, issue);		deferred.reject(issue); } );
 	return deferred.promise;
 }
 
 function serverDestroy(cSrv){
-	console.log("serverDestroy called for " + cSrv.id);
+	tools.logger.info("serverDestroy called for " + cSrv.id);
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'shutoff'){
-		console.log("serverDestroy succeeded for " + cSrv.id);
+		tools.logger.info("serverDestroy succeeded for " + cSrv.id);
 		deferred.resolve(cSrv);
 	} else if(cSrv.domstate == 'notexist'){
-		console.log("serverDestroy succeeded for " + cSrv.id);
+		tools.logger.info("serverDestroy succeeded for " + cSrv.id);
 		deferred.resolve(cSrv);
 	} else {
 		tools.runLocalCommand('virsh destroy '+cSrv.id).
-			then( function(result){ 	console.log("serverDestroy succeeded for " + cSrv.id); 	cSrv.serverDestroyResult = result; 		deferred.resolve(cSrv);	}).
-			fail( function(issue){ 		console.log("serverDestroy failed for " + cSrv.id);		console.log(issue);						deferred.reject(issue); 	});
+			then( function(result){ 	tools.logger.info( "serverDestroy succeeded for " + cSrv.id, result); 	cSrv.serverDestroyResult = result; 		deferred.resolve(cSrv);	}).
+			fail( function(issue){ 		tools.logger.error("serverDestroy failed for " + cSrv.id, issue);												deferred.reject(issue); 	});
 	}
 	return deferred.promise;
 }
 
 function serverDeleteDiskFiles(cSrv){
-	console.log("serverDeleteDiskFiles is called for " + cSrv.id);
+	tools.logger.info("serverDeleteDiskFiles is called for " + cSrv.id);
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'notexist'){
 		deferred.resolve(cSrv);
@@ -533,14 +533,14 @@ function serverDeleteDiskFiles(cSrv){
 					return ideferred.promise;
 				}
 			).
-			then( function(result){ 	console.log("serverDeleteDiskFiles succeeded for " + cSrv.id);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
-			fail( function(issue){ 		console.log("serverDeleteDiskFiles failed for " + cSrv.id);		deferred.reject(issue); 	});
+			then( function(result){ 	tools.logger.info( "serverDeleteDiskFiles succeeded for " + cSrv.id, result);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
+			fail( function(issue){ 		tools.logger.error("serverDeleteDiskFiles failed for " + cSrv.id, issue);		deferred.reject(issue); 	});
 	}
 	return deferred.promise;
 }
 
 function serverCheckDiskFiles(cSrv){
-	console.log("serverCheckDiskFiles is called for " + cSrv.id );
+	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --details').
 		then(
@@ -555,24 +555,24 @@ function serverCheckDiskFiles(cSrv){
 					curVol.name = curVolDef[0] || 'NoAssignedName';
 					if(curVol.name.indexOf(cSrv.id.toString()) >= 0 ) toReturn.push(curVol.name);
 				});
-				console.log("serverCheckDiskFiles succeeded for " + cSrv.id );
+				tools.logger.info("serverCheckDiskFiles succeeded for " + cSrv.id, result);
 				deferred.resolve(toReturn);
 			}
 		).
-		fail( function(issue){ 		console.log("serverCheckDiskFiles failed for " + cSrv.id );		deferred.reject(issue); 	});
+		fail( function(issue){ 		tools.logger.info("serverCheckDiskFiles failed for " + cSrv.id, issue );		deferred.reject(issue); 	});
 	return deferred.promise;
 }
 
 function serverUndefine(cSrv){
-	console.log("serverUndefine is called for " + cSrv.id );
+	tools.logger.info("serverUndefine is called for " + cSrv.id );
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'notexist'){
-		console.log("serverUndefine succeeded for " + cSrv.id );
+		tools.logger.info("serverUndefine succeeded for " + cSrv.id );
 		deferred.resolve(cSrv);
 	} else {
 		tools.runLocalCommand('virsh undefine '+ cSrv.id).
-			then( function(result){ 	console.log("serverUndefine succeeded for " + cSrv.id );	cSrv.serverUndefineResult = result; deferred.resolve(cSrv);	}).
-			fail( function(issue){ 		console.log("serverUndefine failed for " + cSrv.id );		deferred.reject(issue); 	});
+			then( function(result){ 	tools.logger.info("serverUndefine succeeded for " + cSrv.id, result );	cSrv.serverUndefineResult = result; deferred.resolve(cSrv);	}).
+			fail( function(issue){ 		tools.logger.info("serverUndefine failed for " + cSrv.id, issue );		deferred.reject(issue); 	});
 	}
 	return deferred.promise;
 }
@@ -693,7 +693,7 @@ function poolList(){
 }
 
 function getMostAvailablePool(cSrv){
-	console.log("getMostAvailablePool is called for ", cSrv.id);
+	tools.logger.info("getMostAvailablePool is called for "+ cSrv.id);
 	var deferred = Q.defer();
 	if(cSrv.store){
 		deferred.resolve();
@@ -735,7 +735,7 @@ function getMostAvailablePool(cSrv){
 			if(curPool[9] == 'E') 		curSize *= 1000000000000000000;
 			if(curPool[9] == 'EB') 		curSize *= 1000000000000000000;
 			if(curPool[9] == 'EiB') 	curSize *= 1152921504606846976;
-			console.log(curSize);
+			tools.logger.info(curSize);
 			if(curSize > curMaxFree){
 				curMaxFree = curSize;
 				curMax = curPool[0];
@@ -753,6 +753,7 @@ function getMostAvailablePool(cSrv){
 }
 
 function composeDomainXML(cSrv){
+	tools.logger.info('composeDomainXML is called', cSrv);
 	var deferred = Q.defer();
 	var diskFile = '/mnt/luckynodepools/'+ cSrv.store +'/'+ cSrv.id +(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
 	var theXML = ''
@@ -798,8 +799,8 @@ function composeDomainXML(cSrv){
 	+	'	</devices>'																									+ '\n'
 	+ 	'</domain>';
 	cSrv.theXML = theXML;
-	//console.log(cSrv);
-	//console.log(cSrv.theXML);
+	tools.logger.info('composeDomainXML is completed with XML', cSrv.theXML);
+	tools.logger.info('composeDomainXML is completed with XML, resulting status', cSrv);
 	
 	deferred.resolve(cSrv);
 	return deferred.promise;
@@ -812,7 +813,7 @@ function saveDomainXML(cSrv){
 		if (err){
 			deferred.reject(err);
 		} else {
-			console.log("XML file for the new server " + cSrv.id + " is saved.");
+			tools.logger.info("XML file for the new server " + cSrv.id + " is saved.");
 			deferred.resolve(cSrv);
 		}
 	});
@@ -820,9 +821,7 @@ function saveDomainXML(cSrv){
 }
 
 function createDomainDiskFile(cSrv){
-	console.log("=========================================================");
-	console.log("=========================================================");
-	console.log("=========================================================");
+	tools.logger.info('createDomainDiskFile is called', cSrv);
 	var deferred = Q.defer();
 	var theCmd  = 	'virsh vol-create-as --pool '+ cSrv.store;
 		theCmd +=	' --name '+ cSrv.id;
@@ -830,14 +829,10 @@ function createDomainDiskFile(cSrv){
 		theCmd +=	' --capacity '+ cSrv.hdd +'G';
 		theCmd += 	' --format ' + (cSrv.imageType == 'qcow2' ? 'qcow2' : 'raw');
 		theCmd +=	(cSrv.imageType == 'qcow2' ? ' --prealloc-metadata' : '');
-	console.log("=========================================================");
-	console.log("=========================================================");
-	console.log(theCmd);
-	console.log("=========================================================");
-	console.log("=========================================================");
+	tools.logger.info('createDomainDiskFile commad', theCmd);
 	tools.runLocalCommand(theCmd).
-		then(function(result){ deferred.resolve(cSrv); }).
-		fail(function(issue){ deferred.reject(issue); });
+		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); 	deferred.resolve(cSrv); }).
+		fail(function(issue){ tools.logger.error('createDomainDiskFile failed', issue);			deferred.reject(issue); });
 	return deferred.promise;
 }
 

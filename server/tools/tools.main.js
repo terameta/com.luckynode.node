@@ -23,7 +23,7 @@ catch (err) {
 		console.log("Database config is received, we will now restart the system");
 		process.exit(1);
 	}).fail(function(issue){
-		console.log("Gettik sıçtık database config", issue);
+		console.log("Failed to receive database config", issue);
 		process.exit(1);
 	});
 	// Handle a file-not-found error aa
@@ -119,6 +119,7 @@ module.exports = {
 };
 
 function runLocalCommands(commandList){
+	logger.info("runLocalCommands called", commandList);
 	var deferred = Q.defer();
 	if(commandList.length > 0){
 		var curCommand = commandList.shift();
@@ -148,11 +149,13 @@ function runLocalCommands(commandList){
 
 function runLocalCommand(command, resolveTo){
 	var deferred = Q.defer();
+	logger.info("runLocalCommand called with command: "+ command);
 	exec(command, function(error, stdout, stderr){
 		if(error){
-			console.log("Failed command: ", command);
+			logger.error("runLocalCommand failed with command: "+ command);
 			deferred.reject(stderr);
 		} else {
+			logger.info("runLocalCommand succeeded with command: "+ command);
 			if(resolveTo){
 				deferred.resolve(resolveTo);
 			} else {

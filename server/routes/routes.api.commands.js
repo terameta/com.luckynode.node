@@ -26,7 +26,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverDelete', tools.checkToken, function(req, res){
-		console.log("serverDelete is posted");
+		tools.logger.info("serverDelete is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details) {
@@ -34,15 +34,15 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.id) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			console.log("serverDelete is posted for " + req.body.details.id);
+			tools.logger.info("serverDelete is posted for " + req.body.details.id);
 			virsh.serverDelete(req.body.details).
-				then(function(result){ 		console.log("serverDelete post succeeded for " + req.body.details.id);						res.send(result); 											}).
-				fail(function(issue){ 		console.log("serverDelete post failed for " + req.body.details.id);		console.log(issue);	res.status(500).json({ status: 'fail', detail: issue}); 	});
+				then(function(result){ 		tools.logger.info( "serverDelete post succeeded for " + req.body.details.id);						res.send(result); 											}).
+				fail(function(issue){ 		tools.logger.error("serverDelete post failed for " + req.body.details.id, issue);					res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}
 	});
 	
 	apiRoutes.post('/serverDiskList', tools.checkToken, function(req, res){
-		console.log("serverDiskList is posted");
+		tools.logger.info("serverDiskList is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details) {
@@ -50,15 +50,15 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.id) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			console.log("serverDiskList is posted for " + req.body.details.id);
+			tools.logger.info("serverDiskList is posted for " + req.body.details.id);
 			virsh.serverDiskList(req.body.details).
-				then(function(result){ 		console.log("serverDiskList post succeeded for " + req.body.details.id);						res.send(result); 											}).
-				fail(function(issue){ 		console.log("serverDiskList post failed for " + req.body.details.id);		console.log(issue);	res.status(500).json({ status: 'fail', detail: issue}); 	});
+				then(function(result){ 		tools.logger.info( "serverDiskList post succeeded for " + req.body.details.id);						res.send(result); 											}).
+				fail(function(issue){ 		tools.logger.error("serverDiskList post failed for " + req.body.details.id, issue);					res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}
 	});
 	
 	apiRoutes.post('/serverAttachISO', tools.checkToken, function(req, res){
-		console.log("serverAttachISO is posted");
+		tools.logger.info("serverAttachISO is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -66,13 +66,12 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.iso || !req.body.details.pool || !req.body.details.server){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			console.log("serverAttachISO is posted with:", req.body.details);
+			tools.logger.info("serverAttachISO is posted with:", req.body.details);
 			virsh.serverAttachISO(req.body.details).then(function(result){
-				console.log("serverAttachISO post succeeded for " + req.body.details.server);
+				tools.logger.info("serverAttachISO post succeeded for " + req.body.details.server);
 				res.send(result);
 			}).fail(function(issue){
-				console.log("serverAttachISO post failed for " + req.body.details.server);
-				console.log(issue);
+				tools.logger.info("serverAttachISO post failed for " + req.body.details.server, issue);
 				res.send(issue);
 			});
 		}
@@ -80,7 +79,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverEjectISO', tools.checkToken, function(req, res){
-		console.log("serverEjectISO is posted");
+		tools.logger.info("serverEjectISO is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -97,7 +96,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverShutDown', tools.checkToken, function(req, res) {
-		console.log("serverShutDown is posted");
+		tools.logger.info("serverShutDown is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -112,7 +111,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverPowerOff', tools.checkToken, function(req, res) {
-		console.log("serverPowerOff is posted");
+		tools.logger.info("serverPowerOff is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -127,7 +126,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverStart', tools.checkToken, function(req, res) {
-		console.log("serverStart is posted");
+		tools.logger.info("serverStart is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -142,7 +141,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverReboot', tools.checkToken, function(req, res) {
-		console.log("serverReboot is posted");
+		tools.logger.info("serverReboot is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -157,7 +156,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverState', tools.checkToken, function(req, res) {
-		console.log("serverState is posted");
+		tools.logger.info("serverState is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -172,7 +171,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/serverVNCAddress', tools.checkToken, function(req, res) {
-		console.log("serverVNCAddress is posted");
+		tools.logger.info("serverVNCAddress is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -187,14 +186,14 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/nodeInterfaceList', tools.checkToken, function(req, res){
-		console.log('nodeInterfaceList is posted');
+		tools.logger.info('nodeInterfaceList is posted');
 		virsh.nodeInterfaceList().
-			then(function(result){	console.log("nodeInterfaceList post succeeded"); 						res.json(result);										}).
-			fail(function(issue){	console.log("nodeInterfaceList post failed");	console.log(issue);		res.status(500).json({status:'fail', detail: issue});	});
+			then(function(result){	tools.logger.info( "nodeInterfaceList post succeeded"); 						res.json(result);										}).
+			fail(function(issue){	tools.logger.error("nodeInterfaceList post failed", issue);						res.status(500).json({status:'fail', detail: issue});	});
 	});
 	
 	apiRoutes.post('/nodeBridgeAssign', tools.checkToken, function(req, res){
-		console.log('nodeBridgeAssign is posted');
+		tools.logger.info('nodeBridgeAssign is posted');
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details) {
@@ -205,13 +204,13 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
 			virsh.nodeBridgeAssign(req.body.details.bridge, req.body.details.iface).
-				then(function(result){ 		console.log("nodeBridgeAssign post succeeded");								res.send(result); 											}).
-				fail(function(issue){ 		console.log("nodeBridgeAssign post failed");		console.log(issue);		res.status(500).json({ status: 'fail', detail: issue}); 	});
+				then(function(result){ 		tools.logger.info( "nodeBridgeAssign post succeeded");					res.send(result); 											}).
+				fail(function(issue){ 		tools.logger.error("nodeBridgeAssign post failed", issue);				res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}
 	});
 	
 	apiRoutes.post('/nodeBridgeDetach', tools.checkToken, function(req, res){
-		console.log('nodeBridgeDetach is posted');
+		tools.logger.info('nodeBridgeDetach is posted');
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details) {
@@ -220,13 +219,13 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
 			virsh.nodeBridgeDetach(req.body.details.bridge).
-				then(function(result){ 		console.log("nodeBridgeDetach post succeeded");								res.send(result); 											}).
-				fail(function(issue){ 		console.log("nodeBridgeDetach post failed");		console.log(issue);		res.status(500).json({ status: 'fail', detail: issue}); 	});
+				then(function(result){ 		tools.logger.info( "nodeBridgeDetach post succeeded");					res.send(result); 											}).
+				fail(function(issue){ 		tools.logger.error("nodeBridgeDetach post failed", issue);				res.status(500).json({ status: 'fail', detail: issue}); 	});
 		}
 	});
 	
 	apiRoutes.post('/poolListIsos', tools.checkToken, function(req, res){
-		console.log("poolListIsos is posted");
+		tools.logger.info("poolListIsos is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -244,7 +243,7 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/assignStoragePools', tools.checkToken, function(req, res) {
 		var newPools = [];
-		console.log(req.body.details);
+		tools.logger.info("assignStoragePools is posted", req.body.details);
 		if(req.body){ if(req.body.details){ if(req.body.details.length > 0){
 			newPools = req.body.details;
 		} } }
@@ -282,26 +281,24 @@ module.exports = function(app, express, db, tools) {
 							poolsToRemove.push(curExsPool);
 						}
 					});
-					console.log("PoolsToDefine");
-					console.log(poolsToDefine);
-					console.log("PoolsToRemove");
-					console.log(poolsToRemove);
+					tools.logger.info("PoolsToDefine", poolsToDefine);
+					tools.logger.info("PoolsToRemove", poolsToRemove);
 					virsh.poolsDefine(poolsToDefine).then(
 						function(result){
-							console.log("Pools Define Succeded:", result);
+							tools.logger.info("Pools Define Succeded:", result);
 						}
 					).fail(
 						function(issue){
-							console.log("Pools Define Failed:", issue);
+							tools.logger.info("Pools Define Failed:", issue);
 						}
 					);
 					virsh.poolsRemove(poolsToRemove).then(
 						function(result){
-							console.log("Pools Remove Succeeded:", result);
+							tools.logger.info("Pools Remove Succeeded:", result);
 						}
 					).fail(
 						function(issue){
-							console.log("Pools Remove Failed:", issue);
+							tools.logger.info("Pools Remove Failed:", issue);
 						}
 					);
 				}
@@ -313,7 +310,7 @@ module.exports = function(app, express, db, tools) {
 	});
 
 	apiRoutes.post('/volCloneFromServer', tools.checkToken, function(req, res){
-		console.log("volCloneFromServer is posted");
+		tools.logger.info("volCloneFromServer is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){
@@ -325,26 +322,20 @@ module.exports = function(app, express, db, tools) {
 			virsh.volCloneFromServer(req.body.details.server, req.body.details.target).then(function(result){
 				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: 'Enabled'}}, function(err, data){
 					if(err){
-						console.log("We were supposed to update the status of volume " + req.body.details.target.id);
-						console.log("This is failed with error", err);
-						console.log("The result was:", result);
+						tools.logger.error("We were supposed to update the status of volume " + req.body.details.target.id, {error:err, result: result});
 					}
 				});
 			}).fail(function(issue){
 				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: 'Failed: '+issue}}, function(err, data){
 					if(err){
-						console.log("We were supposed to update the status of volume " + req.body.details.target.id);
-						console.log("This is failed with error", err);
-						console.log("The issue was:", issue);
+						tools.logger.error("We were supposed to update the status of volume " + req.body.details.target.id, {error:err, issue: issue});
 					}
 				});
 			}).progress(function(status){
-				console.log("Status:", status);
+				tools.logger.info("Status:", status);
 				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: status}}, function(err, data){
 					if(err){
-						console.log("We were supposed to update the status of volume " + req.body.details.target.id);
-						console.log("This is failed with error", err);
-						console.log("The status was:", status);
+						tools.logger.error("We were supposed to update the status of volume " + req.body.details.target.id, {error: err, status: status});
 					}
 				});
 			});
@@ -352,7 +343,7 @@ module.exports = function(app, express, db, tools) {
 	});
 	
 	apiRoutes.post('/volDelete', tools.checkToken, function(req, res) {
-		console.log("volDelete is posted");
+		tools.logger.info("volDelete is posted");
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else if(!req.body.details){

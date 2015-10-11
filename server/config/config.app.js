@@ -33,7 +33,7 @@ module.exports = function App(db) {
 	
 	fs.readFile('managerip', "utf-8", function(err, data) {
 		if (err) {
-			console.log("Can't read managers file");
+			tools.logger.error("Can't read managers file",null,false);
 		} else {
 			app.set('managers', data.trim().split(','));
 		}
@@ -46,11 +46,7 @@ module.exports = function App(db) {
 	};
 	
 	https.createServer(httpsConfig,app).listen(app.get('port'));
-	console.log('Express server listening on port ' + app.get('port'));
-/*
-	var server = app.listen(app.get('port'), '0.0.0.0', function() {
-		console.log('Express server listening on port ' + server.address().port);
-	});
-*/
+	tools.logger.info('Express server listening on port ' + app.get('port'));
+
 	module.exports = app;
 };

@@ -20,7 +20,7 @@ catch (err) {
 		console.log("Database config is received, we will now restart the system");
 		process.exit(1);
 	}).fail(function(issue){
-		console.log("Gettik sıçtık database config", issue);
+		console.log("Can't receive database config", issue);
 		process.exit(1);
 	});
 	// Handle a file-not-found error aa
@@ -49,18 +49,18 @@ if( cluster.isMaster ) {
 
     cluster.on( 'online', function( worker ) {
     	if(worker.process.pid == cronerpid){
-        	console.log( 'Croner ' + worker.process.pid + ' is online.' );
+        	tools.logger.info( 'Croner ' + worker.process.pid + ' is online.' );
     	} else {
-    		console.log( 'Worker ' + worker.process.pid + ' is online.' );
+    		tools.logger.info( 'Worker ' + worker.process.pid + ' is online.' );
     	}
     });
     cluster.on( 'exit', function( worker, code, signal ) {
         if(worker.process.pid == cronerpid){
-        	console.log( 'Croner ' + worker.process.pid + ' died.' );
-        	//cronerpid = cluster.fork(croner_env).process.pid;
+        	tools.logger.error( 'Croner ' + worker.process.pid + ' died.' );
+        	cronerpid = cluster.fork(croner_env).process.pid;
         } else {
-        	console.log( 'Worker ' + worker.process.pid + ' died.' );
-        	//cluster.fork(worker_env);
+        	tools.logger.error( 'Worker ' + worker.process.pid + ' died.' );
+        	cluster.fork(worker_env);
         }
     });
 } else {

@@ -700,7 +700,7 @@ function getMostAvailablePool(cSrv){
 	var deferred = Q.defer();
 	if(cSrv.store){
 		tools.logger.info("getMostAvailablePool succeeded", { id: cSrv.id, name: cSrv.name, pool: cSrv.store });
-		deferred.resolve();
+		deferred.resolve(cSrv);
 		return deferred.promise;
 	}
 	tools.runLocalCommand('virsh pool-list --details').then(function(result){

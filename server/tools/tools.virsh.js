@@ -696,9 +696,10 @@ function poolList(){
 }
 
 function getMostAvailablePool(cSrv){
-	tools.logger.info("getMostAvailablePool is called for "+ cSrv.id);
+	tools.logger.info("getMostAvailablePool is called", { id: cSrv.id, name: cSrv.name });
 	var deferred = Q.defer();
 	if(cSrv.store){
+		tools.logger.info("getMostAvailablePool succeeded", { id: cSrv.id, name: cSrv.name, pool: cSrv.store });
 		deferred.resolve();
 		return deferred.promise;
 	}
@@ -709,16 +710,7 @@ function getMostAvailablePool(cSrv){
 		var curMax = '';
 		result.forEach(function(curPoolDetails){
 			var curPool = tools.splitBySpace(curPoolDetails);
-			/*		console.log("Name: ", "|"+curPool[0]+"|");
-			console.log("Status: ", "|"+curPool[1]+"|");
-			console.log("AutoStart: ", "|"+curPool[2]+"|");
-			console.log("Persistent: ", "|"+curPool[3]+"|");
-			console.log("Capacity: ", "|"+curPool[4]+"|");
-			console.log("Capacity Measure: ", "|"+curPool[5]+"|");
-			console.log("Allocation: ", "|"+curPool[6]+"|");
-			console.log("Allocation Measure: ", "|"+curPool[7]+"|");
-			console.log("Available: ", "|"+curPool[8]+"|");
-			console.log("Available Measure: ", "|"+curPool[9]+"|");*/
+			
 			var curSize = parseInt(curPool[8],10);
 			if(curPool[9] == 'k') 		curSize *= 1000;
 			if(curPool[9] == 'KB')		curSize *= 1000;
@@ -747,11 +739,16 @@ function getMostAvailablePool(cSrv){
 		});
 		if(curMax !=''){
 			cSrv.store = curMax;
+			tools.logger.info("getMostAvailablePool has succeeded", { id: cSrv.id, name: cSrv.name, pool: cSrv.store });
 			deferred.resolve(cSrv);
 		} else {
+			tools.logger.error("getMostAvailablePool has failed", "There are no pools available");
 			deferred.reject('There are no stores available');
 		}
-	}).fail(function(issue){deferred.reject(issue);});
+	}).fail(function(issue){
+		tools.logger.error("getMostAvailablePool has failed", issue);
+		deferred.reject(issue);
+	});
 	return deferred.promise;
 }
 

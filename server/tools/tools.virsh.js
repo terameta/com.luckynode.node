@@ -440,6 +440,7 @@ function serverDiskList(cSrv){
 }
 
 function serverList(){
+	tools.logger.info("serverList is called");
 	var deferred = Q.defer();
 	
 	tools.runLocalCommand('virsh list --all').then(
@@ -457,9 +458,10 @@ function serverList(){
 				curDom.State 	= curDomDef[2] || 'shutoff';
 				toReturn.push(curDom);
 			});
+			tools.logger.info("serverList succeeded", toReturn);
 			deferred.resolve(toReturn);
 		}
-	).fail( function(issue){ deferred.reject(issue); } );
+	).fail( function(issue){ deferred.reject(issue); tools.logger.error("serverList faild", issue)} );
 	
 	return deferred.promise;
 }

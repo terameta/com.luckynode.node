@@ -698,7 +698,9 @@ function poolList(){
 function getMostAvailablePool(cSrv){
 	tools.logger.info("getMostAvailablePool is called", { id: cSrv.id, name: cSrv.name });
 	var deferred = Q.defer();
-	if(cSrv.store){
+	if(cSrv.storeid){
+		cSrv.storename = cSrv.store;
+		cSrv.store = cSrv.storeid;
 		tools.logger.info("getMostAvailablePool succeeded", { id: cSrv.id, name: cSrv.name, pool: cSrv.store });
 		deferred.resolve(cSrv);
 		return deferred.promise;

@@ -149,13 +149,13 @@ function runLocalCommands(commandList){
 
 function runLocalCommand(command, resolveTo){
 	var deferred = Q.defer();
-	logger.info("runLocalCommand called with command: "+ command);
+	logger.info("runLocalCommand called", command);
 	exec(command, function(error, stdout, stderr){
 		if(error){
-			logger.error("runLocalCommand failed with command: "+ command);
+			logger.error("runLocalCommand failed", command);
 			deferred.reject(stderr);
 		} else {
-			logger.info("runLocalCommand succeeded with command: "+ command);
+			logger.info("runLocalCommand succeeded", command);
 			if(resolveTo){
 				deferred.resolve(resolveTo);
 			} else {

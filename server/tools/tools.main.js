@@ -6,6 +6,8 @@ var exec 			= require('child_process').exec;
 var fs 				= require("fs");
 var mongojs 		= require('mongojs');
 
+var whoami			= JSON.parse(fs.readFileSync('whoami.conf', 'utf8'));
+
 var dbconfig;
 
 try {
@@ -38,7 +40,7 @@ var logger = {
 			console.log("Message:", message);
 			if(metadata) console.log(metadata);
 		}
-		db.logs.insert({level:level, message:message, date: new Date(), metadata:metadata}, function(err, data){
+		db.logs.insert({level:level, message:message, date: new Date(), metadata:metadata, origin:whoami}, function(err, data){
 			if(err){
 				console.log("Houston we have a problem");
 				console.log(level);

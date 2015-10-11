@@ -578,18 +578,14 @@ function serverUndefine(cSrv){
 }
 
 function serverDefine(cSrv){
-	console.log("====================================");
-	console.log(cSrv);
-	console.log("====================================");
+	tools.logger.info("Defining Server " + cSrv.id, cSrv, true);
 	var deferred = Q.defer();
 	if(!cSrv.architecture) 											cSrv.architecture = 'x86_64';
 	if(!cSrv.imageType) 											cSrv.imageType = 'qcow2';
 	if(cSrv.netdriver != 'rtl8139' && cSrv.netdriver != 'e1000') 	cSrv.netdriver = 'virtio';
 	if(cSrv.diskdriver != 'ide')									cSrv.diskdriver = 'virtio';
 	if(!cSrv.bridge)												cSrv.bridge = 'br0';
-	console.log("====================================");
-	console.log(cSrv);
-	console.log("====================================");
+	tools.logger.info("Defining Server " + cSrv.id, cSrv, true);
 	
 	serverWriteDHCPItem(cSrv).
 		then(getMostAvailablePool).

@@ -4,6 +4,56 @@ var jwt				= require('jsonwebtoken');
 var config 			= require('../config/config.main.js');
 var exec 			= require('child_process').exec;
 
+
+var mongojs 		= require('mongojs');
+
+var dbconfig;
+
+try {
+	dbconfig = JSON.parse(fs.readFileSync("dbconf.conf", "utf8"));
+	console.log("dbconfig exists");
+}
+catch (err) {
+	// If the type is not what you want, then just throw the error again.
+	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
+	if (err.code !== 'ENOENT') throw err;
+	tools.sendHTTPSRequest(curManagers[0], '/api/getDBConfigForNode', false).then(function(result){
+		fs.writeFileSync("dbconf.conf", result, "utf-8");
+		console.log("Database config is received, we will now restart the system");
+		process.exit(1);
+	}).fail(function(issue){
+		console.log("Gettik sıçtık database config", issue);
+		process.exit(1);
+	});
+	// Handle a file-not-found error aa
+}
+
+var cloudConnStr	= dbconfig.user+':'+dbconfig.pass+'@'+dbconfig.server+':'+dbconfig.port+'/'+dbconfig.database;
+var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs','nodetokens','managers','plans','servers','images','isofiles'];
+var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : 'ScramSHA1',	cert: dbconfig.pemfile	});
+
+var logger = {
+	log: function(level, message, metadata, shouldLogToConsole){
+		if(shouldLogToConsole){
+			console.log("Level:", level);
+			console.log("Message:", message);
+			if(metadata) console.log(metadata);
+		}
+		db.logs.insert({level:level, message:message, date: new Date(), metadata:metadata}, function(err, data){
+			if(err){
+				console.log("Houston we have a problem");
+				console.log(level);
+				console.log(message);
+				console.log(metadata);
+			}
+		});
+	},
+	info: 	function(message, metadata, shouldLogToConsole){ this.log('info', 	message, metadata, shouldLogToConsole); },
+	warn: 	function(message, metadata, shouldLogToConsole){ this.log('warn', 	message, metadata, shouldLogToConsole); },
+	error:	function(message, metadata, shouldLogToConsole){ this.log('error', 	message, metadata, shouldLogToConsole); }
+};
+
+
 module.exports = {
 	splitBySpace: function(source){
 		return source.trim().split(/[\s,]+/);
@@ -63,8 +113,8 @@ module.exports = {
 		return toReturn;
 	},
 	jwt : jwt,
-	sendHTTPSRequest : sendHTTPSRequest
-
+	sendHTTPSRequest : sendHTTPSRequest,
+	logger: logger
 };
 
 function runLocalCommands(commandList){

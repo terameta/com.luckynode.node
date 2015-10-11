@@ -3,8 +3,7 @@ var bcrypt   		= require('bcrypt-nodejs');
 var jwt				= require('jsonwebtoken');
 var config 			= require('../config/config.main.js');
 var exec 			= require('child_process').exec;
-
-
+var fs 				= require("fs");
 var mongojs 		= require('mongojs');
 
 var dbconfig;

@@ -824,6 +824,12 @@ function saveDomainXML(cSrv){
 
 function createDomainDiskFile(cSrv){
 	tools.logger.info('createDomainDiskFile is called', cSrv);
+	tools.logger.info('createDomainDiskFile baseimage', cSrv.baseImage);
+	if(cSrv.baseImage == 'CreateNew'){
+		tools.logger.info('createDomainDiskFile baseimage', 'a new one will be created');
+	} else {
+		tools.logger.info('createDomainDiskFile baseimage', 'existing one will be used');
+	}
 	var deferred = Q.defer();
 	var theCmd  = 	'virsh vol-create-as --pool '+ cSrv.store;
 		theCmd +=	' --name '+ cSrv.id;
@@ -831,7 +837,7 @@ function createDomainDiskFile(cSrv){
 		theCmd +=	' --capacity '+ cSrv.hdd +'G';
 		theCmd += 	' --format ' + (cSrv.imageType == 'qcow2' ? 'qcow2' : 'raw');
 		theCmd +=	(cSrv.imageType == 'qcow2' ? ' --prealloc-metadata' : '');
-	tools.logger.info('createDomainDiskFile commad', theCmd);
+	tools.logger.info('createDomainDiskFile command', theCmd);
 	tools.runLocalCommand(theCmd).
 		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); 	deferred.resolve(cSrv); }).
 		fail(function(issue){ tools.logger.error('createDomainDiskFile failed', issue);			deferred.reject(issue); });

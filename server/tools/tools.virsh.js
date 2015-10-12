@@ -836,7 +836,7 @@ function createDomainDiskFile(cSrv){
 		theCmd +=	(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
 		theCmd +=	' --capacity '+ cSrv.hdd +'G';
 		theCmd += 	' --format ' + (cSrv.imageType == 'qcow2' ? 'qcow2' : 'raw');
-		theCmd +=	(cSrv.imageType == 'qcow2' ? ' --prealloc-metadata' : '');
+		theCmd +=	(cSrv.imageType == 'qcow2' && cSrv.baseImage == 'CreateNew' ? ' --prealloc-metadata' : '');
 		theCmd +=	(cSrv.baseImage != 'CreateNew' ? ' --backing-vol '+cSrv.baseImage : '');
 	tools.logger.info('createDomainDiskFile command', theCmd);
 	tools.runLocalCommand(theCmd).

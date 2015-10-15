@@ -75,11 +75,11 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 		var targetSize = 0;
 		
 		tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cSrv.id+'.qcow2').then(function(result) {
-		    sourceSize = parseInt(result.trim().split(' ')[0], 10);
-		    tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cTarget.id+'.qcow2').then(function(result) {
-		        targetSize = parseInt(result.trim().split(' ')[0], 10);
-		        theDeferred.notify(parseInt((targetSize / sourceSize * 100), 10) + '%');
-		    });
+			sourceSize = parseInt(result.trim().split(' ')[0], 10);
+			tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/'+cTarget.id+'.qcow2').then(function(result) {
+				targetSize = parseInt(result.trim().split(' ')[0], 10);
+				theDeferred.notify(parseInt((targetSize / sourceSize * 100), 10) + '%');
+			});
 		});
 		setTimeout(function(){
 			volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred);
@@ -93,12 +93,19 @@ function serverResize(cSrv){
 	var deferred = Q.defer();
 	var cList = [];
 	cList.push("sudo qemu-nbd -c /dev/nbd0 /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2");
-	console.log(cList);
-	deferred.resolve(cSrv);
+	cList.push("sudo parted /dev/nbd0 --script print");
+	tools.runLocalCommands(cList).then(function(result){
+		tools.logger.info("serverResize success:", result);
+		deferred.resolve(result);
+	}).fail(function(issue) {
+		tools.logger.info("serverResize issue", issue);
+		deferred.reject(issue);
+	});
+	//deferred.resolve(cSrv);
 	
 	/*
-	modprobe nbd max_part=63
-	qemu-nbd -c /dev/nbd0 /var/lib/libvirt/images/windows_x64.qcow2
+	--modprobe nbd max_part=63
+	--qemu-nbd -c /dev/nbd0 /var/lib/libvirt/images/windows_x64.qcow2
 	sudo parted /dev/nbd0 --script print
 	sudo parted /dev/nbd0 --script resizepart 1 100%
 	sudo e2fsck -f /dev/nbd0p1

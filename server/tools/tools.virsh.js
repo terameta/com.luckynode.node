@@ -92,7 +92,8 @@ function serverResize(cSrv){
 	tools.logger.info(cSrv.id, cSrv);
 	var deferred = Q.defer();
 	var cList = [];
-	cList.push("sudo qemu-nbd -c /dev/nbd0 /mnt/luckynodepools/"+cSrv.pool);
+	cList.push("sudo qemu-nbd -c /dev/nbd0 /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2");
+	console.log(cList);
 	deferred.resolve(cSrv);
 	
 	/*

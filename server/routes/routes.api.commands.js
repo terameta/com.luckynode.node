@@ -185,6 +185,21 @@ module.exports = function(app, express, db, tools) {
 		}
 	});
 	
+	apiRoutes.post('/serverResize', tools.checkToken, function(req, res){
+		tools.logger.info("serverResize is posted");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else if(!req.body.details){
+			res.status(400).json({ status: 'fail', detail: 'no data provided' });
+		} else {
+			virsh.serverResize(req.body.details).then(function(result){
+				res.send(result);
+			}).fail(function(issue){
+				res.status(500).json({ status: "fail", detail: issue});
+			});
+		}
+	});
+	
 	apiRoutes.post('/nodeInterfaceList', tools.checkToken, function(req, res){
 		tools.logger.info('nodeInterfaceList is posted');
 		virsh.nodeInterfaceList().

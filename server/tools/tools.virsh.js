@@ -23,6 +23,7 @@ module.exports = {
 	serverReboot:serverReboot,
 	serverPowerOff:serverPowerOff,
 	serverVNCAddress:serverVNCAddress,
+	serverResize:serverResize,
 	nodeInterfaceList:nodeInterfaceList,
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach,
@@ -84,6 +85,28 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 			volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred);
 		}, 10000);
 	}
+}
+
+function serverResize(cSrv){
+	tools.logger.info("serverResize is called for:"+cSrv.id);
+	tools.logger.info(cSrv.id, cSrv);
+	var deferred = Q.defer();
+	var cList = [];
+	cList.push("sudo qemu-nbd -c /dev/nbd0 /mnt/luckynodepools/"+cSrv.pool);
+	deferred.resolve(cSrv);
+	
+	/*
+	modprobe nbd max_part=63
+	qemu-nbd -c /dev/nbd0 /var/lib/libvirt/images/windows_x64.qcow2
+	sudo parted /dev/nbd0 --script print
+	sudo parted /dev/nbd0 --script resizepart 1 100%
+	sudo e2fsck -f /dev/nbd0p1
+	sudo resize2fs /dev/nbd0p1
+	
+	ps aux | grep qemu-nbd
+	sudo kill -SIGTERM 5375
+	*/
+	return deferred.promise;
 }
 
 function serverVNCAddress(cSrv){

@@ -126,7 +126,7 @@ function serverResize(cSrv){
 function findFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var result;
-	for(var i=0; i < 999; i++){
+	for(var i=0; i < 29; i++){
 		
 		console.log(i);
 		result = '';

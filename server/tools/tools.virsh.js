@@ -136,7 +136,7 @@ function findFreeNBD(cSrv){
 			if(logDN >= 0){
 				theStr = result[t].substring(logDN, result[t].indexOf(' ', logDN));
 			}
-			console.log('|'+theStr+'|');
+			console.log('|'+theStr+'|', numNBD.indexOf(theStr));
 		}
 	}).fail(function(issue) {
 		console.log(issue);

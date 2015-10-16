@@ -130,7 +130,13 @@ function findFreeNBD(cSrv){
 	tools.runLocalCommand('ps aux | grep qemu-nbd').then(function(result) {
 		result = result.split('\n');
 		for(var t = 0; t < result.length; t++){
+			var logDN = result[t].indexOf('/dev/nbd');
+			var theStr = '';
 			console.log(t, 'devnbdstringlog', result[t].indexOf('/dev/nbd'), result[t]);
+			if(logDN >= 0){
+				theStr = result[t].substring(logDN, result[t].indexOf(' ', logDN));
+			}
+			console.log(theStr);
 		}
 	}).fail(function(issue) {
 		console.log(issue);

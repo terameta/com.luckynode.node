@@ -126,7 +126,8 @@ function serverResize(cSrv){
 function findFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var result;
-	for(var i=0; i < 29; i++){
+	var i = 0;
+	for(i=0; i < 29; i++){
 		
 		console.log(i);
 		result = '';
@@ -136,10 +137,12 @@ function findFreeNBD(cSrv){
 		} catch(e){
 			console.log('not available');
 			result = 'not available';
+			break;
 		}
 		
 		console.log(result);
 	}
+	console.log(i, 'burada bitti');
 	return deferred.promise;
 }
 

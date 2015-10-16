@@ -126,6 +126,7 @@ function serverResize(cSrv){
 function findFreeNBD(cSrv){
 	var deferred = Q.defer();
 	for(var i=0; i < 999; i++){
+		console.log(i);
 		if( fs.accessSync('/dev/nbd'+i) ){
 			tools.logger.info("findFreeNBD", '/dev/nbd'+i + ' exists');
 		} else {

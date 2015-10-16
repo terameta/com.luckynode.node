@@ -1,6 +1,7 @@
 var Q				= require('q');
 //var config 			= require('../config/config.main.js');
 var tools			= require('../tools/tools.main.js');
+var fs				= require('fs');
 
 module.exports = {
 	poolList: poolList,
@@ -92,6 +93,7 @@ function serverResize(cSrv){
 	tools.logger.info(cSrv.id, cSrv);
 	var deferred = Q.defer();
 	var cList = [];
+	findFreeNBD(cSrv);
 	cList.push("sudo qemu-nbd -c /dev/nbd0 /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2");
 	cList.push("sudo parted /dev/nbd0 --script print");
 	tools.runLocalCommands(cList).then(function(result){
@@ -101,6 +103,10 @@ function serverResize(cSrv){
 		tools.logger.info("serverResize issue", issue);
 		deferred.reject(issue);
 	});
+	//here first check list of nbd devices
+	//second check which one is available
+	//third check if our current file is under nbd
+	//then you can think of resizing it
 	//deferred.resolve(cSrv);
 	
 	/*
@@ -114,6 +120,14 @@ function serverResize(cSrv){
 	ps aux | grep qemu-nbd
 	sudo kill -SIGTERM 5375
 	*/
+	return deferred.promise;
+}
+
+function findFreeNBD(cSrv){
+	var deferred = Q.defer();
+	for(var i=0; i < 999; i++){
+		console.log(fs.accessSync('/dev/nbd'+i));
+	}
 	return deferred.promise;
 }
 

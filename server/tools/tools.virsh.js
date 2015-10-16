@@ -125,13 +125,20 @@ function serverResize(cSrv){
 
 function findFreeNBD(cSrv){
 	var deferred = Q.defer();
+	var result;
 	for(var i=0; i < 999; i++){
+		
 		console.log(i);
-		if( fs.accessSync('/dev/nbd'+i) ){
-			console.log(i, '+++');
-		} else {
-			console.log(i, '---');
+		result = '';
+		
+		try{
+			result = fs.accessSync('/dev/nbd'+i);
+		} catch(e){
+			console.log('not available');
+			result = 'not available';
 		}
+		
+		console.log(result);
 	}
 	return deferred.promise;
 }

@@ -127,6 +127,12 @@ function findFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var numNBD = findNumberofNBD();
 	console.log('numNBD', numNBD);
+	tools.runLocalCommand('ps aux | grep qemu-nbd').then(function(result) {
+		console.log(result);
+	}).fail(function(issue) {
+		console.log(issue);
+	});
+	
 	return deferred.promise;
 }
 

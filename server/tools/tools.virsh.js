@@ -147,14 +147,16 @@ function findFreeNBD(cSrv){
 
 function  findNumberofNBD(){
 	var i = 0;
+	var toReturn = [];
 	for(i=0; i < 999; i++){
 		try{
 			fs.accessSync('/dev/nbd'+i);
 		} catch(e){
 			break;
 		}
+		toReturn.push('/dev/nbd'+i);
 	}
-	return(i);
+	return(toReturn);
 }
 
 function serverVNCAddress(cSrv){

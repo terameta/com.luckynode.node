@@ -125,25 +125,26 @@ function serverResize(cSrv){
 
 function findFreeNBD(cSrv){
 	var deferred = Q.defer();
-	var result;
+	var numNBD = findNumberofNBD();
+	console.log('numNBD', numNBD);
+	return deferred.promise;
+}
+
+function  findNumberofNBD(){
 	var i = 0;
 	for(i=0; i < 29; i++){
 		
 		console.log(i);
-		result = '';
 		
 		try{
-			result = fs.accessSync('/dev/nbd'+i);
+			fs.accessSync('/dev/nbd'+i);
 		} catch(e){
-			console.log('not available');
-			result = 'not available';
+			console.log(i, 'not available');
 			break;
 		}
-		
-		console.log(result);
 	}
 	console.log(i, 'burada bitti');
-	return deferred.promise;
+	return(i);
 }
 
 function serverVNCAddress(cSrv){

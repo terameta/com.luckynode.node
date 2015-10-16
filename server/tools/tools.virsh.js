@@ -132,18 +132,13 @@ function findFreeNBD(cSrv){
 
 function  findNumberofNBD(){
 	var i = 0;
-	for(i=0; i < 29; i++){
-		
-		console.log(i);
-		
+	for(i=0; i < 999; i++){
 		try{
 			fs.accessSync('/dev/nbd'+i);
 		} catch(e){
-			console.log(i, 'not available');
 			break;
 		}
 	}
-	console.log(i, 'burada bitti');
 	return(i);
 }
 

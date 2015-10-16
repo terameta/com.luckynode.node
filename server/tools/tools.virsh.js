@@ -126,21 +126,25 @@ function serverResize(cSrv){
 function findFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var numNBD = findNumberofNBD();
-	console.log('numNBD', numNBD);
 	tools.runLocalCommand('ps aux | grep qemu-nbd').then(function(result) {
 		result = result.split('\n');
 		for(var t = 0; t < result.length; t++){
 			var logDN = result[t].indexOf('/dev/nbd');
 			var theStr = '';
-			console.log(t, 'devnbdstringlog', result[t].indexOf('/dev/nbd'), result[t]);
 			if(logDN >= 0){
 				theStr = result[t].substring(logDN, result[t].indexOf(' ', logDN));
 			}
-			console.log('|'+theStr+'|', numNBD.indexOf(theStr));
+			if(numNBD.indexOf(theStr)){
+				numNBD.splice(numNBD.indexOf(theStr), 1);
+			}
 		}
-	}).fail(function(issue) {
-		console.log(issue);
-	});
+		if(numNBD.length > 0){
+			cSrv.targetNBD = numNBD[0];
+			deferred.resolve(cSrv);
+		} else {
+			findFreeNBD(cSrv).then(deferred.resolve).fail(deferred.reject);
+		}
+	}).fail(deferred.reject);
 	
 	return deferred.promise;
 }

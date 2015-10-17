@@ -154,9 +154,11 @@ function findFreeNBD(cSrv){
 				theStr = result[t].substring(logDN, result[t].indexOf(' ', logDN));
 			}
 			console.log(theStr);
+			console.log(numNBD);
 			if(numNBD.indexOf(theStr)){
 				numNBD.splice(numNBD.indexOf(theStr), 1);
 			}
+			console.log(numNBD);
 		}
 		if(numNBD.length > 0){
 			cSrv.targetNBD = numNBD[0];

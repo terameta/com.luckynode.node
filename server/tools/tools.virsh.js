@@ -158,7 +158,7 @@ function findFreeNBD(cSrv){
 				numNBD.splice(numNBD.indexOf(theStr), 1);
 			}
 		}
-		if(numNBD.length < 0){
+		if(numNBD.length > 0){
 			cSrv.targetNBD = numNBD[0];
 			deferred.resolve(cSrv);
 		} else {

@@ -144,25 +144,29 @@ function lockFreeNBD(cSrv){
 function findFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var numNBD = findNumberofNBD();
+	var shouldReject = false;
 	tools.runLocalCommand('ps aux | grep qemu-nbd').then(function(result) {
-		console.log("=====================================");
 		result = result.split('\n');
 		for(var t = 0; t < result.length; t++){
+			if( result[t].indexOf(cSrv.id + '.qcow2') >= 0 ){
+				//This virtual server is already mounted to an NBD device. Kill the assignment.
+				shouldReject = true;
+				break;
+			}
 			var logDN = result[t].indexOf('/dev/nbd');
 			var theStr = '';
 			if(logDN >= 0){
 				theStr = result[t].substring(logDN, result[t].indexOf(' ', logDN));
 			}
-			console.log(theStr);
-			console.log(numNBD);
 			if(numNBD.indexOf(theStr) >= 0){
 				numNBD.splice(numNBD.indexOf(theStr), 1);
 			}
-			console.log(numNBD);
 		}
-		if(numNBD.length > 0){
+		if(numNBD.length > 0 && !shouldReject){
 			cSrv.targetNBD = numNBD[0];
 			deferred.resolve(cSrv);
+		} else if(shouldReject){
+			deferred.reject("This virtual server is already mounted to an NBD device. Kill the assignment");
 		} else {
 			findFreeNBD(cSrv).then(deferred.resolve).fail(deferred.reject);
 		}

@@ -142,7 +142,7 @@ function describeNBD(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand("sudo parted "+ cSrv.targetNBD +" --script print").then(function(result) {
 		console.log("==========================");
-		result = result.split('\n');
+		result = result.trim().split('\n');
 		var shouldWrite = false;
 		for(var t = 0; t < result.length; t++){
 			if(shouldWrite){

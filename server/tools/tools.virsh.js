@@ -133,10 +133,8 @@ function volResize(cSrv){
 	var deferred = Q.defer();
 	//tools.runLocalCommand("sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize).then(function(result) {
 	tools.runLocalCommand("sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --delta --capacity 10G").then(function(result) {
-		console.log("====================================================", result);
-	}).fail(function(issue) {
-		console.log("====================================================", issue);
-	});
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
 	return deferred.promise;
 }
 

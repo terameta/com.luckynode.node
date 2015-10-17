@@ -133,7 +133,9 @@ function serverResize(cSrv){
 
 function describeNBD(cSrv){
 	var deferred = Q.defer();
+	console.log("============================================================");
 	console.log(cSrv.targetNBD);
+	console.log("============================================================");
 	deferred.resolve(cSrv);
 	return deferred.promise;
 }

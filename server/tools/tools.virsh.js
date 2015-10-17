@@ -177,7 +177,7 @@ function describeNBD(cSrv){
 
 function size2realsize(srcSize, unit){
 	if(!unit){
-		var tmpSize = parseInt(srcSize, 10);
+		var tmpSize = parseFloat(srcSize);
 		unit = srcSize.replace(tmpSize.toString(10), '');
 	}
 	console.log("---------------------------------------------", unit);

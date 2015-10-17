@@ -149,8 +149,11 @@ function describeNBD(cSrv){
 				console.log(result[t]);
 				result[t] = tools.splitBySpace(result[t]);
 				console.log(result[t]);
+			} else if(result[t].substr(0,6) == 'Number'){
+				result[t] = tools.splitBySpace(result[t]);
+				console.log(result[t]);
+				shouldWrite = true;
 			}
-			if(result[t].substr(0,6) == 'Number') shouldWrite = true;
 		}
 	}).fail(function(issue) {
 		console.log("==========================", issue);

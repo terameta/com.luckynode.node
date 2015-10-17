@@ -147,7 +147,13 @@ function resizeNBDPartition(cSrv){
 		
 		console.log("=========================================================");
 		deferred.resolve(cSrv);
-	}).fail(deferred.reject);
+	}).fail(function(issue) {
+	    console.log("=========================================================");
+		console.log(issue);
+		
+		console.log("=========================================================");
+		deferred.reject(issue);
+	});
 	return deferred.promise;
 }
 

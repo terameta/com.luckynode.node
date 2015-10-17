@@ -131,7 +131,7 @@ function serverResize(cSrv){
 
 function lockFreeNBD(cSrv){
 	var deferred = Q.defer();
-	tools.runIfLocalCommand("sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2").then(function(result){
+	tools.runLocalCommand("sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2").then(function(result){
 		console.log("sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2");
 		console.log("Command Result", result);
 		deferred.resolve(cSrv);
@@ -152,6 +152,7 @@ function findFreeNBD(cSrv){
 			if(logDN >= 0){
 				theStr = result[t].substring(logDN, result[t].indexOf(' ', logDN));
 			}
+			console.log(theStr);
 			if(numNBD.indexOf(theStr)){
 				numNBD.splice(numNBD.indexOf(theStr), 1);
 			}

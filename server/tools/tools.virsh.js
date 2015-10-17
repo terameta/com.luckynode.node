@@ -94,7 +94,12 @@ function serverResize(cSrv){
 	var deferred = Q.defer();
 	var cList = [];
 	findFreeNBD(cSrv).
-		then(lockFreeNBD);
+		then(lockFreeNBD).
+		then(function(result){
+			console.log("Result", result);
+		}).fail(function(issue){
+			console.log("Issue", issue);
+		});
 	cList.push("sudo qemu-nbd -c /dev/nbd0 /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2");
 	cList.push("sudo parted /dev/nbd0 --script print");
 	tools.runLocalCommands(cList).then(function(result){

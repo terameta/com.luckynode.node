@@ -140,7 +140,7 @@ function volResize(cSrv){
 
 function describeNBD(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand("sudo parted "+ cSrv.targetNBD +" --script print").then(function(result) {
+	tools.runLocalCommand("sudo parted "+ cSrv.targetNBD +" --script unit KiB print").then(function(result) {
 		console.log("==========================");
 		result = result.trim().split('\n');
 		var shouldWrite = false;

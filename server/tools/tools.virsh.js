@@ -141,7 +141,9 @@ function volResize(cSrv){
 
 function resizeNBDPartition(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand("sudo parted "+ cSrv.targetNBD +" --script resizepart "+ cSrv.targetPartition +" 100%").then(function(result) {
+	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script resizepart "+ cSrv.targetPartition +" 100%";
+	console.log(curCommand);
+	tools.runLocalCommand(curCommand).then(function(result) {
 		console.log("=========================================================");
 		console.log(result);
 		

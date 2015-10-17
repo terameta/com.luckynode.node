@@ -137,7 +137,7 @@ function describeNBD(cSrv){
 		for(var t = 0; t < result.length; t++){
 			if(shouldWrite){
 				console.log(result[t]);
-				result[t] = result[t].split(' ');
+				result[t] = tools.splitBySpace(result[t]);
 				console.log(result[t]);
  			}
 			if(result[t].substr(0,6) == 'Number') shouldWrite = true;

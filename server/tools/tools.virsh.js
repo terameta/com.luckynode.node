@@ -145,6 +145,7 @@ function findFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var numNBD = findNumberofNBD();
 	tools.runLocalCommand('ps aux | grep qemu-nbd').then(function(result) {
+		console.log("=====================================");
 		result = result.split('\n');
 		for(var t = 0; t < result.length; t++){
 			var logDN = result[t].indexOf('/dev/nbd');
@@ -157,12 +158,13 @@ function findFreeNBD(cSrv){
 				numNBD.splice(numNBD.indexOf(theStr), 1);
 			}
 		}
-		if(numNBD.length > 0){
+		if(numNBD.length < 0){
 			cSrv.targetNBD = numNBD[0];
 			deferred.resolve(cSrv);
 		} else {
 			findFreeNBD(cSrv).then(deferred.resolve).fail(deferred.reject);
 		}
+		console.log("=====================================");
 	}).fail(deferred.reject);
 	
 	return deferred.promise;

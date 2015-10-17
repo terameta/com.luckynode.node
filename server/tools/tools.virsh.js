@@ -130,9 +130,11 @@ function serverResize(cSrv){
 
 function describeNBD(cSrv){
 	var deferred = Q.defer();
-	console.log("============================================================");
-	console.log(cSrv.targetNBD);
-	console.log("============================================================");
+	tools.runLocalCommand("sudo parted "+ cSrv.targetNBD +" --script print").then(function(result) {
+		console.log("==========================", result);
+	}).fail(function(issue) {
+		console.log("==========================", issue);
+	});
 	deferred.resolve(cSrv);
 	return deferred.promise;
 }

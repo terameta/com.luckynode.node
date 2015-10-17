@@ -155,7 +155,7 @@ function findFreeNBD(cSrv){
 			}
 			console.log(theStr);
 			console.log(numNBD);
-			if(numNBD.indexOf(theStr)){
+			if(numNBD.indexOf(theStr) >= 0){
 				numNBD.splice(numNBD.indexOf(theStr), 1);
 			}
 			console.log(numNBD);

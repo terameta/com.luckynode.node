@@ -154,6 +154,7 @@ function describeNBD(cSrv){
 				curObj.number 		= result[t][numberOrder];
 				curObj.size 		= result[t][sizeOrder];
 				curObj.filesystem 	= result[t][filesystemOrder];
+				curObj.realsize		= size2realsize(curObj.size);
 				console.log(curObj);
 			} else if(result[t].substr(0,6) == 'Number'){
 				result[t] = result[t].replace("File system", "FileSystem");
@@ -172,6 +173,34 @@ function describeNBD(cSrv){
 	});
 	deferred.resolve(cSrv);
 	return deferred.promise;
+}
+
+function size2realsize(srcSize, unit){
+	if(!unit){
+		var tmpSize = parseInt(srcSize, 10);
+		unit = srcSize.replace(tmpSize.toString(10), '');
+	}
+	console.log("---------------------------------------------", unit);
+	var curSize = parseInt(srcSize,10);
+	if(unit == 'k') 		curSize *= 1000;
+	if(unit == 'KB')		curSize *= 1000;
+	if(unit == 'KiB') 		curSize *= 1024;
+	if(unit == 'M') 		curSize *= 1000000;
+	if(unit == 'MB') 		curSize *= 1000000;
+	if(unit == 'MiB') 		curSize *= 1048576;
+	if(unit == 'G') 		curSize *= 1000000000;
+	if(unit == 'GB') 		curSize *= 1000000000;
+	if(unit == 'GiB') 		curSize *= 1073741824;
+	if(unit == 'T') 		curSize *= 1000000000000;
+	if(unit == 'TB') 		curSize *= 1000000000000;
+	if(unit == 'TiB') 		curSize *= 1099511627776;
+	if(unit == 'P') 		curSize *= 1000000000000000;
+	if(unit == 'PB') 		curSize *= 1000000000000000;
+	if(unit == 'PiB') 		curSize *= 1125899906842624;
+	if(unit == 'E') 		curSize *= 1000000000000000000;
+	if(unit == 'EB') 		curSize *= 1000000000000000000;
+	if(unit == 'EiB') 		curSize *= 1152921504606846976;
+	return curSize;
 }
 
 function lockFreeNBD(cSrv){

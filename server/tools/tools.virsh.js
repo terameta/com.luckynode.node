@@ -95,6 +95,7 @@ function serverResize(cSrv){
 	
 	findFreeNBD(cSrv).
 		then(lockFreeNBD).
+		then(volResize).
 		then(describeNBD).
 		then(deferred.resolve).fail(deferred.reject);
 	/*
@@ -128,6 +129,17 @@ function serverResize(cSrv){
 	return deferred.promise;
 }
 
+function volResize(cSrv){
+	var deferred = Q.defer();
+	//tools.runLocalCommand("sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize).then(function(result) {
+	tools.runLocalCommand("sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --delta --capacity 10G").then(function(result) {
+		console.log("====================================================", result);
+	}).fail(function(issue) {
+		console.log("====================================================", issue);
+	});
+	return deferred.promise;
+}
+
 function describeNBD(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand("sudo parted "+ cSrv.targetNBD +" --script print").then(function(result) {
@@ -139,7 +151,7 @@ function describeNBD(cSrv){
 				console.log(result[t]);
 				result[t] = tools.splitBySpace(result[t]);
 				console.log(result[t]);
- 			}
+			}
 			if(result[t].substr(0,6) == 'Number') shouldWrite = true;
 		}
 	}).fail(function(issue) {
@@ -195,7 +207,7 @@ function findFreeNBD(cSrv){
 	return deferred.promise;
 }
 
-function  findNumberofNBD(){
+function findNumberofNBD(){
 	var i = 0;
 	var toReturn = [];
 	for(i=0; i < 999; i++){

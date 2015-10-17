@@ -150,7 +150,7 @@ function describeNBD(cSrv){
 				result[t] = tools.splitBySpace(result[t]);
 				console.log(result[t]);
 			} else if(result[t].substr(0,6) == 'Number'){
-				result[t] = result[t].replace("File System", "FileSystem");
+				result[t] = result[t].replace("File system", "FileSystem");
 				result[t] = tools.splitBySpace(result[t]);
 				console.log(result[t]);
 				shouldWrite = true;

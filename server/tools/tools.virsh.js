@@ -95,11 +95,13 @@ function serverResize(cSrv){
 	var cList = [];
 	findFreeNBD(cSrv).
 		then(lockFreeNBD).
+		then(describeNBD).
 		then(function(result){
 			console.log("Result", result);
 		}).fail(function(issue){
 			console.log("Issue", issue);
 		});
+	/*
 	cList.push("sudo qemu-nbd -c /dev/nbd0 /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2");
 	cList.push("sudo parted /dev/nbd0 --script print");
 	tools.runLocalCommands(cList).then(function(result){
@@ -126,6 +128,13 @@ function serverResize(cSrv){
 	ps aux | grep qemu-nbd
 	sudo kill -SIGTERM 5375
 	*/
+	return deferred.promise;
+}
+
+function describeNBD(cSrv){
+	var deferred = Q.defer();
+	console.log(cSrv.targetNBD);
+	deferred.resolve(cSrv);
 	return deferred.promise;
 }
 

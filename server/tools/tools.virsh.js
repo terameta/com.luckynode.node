@@ -144,15 +144,26 @@ function describeNBD(cSrv){
 		console.log("==========================");
 		result = result.trim().split('\n');
 		var shouldWrite = false;
+		var sizeOrder = 0, numberOrder = 0, filesystemOrder = 0;
 		for(var t = 0; t < result.length; t++){
 			if(shouldWrite){
 				console.log(result[t]);
 				result[t] = tools.splitBySpace(result[t]);
 				console.log(result[t]);
+				var curObj = {};
+				curObj.number 		= result[t][numberOrder];
+				curObj.size 		= result[t][sizeOrder];
+				curObj.filesystem 	= result[t][filesystemOrder];
+				console.log(curObj);
 			} else if(result[t].substr(0,6) == 'Number'){
 				result[t] = result[t].replace("File system", "FileSystem");
-				result[t] = tools.splitBySpace(result[t]);
-				console.log(result[t]);
+				var headers = tools.splitBySpace(result[t]);
+				for(var q = 0; q < headers.length; q++){
+					if(headers[q].trim() == 'Number') 		numberOrder = q;
+					if(headers[q].trim() == 'Size')			sizeOrder = q;
+					if(headers[q].trim() == 'FileSystem')	filesystemOrder = q;
+				}
+				console.log(headers);
 				shouldWrite = true;
 			}
 		}

@@ -143,11 +143,9 @@ function resizeNBDFileSystem(cSrv){
 
 function releaseNBD(cSrv){
 	var deferred = Q.defer();
-	if(cSrv.NBDPID != 0){
-		getNBDPID(cSrv).then(function(result){
-			console.log("Server NBDPID:", cSrv.NBDPID);
+	getNBDPID(cSrv).then(function(result){
+		if(cSrv.NBDPID > 0){
 			var curCommand = "sudo kill -SIGTERM "+cSrv.NBDPID;
-			console.log("Running the command now", curCommand);
 			tools.runLocalCommand(curCommand).then(function(result){
 				console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ReleaseNBD");
 				console.log(curCommand);
@@ -156,10 +154,10 @@ function releaseNBD(cSrv){
 				console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 				deferred.resolve(cSrv);
 			}).fail(deferred.reject);
-		}).fail(deferred.reject);
-	} else {
-		deferred.resolve(cSrv);
-	}
+		} else {
+			deferred.resolve(cSrv);
+		}
+	}).fail(deferred.reject);
 	return deferred.promise;
 }
 

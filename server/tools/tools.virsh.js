@@ -93,15 +93,17 @@ function serverResize(cSrv){
 	tools.logger.info(cSrv.id, cSrv);
 	var deferred = Q.defer();
 	
-	findFreeNBD(cSrv).
-		then(lockFreeNBD).
-		then(volResize).
-		then(describeNBD).
-		then(resizeNBDPartition).
-		then(checkNBDFileSystem).
-		then(resizeNBDFileSystem).
-		then(describeNBD).
-		then(releaseNBD).
+	cSrv.waitTime = 10000;
+	
+	findFreeNBD(cSrv).then(tools.waitWithServer).
+		then(lockFreeNBD).then(tools.waitWithServer).
+		then(volResize).then(tools.waitWithServer).
+		then(describeNBD).then(tools.waitWithServer).
+		then(resizeNBDPartition).then(tools.waitWithServer).
+		then(checkNBDFileSystem).then(tools.waitWithServer).
+		then(resizeNBDFileSystem).then(tools.waitWithServer).
+		then(describeNBD).then(tools.waitWithServer).
+		then(releaseNBD).then(tools.waitWithServer).
 		then(deferred.resolve).fail(function(issue){
 			deferred.reject(issue);
 			releaseNBD(cSrv);

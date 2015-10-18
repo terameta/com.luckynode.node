@@ -115,8 +115,17 @@ module.exports = {
 	},
 	jwt : jwt,
 	sendHTTPSRequest : sendHTTPSRequest,
-	logger: logger
+	logger: logger,
+	waitWithServer: waitWithServer
 };
+
+function waitWithServer(cSrv){
+	var deferred = Q.defer();
+	setTimeout(function(){
+		deferred.resolve();
+	}, cSrv.waitTime);
+	return deferred.promise;
+}
 
 function runLocalCommands(commandList){
 	logger.info("runLocalCommands called", commandList);

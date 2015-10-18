@@ -630,7 +630,11 @@ function serverDeleteDHCPItem(cSrv){
 		then(function(result){
 			deferred.resolve(cSrv);
 		}).fail(function(issue){
-			deferred.reject(issue);
+			if(issue.indexOf('No such file or directory') >= 0 ){
+				deferred.resolve(cSrv);
+			} else {
+				deferred.reject(issue);
+			}
 		});
 	return deferred.promise;
 }

@@ -106,6 +106,7 @@ function serverResize(cSrv){
 		then(describeNBD).
 		then(releaseNBD).
 		then(deferred.resolve).fail(function(issue){
+			console.log("Issue here:", issue);
 			deferred.reject(issue);
 			releaseNBD(cSrv);
 		});

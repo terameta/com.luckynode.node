@@ -183,8 +183,7 @@ function getNBDPID(cSrv){
 
 function volResize(cSrv){
 	var deferred = Q.defer();
-	//var curCommand = "sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize;
-	var curCommand = "sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --delta --capacity 10G";
+	var curCommand = "sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize;
 	tools.runLocalCommand(curCommand).then(function(result) {
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>VolResize");
 		console.log(curCommand);
@@ -863,6 +862,7 @@ function serverDefine(cSrv){
 	if(cSrv.netdriver != 'rtl8139' && cSrv.netdriver != 'e1000') 	cSrv.netdriver = 'virtio';
 	if(cSrv.diskdriver != 'ide')									cSrv.diskdriver = 'virtio';
 	if(!cSrv.bridge)												cSrv.bridge = 'br0';
+	cSrv.newsize = cSrv.hdd;
 	tools.logger.info("Defining Server " + cSrv.id, cSrv);
 	
 	serverWriteDHCPItem(cSrv).
@@ -870,9 +870,10 @@ function serverDefine(cSrv){
 		then(composeDomainXML).
 		then(saveDomainXML).
 		then(createDomainDiskFile).
+		then(serverResize).
 		then(createDomainandStart).
-		then(function(result){ deferred.resolve(cSrv); }).
-		fail(function(issue){ deferred.reject(issue); });
+		then(deferred.resolve).
+		fail(deferred.reject);
 
 	return deferred.promise;
 }

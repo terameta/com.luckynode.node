@@ -140,12 +140,19 @@ function checkNBDFileSystem(cSrv){
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		console.log(result);
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
 }
 
 function resizeNBDFileSystem(cSrv){
 	var deferred = Q.defer();
+	tools.runLocalCommand("sudo resize2fs "+cSrv.targetNBD+"p"+cSrv.targetPartition).then(function(result){
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
 	return deferred.promise;
 }
 

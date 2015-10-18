@@ -122,7 +122,7 @@ module.exports = {
 function waitWithServer(cSrv){
 	var deferred = Q.defer();
 	setTimeout(function(){
-		deferred.resolve();
+		deferred.resolve(cSrv);
 	}, cSrv.waitTime);
 	return deferred.promise;
 }

@@ -155,6 +155,7 @@ function releaseNBD(cSrv){
 				deferred.resolve(cSrv);
 			}).fail(deferred.reject);
 		} else {
+			console.log("There is no NBD process attached to this guy");
 			deferred.resolve(cSrv);
 		}
 	}).fail(deferred.reject);

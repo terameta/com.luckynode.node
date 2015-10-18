@@ -95,9 +95,9 @@ function serverResize(cSrv){
 	
 	cSrv.waitTime = 10000;
 	
-	findFreeNBD(cSrv).
+	volResize(cSrv).
+		then(findFreeNBD).
 		then(lockFreeNBD).
-		then(volResize).
 		then(describeNBD).
 		then(resizeNBDPartition).
 		then(checkNBDFileSystem).

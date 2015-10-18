@@ -98,6 +98,7 @@ function serverResize(cSrv){
 		then(volResize).
 		then(describeNBD).
 		then(resizeNBDPartition).
+		then(releaseNBD).
 		then(deferred.resolve).fail(deferred.reject);
 	/*
 	var cList = [];
@@ -130,6 +131,21 @@ function serverResize(cSrv){
 	return deferred.promise;
 }
 
+function releaseNBD(cSrv){
+	var deferred = Q.defer();
+	getNBDPID(cSrv).then(deferred.resolve).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function getNBDPID(cSrv){
+	var deferred = Q.defer();
+	tools.runLocalCommand("ps aux | grep qemu-nbd").then(function(result) {
+		console.log(result);
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
 function volResize(cSrv){
 	var deferred = Q.defer();
 	//tools.runLocalCommand("sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize).then(function(result) {
@@ -150,7 +166,7 @@ function resizeNBDPartition(cSrv){
 		console.log("=========================================================");
 		deferred.resolve(cSrv);
 	}).fail(function(issue) {
-	    console.log("=========================================================");
+		console.log("=========================================================");
 		console.log(issue);
 		
 		console.log("=========================================================");

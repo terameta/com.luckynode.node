@@ -42,7 +42,7 @@ var logger = {
 		}
 		db.logs.insert({level:level, message:message, date: new Date(), metadata:metadata, origin:whoami}, function(err, data){
 			if(err){
-				console.log("Houston we have a problem");
+				console.log("Houston we have a problem", err);
 				console.log(level);
 				console.log(message);
 				console.log(metadata);

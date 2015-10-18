@@ -198,7 +198,7 @@ function describeNBD(cSrv){
 				curMaxDisk = i;
 			}
 		}
-		cSrv.targetPartition = curMaxDisk;
+		cSrv.targetPartition = listDisks[curMaxDisk].number;
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;

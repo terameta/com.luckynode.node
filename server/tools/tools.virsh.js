@@ -141,6 +141,8 @@ function getNBDPID(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand("ps aux | grep qemu-nbd").then(function(result) {
 		console.log(result);
+		result = result.split('\n');
+		console.log(result);
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;

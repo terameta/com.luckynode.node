@@ -142,8 +142,13 @@ function releaseNBD(cSrv){
 	var deferred = Q.defer();
 	if(cSrv.NBDPID != 0){
 		getNBDPID(cSrv).then(function(result){
-			tools.runLocalCommand("sudo kill -SIGTERM "+cSrv.NBDPID).then(function(result){
+			var curCommand = "sudo kill -SIGTERM "+cSrv.NBDPID;
+			tools.runLocalCommand(curCommand).then(function(result){
+				console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ReleaseNBD");
+				console.log(curCommand);
+				console.log("Result");
 				console.log(result);
+				console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 				deferred.resolve(cSrv);
 			}).fail(deferred.reject);
 		}).fail(deferred.reject);
@@ -155,7 +160,13 @@ function releaseNBD(cSrv){
 
 function getNBDPID(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand("ps aux | grep qemu-nbd").then(function(result) {
+	var curCommand = "ps aux | grep qemu-nbd";
+	tools.runLocalCommand(curCommand).then(function(result) {
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>getNBDPID");
+		console.log(curCommand);
+		console.log("Result");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		result = result.trim().split('\n');
 		cSrv.NBDPID = 0;
 		for(var i = 0; i < result.length; i++){
@@ -170,8 +181,14 @@ function getNBDPID(cSrv){
 
 function volResize(cSrv){
 	var deferred = Q.defer();
-	//tools.runLocalCommand("sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize).then(function(result) {
-	tools.runLocalCommand("sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --delta --capacity 10G").then(function(result) {
+	//var curCommand = "sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize;
+	var curCommand = "sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --delta --capacity 10G";
+	tools.runLocalCommand(curCommand).then(function(result) {
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>VolResize");
+		console.log(curCommand);
+		console.log("Result");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
@@ -180,8 +197,12 @@ function volResize(cSrv){
 function resizeNBDPartition(cSrv){
 	var deferred = Q.defer();
 	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script resizepart "+ cSrv.targetPartition +" 100%";
-	console.log(curCommand);
 	tools.runLocalCommand(curCommand).then(function(result) {
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ResizeNBDPartition");
+		console.log(curCommand);
+		console.log("Result");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
@@ -189,7 +210,13 @@ function resizeNBDPartition(cSrv){
 
 function describeNBD(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand("sudo parted "+ cSrv.targetNBD +" --script unit KiB print").then(function(result) {
+	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script unit KiB print";
+	tools.runLocalCommand(curCommand).then(function(result) {
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>DescribNBD");
+		console.log(curCommand);
+		console.log("Result");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		result = result.trim().split('\n');
 		var shouldWrite = false;
 		var sizeOrder = 0, numberOrder = 0, filesystemOrder = 0;
@@ -264,9 +291,13 @@ function size2realsize(srcSize, unit){
 
 function lockFreeNBD(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand("sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2").then(function(result){
-		console.log("sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2");
-		console.log("Command Result", result);
+	var curCommand = "sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2";
+	tools.runLocalCommand(curCommand).then(function(result){
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>LockFreeNBD");
+		console.log(curCommand);
+		console.log("Result");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
 	}).fail(function(issue){
 		deferred.reject(issue);
@@ -278,7 +309,13 @@ function findFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var numNBD = findNumberofNBD();
 	var shouldReject = false;
-	tools.runLocalCommand('ps aux | grep qemu-nbd').then(function(result) {
+	var curCommand = 'ps aux | grep qemu-nbd';
+	tools.runLocalCommand(curCommand).then(function(result) {
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>FindFreeNBD");
+		console.log(curCommand);
+		console.log("Result");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		result = result.split('\n');
 		for(var t = 0; t < result.length; t++){
 			if( result[t].indexOf(cSrv.id + '.qcow2') >= 0 ){

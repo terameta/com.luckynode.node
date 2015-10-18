@@ -102,7 +102,10 @@ function serverResize(cSrv){
 		then(resizeNBDFileSystem).
 		then(describeNBD).
 		then(releaseNBD).
-		then(deferred.resolve).fail(deferred.reject).finally(releaseNBD);
+		then(deferred.resolve).fail(function(issue){
+			deferred.reject(issue);
+			releaseNBD(cSrv);
+		});
 	
 	return deferred.promise;
 }

@@ -121,9 +121,7 @@ module.exports = {
 
 function waitWithServer(cSrv){
 	var deferred = Q.defer();
-	console.log("Waiting for", cSrv.waitTime);
 	setTimeout(function(){
-		console.log("Waited for", cSrv.waitTime);
 		deferred.resolve(cSrv);
 	}, cSrv.waitTime);
 	return deferred.promise;

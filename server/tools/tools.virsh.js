@@ -141,7 +141,14 @@ function getNBDPID(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand("ps aux | grep qemu-nbd").then(function(result) {
 		console.log(result);
-		result = result.split('\n');
+		result = result.trim().split('\n');
+		for(var i = 0; i < result.length; i++){
+			if(result[i].indexOf(cSrv.id+'.qcow2') >= 0){
+				console.log("This is our guy", result[i]);
+			} else {
+				console.log("This is not our guy", result[i]);
+			}
+		}
 		console.log(result);
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);

@@ -187,7 +187,7 @@ function getNBDPID(cSrv){
 
 function volResize(cSrv){
 	var deferred = Q.defer();
-	var curCommand = "sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize;
+	var curCommand = "sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize+"G";
 	tools.runLocalCommand(curCommand).then(function(result) {
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>VolResize");
 		console.log(curCommand);

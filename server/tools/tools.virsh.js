@@ -98,6 +98,7 @@ function serverResize(cSrv){
 		then(volResize).
 		then(describeNBD).
 		then(resizeNBDPartition).
+		then(describeNBD).
 		then(releaseNBD).
 		then(deferred.resolve).fail(deferred.reject);
 	/*
@@ -175,13 +176,7 @@ function resizeNBDPartition(cSrv){
 		
 		console.log("=========================================================");
 		deferred.resolve(cSrv);
-	}).fail(function(issue) {
-		console.log("=========================================================");
-		console.log(issue);
-		
-		console.log("=========================================================");
-		deferred.reject(issue);
-	});
+	}).fail(deferred.reject);
 	return deferred.promise;
 }
 
@@ -195,9 +190,7 @@ function describeNBD(cSrv){
 		var listDisks = [];
 		for(var t = 0; t < result.length; t++){
 			if(shouldWrite){
-				console.log(result[t]);
 				result[t] = tools.splitBySpace(result[t]);
-				console.log(result[t]);
 				var curObj = {};
 				curObj.number 		= result[t][numberOrder];
 				curObj.size 		= result[t][sizeOrder];
@@ -213,7 +206,6 @@ function describeNBD(cSrv){
 					if(headers[q].trim() == 'Size')			sizeOrder = q;
 					if(headers[q].trim() == 'FileSystem')	filesystemOrder = q;
 				}
-				console.log(headers);
 				shouldWrite = true;
 			}
 		}

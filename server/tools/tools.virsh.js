@@ -171,10 +171,6 @@ function resizeNBDPartition(cSrv){
 	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script resizepart "+ cSrv.targetPartition +" 100%";
 	console.log(curCommand);
 	tools.runLocalCommand(curCommand).then(function(result) {
-		console.log("=========================================================");
-		console.log(result);
-		
-		console.log("=========================================================");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;

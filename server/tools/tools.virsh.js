@@ -136,7 +136,7 @@ function serverResize(cSrv){
 
 function checkNBDFileSystem(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand("sudo e2fsck -f "+cSrv.targetNBD+"p"+cSrv.targetPartition).then(function(result){
+	tools.runLocalCommand("sudo e2fsck -p -f "+cSrv.targetNBD+"p"+cSrv.targetPartition).then(function(result){
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		console.log(result);
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

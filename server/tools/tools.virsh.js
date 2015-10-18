@@ -98,6 +98,8 @@ function serverResize(cSrv){
 		then(volResize).
 		then(describeNBD).
 		then(resizeNBDPartition).
+		then(checkNBDFileSystem).
+		then(resizeNBDFileSystem).
 		then(describeNBD).
 		then(releaseNBD).
 		then(deferred.resolve).fail(deferred.reject);
@@ -121,14 +123,29 @@ function serverResize(cSrv){
 	/*
 	--modprobe nbd max_part=63
 	--qemu-nbd -c /dev/nbd0 /var/lib/libvirt/images/windows_x64.qcow2
-	sudo parted /dev/nbd0 --script print
-	sudo parted /dev/nbd0 --script resizepart 1 100%
+	--sudo parted /dev/nbd0 --script print
+	--sudo parted /dev/nbd0 --script resizepart 1 100%
 	sudo e2fsck -f /dev/nbd0p1
 	sudo resize2fs /dev/nbd0p1
 	
 	ps aux | grep qemu-nbd
 	sudo kill -SIGTERM 5375
 	*/
+	return deferred.promise;
+}
+
+function checkNBDFileSystem(cSrv){
+	var deferred = Q.defer();
+	tools.runLocalCommand("sudo e2fsck -f "+cSrv.targetNBD+"p"+cSrv.targetPartition).then(function(result){
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function resizeNBDFileSystem(cSrv){
+	var deferred = Q.defer();
 	return deferred.promise;
 }
 

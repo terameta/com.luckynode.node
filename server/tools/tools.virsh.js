@@ -145,7 +145,9 @@ function releaseNBD(cSrv){
 	var deferred = Q.defer();
 	if(cSrv.NBDPID != 0){
 		getNBDPID(cSrv).then(function(result){
+			console.log("Server NBDPID:", cSrv.NBDPID);
 			var curCommand = "sudo kill -SIGTERM "+cSrv.NBDPID;
+			console.log("Running the command now", curCommand);
 			tools.runLocalCommand(curCommand).then(function(result){
 				console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ReleaseNBD");
 				console.log(curCommand);

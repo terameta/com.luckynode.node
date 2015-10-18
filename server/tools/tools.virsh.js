@@ -112,8 +112,11 @@ function serverResize(cSrv){
 
 function checkNBDFileSystem(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand("sudo e2fsck -p -f "+cSrv.targetNBD+"p"+cSrv.targetPartition).then(function(result){
+	var curCommand = "sudo e2fsck -p -f "+cSrv.targetNBD+"p"+cSrv.targetPartition;
+	tools.runLocalCommand(curCommand).then(function(result){
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		console.log(curCommand);
+		console.log("Result");
 		console.log(result);
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
@@ -123,8 +126,11 @@ function checkNBDFileSystem(cSrv){
 
 function resizeNBDFileSystem(cSrv){
 	var deferred = Q.defer();
-	tools.runLocalCommand("sudo resize2fs "+cSrv.targetNBD+"p"+cSrv.targetPartition).then(function(result){
+	var curCommand = "sudo resize2fs "+cSrv.targetNBD+"p"+cSrv.targetPartition;
+	tools.runLocalCommand(curCommand).then(function(result){
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		console.log(curCommand);
+		console.log("Result");
 		console.log(result);
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);

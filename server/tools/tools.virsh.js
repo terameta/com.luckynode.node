@@ -89,6 +89,7 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 }
 
 function serverResize(cSrv){
+	console.log("serverResize is called for:", cSrv.id);
 	tools.logger.info("serverResize is called for:"+cSrv.id);
 	tools.logger.info(cSrv.id, cSrv);
 	var deferred = Q.defer();

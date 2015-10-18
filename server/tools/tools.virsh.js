@@ -133,24 +133,24 @@ function serverResize(cSrv){
 
 function releaseNBD(cSrv){
 	var deferred = Q.defer();
-	getNBDPID(cSrv).then(deferred.resolve).fail(deferred.reject);
+	getNBDPID(cSrv).then(function(result){
+		tools.runLocalCommand("sudo kill -SIGTERM "+cSrv.NBDPID).then(function(result){
+			console.log(result);
+			deferred.resolve(cSrv);
+		}).fail(deferred.reject);
+	}).fail(deferred.reject);
 	return deferred.promise;
 }
 
 function getNBDPID(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand("ps aux | grep qemu-nbd").then(function(result) {
-		console.log(result);
 		result = result.trim().split('\n');
 		for(var i = 0; i < result.length; i++){
 			if(result[i].indexOf(cSrv.id+'.qcow2') >= 0){
-				console.log("This is our guy", result[i]);
-				console.log(tools.splitBySpace(result[i])[1]);
-			} else {
-				console.log("This is not our guy", result[i]);
+				cSrv.NBDPID = tools.splitBySpace(result[i])[1];
 			}
 		}
-		console.log(result);
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;

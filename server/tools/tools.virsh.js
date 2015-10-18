@@ -102,35 +102,8 @@ function serverResize(cSrv){
 		then(resizeNBDFileSystem).
 		then(describeNBD).
 		then(releaseNBD).
-		then(deferred.resolve).fail(deferred.reject);
-	/*
-	var cList = [];
-	cList.push("sudo qemu-nbd -c /dev/nbd0 /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2");
-	cList.push("sudo parted /dev/nbd0 --script print");
-	tools.runLocalCommands(cList).then(function(result){
-		tools.logger.info("serverResize success:", result);
-		deferred.resolve(result);
-	}).fail(function(issue) {
-		tools.logger.info("serverResize issue", issue);
-		deferred.reject(issue);
-	});
-	//here first check list of nbd devices
-	//second check which one is available
-	//third check if our current file is under nbd
-	//then you can think of resizing it
-	//deferred.resolve(cSrv);
+		then(deferred.resolve).fail(deferred.reject).finally(releaseNBD);
 	
-	/*
-	--modprobe nbd max_part=63
-	--qemu-nbd -c /dev/nbd0 /var/lib/libvirt/images/windows_x64.qcow2
-	--sudo parted /dev/nbd0 --script print
-	--sudo parted /dev/nbd0 --script resizepart 1 100%
-	sudo e2fsck -f /dev/nbd0p1
-	sudo resize2fs /dev/nbd0p1
-	
-	ps aux | grep qemu-nbd
-	sudo kill -SIGTERM 5375
-	*/
 	return deferred.promise;
 }
 
@@ -203,7 +176,6 @@ function resizeNBDPartition(cSrv){
 function describeNBD(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand("sudo parted "+ cSrv.targetNBD +" --script unit KiB print").then(function(result) {
-		console.log("==========================");
 		result = result.trim().split('\n');
 		var shouldWrite = false;
 		var sizeOrder = 0, numberOrder = 0, filesystemOrder = 0;
@@ -247,7 +219,7 @@ function size2realsize(srcSize, unit){
 		var tmpSize = parseFloat(srcSize);
 		unit = srcSize.replace(tmpSize.toString(10), '');
 	}
-	console.log("---------------------------------------------", unit);
+	unit = unit.trim();
 	var curSize = parseFloat(srcSize);
 	if(unit == 'k') 		curSize *= 1000;
 	if(unit == 'KB')		curSize *= 1000;

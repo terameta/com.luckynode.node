@@ -198,7 +198,7 @@ function volResize(cSrv){
 
 function resizeNBDPartition(cSrv){
 	var deferred = Q.defer();
-	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script resizepart "+ cSrv.targetPartition +" 100%";
+	var curCommand = "echo sudo parted "+ cSrv.targetNBD +" --script resizepart "+ cSrv.targetPartition +" 100% >> hedere.txt";
 	tools.runLocalCommand(curCommand).then(function(result) {
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ResizeNBDPartition");
 		console.log(curCommand);

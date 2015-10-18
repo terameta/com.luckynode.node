@@ -173,6 +173,7 @@ function getNBDPID(cSrv){
 		result = result.trim().split('\n');
 		cSrv.NBDPID = 0;
 		for(var i = 0; i < result.length; i++){
+			console.log(result[i]);
 			if(result[i].indexOf(cSrv.id+'.qcow2') >= 0){
 				cSrv.NBDPID = tools.splitBySpace(result[i])[1];
 			}

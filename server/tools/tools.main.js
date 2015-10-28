@@ -30,6 +30,8 @@ catch (err) {
 	// Handle a file-not-found error aa
 }
 
+console.log("We are bede");
+
 var cloudConnStr	= dbconfig.user+':'+dbconfig.pass+'@'+dbconfig.server+':'+dbconfig.port+'/'+dbconfig.database;
 var cloudColls		= ['logs'];
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });

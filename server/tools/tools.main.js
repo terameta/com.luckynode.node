@@ -35,11 +35,11 @@ var db 				= mongojs(cloudConnStr, cloudColls, {	ssl: true,    authMechanism : '
 
 var logger = {
 	log: function(level, message, metadata, shouldLogToConsole){
-		if(shouldLogToConsole){
+		//if(shouldLogToConsole){
 			console.log("Level:", level);
 			console.log("Message:", message);
 			if(metadata) console.log(metadata);
-		}
+		//}
 		db.logs.insert({level:level, message:message, date: new Date(), metadata:metadata, origin:whoami}, function(err, data){
 			if(err){
 				console.log("Houston we have a problem", err);

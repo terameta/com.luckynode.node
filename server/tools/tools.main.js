@@ -19,6 +19,7 @@ catch (err) {
 	// If the type is not what you want, then just throw the error again.
 	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
 	if (err.code !== 'ENOENT') throw err;
+	console.log(curManagers);
 	sendHTTPSRequest(curManagers[0], '/api/getDBConfigForNode', false).then(function(result){
 		console.log("We are here:", result);
 		fs.writeFileSync("dbconf.conf", result, "utf-8");

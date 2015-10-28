@@ -19,6 +19,7 @@ catch (err) {
 	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
 	if (err.code !== 'ENOENT') throw err;
 	sendHTTPSRequest(curManagers[0], '/api/getDBConfigForNode', false).then(function(result){
+		console.log("We are here:", result);
 		fs.writeFileSync("dbconf.conf", result, "utf-8");
 		console.log("Database config is received, we will now restart the system");
 		process.exit(1);

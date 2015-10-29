@@ -10,16 +10,13 @@ var whoami			= JSON.parse(fs.readFileSync('whoami.conf', 'utf8')).whoami;
 
 var dbconfig;
 
-var shouldWaitwithUnfortunateWaiter = false;
-
 try {
-	console.log(fs.readFileSync("dbconf.conf", "utf8"));
+	//console.log(fs.readFileSync("dbconf.conf", "utf8"));
 	dbconfig = JSON.parse(fs.readFileSync("dbconf.conf", "utf8"));
-	console.log("dbconfig exists");
+	//console.log("dbconfig exists");
 }
 catch (err) {
 	console.log("dbconfig doesn't exist");
-	shouldWaitwithUnfortunateWaiter = true;
 	// If the type is not what you want, then just throw the error again.
 	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
 	if (err.code !== 'ENOENT') throw err;

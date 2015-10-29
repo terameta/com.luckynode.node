@@ -93,6 +93,7 @@ function serverResize(cSrv){
 	tools.logger.info("serverResize is called for:"+cSrv.id);
 	tools.logger.info(cSrv.id, cSrv);
 	var deferred = Q.defer();
+	console.log(cSrv);
 	
 	cSrv.waitTime = 10000;
 	

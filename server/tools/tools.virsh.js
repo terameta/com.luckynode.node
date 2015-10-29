@@ -97,20 +97,24 @@ function serverResize(cSrv){
 	
 	cSrv.waitTime = 10000;
 	
-	volResize(cSrv).
-		then(findFreeNBD).
-		then(lockFreeNBD).
-		then(describeNBD).
-		then(resizeNBDPartition).
-		then(checkNBDFileSystem).
-		then(resizeNBDFileSystem).
-		then(describeNBD).
-		then(releaseNBD).
-		then(deferred.resolve).fail(function(issue){
-			console.log("Issue here:", issue);
-			deferred.reject(issue);
-			releaseNBD(cSrv);
-		});
+	if(cSrv.baseImage == 'CreateNew' && cSrv.status == 'defining'){
+		deferred.resolve(cSrv);
+	} else {
+		volResize(cSrv).
+			then(findFreeNBD).
+			then(lockFreeNBD).
+			then(describeNBD).
+			then(resizeNBDPartition).
+			then(checkNBDFileSystem).
+			then(resizeNBDFileSystem).
+			then(describeNBD).
+			then(releaseNBD).
+			then(deferred.resolve).fail(function(issue){
+				console.log("Issue here:", issue);
+				deferred.reject(issue);
+				releaseNBD(cSrv);
+			});
+	}
 	
 	return deferred.promise;
 }

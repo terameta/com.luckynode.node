@@ -13,6 +13,7 @@ var dbconfig;
 var shouldWaitwithUnfortunateWaiter = false;
 
 try {
+	console.log(fs.readFileSync("dbconf.conf", "utf8"));
 	dbconfig = JSON.parse(fs.readFileSync("dbconf.conf", "utf8"));
 	console.log("dbconfig exists");
 }

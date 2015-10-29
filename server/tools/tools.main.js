@@ -36,12 +36,6 @@ catch (err) {
 	// Handle a file-not-found error aa
 }
 
-
-console.log("We are bede");
-console.log("We will now wait");
-if(shouldWaitwithUnfortunateWaiter) unfortunateWaiter(20000);
-console.log("We have waited");
-
 var cloudConnStr	= dbconfig.user+':'+dbconfig.pass+'@'+dbconfig.server+':'+dbconfig.port+'/'+dbconfig.database;
 var cloudColls		= ['logs'];
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });

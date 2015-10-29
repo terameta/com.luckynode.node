@@ -9,7 +9,7 @@ var dbconfig;
 
 try {
 	dbconfig = JSON.parse(fs.readFileSync("dbconf.conf", "utf8"));
-	console.log("dbconfig exists");
+	//console.log("dbconfig exists");
 }
 catch (err) {
 	// If the type is not what you want, then just throw the error again.

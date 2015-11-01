@@ -1144,9 +1144,11 @@ function createDomainandStart(cSrv){
 	theCmds.push('virsh start '+cSrv.id);
 	tools.runLocalCommands(theCmds).
 		then(function(result){
+			console.log("Server Created", cSrv.id);
 			deferred.resolve(cSrv);
 		}).
 		fail(function(issue){
+			console.log("Server create failed", cSrv.id);
 			deferred.reject(issue);
 		});
 	return deferred.promise;

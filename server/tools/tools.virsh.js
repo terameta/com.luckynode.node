@@ -93,7 +93,7 @@ function serverResize(cSrv){
 	tools.logger.info("serverResize is called for:"+cSrv.id);
 	tools.logger.info(cSrv.id, cSrv);
 	var deferred = Q.defer();
-	console.log(cSrv);
+	//console.log(cSrv);
 	
 	cSrv.waitTime = 10000;
 	
@@ -1136,6 +1136,8 @@ function createDomainDiskFile(cSrv){
 }
 
 function createDomainandStart(cSrv){
+	console.log("Create Domain and Start Called for " + cSrv.id);
+	console.log(cSrv);
 	var deferred = Q.defer();
 	var theCmds = [];
 	theCmds.push('virsh define /tmp/'+cSrv.id+'.xml');

@@ -165,7 +165,7 @@ function runLocalCommand(command, resolveTo){
 	logger.info("runLocalCommand called", command);
 	exec(command, function(error, stdout, stderr){
 		if(error){
-			logger.error("runLocalCommand failed", command);
+			logger.error("runLocalCommand failed", command + '\n' + error + '\n' + stdout + '\n' + stderr);
 			deferred.reject(stderr);
 		} else {
 			logger.info("runLocalCommand succeeded", command);

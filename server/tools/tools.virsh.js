@@ -530,7 +530,7 @@ function serverEjectISO(details){
 function poolListIsos(storage){
 	tools.logger.info("poolListIsos is called for pool " + storage.name);
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh vol-list '+ storage.name +' --details').then(function(result) {
+	tools.runLocalCommand('virsh vol-list '+ storage.id +' --details').then(function(result) {
 		var toReturn = [];
 		result = result.trim().split('\n');
 		result.splice(0,2);

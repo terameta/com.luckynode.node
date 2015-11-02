@@ -101,6 +101,7 @@ function serverResize(cSrv){
 		deferred.resolve(cSrv);
 	} else {
 		volResize(cSrv).
+			then(enableNBD).
 			then(findFreeNBD).
 			then(lockFreeNBD).
 			then(describeNBD).
@@ -310,6 +311,17 @@ function lockFreeNBD(cSrv){
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
 	}).fail(function(issue){
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function enableNBD(cSrv){
+	var deferred = Q.defer();
+	var curCommand = 'sudo modprobe nbd max_part=63 nbds_max=64';
+	tools.runLocalCommand(curCommand).then(function(result) {
+		deferred.resolve(cSrv);
+	}).fail(function(issue) {
 		deferred.reject(issue);
 	});
 	return deferred.promise;

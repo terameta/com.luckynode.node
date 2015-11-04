@@ -124,11 +124,6 @@ function checkNBDFileSystem(cSrv){
 	var deferred = Q.defer();
 	var curCommand = "sudo e2fsck -p -f "+cSrv.targetNBD+"p"+cSrv.targetPartition;
 	tools.runLocalCommand(curCommand).then(function(result){
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		console.log(curCommand);
-		console.log("Result");
-		console.log(result);
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
@@ -138,11 +133,6 @@ function resizeNBDFileSystem(cSrv){
 	var deferred = Q.defer();
 	var curCommand = "sudo resize2fs "+cSrv.targetNBD+"p"+cSrv.targetPartition;
 	tools.runLocalCommand(curCommand).then(function(result){
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-		console.log(curCommand);
-		console.log("Result");
-		console.log(result);
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
@@ -154,11 +144,6 @@ function releaseNBD(cSrv){
 		if(cSrv.NBDPID > 0){
 			var curCommand = "sudo kill -SIGTERM "+cSrv.NBDPID;
 			tools.runLocalCommand(curCommand).then(function(result){
-				console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ReleaseNBD");
-				console.log(curCommand);
-				console.log("Result");
-				console.log(result);
-				console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 				deferred.resolve(cSrv);
 			}).fail(deferred.reject);
 		} else {
@@ -173,15 +158,9 @@ function getNBDPID(cSrv){
 	var deferred = Q.defer();
 	var curCommand = "ps aux | grep qemu-nbd";
 	tools.runLocalCommand(curCommand).then(function(result) {
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>getNBDPID");
-		console.log(curCommand);
-		console.log("Result");
-		console.log(result);
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		result = result.trim().split('\n');
 		cSrv.NBDPID = 0;
 		for(var i = 0; i < result.length; i++){
-			console.log("aaa>", result[i]);
 			if(result[i].indexOf(cSrv.id+'.qcow2') >= 0){
 				cSrv.NBDPID = tools.splitBySpace(result[i])[1];
 			}
@@ -195,11 +174,6 @@ function volResize(cSrv){
 	var deferred = Q.defer();
 	var curCommand = "sudo virsh vol-resize --vol "+cSrv.id+".qcow2 --pool "+ cSrv.store +" --capacity "+ cSrv.newsize+"G";
 	tools.runLocalCommand(curCommand).then(function(result) {
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>VolResize");
-		console.log(curCommand);
-		console.log("Result");
-		console.log(result);
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
@@ -304,11 +278,6 @@ function lockFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var curCommand = "sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/"+cSrv.id+".qcow2";
 	tools.runLocalCommand(curCommand).then(function(result){
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>LockFreeNBD");
-		console.log(curCommand);
-		console.log("Result");
-		console.log(result);
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		deferred.resolve(cSrv);
 	}).fail(function(issue){
 		deferred.reject(issue);
@@ -321,9 +290,7 @@ function enableNBD(cSrv){
 	var curCommand = 'sudo modprobe nbd max_part=63 nbds_max=64';
 	tools.runLocalCommand(curCommand).then(function(result) {
 		deferred.resolve(cSrv);
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
+	}).fail(deferred.reject);
 	return deferred.promise;
 }
 
@@ -333,11 +300,6 @@ function findFreeNBD(cSrv){
 	var shouldReject = false;
 	var curCommand = 'ps aux | grep qemu-nbd';
 	tools.runLocalCommand(curCommand).then(function(result) {
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>FindFreeNBD");
-		console.log(curCommand);
-		console.log("Result");
-		console.log(result);
-		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 		result = result.split('\n');
 		for(var t = 0; t < result.length; t++){
 			if( result[t].indexOf(cSrv.id + '.qcow2') >= 0 ){
@@ -1058,48 +1020,48 @@ function getMostAvailablePool(cSrv){
 function composeDomainXML(cSrv){
 	tools.logger.info('composeDomainXML is called', cSrv);
 	var deferred = Q.defer();
-	var diskFile = '/mnt/luckynodepools/'+ cSrv.store +'/'+ cSrv.id +(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
+	var diskFile = '/mnt/luckynodepools/'+ cSrv.store +'/'+ 'disk-'+ cSrv.id +'-001' +(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
 	var theXML = ''
-	+ 	'<domain type=\'kvm\'>'																							+ '\n'
-	+ 	'	<name>'+ cSrv.id +'</name>'																					+ '\n'
-	//  <uuid>e5c82363-ceea-74a2-a678-c05ab504c669</uuid>																+ '\n'
-	+ 	'	<description>'+ cSrv.name +'</description>'																	+ '\n'
-	+ 	'	<memory unit=\'MiB\'>'+ cSrv.ram +'</memory>'																+ '\n'
-//	+ 	'	<maxMemory unit=\'MiB\' slots=\'16\'>'+ cSrv.ram +'</maxMemory>'											+ '\n'
-//	+ 	'	<currentMemory unit=\'MiB\'>'+ cSrv.ram +'</currentMemory>'													+ '\n'
-	+ 	'	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'															+ '\n'
-	+ 	'	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'								+ '\n'
-	+ 	'	<os>'																										+ '\n'
-	+ 	'		<type arch=\''+ cSrv.architecture +'\' machine=\'pc\'>hvm</type>'										+ '\n'
-	+ 	'		<boot dev=\'hd\' />'																					+ '\n'
-	+ 	'		<boot dev=\'cdrom\' />'																					+ '\n'
-	+ 	'		<bootmenu enable=\'yes\' timeout=\'3000\' />'															+ '\n'
-	+ 	'	</os>'																										+ '\n'
-	+	'	<features><acpi /><apic /><pae /></features>'																+ '\n'
-	+	'	<clock sync=\'localtime\'/>'																				+ '\n'
-	+	'	<on_poweroff>destroy</on_poweroff>'																			+ '\n'
-	+	'	<on_reboot>restart</on_reboot>'																				+ '\n'
-	+	'	<on_crash>restart</on_crash>'																				+ '\n'
-	+	'	<devices>'																									+ '\n'
-	+	'		<disk type=\'file\' device=\'disk\'>'																	+ '\n'
-	+	'			<driver name=\'qemu\' type=\''+ cSrv.imageType +'\' cache=\'none\' />'								+ '\n'
-	+	'			<source file=\''+ diskFile +'\' />'																	+ '\n'
-	+	'			<target dev=\''+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +'\' bus=\''+ cSrv.diskdriver +'\'/>'	+ '\n'
-	+	'		</disk>'																								+ '\n'
-	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'							+ '\n'
-	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdd\'/><readonly/></disk>'							+ '\n'
-	+	'		<interface type=\'bridge\'>'																			+ '\n'
-	+	'			<model type=\''+ cSrv.netdriver +'\' />'															+ '\n'
-	+	'			<source bridge=\''+ cSrv.bridge +'\'/>'																+ '\n'
+	+ 	'<domain type=\'kvm\'>'																														+ '\n'
+	+ 	'	<name>'+ cSrv.id +'</name>'																											+ '\n'
+	//  <uuid>e5c82363-ceea-74a2-a678-c05ab504c669</uuid>																					+ '\n'
+	+ 	'	<description>'+ cSrv.name +'</description>'																						+ '\n'
+	+ 	'	<memory unit=\'MiB\'>'+ cSrv.ram +'</memory>'																					+ '\n'
+//	+ 	'	<maxMemory unit=\'MiB\' slots=\'16\'>'+ cSrv.ram +'</maxMemory>'															+ '\n'
+//	+ 	'	<currentMemory unit=\'MiB\'>'+ cSrv.ram +'</currentMemory>'																	+ '\n'
+	+ 	'	<vcpu placement=\'static\'>'+ cSrv.cpu +'</vcpu>'																				+ '\n'
+	+ 	'	<cpu><topology sockets=\'1\' cores=\''+ cSrv.cpu +'\' threads=\'1\'/></cpu>'											+ '\n'
+	+ 	'	<os>'																																			+ '\n'
+	+ 	'		<type arch=\''+ cSrv.architecture +'\' machine=\'pc\'>hvm</type>'														+ '\n'
+	+ 	'		<boot dev=\'hd\' />'																													+ '\n'
+	+ 	'		<boot dev=\'cdrom\' />'																												+ '\n'
+	+ 	'		<bootmenu enable=\'yes\' timeout=\'3000\' />'																				+ '\n'
+	+ 	'	</os>'																																		+ '\n'
+	+	'	<features><acpi /><apic /><pae /></features>'																					+ '\n'
+	+	'	<clock sync=\'localtime\'/>'																											+ '\n'
+	+	'	<on_poweroff>destroy</on_poweroff>'																									+ '\n'
+	+	'	<on_reboot>restart</on_reboot>'																										+ '\n'
+	+	'	<on_crash>restart</on_crash>'																											+ '\n'
+	+	'	<devices>'																																	+ '\n'
+	+	'		<disk type=\'file\' device=\'disk\'>'																							+ '\n'
+	+	'			<driver name=\'qemu\' type=\''+ cSrv.imageType +'\' cache=\'none\' />'											+ '\n'
+	+	'			<source file=\''+ diskFile +'\' />'																							+ '\n'
+	+	'			<target dev=\''+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +'\' bus=\''+ cSrv.diskdriver +'\'/>'		+ '\n'
+	+	'		</disk>'																																	+ '\n'
+	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'										+ '\n'
+	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdd\'/><readonly/></disk>'										+ '\n'
+	+	'		<interface type=\'bridge\'>'																										+ '\n'
+	+	'			<model type=\''+ cSrv.netdriver +'\' />'																					+ '\n'
+	+	'			<source bridge=\''+ cSrv.bridge +'\'/>'																					+ '\n'
 	//for below target dev we should find a proper naming mechanism
-//	+	'			<target dev=\'kvm255.0\'/>'																			+ '\n'
-	+	'			<mac address=\''+ cSrv.mac +'\'/>'																	+ '\n'
-	+	'		</interface>'																							+ '\n'
-	+	'		<input type=\'tablet\'/>'																				+ '\n'
-	+	'		<input type=\'mouse\'/>'																				+ '\n'
-	+	'		<graphics type=\'vnc\' port=\'-1\' autoport=\'yes\' passwd=\''+ cSrv.id +'\' listen=\'0.0.0.0\'/>'		+ '\n'
-	+	'		<video><model type=\'vga\' vram=\'9216\' heads=\'1\'/></video>'											+ '\n'
-	+	'	</devices>'																									+ '\n'
+//	+	'			<target dev=\'kvm255.0\'/>'																									+ '\n'
+	+	'			<mac address=\''+ cSrv.mac +'\'/>'																							+ '\n'
+	+	'		</interface>'																															+ '\n'
+	+	'		<input type=\'tablet\'/>'																											+ '\n'
+	+	'		<input type=\'mouse\'/>'																											+ '\n'
+	+	'		<graphics type=\'vnc\' port=\'-1\' autoport=\'yes\' passwd=\''+ cSrv.id +'\' listen=\'0.0.0.0\'/>'			+ '\n'
+	+	'		<video><model type=\'vga\' vram=\'9216\' heads=\'1\'/></video>'														+ '\n'
+	+	'	</devices>'																																	+ '\n'
 	+ 	'</domain>';
 	cSrv.theXML = theXML;
 	tools.logger.info('composeDomainXML is completed with XML', cSrv.theXML);
@@ -1131,19 +1093,30 @@ function createDomainDiskFile(cSrv){
 	} else {
 		tools.logger.info('createDomainDiskFile baseimage', 'existing one will be used');
 	}
+	var diskName  = 'disk-'+ cSrv.id +'-001';
+		 diskName += (cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
+	
 	var deferred = Q.defer();
-	var theCmd  = 	'virsh vol-create-as --pool '+ cSrv.store;
-		theCmd +=	' --name '+ cSrv.id;
-		theCmd +=	(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
-		theCmd +=	' --capacity '+ cSrv.hdd +'G';
-		theCmd += 	' --format ' + (cSrv.imageType == 'qcow2' ? 'qcow2' : 'raw');
-		theCmd +=	(cSrv.imageType == 'qcow2' && cSrv.baseImage == 'CreateNew' ? ' --prealloc-metadata' : '');
-		theCmd +=	(cSrv.baseImage != 'CreateNew' ? ' --backing-vol '+cSrv.baseImage : '');
-		theCmd +=	(cSrv.baseImage != 'CreateNew' ? ' --backing-vol-format qcow2' : '');
-	tools.logger.info('createDomainDiskFile command', theCmd);
+	createVolume(diskName, cSrv.store, cSrv.hdd, cSrv.imageType, cSrv.baseImage).
+		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); deferred.resolve(cSrv); }).
+		fail(function( issue){ tools.logger.info('createDomainDiskFile failed   ', issue ); deferred.reject(issue); });
+	
+	return deferred.promise;
+}
+
+function createVolume(diskName, pool, size, type, bVol){
+	var deferred = Q.defer();
+	var theCmd  = 	'virsh vol-create-as --pool '+ pool;
+		theCmd +=	' --name '+ diskName;
+		theCmd +=	' --capacity '+ size +'G';
+		theCmd += 	' --format ' + (type == 'qcow2' ? 'qcow2' : 'raw');
+		theCmd +=	(type == 'qcow2' && bVol == 'CreateNew' ? ' --prealloc-metadata' : '');
+		theCmd +=	(bVol != 'CreateNew' ? ' --backing-vol '+ bVol : '');
+		theCmd +=	(bVol != 'CreateNew' ? ' --backing-vol-format qcow2' : '');
+	tools.logger.info('createVolume command', theCmd);
 	tools.runLocalCommand(theCmd).
-		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); 	deferred.resolve(cSrv); }).
-		fail(function(issue){ tools.logger.error('createDomainDiskFile failed', issue);			deferred.reject(issue); });
+		then(function(result){ tools.logger.info('createVolume succeeded', result); 	deferred.resolve(result); }).
+		fail(function(issue){ tools.logger.error('createVolume failed', issue);			deferred.reject(issue); });
 	return deferred.promise;
 }
 

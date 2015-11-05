@@ -703,12 +703,7 @@ function serverDiskList(cSrv){
 				curDisk.target	= curDiskDef[2] || 'NoTarget';
 				curDisk.source	= curDiskDef[3] || 'NoSource';
 				if(curDisk.source.indexOf('/mnt/luckynodepools')>=0){
-					var curStore = curDisk.source;
-					console.log(curStore);
-					curStore = curStore.replace("/mnt/luckynodepools/", '');
-					console.log(curStore);
-					curStore = curStore.split("/")[0];
-					console.log(curStore);
+					curDisk.store = curDisk.source.replace("/mnt/luckynodepools/", '').split("/")[0];
 				}
 				console.log(curDisk);
 				toReturn.push(curDisk);

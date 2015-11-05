@@ -27,7 +27,7 @@ function prepare(result, command){
 			while(shouldIterate){
 				var isEmpty = true;
 		
-				for( var clc = 0; clc < lines.length; clc++ ){
+				for( var clc = 2; clc < lines.length; clc++ ){
 					if(places[i] > 0){
 						if( lines[clc][places[i] - 1] != ' ') isEmpty = false;
 						console.log(isEmpty);

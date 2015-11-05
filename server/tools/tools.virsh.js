@@ -36,6 +36,7 @@ module.exports = {
 
 function runVirsh(details){
 	var deferred = Q.defer();
+	console.log(details);
 	deferred.resolve("OK");
 	return deferred.promise;
 }

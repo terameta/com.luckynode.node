@@ -702,6 +702,7 @@ function serverDiskList(cSrv){
 				curDisk.device 	= curDiskDef[1] || 'NoDevice';
 				curDisk.target	= curDiskDef[2] || 'NoTarget';
 				curDisk.source	= curDiskDef[3] || 'NoSource';
+				console.log(curDisk);
 				toReturn.push(curDisk);
 			});
 			tools.logger.info("serverDiskList succeeded for " + cSrv.id, result);

@@ -11,6 +11,7 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.post('/runVirshCommand', tools.checkToken, function(req, res) {
 		console.log(req.body);
+		console.log("Buradayız");
 		virsh.runVirsh();
 		res.send("OK");
 	});

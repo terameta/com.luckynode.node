@@ -30,7 +30,7 @@ function prepare(result, command){
 				for( var clc = 0; clc < lines.length; clc++ ){
 					if(places[i] > 0){
 						if( lines[clc][places[i] - 1] != ' ') isEmpty = false;
-						console.log();
+						console.log(isEmpty);
 					}
 				}
 				

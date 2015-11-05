@@ -14,7 +14,6 @@ module.exports = {
 	poolDefine: poolDefine,
 	poolsRemove: poolsRemove,
 	poolRemove: poolRemove,
-	poolGetFiles: poolGetFiles,
 	serverDefine:serverDefine,
 	serverDelete:serverDelete,
 	serverDestroy:serverDestroy,
@@ -40,26 +39,6 @@ module.exports = {
 
 function runVirsh(details){
 	return virshTools[details.region][details.command](details.details);
-}
-
-function poolGetFiles(details){
-	var deferred = Q.defer();
-	deferred.resolve(details);
-	/*
-	var cL = []; //command List
-	if(curPool.isactive) cL.push('virsh pool-destroy ' + curPool.name);
-	cL.push('virsh pool-delete ' + curPool.name);
-	cL.push('virsh pool-undefine ' + curPool.name);
-	tools.runLocalCommands(cL).then(
-		function(result){ 
-			deferred.resolve(result); 
-		},
-		function(issue){
-			deferred.reject(issue);
-		}
-	);
-	*/
-	return deferred.promise;
 }
 
 function volDelete(cVol){
@@ -1123,7 +1102,8 @@ function createDomainDiskFile(cSrv){
 	} else {
 		tools.logger.info('createDomainDiskFile baseimage', 'existing one will be used');
 	}
-	var diskName  = 'disk-'+ cSrv.id +'-001';
+	var diskName  = 'disk-'+ cSrv.id +'-';
+		 diskName += (cSrv.diskdriver == 'ide' ? 'hda' : 'vda');
 		 diskName += (cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
 	
 	var deferred = Q.defer();

@@ -33,7 +33,7 @@ function prepare(result, command){
 			console.log(l, lines[l]);
 			for( var p = 0; p < places.length; p++ ){
 				curPlace = 0;
-				nexPlace = 0;
+				nexPlace = null;
 				curPlace = places[p];
 				if(p != (places.length -1) ) nexPlace = nexPlace = places[p+1];
 				var curProp = '';

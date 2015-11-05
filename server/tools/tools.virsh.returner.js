@@ -46,10 +46,7 @@ function prepare(result, command){
 				console.log(p, wte[p], curProp);
 				curObject[wte[p]] = curProp;
 			}
-			console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-			console.log(curObject);
 			toReturn.push(curObject);
-			console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		}
 		deferred.resolve(toReturn);
 	}

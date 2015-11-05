@@ -38,9 +38,9 @@ function prepare(result, command){
 				if(p != (places.length -1) ) nexPlace = nexPlace = places[p+1];
 				var curProp = '';
 				if(nexPlace > 0){
-					lines[l].substring(curPlace,nexPlace).trim();
+					curProp = lines[l].substring(curPlace,nexPlace).trim();
 				} else {
-					lines[l].substring(curPlace).trim();
+					curProp = lines[l].substring(curPlace).trim();
 				}
 				console.log(p, curPlace, nexPlace, curProp);
 			}

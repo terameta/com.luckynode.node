@@ -38,6 +38,7 @@ function prepare(result, command){
 				if(shouldIterate) places[i] = places[i] - 1;
 			}
 		}
+		console.log(places);
 		
 		var curPlace = 0;
 		var nexPlace = 0;

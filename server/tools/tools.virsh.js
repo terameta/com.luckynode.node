@@ -1,7 +1,10 @@
 var Q				= require('q');
 //var config 			= require('../config/config.main.js');
 var tools			= require('../tools/tools.main.js');
-var poolTools		= require('../tools/tools.virsh.pool.js');
+var virshTools 	= 
+	{
+		pool: require('../tools/tools.virsh.pool.js')
+	};		
 var fs				= require('fs');
 
 module.exports = {
@@ -36,10 +39,17 @@ module.exports = {
 };
 
 function runVirsh(details){
+	return virshTools[details.region][details.command](details);
+	/*
 	var deferred = Q.defer();
 	console.log(details);
-	deferred.resolve("OK");
+	if(details.region == 'pool'){
+		if(details.command == 'getFiles')		poolTools.getFiles(details.details.id).then(deferred.resolve).fail(deferred.reject);
+	} else {
+		deferred.reject("What?");
+	}
 	return deferred.promise;
+	*/
 }
 
 function poolGetFiles(details){

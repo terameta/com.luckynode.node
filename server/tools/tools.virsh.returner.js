@@ -42,7 +42,6 @@ function prepare(result, command){
 				} else {
 					curProp = lines[l].substring(curPlace).trim();
 				}
-				curProp = lines[l].substring(curPlace,nexPlace).trim();
 				console.log(p, curPlace, nexPlace, curProp);
 			}
 		}

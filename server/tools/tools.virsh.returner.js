@@ -25,10 +25,17 @@ function prepare(result, command){
 			console.log(wte[i], places[i]);
 		}
 		
+		var curPlace = 0;
+		var nexPlace = null;
+		
 		for( var l = 2; l < lines.length; l++ ){
 			console.log(l, lines[l]);
 			for( var p = 0; p < places.length; p++ ){
-				console.log(p, lines[l].substring(places[p]));
+				curPlace = 0;
+				nexPlace = null;
+				curPlace = places[p];
+				if(p != (places.length -1) ) nexPlace = nexPlace = places[p+1];
+				console.log(p, lines[l].substring(curPlace,nexPlace));
 			}
 		}
 	}

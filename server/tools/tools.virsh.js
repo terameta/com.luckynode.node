@@ -705,7 +705,7 @@ function serverDiskList(cSrv){
 				if(curDisk.source.indexOf('/mnt/luckynodepools')>=0){
 					curDisk.store = curDisk.source.replace("/mnt/luckynodepools/", '').split("/")[0];
 				}
-				console.log(curDisk);
+				//console.log(curDisk);
 				toReturn.push(curDisk);
 			});
 			tools.logger.info("serverDiskList succeeded for " + cSrv.id, result);

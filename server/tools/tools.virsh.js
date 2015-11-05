@@ -10,6 +10,7 @@ module.exports = {
 	poolDefine: poolDefine,
 	poolsRemove: poolsRemove,
 	poolRemove: poolRemove,
+	poolGetFiles: poolGetFiles,
 	serverDefine:serverDefine,
 	serverDelete:serverDelete,
 	serverDestroy:serverDestroy,
@@ -29,8 +30,35 @@ module.exports = {
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach,
 	volCloneFromServer:volCloneFromServer,
-	volDelete:volDelete
+	volDelete:volDelete,
+	runVirsh:runVirsh
 };
+
+function runVirsh(details){
+	var deferred = Q.defer();
+	deferred.resolve("OK");
+	return deferred.promise;
+}
+
+function poolGetFiles(details){
+	var deferred = Q.defer();
+	deferred.resolve(details);
+	/*
+	var cL = []; //command List
+	if(curPool.isactive) cL.push('virsh pool-destroy ' + curPool.name);
+	cL.push('virsh pool-delete ' + curPool.name);
+	cL.push('virsh pool-undefine ' + curPool.name);
+	tools.runLocalCommands(cL).then(
+		function(result){ 
+			deferred.resolve(result); 
+		},
+		function(issue){
+			deferred.reject(issue);
+		}
+	);
+	*/
+	return deferred.promise;
+}
 
 function volDelete(cVol){
 	tools.logger.info("volDelete is called for " + cVol.name);

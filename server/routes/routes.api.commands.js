@@ -9,6 +9,12 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
+	apiRoutes.post('/runVirshCommand', tools.checkToken, function(req, res) {
+		console.log(req.body);
+		virsh.runVirsh();
+		res.send("OK");
+	});
+	
 	apiRoutes.post('/serverDefine', tools.checkToken, function(req, res){
 		if(!req.body){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });

@@ -66,6 +66,7 @@ function prepare(result, command){
 			}
 			toReturn.push(curObject);
 		}
+		console.log(toReturn);
 		deferred.resolve(toReturn);
 	}
 	return deferred.promise;

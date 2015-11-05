@@ -43,7 +43,7 @@ function prepare(result, command){
 				} else {
 					curProp = lines[l].substring(curPlace).trim();
 				}
-				console.log(p, wte[p], curProp);
+				//console.log(p, wte[p], curProp);
 				curObject[wte[p]] = curProp;
 			}
 			toReturn.push(curObject);

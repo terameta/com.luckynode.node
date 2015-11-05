@@ -13,9 +13,14 @@ function prepare(result, command){
 	console.log(wte);
 	var lines = result.split('\n');
 	var places = [];
-	wte.forEach(function(curExpectation){
-		console.log(curExpectation);
-	});
+	if(lines.length == 0){
+		deferred.reject("Result is not valid");
+	} else {
+		wte.forEach(function(curExpectation){
+			console.log(curExpectation, lines[0].indexOf(curExpectation));
+		});
+	}
+	
 	console.log(lines);
 	deferred.resolve(result);
 	return deferred.promise;

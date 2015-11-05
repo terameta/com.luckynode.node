@@ -37,13 +37,12 @@ function prepare(result, command){
 				curPlace = places[p];
 				if(p != (places.length -1) ) nexPlace = nexPlace = places[p+1];
 				var curProp = '';
-				console.log("nexPlace", nexPlace);
 				if(nexPlace > 0){
 					lines[l].substring(curPlace,nexPlace).trim();
 				} else {
 					lines[l].substring(curPlace).trim();
 				}
-				console.log(p, curProp);
+				console.log(p, curPlace, nexPlace, curProp);
 			}
 		}
 	}

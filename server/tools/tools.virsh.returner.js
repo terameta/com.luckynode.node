@@ -28,7 +28,10 @@ function prepare(result, command){
 		var curPlace = 0;
 		var nexPlace = 0;
 		
+		var curObject = {};
+		
 		for( var l = 2; l < lines.length; l++ ){
+			curObject = {};
 			console.log("===================================================");
 			console.log(l, lines[l]);
 			for( var p = 0; p < places.length; p++ ){
@@ -43,7 +46,11 @@ function prepare(result, command){
 					curProp = lines[l].substring(curPlace).trim();
 				}
 				console.log(p, wte[p], curProp);
+				curObject[wte[p]] = curProp;
 			}
+			console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			console.log(curObject);
+			console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		}
 	}
 	deferred.resolve(result);

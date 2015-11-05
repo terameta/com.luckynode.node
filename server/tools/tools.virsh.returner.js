@@ -16,9 +16,13 @@ function prepare(result, command){
 	if(lines.length == 0){
 		deferred.reject("Result is not valid");
 	} else {
-		for( var i = 0; i < wte.length; i++){
+		for( var i = 0; i < wte.length; i++ ){
 			places[i] = lines[0].indexOf(wte[i]);
 			console.log(wte[i], places[i]);
+		}
+		
+		for( var l = 2; l < lines.length; l++ ){
+			console.log(l, lines[l]);
 		}
 	}
 	

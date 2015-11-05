@@ -1029,7 +1029,7 @@ function getMostAvailablePool(cSrv){
 function composeDomainXML(cSrv){
 	tools.logger.info('composeDomainXML is called', cSrv);
 	var deferred = Q.defer();
-	var diskFile = '/mnt/luckynodepools/'+ cSrv.store +'/'+ 'disk-'+ cSrv.id +'-001' +(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
+	var diskFile = '/mnt/luckynodepools/'+ cSrv.store +'/'+ 'disk-'+ cSrv.id +'-'+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
 	var theXML = ''
 	+ 	'<domain type=\'kvm\'>'																														+ '\n'
 	+ 	'	<name>'+ cSrv.id +'</name>'																											+ '\n'

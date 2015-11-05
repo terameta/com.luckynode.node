@@ -31,6 +31,8 @@ function prepare(result, command){
 		var curObject = {};
 		
 		for( var l = 2; l < lines.length; l++ ){
+			console.log("====================================================");
+			console.log(lines[l]);
 			curObject = {};
 
 			for( var p = 0; p < places.length; p++ ){

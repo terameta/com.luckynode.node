@@ -26,19 +26,19 @@ function prepare(result, command){
 		}
 		
 		var curPlace = 0;
-		var nexPlace = null;
+		var nexPlace = 0;
 		
 		for( var l = 2; l < lines.length; l++ ){
 			console.log("===================================================");
 			console.log(l, lines[l]);
 			for( var p = 0; p < places.length; p++ ){
 				curPlace = 0;
-				nexPlace = null;
+				nexPlace = 0;
 				curPlace = places[p];
 				if(p != (places.length -1) ) nexPlace = nexPlace = places[p+1];
 				var curProp = '';
 				console.log("nexPlace", nexPlace);
-				if(nexPlace){
+				if(nexPlace > 0){
 					lines[l].substring(curPlace,nexPlace).trim();
 				} else {
 					lines[l].substring(curPlace).trim();

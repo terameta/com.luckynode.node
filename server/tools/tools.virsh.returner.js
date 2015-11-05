@@ -29,6 +29,7 @@ function prepare(result, command){
 		var nexPlace = null;
 		
 		for( var l = 2; l < lines.length; l++ ){
+			console.log("===================================================");
 			console.log(l, lines[l]);
 			for( var p = 0; p < places.length; p++ ){
 				curPlace = 0;
@@ -40,8 +41,6 @@ function prepare(result, command){
 			}
 		}
 	}
-	
-	console.log(lines);
 	deferred.resolve(result);
 	return deferred.promise;
 }

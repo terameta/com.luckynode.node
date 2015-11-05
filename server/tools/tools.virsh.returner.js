@@ -33,7 +33,7 @@ function prepare(result, command){
 			console.log(l, lines[l]);
 			for( var p = 0; p < places.length; p++ ){
 				curPlace = 0;
-				nexPlace = null;
+				nexPlace = 0;
 				curPlace = places[p];
 				if(p != (places.length -1) ) nexPlace = nexPlace = places[p+1];
 				var curProp = '';
@@ -42,7 +42,7 @@ function prepare(result, command){
 				} else {
 					curProp = lines[l].substring(curPlace).trim();
 				}
-				console.log(p, curPlace, nexPlace, curProp);
+				console.log(p, wte[p], curProp);
 			}
 		}
 	}

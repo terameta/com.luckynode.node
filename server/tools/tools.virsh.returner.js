@@ -10,6 +10,8 @@ function prepare(result, command){
 	if(command == 'vol-list'){	wte = ['Name', 'Path', 'Type', 'Capacity', 'Allocation'];	}
 	console.log(result);
 	console.log(wte);
+	var lines = result.split('\n');
+	console.log(lines);
 	deferred.resolve(result);
 	return deferred.promise;
 }

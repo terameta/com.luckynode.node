@@ -30,7 +30,6 @@ function prepare(result, command){
 				for( var clc = 2; clc < lines.length; clc++ ){
 					if(places[i] > 0){
 						if( lines[clc][places[i] - 1] != ' ') isEmpty = false;
-						console.log(isEmpty);
 					}
 				}
 				
@@ -38,7 +37,6 @@ function prepare(result, command){
 				if(shouldIterate) places[i] = places[i] - 1;
 			}
 		}
-		console.log(places);
 		
 		var curPlace = 0;
 		var nexPlace = 0;
@@ -46,9 +44,6 @@ function prepare(result, command){
 		var curObject = {};
 		
 		for( var l = 2; l < lines.length; l++ ){
-			console.log("====================================================");
-			console.log(lines[0]);	
-			console.log(lines[l]);
 			curObject = {};
 
 			for( var p = 0; p < places.length; p++ ){
@@ -67,7 +62,6 @@ function prepare(result, command){
 			}
 			toReturn.push(curObject);
 		}
-		console.log(toReturn);
 		deferred.resolve(toReturn);
 	}
 	return deferred.promise;

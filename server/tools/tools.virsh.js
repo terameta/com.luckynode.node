@@ -1,6 +1,7 @@
 var Q				= require('q');
 //var config 			= require('../config/config.main.js');
 var tools			= require('../tools/tools.main.js');
+var poolTools		= require('../tools/tools.virsh.pool.js');
 var fs				= require('fs');
 
 module.exports = {

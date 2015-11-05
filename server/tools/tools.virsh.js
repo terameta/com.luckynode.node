@@ -40,16 +40,6 @@ module.exports = {
 
 function runVirsh(details){
 	return virshTools[details.region][details.command](details.details);
-	/*
-	var deferred = Q.defer();
-	console.log(details);
-	if(details.region == 'pool'){
-		if(details.command == 'getFiles')		poolTools.getFiles(details.details.id).then(deferred.resolve).fail(deferred.reject);
-	} else {
-		deferred.reject("What?");
-	}
-	return deferred.promise;
-	*/
 }
 
 function poolGetFiles(details){

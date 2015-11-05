@@ -705,7 +705,7 @@ function serverDiskList(cSrv){
 				if(curDisk.source.indexOf('/mnt/luckynodepools')>=0){
 					var curStore = curDisk.source;
 					console.log(curStore);
-					curStore = curStore.replace("/mnt/luckynodepools/");
+					curStore = curStore.replace("/mnt/luckynodepools/", '');
 					console.log(curStore);
 					curStore = curStore.split("/")[0];
 					console.log(curStore);

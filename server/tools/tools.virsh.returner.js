@@ -37,6 +37,7 @@ function prepare(result, command){
 				curPlace = places[p];
 				if(p != (places.length -1) ) nexPlace = nexPlace = places[p+1];
 				var curProp = '';
+				console.log("nexPlace", nexPlace);
 				if(nexPlace){
 					lines[l].substring(curPlace,nexPlace).trim();
 				} else {

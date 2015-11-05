@@ -16,11 +16,9 @@ function prepare(result, command){
 	if(lines.length == 0){
 		deferred.reject("Result is not valid");
 	} else {
-		var curPos = 0;
-		var curLen = 0;
 		for( var i = 0; i < wte.length; i++){
-			curPos = lines[0].indexOf(wte[i]);
-			console.log(wte[i], curPos);
+			places[i] = lines[0].indexOf(wte[i]);
+			console.log(wte[i], places[i]);
 		}
 	}
 	

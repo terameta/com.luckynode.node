@@ -32,6 +32,7 @@ function prepare(result, command){
 		
 		for( var l = 2; l < lines.length; l++ ){
 			console.log("====================================================");
+			console.log(lines[0]);	
 			console.log(lines[l]);
 			curObject = {};
 

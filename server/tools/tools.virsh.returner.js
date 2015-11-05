@@ -12,6 +12,10 @@ function prepare(result, command){
 	console.log(result);
 	console.log(wte);
 	var lines = result.split('\n');
+	var places = [];
+	wte.forEach(function(curExpectation){
+		console.log(curExpectation);
+	});
 	console.log(lines);
 	deferred.resolve(result);
 	return deferred.promise;

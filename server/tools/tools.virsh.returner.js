@@ -8,6 +8,7 @@ function prepare(result, command){
 	var deferred = Q.defer();
 	var wte = ''; 		//What to Expect
 	if(command == 'vol-list'){	wte = ['Name', 'Path', 'Type', 'Capacity', 'Allocation'];	}
+	result = result.trim();
 	console.log(result);
 	console.log(wte);
 	var lines = result.split('\n');

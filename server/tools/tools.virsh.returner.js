@@ -36,7 +36,12 @@ function prepare(result, command){
 				nexPlace = null;
 				curPlace = places[p];
 				if(p != (places.length -1) ) nexPlace = nexPlace = places[p+1];
-				var curProp = lines[l].substring(curPlace,nexPlace).trim();
+				var curProp = '';
+				if(nexPlace){
+					lines[l].substring(curPlace,nexPlace).trim();
+				} else {
+					lines[l].substring(curPlace).trim();
+				}
 				console.log(p, curProp);
 			}
 		}

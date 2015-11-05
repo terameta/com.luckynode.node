@@ -23,8 +23,19 @@ function prepare(result, command){
 		var places = [];
 		for( var i = 0; i < wte.length; i++ ){
 			places[i] = lines[0].indexOf(wte[i]);
-			for( var clc = 0; clc < lines.length; clc++ ){
-				console.log(lines[clc][places[i]]);
+			var shouldIterate = true;
+			while(shouldIterate){
+				var isEmpty = true;
+		
+				for( var clc = 0; clc < lines.length; clc++ ){
+					if(places[i] > 0){
+						if( lines[clc][places[i] - 1] != ' ') isEmpty = false;
+						console.log();
+					}
+				}
+				
+				if(isEmpty) shouldIterate = false;
+				if(shouldIterate) places[i] = places[i] - 1;
 			}
 		}
 		

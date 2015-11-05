@@ -39,7 +39,7 @@ module.exports = {
 };
 
 function runVirsh(details){
-	return virshTools[details.region][details.command](details);
+	return virshTools[details.region][details.command](details.details);
 	/*
 	var deferred = Q.defer();
 	console.log(details);

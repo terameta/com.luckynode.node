@@ -10,10 +10,23 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 	
 	apiRoutes.post('/runVirshCommand', tools.checkToken, function(req, res) {
-		console.log(req.body);
-		console.log("Buradayız");
-		virsh.runVirsh();
-		res.send("OK");
+		if(!req.body){
+			res.status(400).json({ status: 'fail', message: 'no data provided' });
+		} else if(!req.body.command) {
+			res.status(400).json({ status: 'fail', message: 'no data provided (no command)' });
+		} else if(!req.body.command.region){
+			res.status(400).json({ status: 'fail', message: 'no data provided (no region)' });
+		} else if(!req.body.command.command){
+			res.status(400).json({ status: 'fail', message: 'no data provided (no command.command)' });
+		} else if(!req.body.command.details){
+			res.status(400).json({ status: 'fail', message: 'no data provided (no detail)' });
+		} else {
+			virsh.runVirsh(req.body.command).then(function(result){
+				res.send(result);
+			}).fail(function(issue){
+				res.status(500).json({ status:'fail', message: issue });
+			});
+		}
 	});
 	
 	apiRoutes.post('/serverDefine', tools.checkToken, function(req, res){

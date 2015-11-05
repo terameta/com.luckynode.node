@@ -12,6 +12,10 @@ function prepare(result, command){
 	console.log(result);
 	console.log(wte);
 	var lines = result.split('\n');
+	for( var cl = 0; cl < lines.length; cl++ ){
+		lines[cl] = lines[cl].trim();
+	}
+	
 	var places = [];
 	if(lines.length == 0){
 		deferred.reject("Result is not valid");

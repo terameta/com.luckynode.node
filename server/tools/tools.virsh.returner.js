@@ -23,6 +23,9 @@ function prepare(result, command){
 		
 		for( var l = 2; l < lines.length; l++ ){
 			console.log(l, lines[l]);
+			for( var p = 0; p < places.length; p++ ){
+				console.log(p, lines[l].substring(places[p]));
+			}
 		}
 	}
 	

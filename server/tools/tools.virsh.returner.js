@@ -9,6 +9,7 @@ function prepare(result, command){
 	var wte = ''; 		//What to Expect
 	if(command == 'vol-list'){	wte = ['Name', 'Path', 'Type', 'Capacity', 'Allocation'];	}
 	
+	result = result.trim();
 
 	var lines = result.split('\n');
 	for( var cl = 0; cl < lines.length; cl++ ){

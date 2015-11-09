@@ -9,12 +9,12 @@ module.exports = {
 
 function define(cSrv){
 	var deferred = Q.defer();
-	if(!cSrv.architecture) 											cSrv.architecture = 'x86_64';
-	if(!cSrv.imageType) 											cSrv.imageType = 'qcow2';
+	if(!cSrv.architecture) 														cSrv.architecture = 'x86_64';
+	if(!cSrv.imageType) 															cSrv.imageType = 'qcow2';
 	if(cSrv.netdriver != 'rtl8139' && cSrv.netdriver != 'e1000') 	cSrv.netdriver = 'virtio';
-	if(cSrv.diskdriver != 'ide')									cSrv.diskdriver = 'virtio';
-	if(!cSrv.bridge)												cSrv.bridge = 'br0';
-	cSrv.newsize = cSrv.hdd;
+	if(cSrv.diskdriver != 'ide')												cSrv.diskdriver = 'virtio';
+	if(!cSrv.bridge)																cSrv.bridge = 'br0';
+	cSrv.newsize = 																cSrv.hdd;
 	tools.logger.info("Defining Server " + cSrv.id, cSrv, true);
 	
 	writeDHCPItem(cSrv).
@@ -125,8 +125,8 @@ function composeDomainXML(cSrv){
 	+	'	</devices>'																																	+ '\n'
 	+ 	'</domain>';
 	cSrv.theXML = theXML;
-	tools.logger.info('composeDomainXML is completed with XML', cSrv.theXML);
-	tools.logger.info('composeDomainXML is completed with XML, resulting status', cSrv);
+	tools.logger.info('composeDomainXML is completed with XML', cSrv.theXML, true);
+	tools.logger.info('composeDomainXML is completed with XML, resulting status', cSrv, true);
 	
 	deferred.resolve(cSrv);
 	return deferred.promise;

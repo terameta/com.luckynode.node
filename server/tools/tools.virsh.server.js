@@ -6,8 +6,87 @@ var volume			= require('../tools/tools.virsh.volume.js');
 var fs				= require('fs');
 
 module.exports = {
-	define: define
+	define: 			define,
+	undefine:		undefine,
+	state:			state,
+	list:				list,
+	destroy:			destroy
 };
+
+function undefine(cSrv){
+	tools.logger.info("serverDelete called for " + cSrv.id);
+	var deferred = Q.defer();
+	
+	state(cSrv).
+		then(deleteDHCPItem).
+		then(destroy).
+		then(serverDeleteDiskFiles).
+		then(serverUndefine).
+		then( function(result){ 	tools.logger.info( "serverDelete succeeded for " + cSrv.id, cSrv);	deferred.resolve('success');	}).
+		fail( function(issue){ 		tools.logger.error("serverDelete failed for " + cSrv.id, cSrv);		deferred.reject(issue); 		});
+	
+	return deferred.promise;
+}
+
+function destroy(cSrv){
+	tools.logger.info("serverDestroy called for " + cSrv.id);
+	var deferred = Q.defer();
+	if(cSrv.domstate == 'shutoff'){
+		tools.logger.info("serverDestroy succeeded for " + cSrv.id);
+		deferred.resolve(cSrv);
+	} else if(cSrv.domstate == 'notexist'){
+		tools.logger.info("serverDestroy succeeded for " + cSrv.id);
+		deferred.resolve(cSrv);
+	} else {
+		tools.runLocalCommand('virsh destroy '+cSrv.id).
+			then( function(result){ 	tools.logger.info( "serverDestroy succeeded for " + cSrv.id, result); 	cSrv.serverDestroyResult = result; 		deferred.resolve(cSrv);		}).
+			fail( function(issue){ 		tools.logger.error("serverDestroy failed for " + cSrv.id, issue);																deferred.reject(issue); 	});
+	}
+	return deferred.promise;
+}
+
+function state(cSrv){
+	tools.logger.info("serverState called for " + cSrv.id);
+	var deferred = Q.defer();
+	list().then(
+		function(domList){
+			cSrv.domstate = 'notexist';
+			domList.forEach(function(curDom){
+				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
+			});
+			tools.logger.info("serverState succeeded for " + cSrv.id, cSrv);
+			deferred.resolve(cSrv);
+		}
+	).fail( function(issue){ tools.logger.info("serverState failed for " + cSrv.id, issue);		deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function list(){
+	tools.logger.info("serverList is called");
+	var deferred = Q.defer();
+	
+	tools.runLocalCommand('virsh list --all').then(
+		function(result){
+			var toReturn = [];
+			result = result.trim().split("\n");
+			result.splice(0,2);
+			result.forEach(function(curDomSrc){
+				var curDom = {};
+				curDomSrc = curDomSrc.replace(/shut down/gi, "shutdown");
+				curDomSrc = curDomSrc.replace(/shut off/gi, "shutoff");
+				var curDomDef = tools.splitBySpace(curDomSrc);
+				curDom.Id 		= curDomDef[0] || 'NoId';
+				curDom.Name 	= curDomDef[1] || 'NoName';
+				curDom.State 	= curDomDef[2] || 'shutoff';
+				toReturn.push(curDom);
+			});
+			tools.logger.info("serverList succeeded", toReturn);
+			deferred.resolve(toReturn);
+		}
+	).fail( function(issue){ deferred.reject(issue); tools.logger.error("serverList faild", issue)} );
+	
+	return deferred.promise;
+}
 
 function define(cSrv){
 	var deferred = Q.defer();

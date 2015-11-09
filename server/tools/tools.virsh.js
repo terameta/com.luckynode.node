@@ -1,6 +1,7 @@
 var Q				= require('q');
 //var config 			= require('../config/config.main.js');
 var tools			= require('../tools/tools.main.js');
+var virshMain		= require('../tools/tools.virsh.main.js');
 var virshTools 	= 
 	{
 		pool: 	require('../tools/tools.virsh.pool.js'),
@@ -29,7 +30,7 @@ module.exports = {
 	serverPowerOff:serverPowerOff,
 	serverVNCAddress:serverVNCAddress,
 	serverResize:serverResize,
-	nodeInterfaceList:nodeInterfaceList,
+	nodeInterfaceList:virshMain.nodeInterfaceList,
 	nodeBridgeAssign:nodeBridgeAssign,
 	nodeBridgeDetach:nodeBridgeDetach,
 	volCloneFromServer:volCloneFromServer,

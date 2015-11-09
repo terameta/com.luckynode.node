@@ -2,6 +2,7 @@ var Q				= require('q');
 var tools			= require('../tools/tools.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
 var virshMain		= require('../tools/tools.virsh.main.js');
+var volume			= require('../tools/tools.virsh.volume.js');
 
 module.exports = {
 	define: define
@@ -21,7 +22,7 @@ function define(cSrv){
 		then(virshMain.getMostAvailablePool).
 		then(composeDomainXML).
 		then(saveDomainXML).
-		//then(createDomainDiskFile).
+		then(createDomainDiskFile).
 		//then(serverResize).
 		//then(createDomainandStart).
 		then(deferred.resolve).
@@ -143,5 +144,25 @@ function saveDomainXML(cSrv){
 			deferred.resolve(cSrv);
 		}
 	});
+	return deferred.promise;
+}
+
+function createDomainDiskFile(cSrv){
+	tools.logger.info('createDomainDiskFile is called', cSrv);
+	tools.logger.info('createDomainDiskFile baseimage', cSrv.baseImage);
+	if(cSrv.baseImage == 'CreateNew'){
+		tools.logger.info('createDomainDiskFile baseimage', 'a new one will be created');
+	} else {
+		tools.logger.info('createDomainDiskFile baseimage', 'existing one will be used');
+	}
+	var diskName  = 'disk-'+ cSrv.id +'-';
+		 diskName += (cSrv.diskdriver == 'ide' ? 'hda' : 'vda');
+		 diskName += (cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
+	
+	var deferred = Q.defer();
+	volume.create(diskName, cSrv.store, cSrv.hdd, cSrv.imageType, cSrv.baseImage).
+		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); deferred.resolve(cSrv); }).
+		fail(function( issue){ tools.logger.info('createDomainDiskFile failed   ', issue ); deferred.reject(issue); });
+	
 	return deferred.promise;
 }

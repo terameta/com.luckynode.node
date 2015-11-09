@@ -845,42 +845,6 @@ function poolList(){
 	return deferred.promise;
 }
 
-function createDomainDiskFile(cSrv){
-	tools.logger.info('createDomainDiskFile is called', cSrv);
-	tools.logger.info('createDomainDiskFile baseimage', cSrv.baseImage);
-	if(cSrv.baseImage == 'CreateNew'){
-		tools.logger.info('createDomainDiskFile baseimage', 'a new one will be created');
-	} else {
-		tools.logger.info('createDomainDiskFile baseimage', 'existing one will be used');
-	}
-	var diskName  = 'disk-'+ cSrv.id +'-';
-		 diskName += (cSrv.diskdriver == 'ide' ? 'hda' : 'vda');
-		 diskName += (cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
-	
-	var deferred = Q.defer();
-	createVolume(diskName, cSrv.store, cSrv.hdd, cSrv.imageType, cSrv.baseImage).
-		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); deferred.resolve(cSrv); }).
-		fail(function( issue){ tools.logger.info('createDomainDiskFile failed   ', issue ); deferred.reject(issue); });
-	
-	return deferred.promise;
-}
-
-function createVolume(diskName, pool, size, type, bVol){
-	var deferred = Q.defer();
-	var theCmd  = 	'virsh vol-create-as --pool '+ pool;
-		theCmd +=	' --name '+ diskName;
-		theCmd +=	' --capacity '+ size +'G';
-		theCmd += 	' --format ' + (type == 'qcow2' ? 'qcow2' : 'raw');
-		theCmd +=	(type == 'qcow2' && bVol == 'CreateNew' ? ' --prealloc-metadata' : '');
-		theCmd +=	(bVol != 'CreateNew' ? ' --backing-vol '+ bVol : '');
-		theCmd +=	(bVol != 'CreateNew' ? ' --backing-vol-format qcow2' : '');
-	tools.logger.info('createVolume command', theCmd);
-	tools.runLocalCommand(theCmd).
-		then(function(result){ tools.logger.info('createVolume succeeded', result); 	deferred.resolve(result); }).
-		fail(function(issue){ tools.logger.error('createVolume failed', issue);			deferred.reject(issue); });
-	return deferred.promise;
-}
-
 function createDomainandStart(cSrv){
 	console.log("Create Domain and Start Called for " + cSrv.id);
 	console.log(cSrv);

@@ -3,7 +3,8 @@ var Q				= require('q');
 var tools			= require('../tools/tools.main.js');
 var virshTools 	= 
 	{
-		pool: require('../tools/tools.virsh.pool.js')
+		pool: 	require('../tools/tools.virsh.pool.js'),
+		server:	require('../tools/tools.virsh.server.js')
 	};		
 var fs				= require('fs');
 

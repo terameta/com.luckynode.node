@@ -14,7 +14,6 @@ module.exports = {
 	poolDefine: poolDefine,
 	poolsRemove: poolsRemove,
 	poolRemove: poolRemove,
-	serverDefine:serverDefine,
 	serverDelete:serverDelete,
 	serverDestroy:serverDestroy,
 	serverDeleteDiskFiles:serverDeleteDiskFiles,

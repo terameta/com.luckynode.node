@@ -15,14 +15,8 @@ module.exports = {
 	poolDefine: 				poolDefine,
 	poolsRemove: 				poolsRemove,
 	poolRemove: 				poolRemove,
-	serverDelete:				serverDelete,
-	serverDestroy:				serverDestroy,
-	serverDeleteDiskFiles:	serverDeleteDiskFiles,
-	serverList:					serverList,
-	serverDiskList:			serverDiskList,
 	serverAttachISO:			serverAttachISO,
 	serverEjectISO:			serverEjectISO,
-	serverState:				serverState,
 	serverShutDown:			serverShutDown,
 	serverStart:				serverStart,
 	serverReboot:				serverReboot,
@@ -324,58 +318,6 @@ function nodeBridgeAssign(bridge, iface){
 		}).fail(function(issue){ tools.logger.info("nodeBridgeAssign failed for bridge "+ bridge +" and interface " + iface +" in all possible ways.", issue); deferred.reject(issue); });
 	});
 	
-	return deferred.promise;
-}
-
-function serverDiskList(cSrv){
-	tools.logger.info("serverDiskList is called for " + cSrv.id);
-	var deferred = Q.defer();
-	tools.runLocalCommand('virsh domblklist '+ cSrv.id +' --details').then(
-		function(result){
-			var toReturn = [];
-			result = result.trim().split("\n");
-			result.splice(0,2);
-			result.forEach(function(curDiskSrc){
-				var curDisk = {};
-				var curDiskDef = tools.splitBySpace(curDiskSrc);
-				curDisk.type 	= curDiskDef[0] || 'NoType';
-				curDisk.device 	= curDiskDef[1] || 'NoDevice';
-				curDisk.target	= curDiskDef[2] || 'NoTarget';
-				curDisk.source	= curDiskDef[3] || 'NoSource';
-				if(curDisk.source.indexOf('/mnt/luckynodepools')>=0){
-					curDisk.store = curDisk.source.replace("/mnt/luckynodepools/", '').split("/")[0];
-				}
-				//console.log(curDisk);
-				toReturn.push(curDisk);
-			});
-			tools.logger.info("serverDiskList succeeded for " + cSrv.id, result);
-			deferred.resolve(toReturn);
-		}
-	).fail( function(issue){ tools.logger.info("serverDiskList failed for " + cSrv.id, issue); deferred.reject(issue); } );
-	return deferred.promise;
-}
-
-function serverCheckDiskFiles(cSrv){
-	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
-	var deferred = Q.defer();
-	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --details').
-		then(
-			function(result){
-				result = result.trim().split("\n");
-				result.splice(0,2);
-				
-				var toReturn = [];
-				result.forEach(function(curVolSrc){
-					var curVol = {};
-					var curVolDef = tools.splitBySpace(curVolSrc);
-					curVol.name = curVolDef[0] || 'NoAssignedName';
-					if(curVol.name.indexOf(cSrv.id.toString()) >= 0 ) toReturn.push(curVol.name);
-				});
-				tools.logger.info("serverCheckDiskFiles succeeded for " + cSrv.id, result);
-				deferred.resolve(toReturn);
-			}
-		).
-		fail( function(issue){ 		tools.logger.info("serverCheckDiskFiles failed for " + cSrv.id, issue );		deferred.reject(issue); 	});
 	return deferred.promise;
 }
 

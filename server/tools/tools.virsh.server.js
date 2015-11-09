@@ -11,7 +11,8 @@ module.exports = {
 	state:					state,
 	list:						list,
 	destroy:					destroy,
-	deleteDiskFiles: 		deleteDiskFiles
+	deleteDiskFiles: 		deleteDiskFiles,
+	diskList:				diskList
 };
 
 function undefine(cSrv){
@@ -549,5 +550,33 @@ function createDomainandStart(cSrv){
 			console.log("Server create failed", cSrv.id);
 			deferred.reject(issue);
 		});
+	return deferred.promise;
+}
+
+function diskList(cSrv){
+	tools.logger.info("serverDiskList is called for " + cSrv.id);
+	var deferred = Q.defer();
+	tools.runLocalCommand('virsh domblklist '+ cSrv.id +' --details').then(
+		function(result){
+			var toReturn = [];
+			result = result.trim().split("\n");
+			result.splice(0,2);
+			result.forEach(function(curDiskSrc){
+				var curDisk = {};
+				var curDiskDef = tools.splitBySpace(curDiskSrc);
+				curDisk.type 	= curDiskDef[0] || 'NoType';
+				curDisk.device 	= curDiskDef[1] || 'NoDevice';
+				curDisk.target	= curDiskDef[2] || 'NoTarget';
+				curDisk.source	= curDiskDef[3] || 'NoSource';
+				if(curDisk.source.indexOf('/mnt/luckynodepools')>=0){
+					curDisk.store = curDisk.source.replace("/mnt/luckynodepools/", '').split("/")[0];
+				}
+				//console.log(curDisk);
+				toReturn.push(curDisk);
+			});
+			tools.logger.info("serverDiskList succeeded for " + cSrv.id, result);
+			deferred.resolve(toReturn);
+		}
+	).fail( function(issue){ tools.logger.info("serverDiskList failed for " + cSrv.id, issue); deferred.reject(issue); } );
 	return deferred.promise;
 }

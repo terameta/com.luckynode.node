@@ -3,6 +3,7 @@ var tools			= require('../tools/tools.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
 var virshMain		= require('../tools/tools.virsh.main.js');
 var volume			= require('../tools/tools.virsh.volume.js');
+var fs				= require('fs');
 
 module.exports = {
 	define: define
@@ -23,7 +24,7 @@ function define(cSrv){
 		then(composeDomainXML).
 		then(saveDomainXML).
 		then(createDomainDiskFile).
-		//then(serverResize).
+		then(serverResize).
 		//then(createDomainandStart).
 		then(deferred.resolve).
 		fail(deferred.reject);
@@ -164,5 +165,225 @@ function createDomainDiskFile(cSrv){
 		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); deferred.resolve(cSrv); }).
 		fail(function( issue){ tools.logger.info('createDomainDiskFile failed   ', issue ); deferred.reject(issue); });
 	
+	return deferred.promise;
+}
+
+function serverResize(cSrv){
+	console.log("serverResize is called for:", cSrv.id);
+	tools.logger.info("serverResize is called for:"+cSrv.id);
+	tools.logger.info(cSrv.id, cSrv);
+	var deferred = Q.defer();
+	//console.log(cSrv);
+	
+	cSrv.waitTime = 10000;
+	
+	if(cSrv.baseImage == 'CreateNew' && cSrv.status == 'defining'){
+		deferred.resolve(cSrv);
+	} else {
+		vdaResize(cSrv).
+			then(enableNBD).
+			then(findFreeNBD).
+			then(lockFreeNBD).
+			then(describeNBD).
+			then(resizeNBDPartition).
+			then(checkNBDFileSystem).
+			then(resizeNBDFileSystem).
+			then(describeNBD).
+			then(releaseNBD).
+			then(deferred.resolve).fail(function(issue){
+				console.log("Issue here:", issue);
+				deferred.reject(issue);
+				releaseNBD(cSrv);
+			});
+	}
+	
+	return deferred.promise;
+}
+
+function vdaResize(cSrv){
+	var deferred = Q.defer();
+	volume.resize("disk-"+ cSrv.id +"-vda.qcow2", cSrv.store, cSrv.newsize).then(function(result){
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function enableNBD(cSrv){
+	var deferred = Q.defer();
+	var curCommand = 'sudo modprobe nbd max_part=63 nbds_max=64';
+	tools.runLocalCommand(curCommand).then(function(result) {
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function findFreeNBD(cSrv){
+	var deferred = Q.defer();
+	var numNBD = findNumberofNBD();
+	var shouldReject = false;
+	var curCommand = 'ps aux | grep qemu-nbd';
+	tools.runLocalCommand(curCommand).then(function(result) {
+		result = result.split('\n');
+		for(var t = 0; t < result.length; t++){
+			if( result[t].indexOf(cSrv.id + '.qcow2') >= 0 ){
+				//This virtual server is already mounted to an NBD device. Kill the assignment.
+				shouldReject = true;
+				break;
+			}
+			var logDN = result[t].indexOf('/dev/nbd');
+			var theStr = '';
+			if(logDN >= 0){
+				theStr = result[t].substring(logDN, result[t].indexOf(' ', logDN));
+			}
+			if(numNBD.indexOf(theStr) >= 0){
+				numNBD.splice(numNBD.indexOf(theStr), 1);
+			}
+		}
+		if(numNBD.length > 0 && !shouldReject){
+			cSrv.targetNBD = numNBD[0];
+			deferred.resolve(cSrv);
+		} else if(shouldReject){
+			deferred.reject("This virtual server is already mounted to an NBD device. Kill the assignment.");
+		} else {
+			findFreeNBD(cSrv).then(deferred.resolve).fail(deferred.reject);
+		}
+	}).fail(deferred.reject);
+	
+	return deferred.promise;
+}
+
+function findNumberofNBD(){
+	var i = 0;
+	var toReturn = [];
+	for(i=0; i < 999; i++){
+		try{
+			fs.accessSync('/dev/nbd'+i);
+		} catch(e){
+			break;
+		}
+		toReturn.push('/dev/nbd'+i);
+	}
+	return(toReturn);
+}
+
+function lockFreeNBD(cSrv){
+	var deferred = Q.defer();
+	var curCommand = "sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/disk-"+cSrv.id+"-vda.qcow2";
+	tools.runLocalCommand(curCommand).then(function(result){
+		deferred.resolve(cSrv);
+	}).fail(function(issue){
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function describeNBD(cSrv){
+	var deferred = Q.defer();
+	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script unit KiB print";
+	tools.runLocalCommand(curCommand).then(function(result) {
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>DescribNBD");
+		console.log(curCommand);
+		console.log("Result");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		result = result.trim().split('\n');
+		var shouldWrite = false;
+		var sizeOrder = 0, numberOrder = 0, filesystemOrder = 0;
+		var listDisks = [];
+		for(var t = 0; t < result.length; t++){
+			if(shouldWrite){
+				result[t] = tools.splitBySpace(result[t]);
+				var curObj = {};
+				curObj.number 		= result[t][numberOrder];
+				curObj.size 		= result[t][sizeOrder];
+				curObj.filesystem 	= result[t][filesystemOrder];
+				curObj.realsize		= tools.size2realsize(curObj.size);
+				console.log(curObj);
+				listDisks.push(curObj);
+			} else if(result[t].substr(0,6) == 'Number'){
+				result[t] = result[t].replace("File system", "FileSystem");
+				var headers = tools.splitBySpace(result[t]);
+				for(var q = 0; q < headers.length; q++){
+					if(headers[q].trim() == 'Number') 		numberOrder = q;
+					if(headers[q].trim() == 'Size')			sizeOrder = q;
+					if(headers[q].trim() == 'FileSystem')	filesystemOrder = q;
+				}
+				shouldWrite = true;
+			}
+		}
+		var curMax = 0, curMaxDisk = 0;
+		for(var i = 0; i < listDisks.length; i++){
+			if(listDisks[i].realsize >= curMax){
+				curMax = listDisks[i].realsize;
+				curMaxDisk = i;
+			}
+		}
+		cSrv.targetPartition = listDisks[curMaxDisk].number;
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function resizeNBDPartition(cSrv){
+	var deferred = Q.defer();
+	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script resizepart "+ cSrv.targetPartition +" 100% ";
+	tools.runLocalCommand(curCommand).then(function(result) {
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>ResizeNBDPartition");
+		console.log(curCommand);
+		console.log("Result");
+		console.log(result);
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function checkNBDFileSystem(cSrv){
+	var deferred = Q.defer();
+	var curCommand = "sudo e2fsck -p -f "+cSrv.targetNBD+"p"+cSrv.targetPartition;
+	tools.runLocalCommand(curCommand).then(function(result){
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function resizeNBDFileSystem(cSrv){
+	var deferred = Q.defer();
+	var curCommand = "sudo resize2fs "+cSrv.targetNBD+"p"+cSrv.targetPartition;
+	tools.runLocalCommand(curCommand).then(function(result){
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function releaseNBD(cSrv){
+	var deferred = Q.defer();
+	getNBDPID(cSrv).then(function(result){
+		if(cSrv.NBDPID > 0){
+			var curCommand = "sudo kill -SIGTERM "+cSrv.NBDPID;
+			tools.runLocalCommand(curCommand).then(function(result){
+				deferred.resolve(cSrv);
+			}).fail(deferred.reject);
+		} else {
+			console.log("There is no NBD process attached to this server");
+			deferred.resolve(cSrv);
+		}
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function getNBDPID(cSrv){
+	var deferred = Q.defer();
+	var curCommand = "ps aux | grep qemu-nbd";
+	tools.runLocalCommand(curCommand).then(function(result) {
+		result = result.trim().split('\n');
+		cSrv.NBDPID = 0;
+		for(var i = 0; i < result.length; i++){
+			if(result[i].indexOf(cSrv.id+'.qcow2') >= 0){
+				cSrv.NBDPID = tools.splitBySpace(result[i])[1];
+			}
+		}
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
 	return deferred.promise;
 }

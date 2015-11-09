@@ -60,6 +60,7 @@ var logger = {
 
 
 module.exports = {
+	size2realsize: size2realsize,
 	splitBySpace: function(source){
 		return source.trim().split(/[\s,]+/);
 	},
@@ -213,4 +214,38 @@ function sendHTTPSRequest(host, path, shouldReject){
 	}).end();
 	
 	return deferred.promise;
+}
+
+function size2realsize(srcSize, unit){
+	if(!unit){
+		var tmpSize = parseFloat(srcSize);
+		unit = srcSize.replace(tmpSize.toString(10), '');
+	}
+	unit = unit.trim();
+	var curSize = parseFloat(srcSize);
+	if(unit == 'k') 		curSize *= 1000;
+	if(unit == 'KB')		curSize *= 1000;
+	if(unit == 'KiB') 		curSize *= 1024;
+	if(unit == 'kiB') 		curSize *= 1024;
+	if(unit == 'M') 		curSize *= 1000000;
+	if(unit == 'MB') 		curSize *= 1000000;
+	if(unit == 'MiB') 		curSize *= 1048576;
+	if(unit == 'miB') 		curSize *= 1048576;
+	if(unit == 'G') 		curSize *= 1000000000;
+	if(unit == 'GB') 		curSize *= 1000000000;
+	if(unit == 'GiB') 		curSize *= 1073741824;
+	if(unit == 'giB') 		curSize *= 1073741824;
+	if(unit == 'T') 		curSize *= 1000000000000;
+	if(unit == 'TB') 		curSize *= 1000000000000;
+	if(unit == 'TiB') 		curSize *= 1099511627776;
+	if(unit == 'tiB') 		curSize *= 1099511627776;
+	if(unit == 'P') 		curSize *= 1000000000000000;
+	if(unit == 'PB') 		curSize *= 1000000000000000;
+	if(unit == 'PiB') 		curSize *= 1125899906842624;
+	if(unit == 'piB') 		curSize *= 1125899906842624;
+	if(unit == 'E') 		curSize *= 1000000000000000000;
+	if(unit == 'EB') 		curSize *= 1000000000000000000;
+	if(unit == 'EiB') 		curSize *= 1152921504606846976;
+	if(unit == 'eiB') 		curSize *= 1152921504606846976;
+	return curSize;
 }

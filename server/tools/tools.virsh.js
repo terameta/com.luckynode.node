@@ -583,62 +583,6 @@ function nodeBridgeAssign(bridge, iface){
 	return deferred.promise;
 }
 
-function refreshDHCPConfig(){
-	tools.logger.info("refreshDHCPConfig is called");
-	var interfaceString = '';
-	var deferred = Q.defer();
-	var theCommands = [];
-	nodeInterfaceList().then(function(result){
-		var interfaceList = [];
-		result.forEach(function(curInterface){
-			if(curInterface.name != 'lo'){
-				interfaceList.push(curInterface.name);
-			}
-		});
-		interfaceString = interfaceList.join(' ');
-		theCommands.push('sudo sh -c \'echo INTERFACE=\\\"'+ interfaceString +'\\\" > /etc/default/isc-dhcp-server\'');
-		theCommands.push('cd && echo "subnet 0.0.0.0 netmask 0.0.0.0 {authoritative;default-lease-time 21600000;max-lease-time 432000000;}\\nddns-update-style none;\\n" > dhcpd.conf.head');
-		theCommands.push('cd && echo "\\n" > dhcpd.conf.body.0');
-		theCommands.push('cd && echo "\\n" > dhcpd.conf.body.1');
-		theCommands.push('cd && sudo sh -c "cat dhcpd.conf.head dhcpd.conf.body* > /etc/dhcp/dhcpd.conf"');
-		theCommands.push('sudo service isc-dhcp-server restart');
-		tools.runLocalCommands(theCommands).then(function(result) {
-			tools.logger.info("refreshDHCPConfig succeeded with interfaces:"+interfaceString, result);
-			deferred.resolve(result);
-		}).fail(function(issue) {
-			tools.logger.error("refreshDHCPConfig failed with interfaces:"+interfaceString, issue);
-			deferred.reject(issue);
-		});
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
-	return deferred.promise;
-}
-
-function nodeInterfaceList(){
-	tools.logger.info("nodeInterfaceList is called");
-	var deferred = Q.defer();
-	tools.runLocalCommand('virsh iface-list --all').then(
-		function(result){
-			var toReturn = [];
-			result = result.trim().split("\n");
-			result.splice(0,2);
-			result.forEach(function(curInterfaceSrc){
-				var curInterface = {};
-				var curInterfaceDef = tools.splitBySpace(curInterfaceSrc);
-				curInterface.name = curInterfaceDef[0] || 'NoName';
-				curInterface.state = curInterfaceDef[1] || 'NoState';
-				curInterface.mac = curInterfaceDef[2] || 'NoMac';
-				toReturn.push(curInterface);
-				//console.log(curInterface);
-			});
-			tools.logger.info("nodeInterfaceList succeeded");
-			deferred.resolve(toReturn);
-		}
-	).fail( function(issue){ tools.logger.info("nodeInterfaceList failed", issue); deferred.reject(issue); } );
-	return deferred.promise;
-}
-
 function serverDiskList(cSrv){
 	tools.logger.info("serverDiskList is called for " + cSrv.id);
 	var deferred = Q.defer();

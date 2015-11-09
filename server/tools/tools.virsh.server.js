@@ -48,7 +48,7 @@ function writeDHCPItem(cSrv){
 	
 	theCommands.push('cd && echo "'+ theContent +'" > dhcpd.conf.body.'+cSrv.id);
 	tools.runLocalCommands(theCommands).
-		then(refreshDHCPConfig).
+		then(virshMain.refreshDHCPConfig).
 		then(function(result){
 			tools.logger.info("writeServerDHCPItem is succeeded", result);
 			deferred.resolve(cSrv);

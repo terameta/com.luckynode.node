@@ -25,7 +25,7 @@ function define(cSrv){
 		then(saveDomainXML).
 		then(createDomainDiskFile).
 		then(serverResize).
-		//then(createDomainandStart).
+		then(createDomainandStart).
 		then(deferred.resolve).
 		fail(deferred.reject);
 
@@ -385,5 +385,24 @@ function getNBDPID(cSrv){
 		}
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function createDomainandStart(cSrv){
+	console.log("Create Domain and Start Called for " + cSrv.id);
+	console.log(cSrv);
+	var deferred = Q.defer();
+	var theCmds = [];
+	theCmds.push('virsh define /tmp/'+cSrv.id+'.xml');
+	theCmds.push('virsh start '+cSrv.id);
+	tools.runLocalCommands(theCmds).
+		then(function(result){
+			console.log("Server Created", cSrv.id);
+			deferred.resolve(cSrv);
+		}).
+		fail(function(issue){
+			console.log("Server create failed", cSrv.id);
+			deferred.reject(issue);
+		});
 	return deferred.promise;
 }

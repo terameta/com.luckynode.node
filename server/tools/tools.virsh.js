@@ -355,108 +355,6 @@ function serverDiskList(cSrv){
 	return deferred.promise;
 }
 
-function serverList(){
-	tools.logger.info("serverList is called");
-	var deferred = Q.defer();
-	
-	tools.runLocalCommand('virsh list --all').then(
-		function(result){
-			var toReturn = [];
-			result = result.trim().split("\n");
-			result.splice(0,2);
-			result.forEach(function(curDomSrc){
-				var curDom = {};
-				curDomSrc = curDomSrc.replace(/shut down/gi, "shutdown");
-				curDomSrc = curDomSrc.replace(/shut off/gi, "shutoff");
-				var curDomDef = tools.splitBySpace(curDomSrc);
-				curDom.Id 		= curDomDef[0] || 'NoId';
-				curDom.Name 	= curDomDef[1] || 'NoName';
-				curDom.State 	= curDomDef[2] || 'shutoff';
-				toReturn.push(curDom);
-			});
-			tools.logger.info("serverList succeeded", toReturn);
-			deferred.resolve(toReturn);
-		}
-	).fail( function(issue){ deferred.reject(issue); tools.logger.error("serverList faild", issue)} );
-	
-	return deferred.promise;
-}
-
-function serverDelete(cSrv){
-	tools.logger.info("serverDelete called for " + cSrv.id);
-	var deferred = Q.defer();
-	
-	serverState(cSrv).
-		then(serverDeleteDHCPItem).
-		then(serverDestroy).
-		then(serverDeleteDiskFiles).
-		then(serverUndefine).
-		then( function(result){ 	tools.logger.info( "serverDelete succeeded for " + cSrv.id, cSrv);	deferred.resolve('success');	}).
-		fail( function(issue){ 		tools.logger.error("serverDelete failed for " + cSrv.id, cSrv);		deferred.reject(issue); 		});
-	
-	return deferred.promise;
-}
-
-function serverState(cSrv){
-	tools.logger.info("serverState called for " + cSrv.id);
-	var deferred = Q.defer();
-	serverList().then(
-		function(domList){
-			cSrv.domstate = 'notexist';
-			domList.forEach(function(curDom){
-				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
-			});
-			tools.logger.info("serverState succeeded for " + cSrv.id, cSrv);
-			deferred.resolve(cSrv);
-		}
-	).fail( function(issue){ tools.logger.info("serverState failed for " + cSrv.id, issue);		deferred.reject(issue); } );
-	return deferred.promise;
-}
-
-function serverDestroy(cSrv){
-	tools.logger.info("serverDestroy called for " + cSrv.id);
-	var deferred = Q.defer();
-	if(cSrv.domstate == 'shutoff'){
-		tools.logger.info("serverDestroy succeeded for " + cSrv.id);
-		deferred.resolve(cSrv);
-	} else if(cSrv.domstate == 'notexist'){
-		tools.logger.info("serverDestroy succeeded for " + cSrv.id);
-		deferred.resolve(cSrv);
-	} else {
-		tools.runLocalCommand('virsh destroy '+cSrv.id).
-			then( function(result){ 	tools.logger.info( "serverDestroy succeeded for " + cSrv.id, result); 	cSrv.serverDestroyResult = result; 		deferred.resolve(cSrv);	}).
-			fail( function(issue){ 		tools.logger.error("serverDestroy failed for " + cSrv.id, issue);												deferred.reject(issue); 	});
-	}
-	return deferred.promise;
-}
-
-function serverDeleteDiskFiles(cSrv){
-	tools.logger.info("serverDeleteDiskFiles is called for " + cSrv.id);
-	var deferred = Q.defer();
-	if(cSrv.domstate == 'notexist'){
-		deferred.resolve(cSrv);
-	} else {
-		serverCheckDiskFiles(cSrv).
-			then(
-				function(diskList){
-					var ideferred = Q.defer();
-					var theCmds = [];
-					diskList.forEach(function(curDisk){
-						theCmds.push('virsh vol-delete --vol '+curDisk+' --pool ' + cSrv.store);
-					});
-					tools.runLocalCommands(theCmds).
-						then(function(result){ ideferred.resolve(cSrv); }).
-						fail(function(issue){ ideferred.reject(issue); });
-					
-					return ideferred.promise;
-				}
-			).
-			then( function(result){ 	tools.logger.info( "serverDeleteDiskFiles succeeded for " + cSrv.id, result);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
-			fail( function(issue){ 		tools.logger.error("serverDeleteDiskFiles failed for " + cSrv.id, issue);		deferred.reject(issue); 	});
-	}
-	return deferred.promise;
-}
-
 function serverCheckDiskFiles(cSrv){
 	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
 	var deferred = Q.defer();
@@ -478,20 +376,6 @@ function serverCheckDiskFiles(cSrv){
 			}
 		).
 		fail( function(issue){ 		tools.logger.info("serverCheckDiskFiles failed for " + cSrv.id, issue );		deferred.reject(issue); 	});
-	return deferred.promise;
-}
-
-function serverUndefine(cSrv){
-	tools.logger.info("serverUndefine is called for " + cSrv.id );
-	var deferred = Q.defer();
-	if(cSrv.domstate == 'notexist'){
-		tools.logger.info("serverUndefine succeeded for " + cSrv.id );
-		deferred.resolve(cSrv);
-	} else {
-		tools.runLocalCommand('virsh undefine '+ cSrv.id).
-			then( function(result){ 	tools.logger.info("serverUndefine succeeded for " + cSrv.id, result );	cSrv.serverUndefineResult = result; deferred.resolve(cSrv);	}).
-			fail( function(issue){ 		tools.logger.info("serverUndefine failed for " + cSrv.id, issue );		deferred.reject(issue); 	});
-	}
 	return deferred.promise;
 }
 

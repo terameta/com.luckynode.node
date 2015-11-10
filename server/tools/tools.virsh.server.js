@@ -4,6 +4,7 @@ var returner		= require('../tools/tools.virsh.returner.js');
 var virshMain		= require('../tools/tools.virsh.main.js');
 var volume			= require('../tools/tools.virsh.volume.js');
 var fs				= require('fs');
+var mongojs 		= require('mongojs');
 
 module.exports = {
 	define: 					define,
@@ -117,7 +118,12 @@ function stateUpdate(cSrvID){
 	console.log("StateUpdate", cSrvID);
 	list().then(function(result){
 		console.log(result);
-		//tools.db.servers.update({})
+		result.forEach(function(curDom){
+			console.log(curDom);
+		});
+		/*tools.db.servers.update({_id: mongojs.ObjectId(cSrvID)}, {$set: {status: abc, domstate: abc}}, function(err, data){
+			
+		});*/
 	}).fail(console.log);
 }
 

@@ -26,8 +26,8 @@ function start(cSrv){
 	console.log("serverStart is called for:" + cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh start ' + cSrv.id;
-	state(cSrv).
-		then(fetchServerFromDB).
+	fetchServerFromDB(cSrv).
+		then(state).
 		then(writeDHCPItem).
 		then(function(result) {
 			if(cSrv.domstate == 'shut off'){
@@ -47,8 +47,13 @@ function start(cSrv){
 
 function fetchServerFromDB(cSrv){
 	var deferred = Q.defer();
-	console.log("fetchServerFromDB", cSrv);
-	deferred.resolve(cSrv);
+	tools.db.servers.findOne({_id: mongojs.ObjectId(cSrv.id)}, function(err, data){
+		if(err){
+			deferred.reject(err);
+		} else {
+			deferred.resolve(data);
+		}
+	});
 	return deferred.promise;
 }
 

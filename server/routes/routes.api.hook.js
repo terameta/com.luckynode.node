@@ -9,8 +9,11 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
-	apiRoutes.get('/:id', function(req, res) {
-		console.log("Hook asked", req.params.id);
+	apiRoutes.get('/:id/:state/:action/:bilmem', function(req, res) {
+		console.log("Hook ID:", req.params.id);
+		console.log("Hook Status:", req.params.state);
+		console.log("Hook Action", req.params.action);
+		console.log("Hook Bilmem", req.params.bilmem);
 		res.send("OK");
 	});
 	

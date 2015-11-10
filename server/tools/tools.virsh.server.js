@@ -14,7 +14,8 @@ module.exports = {
 	list:						list,
 	start:					start,
 	destroy:					destroy,
-	shutdown:				destroy,
+	shutdown:				shutdown,
+	poweroff:				destroy,
 	reboot:					reboot,
 	deleteDiskFiles: 		deleteDiskFiles,
 	diskList:				diskList,
@@ -145,6 +146,26 @@ function reboot(cSrv){
 	tools.logger.info("serverReboot is called for:"+cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh reboot ' + cSrv.id;
+	state(cSrv).then(function(result) {
+		if(cSrv.domstate == 'running'){
+			tools.runLocalCommand(theCommand).then(function(result) {
+				deferred.resolve(cSrv);
+			}).fail(function(issue) {
+				deferred.reject(issue);
+			});
+		} else {
+			deferred.resolve(cSrv);
+		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function shutdown(cSrv){
+	tools.logger.info("server Shutdown is called for:" + cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh shutdown ' + cSrv.id;
 	state(cSrv).then(function(result) {
 		if(cSrv.domstate == 'running'){
 			tools.runLocalCommand(theCommand).then(function(result) {

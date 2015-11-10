@@ -17,7 +17,6 @@ module.exports = {
 	poolRemove: 				poolRemove,
 	serverAttachISO:			serverAttachISO,
 	serverEjectISO:			serverEjectISO,
-	serverPowerOff:			serverPowerOff,
 	nodeInterfaceList:		virshMain.nodeInterfaceList,
 	nodeBridgeAssign:			nodeBridgeAssign,
 	nodeBridgeDetach:			nodeBridgeDetach,
@@ -87,29 +86,9 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 	}
 }
 
-function serverPowerOff(cSrv){
-	tools.logger.info("serverPowerOff is called for:" + cSrv.id);
-	var deferred = Q.defer();
-	var theCommand = 'virsh destroy ' + cSrv.id;
-	serverState(cSrv).then(function(result) {
-		if(cSrv.domstate == 'running'){
-			tools.runLocalCommand(theCommand).then(function(result) {
-				deferred.resolve(cSrv);
-			}).fail(function(issue) {
-				deferred.reject(issue);
-			});
-		} else {
-			deferred.resolve(cSrv);
-		}
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
-	return deferred.promise;
-}
-
 function serverWaitForShutDown(cSrv, deferred){
 	serverState(cSrv).then(function(result){
-		if(result.domstate == 'shutoff'){
+		if(result.domstate == 'shut off'){
 			deferred.resolve(cSrv);
 		} else {
 			setTimeout(function(){ serverWaitForShutDown(cSrv, deferred);}, 1000);

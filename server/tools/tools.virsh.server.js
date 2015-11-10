@@ -13,6 +13,7 @@ module.exports = {
 	stateUpdate:			stateUpdate,
 	list:						list,
 	destroy:					destroy,
+	shutdown:				destroy,
 	deleteDiskFiles: 		deleteDiskFiles,
 	diskList:				diskList
 };

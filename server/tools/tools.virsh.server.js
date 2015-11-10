@@ -293,7 +293,7 @@ function writeDHCPItem(cSrv){
 	tools.runLocalCommands(theCommands).
 		then(virshMain.refreshDHCPConfig).
 		then(function(result){
-			tools.logger.info("writeServerDHCPItem is succeeded", result);
+			console.log("writeServerDHCPItem is succeeded", result);
 			deferred.resolve(cSrv);
 		}).fail(function(issue){
 			tools.logger.error("writeServerDHCPItem is failed", issue);

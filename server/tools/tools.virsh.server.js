@@ -660,17 +660,17 @@ function diskList(cSrv){
 			var toReturn = [];
 			
 			returner.prepare(result,'domblklist').then(function(result){ 
-				toReturn = result; console.log(toReturn);
+				toReturn = result; 
 				for(var i = 0; i < toReturn.length; i++){
 					if(toReturn[i].source.indexOf('/mnt/luckynodepools')>=0){
 						toReturn[i].store = toReturn[i].Source.replace("/mnt/luckynodepools/", '').split("/")[0];
 					}
 				}
 				
+				tools.logger.info("serverDiskList succeeded for " + cSrv.id, toReturn);
+				deferred.resolve(toReturn);
+				
 			}).fail(deferred.reject);
-			
-			tools.logger.info("serverDiskList succeeded for " + cSrv.id, toReturn);
-			deferred.resolve(toReturn);
 		}
 	).fail( function(issue){ tools.logger.info("serverDiskList failed for " + cSrv.id, issue); deferred.reject(issue); } );
 	return deferred.promise;

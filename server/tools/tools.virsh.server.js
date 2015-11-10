@@ -61,7 +61,7 @@ function fetchServerFromDB(cSrv){
 		} else {
 			console.log("==================================");
 			deferred.resolve(data);
-			console.log(data);
+			console.log("Resolved");
 			console.log("==================================");console.log("==================================");console.log("==================================");
 		}
 	});

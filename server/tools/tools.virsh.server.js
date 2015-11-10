@@ -234,6 +234,7 @@ function state(cSrv){
 		function(domList){
 			cSrv.domstate = 'notexist';
 			domList.forEach(function(curDom){
+				console.log(cSrv.id, curDom.Name);
 				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
 			});
 			tools.logger.info("serverState succeeded for " + cSrv.id, cSrv);

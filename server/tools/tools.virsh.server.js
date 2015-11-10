@@ -30,6 +30,9 @@ function start(cSrv){
 		then(state).
 		then(writeDHCPItem).
 		then(function(result) {
+			console.log("==================================");
+			console.log(cSrv.domstate);
+			console.log("==================================");
 			if(cSrv.domstate == 'shut off'){
 				console.log("==================================");
 				console.log("Starting");

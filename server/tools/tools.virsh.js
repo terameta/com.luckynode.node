@@ -17,8 +17,6 @@ module.exports = {
 	poolRemove: 				poolRemove,
 	serverAttachISO:			serverAttachISO,
 	serverEjectISO:			serverEjectISO,
-	serverShutDown:			serverShutDown,
-	serverReboot:				serverReboot,
 	serverPowerOff:			serverPowerOff,
 	nodeInterfaceList:		virshMain.nodeInterfaceList,
 	nodeBridgeAssign:			nodeBridgeAssign,
@@ -89,50 +87,10 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 	}
 }
 
-function serverReboot(cSrv){
-	tools.logger.info("serverReboot is called for:"+cSrv.id);
-	var deferred = Q.defer();
-	var theCommand = 'virsh reboot ' + cSrv.id;
-	serverState(cSrv).then(function(result) {
-		if(cSrv.domstate == 'running'){
-			tools.runLocalCommand(theCommand).then(function(result) {
-				deferred.resolve(cSrv);
-			}).fail(function(issue) {
-				deferred.reject(issue);
-			});
-		} else {
-			deferred.resolve(cSrv);
-		}
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
-	return deferred.promise;
-}
-
 function serverPowerOff(cSrv){
 	tools.logger.info("serverPowerOff is called for:" + cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh destroy ' + cSrv.id;
-	serverState(cSrv).then(function(result) {
-		if(cSrv.domstate == 'running'){
-			tools.runLocalCommand(theCommand).then(function(result) {
-				deferred.resolve(cSrv);
-			}).fail(function(issue) {
-				deferred.reject(issue);
-			});
-		} else {
-			deferred.resolve(cSrv);
-		}
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
-	return deferred.promise;
-}
-
-function serverShutDown(cSrv){
-	tools.logger.info("serverShutDown is called for:"+ cSrv.id);
-	var deferred = Q.defer();
-	var theCommand = 'virsh shutdown ' + cSrv.id;
 	serverState(cSrv).then(function(result) {
 		if(cSrv.domstate == 'running'){
 			tools.runLocalCommand(theCommand).then(function(result) {

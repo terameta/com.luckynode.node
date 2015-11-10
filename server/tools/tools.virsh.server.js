@@ -15,6 +15,7 @@ module.exports = {
 	start:					start,
 	destroy:					destroy,
 	shutdown:				destroy,
+	reboot:					reboot,
 	deleteDiskFiles: 		deleteDiskFiles,
 	diskList:				diskList,
 	vncAddress:				vncAddress
@@ -136,6 +137,26 @@ function destroy(cSrv){
 			then( function(result){ 	tools.logger.info( "serverDestroy succeeded for " + cSrv.id, result); 	cSrv.serverDestroyResult = result; 		deferred.resolve(cSrv);		}).
 			fail( function(issue){ 		tools.logger.error("serverDestroy failed for " + cSrv.id, issue);																deferred.reject(issue); 	});
 	}
+	return deferred.promise;
+}
+
+function reboot(cSrv){
+	tools.logger.info("serverReboot is called for:"+cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh reboot ' + cSrv.id;
+	state(cSrv).then(function(result) {
+		if(cSrv.domstate == 'running'){
+			tools.runLocalCommand(theCommand).then(function(result) {
+				deferred.resolve(cSrv);
+			}).fail(function(issue) {
+				deferred.reject(issue);
+			});
+		} else {
+			deferred.resolve(cSrv);
+		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
 	return deferred.promise;
 }
 

@@ -20,7 +20,6 @@ module.exports = {
 	serverShutDown:			serverShutDown,
 	serverReboot:				serverReboot,
 	serverPowerOff:			serverPowerOff,
-	serverVNCAddress:			serverVNCAddress,
 	nodeInterfaceList:		virshMain.nodeInterfaceList,
 	nodeBridgeAssign:			nodeBridgeAssign,
 	nodeBridgeDetach:			nodeBridgeDetach,
@@ -88,29 +87,6 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 			volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred);
 		}, 10000);
 	}
-}
-
-function serverVNCAddress(cSrv){
-	tools.logger.info("serverVNCAddress is called for:"+cSrv.id);
-	var deferred = Q.defer();
-	var theCommand = 'virsh vncdisplay ' + cSrv.id;
-	serverState(cSrv).then(function(result){
-		if(cSrv.domstate != 'running'){
-			cSrv.vncport = -1;
-			deferred.resolve(cSrv);
-		} else {
-			tools.runLocalCommand(theCommand).then(function(result) {
-				result = parseInt(result.replace(":", ""),10) + 5900;
-				cSrv.vncport = result;
-				deferred.resolve(cSrv);
-			}).fail(function(issue) {
-				deferred.reject(issue);
-			});
-		}
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
-	return deferred.promise;
 }
 
 function serverReboot(cSrv){

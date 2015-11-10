@@ -16,7 +16,8 @@ module.exports = {
 	destroy:					destroy,
 	shutdown:				destroy,
 	deleteDiskFiles: 		deleteDiskFiles,
-	diskList:				diskList
+	diskList:				diskList,
+	vncAddress:				vncAddress
 };
 
 function start(cSrv){
@@ -601,5 +602,28 @@ function diskList(cSrv){
 			deferred.resolve(toReturn);
 		}
 	).fail( function(issue){ tools.logger.info("serverDiskList failed for " + cSrv.id, issue); deferred.reject(issue); } );
+	return deferred.promise;
+}
+
+function vncAddress(cSrv){
+	tools.logger.info("serverVNCAddress is called for:"+cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh vncdisplay ' + cSrv.id;
+	state(cSrv).then(function(result){
+		if(cSrv.domstate != 'running'){
+			cSrv.vncport = -1;
+			deferred.resolve(cSrv);
+		} else {
+			tools.runLocalCommand(theCommand).then(function(result) {
+				result = parseInt(result.replace(":", ""),10) + 5900;
+				cSrv.vncport = result;
+				deferred.resolve(cSrv);
+			}).fail(function(issue) {
+				deferred.reject(issue);
+			});
+		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
 	return deferred.promise;
 }

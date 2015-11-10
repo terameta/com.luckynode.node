@@ -9,7 +9,7 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
-	apiRoutes.get('/:id', tools.checkToken, function(req, res) {
+	apiRoutes.get('/:id', function(req, res) {
 		console.log("Hook asked", req.params.id);
 	});
 	

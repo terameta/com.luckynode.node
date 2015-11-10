@@ -32,6 +32,7 @@ module.exports = {
 };
 
 function runVirsh(details){
+	console.log(details);
 	return virshTools[details.region][details.command](details.details);
 }
 

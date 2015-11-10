@@ -120,6 +120,9 @@ function stateUpdate(cSrvID){
 		console.log(result);
 		result.forEach(function(curDom){
 			console.log(curDom);
+			if(curDom.Name == cSrvID){
+				console.log("OK we will now update");
+			}
 		});
 		/*tools.db.servers.update({_id: mongojs.ObjectId(cSrvID)}, {$set: {status: abc, domstate: abc}}, function(err, data){
 			

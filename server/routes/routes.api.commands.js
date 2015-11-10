@@ -21,8 +21,10 @@ module.exports = function(app, express, db, tools) {
 			res.status(400).json({ status: 'fail', message: 'no data provided (no detail)' });
 		} else {
 			virsh.runVirsh(req.body.command).then(function(result){
+				console.log(result);
 				res.send(result);
 			}).fail(function(issue){
+				console.log(issue);
 				res.status(500).json({ status:'fail', message: issue });
 			});
 		}

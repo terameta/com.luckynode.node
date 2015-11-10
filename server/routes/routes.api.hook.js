@@ -10,6 +10,7 @@ module.exports = function(app, express, db, tools) {
 	var apiRoutes = express.Router();
 	
 	apiRoutes.get('/server/:id/', function(req, res) {
+		virsh.virshTools.server.stateUpdate(req.params.id);
 		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 5000);
 		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 10000);
 		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 15000);

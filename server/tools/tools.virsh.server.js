@@ -118,7 +118,7 @@ function stateUpdate(cSrvID){
 	list().then(function(result){
 		result.forEach(function(curDom){
 			if(curDom.Name == cSrvID){
-				tools.db.servers.update({_id: mongojs.ObjectId(cSrvID)}, {$set: {status: curDom.state, domstate: curDom.state}}, function(err, data){
+				tools.db.servers.update({_id: mongojs.ObjectId(cSrvID)}, {$set: {status: curDom.State, domstate: curDom.State}}, function(err, data){
 					if(err){
 						console.log(err);
 					} else {

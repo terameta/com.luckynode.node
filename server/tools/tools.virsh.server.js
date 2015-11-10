@@ -12,11 +12,34 @@ module.exports = {
 	state:					state,
 	stateUpdate:			stateUpdate,
 	list:						list,
+	start:					start,
 	destroy:					destroy,
 	shutdown:				destroy,
 	deleteDiskFiles: 		deleteDiskFiles,
 	diskList:				diskList
 };
+
+function start(cSrv){
+	tools.logger.info("serverStart is called for:" + cSrv.id);
+	var deferred = Q.defer();
+	var theCommand = 'virsh start ' + cSrv.id;
+	state(cSrv).
+		then(writeDHCPItem).
+		then(function(result) {
+			if(cSrv.domstate == 'shutoff'){
+				tools.runLocalCommand(theCommand).then(function(result) {
+					deferred.resolve(cSrv);
+				}).fail(function(issue) {
+					deferred.reject(issue);
+				});
+			} else {
+				deferred.resolve(cSrv);
+			}
+		}).fail(function(issue) {
+			deferred.reject(issue);
+		});
+	return deferred.promise;
+}
 
 function undefine(cSrv){
 	tools.logger.info("serverDelete called for " + cSrv.id);

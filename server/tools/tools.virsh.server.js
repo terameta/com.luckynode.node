@@ -31,6 +31,10 @@ function start(cSrv){
 		then(writeDHCPItem).
 		then(function(result) {
 			if(cSrv.domstate == 'shut off'){
+				console.log("==================================");
+				console.log("Starting");
+				console.log("==================================");
+				console.log("==================================");
 				tools.runLocalCommand(theCommand).then(function(result) {
 					deferred.resolve(cSrv);
 				}).fail(function(issue) {

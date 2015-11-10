@@ -660,28 +660,17 @@ function diskList(cSrv){
 			
 			var toReturn = [];
 			
-			
-			console.log("===================================================");
-			returner.prepare(result,'domblklist').then(function(result){ toReturn = result; console.log(toReturn);}).fail(deferred.reject);
-			console.log("===================================================");
-			
-			
-			result = result.trim().split("\n");
-			result.splice(0,2);
-			result.forEach(function(curDiskSrc){
-				var curDisk = {};
-				var curDiskDef = tools.splitBySpace(curDiskSrc);
-				curDisk.type 	= curDiskDef[0] || 'NoType';
-				curDisk.device 	= curDiskDef[1] || 'NoDevice';
-				curDisk.target	= curDiskDef[2] || 'NoTarget';
-				curDisk.source	= curDiskDef[3] || 'NoSource';
-				if(curDisk.source.indexOf('/mnt/luckynodepools')>=0){
-					curDisk.store = curDisk.source.replace("/mnt/luckynodepools/", '').split("/")[0];
+			returner.prepare(result,'domblklist').then(function(result){ 
+				toReturn = result; console.log(toReturn);
+				for(var i = 0; i < toReturn.length; i++){
+					if(toReturn[i].source.indexOf('/mnt/luckynodepools')>=0){
+						toReturn[i].store = toReturn[i].Source.replace("/mnt/luckynodepools/", '').split("/")[0];
+					}
 				}
-				//console.log(curDisk);
-				toReturn.push(curDisk);
-			});
-			tools.logger.info("serverDiskList succeeded for " + cSrv.id, result);
+				
+			}).fail(deferred.reject);
+			
+			tools.logger.info("serverDiskList succeeded for " + cSrv.id, toReturn);
 			deferred.resolve(toReturn);
 		}
 	).fail( function(issue){ tools.logger.info("serverDiskList failed for " + cSrv.id, issue); deferred.reject(issue); } );

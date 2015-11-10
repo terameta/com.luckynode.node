@@ -287,6 +287,7 @@ function writeDHCPItem(cSrv){
 		theContent += 'fixed-address '+ cSrv.ip +';';
 		theContent += 'option domain-name-servers '+ nameservers.join(',') +';';
 		theContent += '}';
+	console.log(theContent);
 
 	
 	theCommands.push('cd && echo "'+ theContent +'" > dhcpd.conf.body.'+cSrv.id);

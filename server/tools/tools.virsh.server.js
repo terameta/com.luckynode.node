@@ -9,6 +9,7 @@ module.exports = {
 	define: 					define,
 	undefine:				undefine,
 	state:					state,
+	stateUpdate:			stateUpdate,
 	list:						list,
 	destroy:					destroy,
 	deleteDiskFiles: 		deleteDiskFiles,

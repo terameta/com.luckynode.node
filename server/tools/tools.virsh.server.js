@@ -141,6 +141,7 @@ function destroy(cSrv){
 }
 
 function reboot(cSrv){
+	console.log("Server Reboot is called for:", cSrv.id);
 	tools.logger.info("serverReboot is called for:"+cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh reboot ' + cSrv.id;

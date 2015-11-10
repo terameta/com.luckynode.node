@@ -657,10 +657,15 @@ function diskList(cSrv){
 	tools.runLocalCommand('virsh domblklist '+ cSrv.id +' --details').then(
 		function(result){
 			console.log(result);
-			console.log("===================================================");
-			console.log(returner.prepare(result,'domblklist'));
-			console.log("===================================================");
+			
 			var toReturn = [];
+			
+			
+			console.log("===================================================");
+			returner.prepare(result,'domblklist').then(function(result){ toReturn = result; console.log(toReturn);}).fail(deferred.reject);
+			console.log("===================================================");
+			
+			
 			result = result.trim().split("\n");
 			result.splice(0,2);
 			result.forEach(function(curDiskSrc){

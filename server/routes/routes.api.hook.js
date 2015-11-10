@@ -11,6 +11,7 @@ module.exports = function(app, express, db, tools) {
 	
 	apiRoutes.get('/:id', function(req, res) {
 		console.log("Hook asked", req.params.id);
+		res.send("OK");
 	});
 	
 	app.use('/api/hook', apiRoutes);

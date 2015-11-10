@@ -27,7 +27,8 @@ module.exports = {
 	nodeBridgeDetach:			nodeBridgeDetach,
 	volCloneFromServer:		volCloneFromServer,
 	volDelete:					volDelete,
-	runVirsh:					runVirsh
+	runVirsh:					runVirsh,
+	virshTools:					virshTools
 };
 
 function runVirsh(details){

@@ -114,6 +114,7 @@ function destroy(cSrv){
 }
 
 function stateUpdate(){
+	console.log("StateUpdate");
 	return 0;
 }
 

@@ -657,6 +657,9 @@ function diskList(cSrv){
 	tools.runLocalCommand('virsh domblklist '+ cSrv.id +' --details').then(
 		function(result){
 			console.log(result);
+			console.log("===================================================");
+			console.log(returner.prepare(result,'domblklist'));
+			console.log("===================================================");
 			var toReturn = [];
 			result = result.trim().split("\n");
 			result.splice(0,2);

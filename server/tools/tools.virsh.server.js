@@ -234,9 +234,7 @@ function state(cSrv){
 		function(domList){
 			cSrv.domstate = 'notexist';
 			domList.forEach(function(curDom){
-				console.log(cSrv.id, curDom.Name);
 				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
-				console.log(cSrv.domstate, curDom.State);
 			});
 			tools.logger.info("serverState succeeded for " + cSrv.id, cSrv);
 			deferred.resolve(cSrv);
@@ -276,7 +274,7 @@ function define(cSrv){
 }
 
 function writeDHCPItem(cSrv){
-	tools.logger.info("writeServerDHCPItem is called");
+	console.log("writeServerDHCPItem is called", cSrv);
 	var deferred = Q.defer();
 	var theCommands = [];
 	var nameservers = [];

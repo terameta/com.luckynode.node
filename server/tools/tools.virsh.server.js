@@ -27,6 +27,7 @@ function start(cSrv){
 	var deferred = Q.defer();
 	var theCommand = 'virsh start ' + cSrv.id;
 	state(cSrv).
+		then(fetchServerFromDB).
 		then(writeDHCPItem).
 		then(function(result) {
 			if(cSrv.domstate == 'shut off'){
@@ -41,6 +42,13 @@ function start(cSrv){
 		}).fail(function(issue) {
 			deferred.reject(issue);
 		});
+	return deferred.promise;
+}
+
+function fetchServerFromDB(cSrv){
+	var deferred = Q.defer();
+	console.log("fetchServerFromDB", cSrv);
+	deferred.resolve(cSrv);
 	return deferred.promise;
 }
 

@@ -1,0 +1,3 @@
+#!/bin/bash
+wget -qO-  --no-check-certificate https://localhost:14413/api/hook/server/${1} &> /dev/null
+exit 0

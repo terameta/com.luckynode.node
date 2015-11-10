@@ -30,6 +30,7 @@ function start(cSrv){
 		then(state).
 		then(writeDHCPItem).
 		then(function(result) {
+			cSrv = result;
 			console.log("==================================");
 			console.log("==================================");
 			console.log(result);

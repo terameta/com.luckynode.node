@@ -662,6 +662,7 @@ function diskList(cSrv){
 			returner.prepare(result,'domblklist').then(function(result){ 
 				toReturn = result; 
 				for(var i = 0; i < toReturn.length; i++){
+					console.log(toReturn[i].source);
 					if(toReturn[i].source.indexOf('/mnt/luckynodepools')>=0){
 						toReturn[i].store = toReturn[i].Source.replace("/mnt/luckynodepools/", '').split("/")[0];
 					}

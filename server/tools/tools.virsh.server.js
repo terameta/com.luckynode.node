@@ -115,6 +115,7 @@ function destroy(cSrv){
 
 function stateUpdate(){
 	console.log("StateUpdate");
+	list();
 	return 0;
 }
 
@@ -141,6 +142,7 @@ function list(){
 	tools.runLocalCommand('virsh list --all').then(
 		function(result){
 			var toReturn = [];
+			console.log(returner.prepare(result, "list"));
 			result = result.trim().split("\n");
 			result.splice(0,2);
 			result.forEach(function(curDomSrc){

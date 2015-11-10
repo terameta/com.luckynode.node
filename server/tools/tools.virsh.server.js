@@ -656,7 +656,6 @@ function diskList(cSrv){
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh domblklist '+ cSrv.id +' --details').then(
 		function(result){
-			console.log(result);
 			
 			var toReturn = [];
 			

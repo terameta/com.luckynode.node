@@ -20,7 +20,7 @@ module.exports = {
 };
 
 function start(cSrv){
-	tools.logger.info("serverStart is called for:" + cSrv.id);
+	console.log("serverStart is called for:" + cSrv.id);
 	var deferred = Q.defer();
 	var theCommand = 'virsh start ' + cSrv.id;
 	state(cSrv).

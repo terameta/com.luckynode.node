@@ -113,6 +113,10 @@ function destroy(cSrv){
 	return deferred.promise;
 }
 
+function stateUpdate(){
+	return 0;
+}
+
 function state(cSrv){
 	tools.logger.info("serverState called for " + cSrv.id);
 	var deferred = Q.defer();

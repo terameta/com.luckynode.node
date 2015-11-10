@@ -31,6 +31,9 @@ function start(cSrv){
 		then(writeDHCPItem).
 		then(function(result) {
 			console.log("==================================");
+			console.log("==================================");
+			console.log(result);
+			console.log("==================================");
 			console.log(cSrv.domstate);
 			console.log("==================================");
 			if(cSrv.domstate == 'shut off'){

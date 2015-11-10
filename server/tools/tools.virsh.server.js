@@ -228,7 +228,7 @@ function stateUpdate(cSrvID){
 }
 
 function state(cSrv){
-	tools.logger.info("serverState called for " + cSrv.id);
+	console.log("serverState called for " + cSrv.id);
 	var deferred = Q.defer();
 	list().then(
 		function(domList){

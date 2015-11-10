@@ -9,21 +9,19 @@ module.exports = function(app, express, db, tools) {
 
 	var apiRoutes = express.Router();
 	
-	apiRoutes.get('/:id/', function(req, res) {
-		
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 1000);
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 2000);
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 3000);
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 4000);
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 5000);
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 6000);
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 7000);
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 8000);
-		setTimeout(function(){ virsh.virshTools.server.stateUpdate(); }, 9000);
-		console.log("Hook ID:", req.params.id);
-		console.log("Hook Status:", req.params.state);
-		console.log("Hook Action", req.params.action);
-		console.log("Hook Bilmem", req.params.bilmem);
+	apiRoutes.get('/server/:id/', function(req, res) {
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 5000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 10000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 15000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 20000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 25000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 30000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 35000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 40000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 45000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 50000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 55000);
+		setTimeout(function(){ virsh.virshTools.server.stateUpdate(req.params.id); }, 60000);
 		res.send("OK");
 	});
 	

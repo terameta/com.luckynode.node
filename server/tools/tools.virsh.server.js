@@ -115,8 +115,9 @@ function destroy(cSrv){
 
 function stateUpdate(){
 	console.log("StateUpdate");
-	list().then(console.log).fail(console.log);
-	return 0;
+	list().then(function(result){
+		console.log(result);
+	}).fail(console.log);
 }
 
 function state(cSrv){

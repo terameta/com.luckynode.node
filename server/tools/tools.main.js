@@ -34,7 +34,7 @@ catch (err) {
 }
 
 var cloudConnStr	= dbconfig.user+':'+dbconfig.pass+'@'+dbconfig.server+':'+dbconfig.port+'/'+dbconfig.database;
-var cloudColls		= ['logs'];
+var cloudColls		= ['logs', 'servers'];
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
 
 var logger = {
@@ -60,6 +60,7 @@ var logger = {
 
 
 module.exports = {
+	db: db,
 	size2realsize: size2realsize,
 	splitBySpace: function(source){
 		return source.trim().split(/[\s,]+/);

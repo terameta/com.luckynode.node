@@ -49,9 +49,16 @@ function fetchServerFromDB(cSrv){
 	var deferred = Q.defer();
 	tools.db.servers.findOne({_id: mongojs.ObjectId(cSrv.id)}, function(err, data){
 		if(err){
+			console.log("==================================");
+			console.log(err);
+			console.log("==================================");
+			console.log("==================================");
 			deferred.reject(err);
 		} else {
+			console.log("==================================");
 			deferred.resolve(data);
+			console.log(data);
+			console.log("==================================");console.log("==================================");console.log("==================================");
 		}
 	});
 	return deferred.promise;

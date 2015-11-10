@@ -113,10 +113,11 @@ function destroy(cSrv){
 	return deferred.promise;
 }
 
-function stateUpdate(){
-	console.log("StateUpdate");
+function stateUpdate(cSrvID){
+	console.log("StateUpdate", cSrvID);
 	list().then(function(result){
 		console.log(result);
+		//tools.db.servers.update({})
 	}).fail(console.log);
 }
 

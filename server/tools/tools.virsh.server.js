@@ -60,6 +60,7 @@ function fetchServerFromDB(cSrv){
 			deferred.reject(err);
 		} else {
 			console.log("==================================");
+			data.id = data._id.toString();
 			deferred.resolve(data);
 			console.log("Resolved");
 			console.log("==================================");console.log("==================================");console.log("==================================");

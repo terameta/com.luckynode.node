@@ -142,6 +142,7 @@ function list(){
 	tools.runLocalCommand('virsh list --all').then(
 		function(result){
 			var toReturn = [];
+			console.log(result);
 			console.log(returner.prepare(result, "list"));
 			result = result.trim().split("\n");
 			result.splice(0,2);

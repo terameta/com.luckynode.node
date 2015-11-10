@@ -115,7 +115,7 @@ function destroy(cSrv){
 
 function stateUpdate(){
 	console.log("StateUpdate");
-	list();
+	list().then(console.log).fail(console.log);
 	return 0;
 }
 
@@ -138,29 +138,7 @@ function state(cSrv){
 function list(){
 	tools.logger.info("serverList is called");
 	var deferred = Q.defer();
-	
-	tools.runLocalCommand('virsh list --all').then(
-		function(result){
-			var toReturn = [];
-			console.log(result);
-			console.log(returner.prepare(result, "list"));
-			result = result.trim().split("\n");
-			result.splice(0,2);
-			result.forEach(function(curDomSrc){
-				var curDom = {};
-				curDomSrc = curDomSrc.replace(/shut down/gi, "shutdown");
-				curDomSrc = curDomSrc.replace(/shut off/gi, "shutoff");
-				var curDomDef = tools.splitBySpace(curDomSrc);
-				curDom.Id 		= curDomDef[0] || 'NoId';
-				curDom.Name 	= curDomDef[1] || 'NoName';
-				curDom.State 	= curDomDef[2] || 'shutoff';
-				toReturn.push(curDom);
-			});
-			tools.logger.info("serverList succeeded", toReturn);
-			deferred.resolve(toReturn);
-		}
-	).fail( function(issue){ deferred.reject(issue); tools.logger.error("serverList faild", issue)} );
-	
+	tools.runLocalCommand('virsh list --all').then(function(result){ return returner.prepare(result, 'list') }).then(deferred.resolve).fail(deferred.reject);
 	return deferred.promise;
 }
 

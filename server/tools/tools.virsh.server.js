@@ -236,6 +236,7 @@ function state(cSrv){
 			domList.forEach(function(curDom){
 				console.log(cSrv.id, curDom.Name);
 				if(curDom.Name == cSrv.id) cSrv.domstate = curDom.State;
+				console.log(cSrv.domstate, curDom.State);
 			});
 			tools.logger.info("serverState succeeded for " + cSrv.id, cSrv);
 			deferred.resolve(cSrv);

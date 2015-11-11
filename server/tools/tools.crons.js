@@ -1,15 +1,6 @@
 var topDB = {};
 
-module.exports = function crons(db) {
-	topDB = db;
-	
-	var module = {
-	    getCollectionNames : getCollectionNames,
-	};
-
-    
-
-	//return module;
+module.exports = {
 };
 
 function getCollectionNames(){

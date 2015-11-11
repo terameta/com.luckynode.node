@@ -4,7 +4,8 @@ module.exports = function crons(db) {
 	topDB = db;
 
 	var cronFunctions = {
-		getCollectionNames: getCollectionNames
+		getCollectionNames: getCollectionNames,
+		everytensecs: everytensecs
 	};
 
 	return cronFunctions;
@@ -18,4 +19,8 @@ function getCollectionNames(){
 			console.log("List of Collections:", result);
 		}
 	});
+}
+
+function everytensecs(){
+    console.log(new Date());
 }

@@ -669,6 +669,7 @@ function diskList(cSrv){
 					if(toReturn[i].Source.indexOf('/mnt/luckynodepools')>=0){
 						toReturn[i].Store = toReturn[i].Source.replace("/mnt/luckynodepools/", '').split("/")[0];
 					}
+					toReturn[i].Name = toReturn[i].Source.split("/")[toReturn[i].Source.split("/").length-1];
 				}
 				
 				tools.logger.info("serverDiskList succeeded for " + cSrv.id, toReturn);

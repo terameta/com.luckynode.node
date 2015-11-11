@@ -142,8 +142,8 @@ function checkDiskFiles(cSrv){
 	var deferred = Q.defer();
 	diskList(cSrv).then(function(diskList){
 		diskList.forEach(function(curDisk){
-			if(curDisk.Device == 'disk')	console.log("ShouldBeDeleted:", curDisk.Source, curDisk.store);
-			if(curDisk.Device != 'disk')	console.log("DonotDeleteEver:", curDisk.Source, curDisk.store);
+			if(curDisk.Device == 'disk')	console.log("ShouldBeDeleted:", curDisk.Source, curDisk.Store);
+			if(curDisk.Device != 'disk')	console.log("DonotDeleteEver:", curDisk.Source, curDisk.Store);
 		});
 		deferred.reject("Hede");
 	}).fail(deferred.reject);

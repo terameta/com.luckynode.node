@@ -120,6 +120,7 @@ function deleteDiskFiles(cSrv){
 					var ideferred = Q.defer();
 					var theCmds = [];
 					diskList.forEach(function(curDisk){
+						console.log(curDisk);
 						theCmds.push('virsh vol-delete --vol '+curDisk+' --pool ' + cSrv.store);
 					});
 					tools.runLocalCommands(theCmds).

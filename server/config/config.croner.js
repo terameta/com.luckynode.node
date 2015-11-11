@@ -5,6 +5,7 @@ module.exports = function Croner() {
 		'*/3 * * * * *',
 		function(){
 			crons.everytensecs(); 
+			crons.kekele();
 		},
 		true,
 		"America/Los_Angeles"

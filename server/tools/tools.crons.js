@@ -1,7 +1,9 @@
 var topDB = {};
 
 module.exports = function(db){
-    var curModule = {};
+    var curModule = {
+        kekele: getCollectionNames
+    };
     
     curModule.everytensecs = function(){
         console.log(new Date(), topDB, db);

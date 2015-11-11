@@ -154,7 +154,7 @@ function checkDiskFiles(cSrv){
 
 function deleteDiskFiles(cSrv){
 	var deferred = Q.defer();
-	console.log(cSrv);
+	console.log("DDF", cSrv);
 	deferred.reject("Hede");
 	return deferred.promise;
 }

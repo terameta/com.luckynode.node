@@ -140,6 +140,11 @@ function deleteDiskFiles(cSrv){
 function checkDiskFiles(cSrv){
 	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
 	var deferred = Q.defer();
+	diskList(cSrv).then(function(result){
+		console.log(result);
+		deferred.reject("Hede");
+	}).fail(deferred.reject);
+	/*
 	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --details').
 		then(
 			function(result){
@@ -158,6 +163,7 @@ function checkDiskFiles(cSrv){
 			}
 		).
 		fail( function(issue){ 		tools.logger.info("serverCheckDiskFiles failed for " + cSrv.id, issue );		deferred.reject(issue); 	});
+	*/
 	return deferred.promise;
 }
 

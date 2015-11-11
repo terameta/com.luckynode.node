@@ -3,10 +3,12 @@ var topDB = {};
 module.exports = function crons(db) {
 	topDB = db;
 	
-	var module = {};
+	var module = {
+	    getCollectionNames : getCollectionNames,
+        everytensecs : everytensecs
+	};
 
-    module.getCollectionNames = getCollectionNames;
-    module.everytensecs = everytensecs;
+    
 
 	return module;
 };

@@ -20,7 +20,7 @@ function getCollectionNames(){
 }
 
 function everytensecs(){
-    console.log(new Date(), tools.db);
+    console.log(new Date(), "Ten Secs");
 }
 
 

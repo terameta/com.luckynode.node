@@ -88,7 +88,7 @@ function undefine(cSrv){
 		then(checkDiskFiles).
 		then(deleteDiskFiles).
 		then(undefineVirsh).
-		then( function(result){ 	tools.logger.info( "serverDelete succeeded for " + cSrv.id, cSrv);	deferred.resolve('success');	}).
+		then( function(result){ 	tools.logger.info( "serverDelete succeeded for " + cSrv.id, cSrv);	deferred.resolve(cSrv);	}).
 		fail( function(issue){ 		tools.logger.error("serverDelete failed for " + cSrv.id, cSrv);		deferred.reject(issue); 		});
 	
 	return deferred.promise;

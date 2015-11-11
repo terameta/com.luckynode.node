@@ -34,7 +34,7 @@ catch (err) {
 }
 
 var cloudConnStr	= dbconfig.user+':'+dbconfig.pass+'@'+dbconfig.server+':'+dbconfig.port+'/'+dbconfig.database;
-var cloudColls		= ['logs', 'servers'];
+var cloudColls		= ['logs', 'servers', 'nodes'];
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
 
 var logger = {

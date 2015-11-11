@@ -15,8 +15,6 @@ module.exports = {
 	poolDefine: 				poolDefine,
 	poolsRemove: 				poolsRemove,
 	poolRemove: 				poolRemove,
-	serverAttachISO:			serverAttachISO,
-	serverEjectISO:			serverEjectISO,
 	nodeInterfaceList:		virshMain.nodeInterfaceList,
 	nodeBridgeAssign:			nodeBridgeAssign,
 	nodeBridgeDetach:			nodeBridgeDetach,
@@ -94,49 +92,6 @@ function serverWaitForShutDown(cSrv, deferred){
 			setTimeout(function(){ serverWaitForShutDown(cSrv, deferred);}, 1000);
 		}
 	}).fail(function(issue){ deferred.reject(issue);});
-}
-
-function serverAttachISO(details){
-	tools.logger.info("serverAttachISO is called", details);
-	var deferred = Q.defer();
-	var theCommand = 'virsh change-media'
-						+' --domain '+ details.server 
-						+' --source /mnt/luckynodepools/'+ details.pool +'/'+ details.iso
-						+' --path '+ details.target
-						+' --config';
-	var theCurDom = {id: details.server};
-	serverState(theCurDom).then(function(result){
-		if(theCurDom.domstate == 'running'){
-			theCommand += ' --live';
-		}
-		tools.runLocalCommand(theCommand).then(function(result){
-			deferred.resolve(result);
-		}).fail(function(issue){
-			deferred.reject(issue);
-		});
-	}).fail(function(issue){
-		deferred.reject(issue);
-	});
-	return deferred.promise;
-}
-
-function serverEjectISO(details){
-	tools.logger.info("serverEjectISO is called", details);
-	var deferred = Q.defer();
-	var theCommand = 'virsh change-media --domain '+ details.server +' --path '+ details.target +' --config --eject';
-	serverState({id: details.server}).then(function(result){
-		if(result.domstate == 'running'){
-			theCommand += ' --live';
-		}
-		tools.runLocalCommand(theCommand).then(function(result){
-			deferred.resolve(result);
-		}).fail(function(issue) {
-			deferred.reject(issue);
-		});
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
-	return deferred.promise;
 }
 
 function poolListIsos(storage){

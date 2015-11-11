@@ -1,4 +1,4 @@
-var Q				= require('q');
+var Q					= require('q');
 var tools			= require('../tools/tools.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
 var virshMain		= require('../tools/tools.virsh.main.js');
@@ -20,6 +20,7 @@ module.exports = {
 	deleteDiskFiles: 		deleteDiskFiles,
 	diskList:				diskList,
 	vncAddress:				vncAddress,
+	attachISO:				attachISO,
 	ejectISO:				ejectISO
 };
 
@@ -714,6 +715,30 @@ function ejectISO(details){
 			deferred.reject(issue);
 		});
 	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function attachISO(details){
+	tools.logger.info("serverAttachISO is called", details);
+	var deferred = Q.defer();
+	var theCommand = 'virsh change-media'
+						+' --domain '+ details.server 
+						+' --source /mnt/luckynodepools/'+ details.pool +'/'+ details.iso
+						+' --path '+ details.target
+						+' --config';
+	var theCurDom = {id: details.server};
+	state(theCurDom).then(function(result){
+		if(theCurDom.domstate == 'running'){
+			theCommand += ' --live';
+		}
+		tools.runLocalCommand(theCommand).then(function(result){
+			deferred.resolve(result);
+		}).fail(function(issue){
+			deferred.reject(issue);
+		});
+	}).fail(function(issue){
 		deferred.reject(issue);
 	});
 	return deferred.promise;

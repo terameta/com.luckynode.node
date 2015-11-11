@@ -114,38 +114,15 @@ function deleteDiskFiles(cSrv){
 	if(cSrv.domstate == 'notexist'){
 		deferred.resolve(cSrv);
 	} else {
-		console.log("We will now delete the disk files");
-		
 		var theCmds = [];
 		cSrv.hdds.forEach(function(curDisk){
-			console.log(curDisk);
 			theCmds.push("virsh vol-delete --vol "+ curDisk.Name +" --pool " + curDisk.Store);
 		});
 		console.log(theCmds);
 		
-		deferred.reject("Hede");
-		
-		//deleteDiskFilesAction(cSrv).
-			/*
-			then(
-				function(diskList){
-					console.log(diskList);
-					var ideferred = Q.defer();
-					var theCmds = [];
-					diskList.forEach(function(curDisk){
-						console.log(curDisk);
-						theCmds.push('virsh vol-delete --vol '+curDisk+' --pool ' + cSrv.store);
-					});
-					tools.runLocalCommands(theCmds).
-						then(function(result){ ideferred.resolve(cSrv); }).
-						fail(function(issue){ ideferred.reject(issue); });
-					
-					return ideferred.promise;
-				}
-			).*/
-			/*then( function(result){ 	tools.logger.info( "serverDeleteDiskFiles succeeded for " + cSrv.id, result);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
-			fail( function(issue){ 		tools.logger.error("serverDeleteDiskFiles failed for " + cSrv.id, issue);		deferred.reject(issue); 	});
-			*/
+		tools.runLocalCommand(theCmds).
+			then( function(result){ 	tools.logger.info( "serverDeleteDiskFiles succeeded for " + cSrv.id, result);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
+			fail( function(issue){ 		tools.logger.error("serverDeleteDiskFiles failed for " + cSrv.id, issue);																deferred.reject(issue); 	});
 	}
 	return deferred.promise;
 }

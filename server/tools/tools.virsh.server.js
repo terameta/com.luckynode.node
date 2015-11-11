@@ -110,13 +110,14 @@ function undefineVirsh(cSrv){
 
 function deleteDiskFiles(cSrv){
 	tools.logger.info("serverDeleteDiskFiles is called for " + cSrv.id);
-	console.log("DeleteDiskFiles called for", cSrv);
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'notexist'){
 		deferred.resolve(cSrv);
 	} else {
-		console.log("We will check disk files");
-		deleteDiskFilesAction(cSrv).
+		console.log("We will now delete the disk files");
+		console.log(cSrv.hdds);
+		deferred.reject("Hede");
+		//deleteDiskFilesAction(cSrv).
 			/*
 			then(
 				function(diskList){
@@ -134,8 +135,9 @@ function deleteDiskFiles(cSrv){
 					return ideferred.promise;
 				}
 			).*/
-			then( function(result){ 	tools.logger.info( "serverDeleteDiskFiles succeeded for " + cSrv.id, result);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
+			/*then( function(result){ 	tools.logger.info( "serverDeleteDiskFiles succeeded for " + cSrv.id, result);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
 			fail( function(issue){ 		tools.logger.error("serverDeleteDiskFiles failed for " + cSrv.id, issue);		deferred.reject(issue); 	});
+			*/
 	}
 	return deferred.promise;
 }
@@ -150,13 +152,6 @@ function checkDiskFiles(cSrv){
 		});
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
-	return deferred.promise;
-}
-
-function deleteDiskFilesAction(cSrv){
-	var deferred = Q.defer();
-	console.log("DDF", cSrv);
-	deferred.reject("Hede");
 	return deferred.promise;
 }
 

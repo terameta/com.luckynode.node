@@ -142,6 +142,7 @@ function deleteDiskFiles(cSrv){
 function checkDiskFiles(cSrv){
 	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
 	var deferred = Q.defer();
+	console.log("We are calling CDF");
 	diskList(cSrv).then(function(diskList){
 		console.log("CDFDiskList", diskList);
 		cSrv.hdds = [];

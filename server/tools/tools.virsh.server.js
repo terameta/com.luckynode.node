@@ -19,7 +19,8 @@ module.exports = {
 	reboot:					reboot,
 	deleteDiskFiles: 		deleteDiskFiles,
 	diskList:				diskList,
-	vncAddress:				vncAddress
+	vncAddress:				vncAddress,
+	ejectISO:				ejectISO
 };
 
 function start(cSrv){
@@ -693,6 +694,25 @@ function vncAddress(cSrv){
 				deferred.reject(issue);
 			});
 		}
+	}).fail(function(issue) {
+		deferred.reject(issue);
+	});
+	return deferred.promise;
+}
+
+function ejectISO(details){
+	tools.logger.info("serverEjectISO is called", details);
+	var deferred = Q.defer();
+	var theCommand = 'virsh change-media --domain '+ details.server +' --path '+ details.target +' --config --eject';
+	state({id: details.server}).then(function(result){
+		if(result.domstate == 'running'){
+			theCommand += ' --live';
+		}
+		tools.runLocalCommand(theCommand).then(function(result){
+			deferred.resolve(result);
+		}).fail(function(issue) {
+			deferred.reject(issue);
+		});
 	}).fail(function(issue) {
 		deferred.reject(issue);
 	});

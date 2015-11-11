@@ -116,9 +116,12 @@ function deleteDiskFiles(cSrv){
 	} else {
 		console.log("We will now delete the disk files");
 		
+		var theCmds = [];
 		cSrv.hdds.forEach(function(curDisk){
 			console.log(curDisk);
+			theCmds.push("virsh vol-delete --vol "+ curDisk.Name +" --pool " + curDisk.Store);
 		});
+		console.log(theCmds);
 		
 		deferred.reject("Hede");
 		

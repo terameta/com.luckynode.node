@@ -140,8 +140,10 @@ function deleteDiskFiles(cSrv){
 function checkDiskFiles(cSrv){
 	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
 	var deferred = Q.defer();
-	diskList(cSrv).then(function(result){
-		console.log(result);
+	diskList(cSrv).then(function(diskList){
+		diskList.forEach(function(curDisk){
+			console.log(curDisk);
+		});
 		deferred.reject("Hede");
 	}).fail(deferred.reject);
 	/*

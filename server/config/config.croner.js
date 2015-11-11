@@ -1,6 +1,6 @@
 module.exports = function Croner() {
 	var croner				= require('cron').CronJob;
-	var crons				= require('./tools/tools.crons');
+	var crons				= require('./tools/tools.crons.js');
 	var jobS = new croner(
 		'*/10 * * * * *',
 		function(){

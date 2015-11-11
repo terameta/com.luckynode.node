@@ -2,6 +2,11 @@ var topDB = {};
 
 module.exports = function(db){
     var curModule = {};
+    
+    curModule.everytensecs = function(){
+        console.log(new Date(), topDB, db);
+    };
+    
     return curModule;
 };
 
@@ -14,7 +19,3 @@ function getCollectionNames(){
 		}
 	});
 }
-
-module.exports.everytensecs = function everytensecs(){
-    console.log(new Date(), topDB);
-};

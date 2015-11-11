@@ -313,7 +313,7 @@ function deleteDHCPItem(cSrv){
 	var theCommands = [];
 	theCommands.push('cd && rm dhcpd.conf.body.'+cSrv.id);
 	tools.runLocalCommands(theCommands).
-		then(refreshDHCPConfig).
+		then(virshMain.refreshDHCPConfig).
 		then(function(result){
 			deferred.resolve(cSrv);
 		}).fail(function(issue){

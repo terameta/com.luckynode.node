@@ -11,5 +11,12 @@ module.exports = function Croner() {
 		"America/Los_Angeles"
 	);
 	
+	new croner(
+		'0 * * * * *',
+		crons.everyminute,
+		true,
+		"America/Los_Angeles"
+	);
+	
 	module.exports = Croner;
 };

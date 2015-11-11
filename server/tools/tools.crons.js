@@ -3,7 +3,8 @@ var tools = require("../tools/tools.main.js");
 module.exports = function(){
     var curModule = {
         kekele: getCollectionNames,
-        everytensecs: everytensecs
+        everytensecs: everytensecs,
+        everyminute: everyminute
     };
     /*
     curModule.everytensecs = function(){
@@ -20,4 +21,9 @@ function getCollectionNames(){
 
 function everytensecs(){
     console.log(new Date(), tools.db);
+}
+
+
+function everyminute(){
+    console.log("This is everyminute");
 }

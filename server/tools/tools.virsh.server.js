@@ -116,7 +116,7 @@ function deleteDiskFiles(cSrv){
 	} else {
 		console.log("We will check disk files");
 		checkDiskFiles(cSrv).
-			then(deleteDiskFiles).
+			then(deleteDiskFilesAction).
 			/*
 			then(
 				function(diskList){
@@ -156,7 +156,7 @@ function checkDiskFiles(cSrv){
 	return deferred.promise;
 }
 
-function deleteDiskFiles(cSrv){
+function deleteDiskFilesAction(cSrv){
 	var deferred = Q.defer();
 	console.log("DDF", cSrv);
 	deferred.reject("Hede");

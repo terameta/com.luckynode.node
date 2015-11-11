@@ -13,11 +13,5 @@ module.exports = function(db){
 };
 
 function getCollectionNames(){
-	topDB.getCollectionNames(function(err, result){
-		if(err){
-			console.log("Get Collection Names Error", err);
-		} else {
-			console.log("List of Collections:", result);
-		}
-	});
+	console.log("This is kekele");
 }

@@ -115,6 +115,8 @@ function deleteDiskFiles(cSrv){
 		deferred.resolve(cSrv);
 	} else {
 		checkDiskFiles(cSrv).
+			then(deleteDiskFiles).
+			/*
 			then(
 				function(diskList){
 					console.log(diskList);
@@ -130,7 +132,7 @@ function deleteDiskFiles(cSrv){
 					
 					return ideferred.promise;
 				}
-			).
+			).*/
 			then( function(result){ 	tools.logger.info( "serverDeleteDiskFiles succeeded for " + cSrv.id, result);	cSrv.serverDeleteDiskFilesResult = result; deferred.resolve(cSrv);	}).
 			fail( function(issue){ 		tools.logger.error("serverDeleteDiskFiles failed for " + cSrv.id, issue);		deferred.reject(issue); 	});
 	}
@@ -141,32 +143,19 @@ function checkDiskFiles(cSrv){
 	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
 	var deferred = Q.defer();
 	diskList(cSrv).then(function(diskList){
+		cSrv.hdds = [];
 		diskList.forEach(function(curDisk){
-			if(curDisk.Device == 'disk')	console.log("ShouldBeDeleted:", curDisk.Source, curDisk.Store);
-			if(curDisk.Device != 'disk')	console.log("DonotDeleteEver:", curDisk.Source, curDisk.Store);
+			if(curDisk.Device == 'disk') cSrv.hdds.push(curDisk);
 		});
-		deferred.reject("Hede");
+		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
-	/*
-	tools.runLocalCommand('virsh vol-list '+cSrv.store+' --details').
-		then(
-			function(result){
-				result = result.trim().split("\n");
-				result.splice(0,2);
-				
-				var toReturn = [];
-				result.forEach(function(curVolSrc){
-					var curVol = {};
-					var curVolDef = tools.splitBySpace(curVolSrc);
-					curVol.name = curVolDef[0] || 'NoAssignedName';
-					if(curVol.name.indexOf(cSrv.id.toString()) >= 0 ) toReturn.push(curVol.name);
-				});
-				tools.logger.info("serverCheckDiskFiles succeeded for " + cSrv.id, result);
-				deferred.resolve(toReturn);
-			}
-		).
-		fail( function(issue){ 		tools.logger.info("serverCheckDiskFiles failed for " + cSrv.id, issue );		deferred.reject(issue); 	});
-	*/
+	return deferred.promise;
+}
+
+function deleteDiskFiles(cSrv){
+	var deferred = Q.defer();
+	console.log(cSrv);
+	deferred.reject("Hede");
 	return deferred.promise;
 }
 

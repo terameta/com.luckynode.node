@@ -1,6 +1,8 @@
 var topDB = {};
 
-module.exports = {
+module.exports = function(db){
+    var curModule = {};
+    return curModule;
 };
 
 function getCollectionNames(){

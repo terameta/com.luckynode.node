@@ -145,6 +145,7 @@ function checkDiskFiles(cSrv){
 	diskList(cSrv).then(function(diskList){
 		cSrv.hdds = [];
 		diskList.forEach(function(curDisk){
+			console.log("CDF", curDisk);
 			if(curDisk.Device == 'disk') cSrv.hdds.push(curDisk);
 		});
 		deferred.resolve(cSrv);

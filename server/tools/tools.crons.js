@@ -3,14 +3,6 @@ var topDB = {};
 module.exports = function crons(db) {
 	topDB = db;
 	
-	var module = {
-	    getCollectionNames : getCollectionNames,
-        everytensecs : everytensecs
-	};
-
-    
-
-	return module;
 };
 
 function getCollectionNames(){
@@ -24,5 +16,5 @@ function getCollectionNames(){
 }
 
 module.exports.everytensecs = function everytensecs(){
-    console.log(new Date());
+    console.log(new Date(), topDB);
 };

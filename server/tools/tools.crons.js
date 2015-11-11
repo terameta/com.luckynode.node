@@ -15,6 +15,6 @@ function getCollectionNames(){
 	});
 }
 
-module.exports.everytensecs = function everytensecs(){
+exports.everytensecs = function everytensecs(){
     console.log(new Date(), topDB);
 };

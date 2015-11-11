@@ -117,6 +117,7 @@ function deleteDiskFiles(cSrv){
 		checkDiskFiles(cSrv).
 			then(
 				function(diskList){
+					console.log(diskList);
 					var ideferred = Q.defer();
 					var theCmds = [];
 					diskList.forEach(function(curDisk){

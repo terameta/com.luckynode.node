@@ -115,8 +115,13 @@ function deleteDiskFiles(cSrv){
 		deferred.resolve(cSrv);
 	} else {
 		console.log("We will now delete the disk files");
-		console.log(cSrv.hdds);
+		
+		cSrv.hdds.forEach(function(curDisk){
+			console.log(curDisk);
+		});
+		
 		deferred.reject("Hede");
+		
 		//deleteDiskFilesAction(cSrv).
 			/*
 			then(

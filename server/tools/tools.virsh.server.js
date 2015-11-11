@@ -130,13 +130,22 @@ function deleteDiskFiles(cSrv){
 function checkDiskFiles(cSrv){
 	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
 	var deferred = Q.defer();
-	diskList(cSrv).then(function(diskList){
-		cSrv.hdds = [];
-		diskList.forEach(function(curDisk){
-			if(curDisk.Device == 'disk') cSrv.hdds.push(curDisk);
-		});
+	
+	if(cSrv.domstate == 'shut off'){
+		tools.logger.info("checkDiskFiles succeeded for " + cSrv.id);
 		deferred.resolve(cSrv);
-	}).fail(deferred.reject);
+	} else if(cSrv.domstate == 'notexist'){
+		tools.logger.info("checkDiskFiles succeeded for " + cSrv.id);
+		deferred.resolve(cSrv);
+	} else {
+		diskList(cSrv).then(function(diskList){
+			cSrv.hdds = [];
+			diskList.forEach(function(curDisk){
+				if(curDisk.Device == 'disk') cSrv.hdds.push(curDisk);
+			});
+			deferred.resolve(cSrv);
+		}).fail(deferred.reject);
+	}
 	return deferred.promise;
 }
 

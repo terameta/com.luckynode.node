@@ -5,6 +5,7 @@ module.exports = function Croner() {
 		'*/10 * * * * *',
 		function(){
 			console.log(crons);
+			console.log(new Date());
 			crons.everytensecs(); 
 			console.log("This is every ten secs");
 		},

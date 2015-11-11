@@ -143,6 +143,7 @@ function checkDiskFiles(cSrv){
 	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
 	var deferred = Q.defer();
 	diskList(cSrv).then(function(diskList){
+		console.log("CDFDiskList", diskList);
 		cSrv.hdds = [];
 		diskList.forEach(function(curDisk){
 			console.log("CDF", curDisk);

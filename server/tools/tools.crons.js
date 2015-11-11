@@ -23,6 +23,6 @@ function getCollectionNames(){
 	});
 }
 
-function everytensecs(){
+module.exports.everytensecs = function everytensecs(){
     console.log(new Date());
-}
+};

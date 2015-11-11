@@ -1,7 +1,6 @@
-var topDB = {};
+var tools = require("../tools/tools.main.js");
 
-module.exports = function(db){
-    topDB = db;
+module.exports = function(){
     var curModule = {
         kekele: getCollectionNames,
         everytensecs: everytensecs
@@ -20,5 +19,5 @@ function getCollectionNames(){
 }
 
 function everytensecs(){
-    console.log(new Date(), topDB);
+    console.log(new Date(), tools.db);
 }

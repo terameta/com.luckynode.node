@@ -85,6 +85,7 @@ function undefine(cSrv){
 	state(cSrv).
 		then(deleteDHCPItem).
 		then(destroy).
+		then(checkDiskFiles).
 		then(deleteDiskFiles).
 		then(undefineVirsh).
 		then( function(result){ 	tools.logger.info( "serverDelete succeeded for " + cSrv.id, cSrv);	deferred.resolve('success');	}).

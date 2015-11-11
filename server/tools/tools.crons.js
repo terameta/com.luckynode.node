@@ -20,5 +20,5 @@ function getCollectionNames(){
 }
 
 function everytensecs(){
-    console.log(new Date(), topDB, db);
+    console.log(new Date(), topDB);
 }

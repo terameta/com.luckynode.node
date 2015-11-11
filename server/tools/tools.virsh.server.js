@@ -114,6 +114,7 @@ function deleteDiskFiles(cSrv){
 	if(cSrv.domstate == 'notexist'){
 		deferred.resolve(cSrv);
 	} else {
+		console.log("We will check disk files");
 		checkDiskFiles(cSrv).
 			then(deleteDiskFiles).
 			/*

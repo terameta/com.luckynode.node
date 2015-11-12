@@ -37,5 +37,8 @@ function everyminute(){
            console.log(data);
        }
     });
+    tools.db.servers.find({}, function(err, data){
+       console.log(data); 
+    });
     
 }

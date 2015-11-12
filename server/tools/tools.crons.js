@@ -40,6 +40,7 @@ function findResourceUsage(){
 	};
 	nodeGetServersDB(stats).
 		then(findCPUUsage).
+		then(findCPUCount).
 		then(findMemUsage).
 		then(findMemTotal).
 		then(nodeUpdateStatsDB).
@@ -73,6 +74,13 @@ function nodeGetServersDB(stats){
 function findCPUUsage(stats){
 	var deferred = Q.defer();
 	os.cpuUsage(function(result){ stats.cpuUsage = result; deferred.resolve(stats);});
+	return deferred.promise;
+}
+
+function findCPUCount(stats){
+	var deferred = Q.defer();
+	stats.cpuCount = os.countCPUs();
+	deferred.resolve(stats);
 	return deferred.promise;
 }
 

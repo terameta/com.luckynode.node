@@ -61,8 +61,8 @@ function nodeGetServersDB(stats){
 		else {
 			stats.assignedServers = data.length;
 			data.forEach(function(curServer){
-				stats.assignedCores += curServer.cpu;
-				stats.assignedMemory += curServer.ram;
+				stats.assignedCores += parseInt(curServer.cpu,10);
+				stats.assignedMemory += parseInt(curServer.ram, 10);
 			});
 			deferred.resolve(stats);
 		}

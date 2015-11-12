@@ -27,5 +27,6 @@ function everytensecs(){
 
 function everyminute(){
     console.log("This is everyminute");
-    console.log(virsh);
+    console.log(tools.whoami, tools.whoamid);
+    
 }

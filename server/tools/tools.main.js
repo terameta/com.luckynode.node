@@ -6,12 +6,9 @@ var exec 			= require('child_process').exec;
 var fs 				= require("fs");
 var mongojs 		= require('mongojs');
 
-var whoami			= JSON.parse(fs.readFileSync('whoami.conf', 'utf8')).whoami;
-console.log("===============================================================");
-console.log("===============================================================");
-console.log(whoami);
-console.log("===============================================================");
-console.log("===============================================================");
+var whoami			= JSON.parse(fs.readFileSync('whoami.conf', 'utf8'));
+var whoamid			= whoami.whoamid;
+	whoami			= whoami.whoami;
 
 var dbconfig;
 
@@ -65,6 +62,8 @@ var logger = {
 
 
 module.exports = {
+	whoami: whoami,
+	whoamid: whoamid,
 	db: db,
 	size2realsize: size2realsize,
 	splitBySpace: function(source){

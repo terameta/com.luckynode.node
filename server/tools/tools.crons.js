@@ -68,7 +68,7 @@ function findCPUUsage(stats){
 
 function findMemUsage(stats){
 	var deferred = Q.defer();
-	stats.memUsage = os.freememPercentage();
+	stats.memUsage = 1 - os.freememPercentage();
 	deferred.resolve(stats);
 	return deferred.promise;
 }

@@ -34,32 +34,40 @@ function everyminute(){
 }
 
 function findResourceUsage(){
+	var stats = {
+		assignedCores: 0,
+		assignedMemory: 0
+	};
+	nodeGetServersDB(stats).
+		then(findCPUUsage).
+		then(findMemUsage).
+		then(findMemTotal).
+		then(nodeUpdateStatsDB).
+		then(function(result){
+			console.log("Stats updated on the database");
+		}).fail(function(issue){
+			console.log("Stats update failed on the database");
+			console.log(issue);
+		});
+}
+
+function nodeGetServersDB(stats){
+	var deferred = Q.defer();
 	tools.db.servers.find({ node: tools.whoamid }, function(err, data) {
 		if (err) {
+			deferred.reject(err);
 			console.log("Server error", err);
 		}
 		else {
-			var stats = {
-				assignedCores: 0,
-				assignedMemory: 0,
-				assignedServers: data.length
-			};
+			stats.assignedServers: data.length;
 			data.forEach(function(curServer){
 				stats.assignedCores += curServer.cpu;
 				stats.assignedMemory += curServer.ram;
 			});
-			
-			findCPUUsage(stats).
-				then(findMemUsage).
-				then(findMemTotal).
-				then(function(result){
-					console.log("Deferred stats", stats);
-				}).
-				fail(function(issue){
-					console.log(issue);
-				});
+			deferred.resolve(stats);
 		}
 	});
+	return deferred.promise;
 }
 
 function findCPUUsage(stats){
@@ -80,4 +88,15 @@ function findMemTotal(stats){
 	stats.memTotal = os.totalmem();
 	deferred.resolve(stats);
 	return deferred.promise;
+}
+
+function nodeUpdateStatsDB(stats){
+	tools.db.nodes.update({_id: mongojs.ObjectId(tools.whoamid)}, {$set: { stats }}, function(err, data){
+		if(err){
+			deferred.reject(err);
+			console.log("Can't update node stats on database");
+		} else {
+			deferred.resolve(stats);
+		}
+	});
 }

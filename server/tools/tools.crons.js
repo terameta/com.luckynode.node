@@ -56,8 +56,11 @@ function findResourceUsage(){
 			console.log("Server error", err);
 		}
 		else {
+			console.log(data.length);
 			console.log("List of Servers");
-			console.log(data);
+			data.forEach(function(curServer){
+				console.log(curServer);
+			});
 		}
 	});
 }

@@ -50,7 +50,7 @@ function findResourceUsage(){
 			var stats = {};
 			findCPUUsage(stats).
 				then(function(result){
-					console.log(stats);
+					console.log("Deferred stats", stats);
 				}).
 				fail(function(issue){
 					console.log(issue);

@@ -59,7 +59,7 @@ function findResourceUsage(){
 			console.log(data.length);
 			console.log("List of Servers");
 			data.forEach(function(curServer){
-				console.log(curServer);
+				console.log(curServer.name, curServer.cpu, curServer.ram);
 			});
 		}
 	});

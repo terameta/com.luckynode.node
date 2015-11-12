@@ -2,6 +2,7 @@ var tools 			= require("../tools/tools.main.js");
 var virsh 			= require("../tools/tools.virsh.js");
 var mongojs 		= require('mongojs');
 var os  				= require('os-utils');
+var Q					= require('q');
 
 module.exports = function(){
 	 var curModule = {
@@ -46,6 +47,20 @@ function findResourceUsage(){
 				os.cpuCount(console.log);
 				os.cpuUsage(console.log);
 			});
+			var stats = {};
+			findCPUUsage(stats).
+				then(function(result){
+					console.log(stats);
+				}).
+				fail(function(issue){
+					console.log(issue);
+				});
 		}
 	});
+}
+
+function findCPUUsage(stats){
+	var deferred = Q.defer();
+	os.cpuUsage(function(result){ stats.cpuUsage = result; deferred.resolve(stats);});
+	return deferred.promise;
 }

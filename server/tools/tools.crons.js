@@ -24,13 +24,12 @@ function getCollectionNames(){
 }
 
 function everytensecs(){
-	 console.log(new Date(), "Ten Secs");
-	 findResourceUsage();
+	 console.log(new Date());
 }
 
 
 function everyminute(){
-	console.log("This is everyminute");
+	findResourceUsage();
 }
 
 function findResourceUsage(){

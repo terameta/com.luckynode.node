@@ -43,7 +43,7 @@ function findResourceUsage(){
 			data.forEach(function(curServer){
 				console.log(curServer.name, curServer.cpu, curServer.ram);
 				console.log(os);
-				console.log(os.cpuCount);
+				console.log(os.cpuCount());
 			});
 		}
 	});

@@ -41,13 +41,10 @@ function findResourceUsage(){
 		else {
 			var stats = {
 				assignedCores: 0,
-				assignedMemory: 0
+				assignedMemory: 0,
+				assignedServers: data.length
 			};
-			console.log(data.length);
-			console.log("List of Servers");
 			data.forEach(function(curServer){
-				console.log(curServer.name, curServer.cpu, curServer.ram);
-				console.log(os);
 				stats.assignedCores += curServer.cpu;
 				stats.assignedMemory += curServer.ram;
 			});

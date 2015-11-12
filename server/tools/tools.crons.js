@@ -91,6 +91,7 @@ function findMemTotal(stats){
 }
 
 function nodeUpdateStatsDB(stats){
+	var deferred = Q.defer();
 	tools.db.nodes.update({_id: mongojs.ObjectId(tools.whoamid)}, {$set: { stats }}, function(err, data){
 		if(err){
 			deferred.reject(err);
@@ -99,4 +100,5 @@ function nodeUpdateStatsDB(stats){
 			deferred.resolve(stats);
 		}
 	});
+	return deferred.promise;
 }

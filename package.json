@@ -20,6 +20,7 @@
     "jsonwebtoken": "^5.0.2",
     "mongojs": "^1.0.2",
     "morgan": "^1.6.1",
+    "os-utils": "0.0.14",
     "q": "^1.4.1",
     "request": "^2.60.0"
   }

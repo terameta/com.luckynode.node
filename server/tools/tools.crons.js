@@ -1,5 +1,6 @@
-var tools = require("../tools/tools.main.js");
-var virsh = require("../tools/tools.virsh.js");
+var tools       = require("../tools/tools.main.js");
+var virsh       = require("../tools/tools.virsh.js");
+var mongojs     = require('mongojs');
 
 module.exports = function(){
     var curModule = {
@@ -28,5 +29,13 @@ function everytensecs(){
 function everyminute(){
     console.log("This is everyminute");
     console.log(tools.whoami, tools.whoamid);
+    tools.db.nodes.find({_id: mongojs.ObjectId(tools.whoamid)}, function(err, data){
+       if(err){
+           console.log("Error", err);
+       } else {
+           console.log("This node");
+           console.log(data);
+       }
+    });
     
 }

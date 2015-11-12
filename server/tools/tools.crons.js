@@ -1,6 +1,7 @@
-var tools       = require("../tools/tools.main.js");
-var virsh       = require("../tools/tools.virsh.js");
-var mongojs     = require('mongojs');
+var tools 			= require("../tools/tools.main.js");
+var virsh 			= require("../tools/tools.virsh.js");
+var mongojs 		= require('mongojs');
+var os  				= require('os-utils');
 
 module.exports = function(){
 	 var curModule = {
@@ -41,6 +42,7 @@ function findResourceUsage(){
 			console.log("List of Servers");
 			data.forEach(function(curServer){
 				console.log(curServer.name, curServer.cpu, curServer.ram);
+				console.log(os);
 			});
 		}
 	});

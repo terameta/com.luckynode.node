@@ -49,6 +49,7 @@ function findResourceUsage(){
 			});
 			var stats = {};
 			findCPUUsage(stats).
+				then(findMemUsage).
 				then(function(result){
 					console.log("Deferred stats", stats);
 				}).
@@ -62,5 +63,12 @@ function findResourceUsage(){
 function findCPUUsage(stats){
 	var deferred = Q.defer();
 	os.cpuUsage(function(result){ stats.cpuUsage = result; deferred.resolve(stats);});
+	return deferred.promise;
+}
+
+function findMemUsage(stats){
+	var deferred = Q.defer();
+	stats.memUsage = os.freememPercentage();
+	deferred.resolve(stats);
 	return deferred.promise;
 }

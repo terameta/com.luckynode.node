@@ -39,17 +39,22 @@ function findResourceUsage(){
 			console.log("Server error", err);
 		}
 		else {
+			var stats = {
+				assignedCores: 0,
+				assignedMemory: 0
+			};
 			console.log(data.length);
 			console.log("List of Servers");
 			data.forEach(function(curServer){
 				console.log(curServer.name, curServer.cpu, curServer.ram);
 				console.log(os);
-				os.cpuCount(console.log);
-				os.cpuUsage(console.log);
+				stats.assignedCores += curServer.cpu;
+				stats.assignedMemory += curServer.ram;
 			});
-			var stats = {};
+			
 			findCPUUsage(stats).
 				then(findMemUsage).
+				then(findMemTotal).
 				then(function(result){
 					console.log("Deferred stats", stats);
 				}).
@@ -69,6 +74,13 @@ function findCPUUsage(stats){
 function findMemUsage(stats){
 	var deferred = Q.defer();
 	stats.memUsage = 1 - os.freememPercentage();
+	deferred.resolve(stats);
+	return deferred.promise;
+}
+
+function findMemTotal(stats){
+	var deferred = Q.defer();
+	stats.memTotal = os.totalmem();
 	deferred.resolve(stats);
 	return deferred.promise;
 }

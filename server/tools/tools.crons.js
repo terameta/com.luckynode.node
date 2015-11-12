@@ -79,7 +79,7 @@ function findCPUUsage(stats){
 
 function findCPUCount(stats){
 	var deferred = Q.defer();
-	stats.cpuCount = os.countCPUs();
+	stats.cpuCount = os.cpuCount();
 	deferred.resolve(stats);
 	return deferred.promise;
 }

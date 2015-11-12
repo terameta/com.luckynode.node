@@ -59,7 +59,7 @@ function nodeGetServersDB(stats){
 			console.log("Server error", err);
 		}
 		else {
-			stats.assignedServers: data.length;
+			stats.assignedServers = data.length;
 			data.forEach(function(curServer){
 				stats.assignedCores += curServer.cpu;
 				stats.assignedMemory += curServer.ram;

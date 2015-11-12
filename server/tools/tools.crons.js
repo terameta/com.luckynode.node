@@ -23,6 +23,7 @@ function getCollectionNames(){
 
 function everytensecs(){
 	 console.log(new Date(), "Ten Secs");
+	 findResourceUsage();
 }
 
 
@@ -38,6 +39,18 @@ function everyminute(){
 			console.log(data);
 		}
 	});
+	tools.db.servers.find({ node: tools.whoamid }, function(err, data) {
+		if (err) {
+			console.log("Server error", err);
+		}
+		else {
+			console.log("List of Servers");
+			console.log(data);
+		}
+	});
+}
+
+function findResourceUsage(){
 	tools.db.servers.find({ node: tools.whoamid }, function(err, data) {
 		if (err) {
 			console.log("Server error", err);

@@ -7,6 +7,11 @@ var fs 				= require("fs");
 var mongojs 		= require('mongojs');
 
 var whoami			= JSON.parse(fs.readFileSync('whoami.conf', 'utf8')).whoami;
+console.log("===============================================================");
+console.log("===============================================================");
+console.log(whoami);
+console.log("===============================================================");
+console.log("===============================================================");
 
 var dbconfig;
 

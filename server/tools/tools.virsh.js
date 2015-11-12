@@ -5,7 +5,8 @@ var virshMain		= require('../tools/tools.virsh.main.js');
 var virshTools 	= 
 	{
 		pool: 	require('../tools/tools.virsh.pool.js'),
-		server:	require('../tools/tools.virsh.server.js')
+		server:	require('../tools/tools.virsh.server.js'),
+		main:		require('../tools/tools.virsh.main.js')
 	};		
 
 module.exports = {

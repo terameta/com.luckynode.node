@@ -1,4 +1,5 @@
 var tools = require("../tools/tools.main.js");
+var virsh = require("../tools/tools.virsh.js");
 
 module.exports = function(){
     var curModule = {
@@ -26,4 +27,5 @@ function everytensecs(){
 
 function everyminute(){
     console.log("This is everyminute");
+    console.log(virsh);
 }

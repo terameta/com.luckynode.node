@@ -340,8 +340,9 @@ module.exports = function(app, express, db, tools) {
 		} else if(!req.body.details.server || !req.body.details.target){
 			res.status(400).json({ status: 'fail', detail: 'no data provided' });
 		} else {
-			res.send("ok");
+			//res.send("ok");
 			virsh.volCloneFromServer(req.body.details.server, req.body.details.target).then(function(result){
+				res.send(result);
 				db.images.update({_id: mongojs.ObjectId(req.body.details.target.id)}, {$set: {status: 'Enabled'}}, function(err, data){
 					if(err){
 						tools.logger.error("We were supposed to update the status of volume " + req.body.details.target.id, {error:err, result: result});

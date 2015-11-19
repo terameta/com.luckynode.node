@@ -57,6 +57,7 @@ function volCloneFromServer(cSrv, cTarget){
 					console.log(curDisk);
 					if(curDisk.Target == 'vda' || curDisk.Target == 'hda'){
 						cTarget.pool = curDisk.Store;
+						cTarget.srcvol = curDisk.Name;
 					}
 				});
 				deferred.resolve(cSrv);
@@ -65,18 +66,14 @@ function volCloneFromServer(cSrv, cTarget){
 		}).
 		then(function(cSrv){
 			volCloneFromServerStatusCheck(cSrv, cTarget, deferred);
-			return tools.runLocalCommand('virsh vol-clone --vol '+cSrv.id+'.qcow2 --newname '+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
+			return tools.runLocalCommand('virsh vol-clone --vol '+cTarget.srcvol+' --newname image-'+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
 			/*setTimeout(function(){
 				deferred.resolve();
 			}, 30000);
 			return deferred.promise;*/
 		}).
-		then(function(result){
-			deferred.resolve(result);
-		}).
-		fail(function(issue){
-			deferred.reject(issue);
-		});
+		then(deferred.resolve).
+		fail(deferred.reject);
 	return deferred.promise;
 }
 

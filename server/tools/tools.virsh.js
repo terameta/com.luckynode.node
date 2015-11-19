@@ -72,7 +72,7 @@ function volCloneFromServer(cSrv, cTarget){
 			}, 30000);
 			return deferred.promise;*/
 		}).
-		then(deferred.resolve).
+		then(function(result){deferred.resolve(cTarget);}).
 		fail(deferred.reject);
 	return deferred.promise;
 }

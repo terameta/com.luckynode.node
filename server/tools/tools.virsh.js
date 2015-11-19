@@ -54,6 +54,7 @@ function volCloneFromServer(cSrv, cTarget){
 			var deferred = Q.defer();
 			virshTools.server.diskList(cSrv).then(function(diskList){
 				diskList.forEach(function(curDisk){
+					console.log(curDisk);
 					if(curDisk.Target == 'vda' || curDisk.Target == 'hda'){
 						cTarget.pool = curDisk.Store;
 					}

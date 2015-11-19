@@ -86,7 +86,7 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 }
 
 function serverWaitForShutDown(cSrv, deferred){
-	serverState(cSrv).then(function(result){
+	virshTools.server.state(cSrv).then(function(result){
 		if(result.domstate == 'shut off'){
 			deferred.resolve(cSrv);
 		} else {

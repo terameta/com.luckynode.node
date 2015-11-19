@@ -57,6 +57,7 @@ if( cluster.isMaster ) {
     cluster.on( 'exit', function( worker, code, signal ) {
         if(worker.process.pid == cronerpid){
         	tools.logger.error( 'Croner ' + worker.process.pid + ' died.' );
+        	console.log( 'Croner ' + worker.process.pid + ' died.' );
         	cronerpid = cluster.fork(croner_env).process.pid;
         } else {
         	tools.logger.error( 'Worker ' + worker.process.pid + ' died.' );

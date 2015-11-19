@@ -56,6 +56,14 @@ function volCloneFromServer(cSrv, cTarget){
 			return deferred.promise;
 		}).
 		then(function(cSrv){
+			var deferred = Q.defer();
+			virshTools.server.diskList(cSrv).then(function(diskList){
+				deferred.reject(cSrv);
+				console.log(diskList);
+			}).fail(deferred.reject);
+			return deferred.promise;
+		}).
+		then(function(cSrv){
 			volCloneFromServerStatusCheck(cSrv, cTarget, deferred);
 			return tools.runLocalCommand('virsh vol-clone --vol '+cSrv.id+'.qcow2 --newname '+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
 			/*setTimeout(function(){

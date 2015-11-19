@@ -60,6 +60,9 @@ function volCloneFromServer(cSrv, cTarget){
 			virshTools.server.diskList(cSrv).then(function(diskList){
 				deferred.reject(cSrv);
 				console.log(diskList);
+				diskList.forEach(function(curDisk){
+					console.log(curDisk);
+				});
 			}).fail(deferred.reject);
 			return deferred.promise;
 		}).

@@ -41,11 +41,6 @@ function volDelete(cVol){
 }
 
 function volCloneFromServer(cSrv, cTarget){
-	console.log("======================================");
-	console.log(cSrv);
-	console.log("======================================");
-	console.log(cTarget);
-	console.log("======================================");
 	tools.logger.info("volCloneFromServer is called");
 	var deferred = Q.defer();
 	virshTools.server.state(cSrv).
@@ -58,16 +53,12 @@ function volCloneFromServer(cSrv, cTarget){
 		then(function(cSrv){
 			var deferred = Q.defer();
 			virshTools.server.diskList(cSrv).then(function(diskList){
-				deferred.reject(cSrv);
 				diskList.forEach(function(curDisk){
-					console.log(curDisk);
 					if(curDisk.Target == 'vda' || curDisk.Target == 'hda'){
 						cTarget.pool = curDisk.Store;
 					}
 				});
-				console.log("======================================");
-				console.log(cTarget);
-				console.log("======================================");
+				deferred.resolve(cSrv);
 			}).fail(deferred.reject);
 			return deferred.promise;
 		}).

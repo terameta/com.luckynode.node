@@ -32,7 +32,7 @@ function runVirsh(details){
 function volDelete(cVol){
 	tools.logger.info("volDelete is called for " + cVol.name);
 	var deferred = Q.defer();
-	tools.runLocalCommand('virsh vol-delete --vol '+ cVol.id +'.qcow2 --pool '+ cVol.pool).then(function(result){
+	tools.runLocalCommand('virsh vol-delete --vol image-'+ cVol.id +'.qcow2 --pool '+ cVol.pool).then(function(result){
 		deferred.resolve(result);
 	}).fail(function(issue) {
 		deferred.reject(issue);
@@ -84,7 +84,7 @@ function volCloneFromServerStatusCheck(cSrv, cTarget, theDeferred){
 		
 		console.log(cTarget);
 		
-		tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/image-'+cSrv.id+'.qcow2').then(function(result) {
+		tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/disk-'+cSrv.id+'-vda.qcow2').then(function(result) {
 			sourceSize = parseInt(result.trim().split(' ')[0], 10);
 			tools.runLocalCommand('du /mnt/luckynodepools/'+cTarget.pool+'/image-'+cTarget.id+'.qcow2').then(function(result) {
 				targetSize = parseInt(result.trim().split(' ')[0], 10);

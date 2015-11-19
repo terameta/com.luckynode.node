@@ -41,6 +41,11 @@ function volDelete(cVol){
 }
 
 function volCloneFromServer(cSrv, cTarget){
+	console.log("======================================");
+	console.log(cSrv);
+	console.log("======================================");
+	console.log(cTarget);
+	console.log("======================================");
 	tools.logger.info("volCloneFromServer is called");
 	var deferred = Q.defer();
 	virshTools.server.state(cSrv).

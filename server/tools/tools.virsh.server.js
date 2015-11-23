@@ -451,6 +451,7 @@ function enableNBD(cSrv){
 	var deferred = Q.defer();
 	var curCommand = 'sudo modprobe nbd max_part=63 nbds_max=64';
 	tools.runLocalCommand(curCommand).then(function(result) {
+		console.log("enableNBD Finish");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
@@ -509,6 +510,7 @@ function lockFreeNBD(cSrv){
 	var deferred = Q.defer();
 	var curCommand = "sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/disk-"+cSrv.id+"-vda.qcow2";
 	tools.runLocalCommand(curCommand).then(function(result){
+		console.log("lockFreeNBD finish");
 		deferred.resolve(cSrv);
 	}).fail(function(issue){
 		deferred.reject(issue);

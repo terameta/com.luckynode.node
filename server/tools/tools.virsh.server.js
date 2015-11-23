@@ -134,10 +134,7 @@ function checkDiskFiles(cSrv){
 	tools.logger.info("serverCheckDiskFiles is called", cSrv.id, true);
 	var deferred = Q.defer();
 	
-	if(cSrv.domstate == 'shut off'){
-		tools.logger.info("checkDiskFiles succeeded for " + cSrv.id);
-		deferred.resolve(cSrv);
-	} else if(cSrv.domstate == 'notexist'){
+	if(cSrv.domstate == 'notexist'){
 		tools.logger.info("checkDiskFiles succeeded for " + cSrv.id);
 		deferred.resolve(cSrv);
 	} else {

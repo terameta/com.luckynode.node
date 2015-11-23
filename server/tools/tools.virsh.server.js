@@ -109,7 +109,7 @@ function undefineVirsh(cSrv){
 }
 
 function deleteDiskFiles(cSrv){
-	tools.logger.info("serverDeleteDiskFiles is called for " + cSrv.id);
+	tools.logger.info("serverDeleteDiskFiles is called", cSrv.id, true);
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'notexist'){
 		deferred.resolve(cSrv);

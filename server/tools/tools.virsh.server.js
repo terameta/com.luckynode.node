@@ -95,7 +95,7 @@ function undefine(cSrv){
 }
 
 function undefineVirsh(cSrv){
-	tools.logger.info("serverUndefine is called for " + cSrv.id );
+	tools.logger.info("serverUndefine is called", cSrv.id, true );
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'notexist'){
 		tools.logger.info("serverUndefine succeeded for " + cSrv.id );

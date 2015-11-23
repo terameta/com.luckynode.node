@@ -225,7 +225,7 @@ function stateUpdate(cSrvID){
 }
 
 function state(cSrv){
-	tools.logger.info("serverState called for " + cSrv.id);
+	tools.logger.info("serverState called", cSrv.id, true);
 	var deferred = Q.defer();
 	list().then(
 		function(domList){
@@ -299,7 +299,7 @@ function writeDHCPItem(cSrv){
 }
 
 function deleteDHCPItem(cSrv){
-	tools.logger.info("writeServerDHCPItem is called", true);
+	tools.logger.info("writeServerDHCPItem is called", cSrv.id, true);
 	var deferred = Q.defer();
 	var theCommands = [];
 	theCommands.push('cd && rm dhcpd.conf.body.'+cSrv.id);

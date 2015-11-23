@@ -128,7 +128,7 @@ function deleteDiskFiles(cSrv){
 }
 
 function checkDiskFiles(cSrv){
-	tools.logger.info("serverCheckDiskFiles is called for " + cSrv.id );
+	tools.logger.info("serverCheckDiskFiles is called", cSrv.id, true);
 	var deferred = Q.defer();
 	
 	if(cSrv.domstate == 'shut off'){

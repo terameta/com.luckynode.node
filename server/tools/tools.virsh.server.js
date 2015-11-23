@@ -439,7 +439,9 @@ function serverResize(cSrv){
 
 function vdaResize(cSrv){
 	var deferred = Q.defer();
+	console.log("vdaResize start");
 	volume.resize("disk-"+ cSrv.id +"-vda.qcow2", cSrv.store, cSrv.newsize).then(function(result){
+		console.log("vdaResize finish");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;

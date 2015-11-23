@@ -299,7 +299,7 @@ function writeDHCPItem(cSrv){
 }
 
 function deleteDHCPItem(cSrv){
-	tools.logger.info("writeServerDHCPItem is called");
+	tools.logger.info("writeServerDHCPItem is called", true);
 	var deferred = Q.defer();
 	var theCommands = [];
 	theCommands.push('cd && rm dhcpd.conf.body.'+cSrv.id);

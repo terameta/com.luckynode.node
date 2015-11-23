@@ -150,7 +150,7 @@ function checkDiskFiles(cSrv){
 }
 
 function destroy(cSrv){
-	tools.logger.info("serverDestroy called for " + cSrv.id);
+	tools.logger.info("serverDestroy called", cSrv.id, true);
 	var deferred = Q.defer();
 	if(cSrv.domstate == 'shut off'){
 		tools.logger.info("serverDestroy succeeded for " + cSrv.id);

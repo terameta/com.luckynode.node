@@ -596,8 +596,13 @@ function checkNBDFileSystem(cSrv){
 }
 
 function resizeNBDFileSystem(cSrv){
+	console.log("resizeNBDFileSystem", cSrv.id);
 	var deferred = Q.defer();
 	var curCommand = "sudo resize2fs "+cSrv.targetNBD+"p"+cSrv.targetPartition;
+	if(cSrv.targetPartitionType == 'ntfs') curCommand = "sudo ntfsresize "+cSrv.targetNBD+"p"+cSrv.targetPartition;
+	console.log("=============================================================");
+	console.log(curCommand);
+	console.log("=============================================================");
 	tools.runLocalCommand(curCommand).then(function(result){
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);

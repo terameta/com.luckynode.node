@@ -213,9 +213,7 @@ function stateUpdate(cSrvID){
 			if(curDom.Name == cSrvID){
 				tools.db.servers.update({_id: mongojs.ObjectId(cSrvID)}, {$set: {status: curDom.State, domstate: curDom.State}}, function(err, data){
 					if(err){
-						console.log(err);
-					} else {
-						console.log("Status updated");
+						console.log("Server Status update on db failed:",err);
 					}
 				});
 			}

@@ -581,6 +581,7 @@ function resizeNBDPartition(cSrv){
 }
 
 function checkNBDFileSystem(cSrv){
+	console.log("checkNBDFileSystem", cSrv.id);
 	var deferred = Q.defer();
 	var curCommand = "sudo e2fsck -p -f "+cSrv.targetNBD+"p"+cSrv.targetPartition;
 	tools.runLocalCommand(curCommand).then(function(result){

@@ -560,13 +560,7 @@ function describeNBD(cSrv){
 			}
 		}
 		cSrv.targetPartition = listDisks[curMaxDisk].number;
-		console.log("=========================================================");
-		console.log("=========================================================");
-		console.log("=========================================================");
-		console.log(listDisks[curMaxDisk]);
-		console.log("=========================================================");
-		console.log("=========================================================");
-		console.log("=========================================================");
+		cSrv.targetPartitionType = listDisks[curMaxDisk].filesystem;
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
@@ -591,6 +585,10 @@ function checkNBDFileSystem(cSrv){
 	console.log("checkNBDFileSystem", cSrv.id);
 	var deferred = Q.defer();
 	var curCommand = "sudo e2fsck -p -f "+cSrv.targetNBD+"p"+cSrv.targetPartition;
+	if(cSrv.targetPartitionType == 'ntfs') curCommand = "sudo ntfsfix "+cSrv.targetNBD+"p"+cSrv.targetPartition;
+	console.log("=============================================================");
+	console.log(curCommand);
+	console.log("=============================================================");
 	tools.runLocalCommand(curCommand).then(function(result){
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);

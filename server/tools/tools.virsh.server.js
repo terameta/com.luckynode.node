@@ -566,6 +566,7 @@ function describeNBD(cSrv){
 }
 
 function resizeNBDPartition(cSrv){
+	console.log("We are resizing NBD partition", cSrv.id);
 	var deferred = Q.defer();
 	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script resizepart "+ cSrv.targetPartition +" 100% ";
 	tools.runLocalCommand(curCommand).then(function(result) {

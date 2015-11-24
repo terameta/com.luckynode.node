@@ -610,14 +610,23 @@ function resizeNBDFileSystem(cSrv){
 
 function releaseNBD(cSrv){
 	console.log("releaseNBD", cSrv.id);
+	console.log("releaseNBD============================================================");
+	console.log("releaseNBD============================================================");
+	console.log("releaseNBD============================================================");
 	var deferred = Q.defer();
 	getNBDPID(cSrv).then(function(result){
 		if(cSrv.NBDPID > 0){
 			var curCommand = "sudo kill -SIGTERM "+cSrv.NBDPID;
 			tools.runLocalCommand(curCommand).then(function(result){
+				console.log("releaseNBD==========================================================OK");
+				console.log("releaseNBD==========================================================OK");
+				console.log("releaseNBD==========================================================OK");
 				deferred.resolve(cSrv);
 			}).fail(deferred.reject);
 		} else {
+			console.log("releaseNBD==========================================================NOTHING");
+			console.log("releaseNBD==========================================================NOTHING");
+			console.log("releaseNBD==========================================================NOTHING");
 			console.log("There is no NBD process attached to this server");
 			deferred.resolve(cSrv);
 		}

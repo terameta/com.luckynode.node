@@ -641,7 +641,7 @@ function getNBDPID(cSrv){
 		result = result.trim().split('\n');
 		cSrv.NBDPID = 0;
 		for(var i = 0; i < result.length; i++){
-			if(result[i].indexOf(cSrv.id+'.qcow2') >= 0){
+			if(result[i].indexOf(cSrv.id) >= 0){
 				cSrv.NBDPID = tools.splitBySpace(result[i])[1];
 			}
 		}

@@ -519,6 +519,7 @@ function lockFreeNBD(cSrv){
 }
 
 function describeNBD(cSrv){
+	console.log("describeNBD", cSrv.id);
 	var deferred = Q.defer();
 	var curCommand = "sudo parted "+ cSrv.targetNBD +" --script unit KiB print";
 	tools.runLocalCommand(curCommand).then(function(result) {
@@ -610,6 +611,7 @@ function resizeNBDFileSystem(cSrv){
 }
 
 function releaseNBD(cSrv){
+	console.log("releaseNBD", cSrv.id);
 	var deferred = Q.defer();
 	getNBDPID(cSrv).then(function(result){
 		if(cSrv.NBDPID > 0){

@@ -560,6 +560,13 @@ function describeNBD(cSrv){
 			}
 		}
 		cSrv.targetPartition = listDisks[curMaxDisk].number;
+		console.log("=========================================================");
+		console.log("=========================================================");
+		console.log("=========================================================");
+		console.log(listDisks[curMaxDisk]);
+		console.log("=========================================================");
+		console.log("=========================================================");
+		console.log("=========================================================");
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;

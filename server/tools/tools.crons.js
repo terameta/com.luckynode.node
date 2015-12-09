@@ -3,13 +3,15 @@ var virsh 			= require("../tools/tools.virsh.js");
 var mongojs 		= require('mongojs');
 var os  				= require('os-utils');
 var Q					= require('q');
+var invoiceModule;
 
-module.exports = function(){
-	 var curModule = {
-		  kekele: getCollectionNames,
-		  everytensecs: everytensecs,
-		  everyminute: everyminute
-	 };
+module.exports = function(db){
+	invoiceModule = require("../modules/module.invoice.js")(db);
+	
+	var curModule = {
+		everytensecs: everytensecs,
+		everyminute: everyminute
+	};
 	 /*
 	 curModule.everytensecs = function(){
 		  console.log(new Date(), topDB, db);
@@ -18,10 +20,6 @@ module.exports = function(){
 	 
 	 return curModule;
 };
-
-function getCollectionNames(){
-	console.log("This is kekele");
-}
 
 function everytensecs(){
 	 console.log(new Date());

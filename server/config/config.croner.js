@@ -1,6 +1,6 @@
-module.exports = function Croner() {
+module.exports = function Croner(db) {
 	var croner				= require('cron').CronJob;
-	var crons				= require('../tools/tools.crons.js')(1003);
+	var crons				= require('../tools/tools.crons.js')(db);
 	new croner( '*/10 	* 	* 	* 	* 	*', 	crons.everytensecs, 	true, 	"America/Los_Angeles" );
 	new croner( '0 		* 	* 	* 	* 	*', 	crons.everyminute, 		true, 	"America/Los_Angeles" );
 	

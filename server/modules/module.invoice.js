@@ -13,12 +13,12 @@ module.exports = function(refdb){
 
 function generateMissing(){
 	console.log("This is generate missing", moment().format());
-	/*db.servers.find({}, function(err, result){
+	db.servers.find({}, function(err, result){
 		if(err){
 			console.log(err);
 		} else {
 			console.log(result.length);
 			console.log(result);
 		}
-	});*/
+	});
 }

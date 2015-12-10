@@ -28,6 +28,7 @@ function everytensecs(){
 
 function everyminute(){
 	findResourceUsage();
+	invoiceModule.generateMissing();
 }
 
 function findResourceUsage(){

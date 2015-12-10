@@ -66,7 +66,7 @@ if( cluster.isMaster ) {
     });
 } else {
 	if(process.env.isCroner == 1){
-		var croner = new Croner();
+		var croner = new Croner(db);
 	} else {
 		var app = new App(db);
 	}

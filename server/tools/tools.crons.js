@@ -3,10 +3,8 @@ var virsh 			= require("../tools/tools.virsh.js");
 var mongojs 		= require('mongojs');
 var os  				= require('os-utils');
 var Q					= require('q');
-var invoiceModule;
 
 module.exports = function(db){
-	invoiceModule = require("../modules/module.invoice.js")(db);
 	
 	var curModule = {
 		everytensecs: everytensecs,
@@ -28,7 +26,6 @@ function everytensecs(){
 
 function everyminute(){
 	findResourceUsage();
-	invoiceModule.generateMissing();
 }
 
 function findResourceUsage(){

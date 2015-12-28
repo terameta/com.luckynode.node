@@ -230,6 +230,7 @@ function poolDefineCeph(curPool){
 	console.log(curPool);
 	curPool.secretXML = "<secret ephemeral='no' private='yes'><usage type='ceph'><name>client."+curPool.username+" secret</name></usage></secret>";
 	poolSaveSecretXML(curPool).
+	then(poolDefineVirshSecret).
 	then(function(curPool){
 		deferred.resolve("OK");
 	}).fail(deferred.reject);
@@ -239,7 +240,8 @@ function poolDefineCeph(curPool){
 function poolSaveSecretXML(curPool){
 	var deferred = Q.defer();
 	var fs = require('fs');
-	fs.writeFile('/tmp/'+curPool.id+'-secret.xml', curPool.secretXML, function(err) {
+	curPool.secretFile = '/tmp/'+curPool.id+'-secret.xml';
+	fs.writeFile(curPool.secretFile, curPool.secretXML, function(err) {
 		if (err){
 			deferred.reject(err);
 		} else {
@@ -247,6 +249,16 @@ function poolSaveSecretXML(curPool){
 			deferred.resolve(curPool);
 		}
 	});
+	return deferred.promise;
+}
+
+function poolDefineVirshSecret(curPool){
+	var deferred = Q.defer();
+	tools.runLocalCommand("virsh secret-define --file " + curPool.secretFile).
+	then(function(result){
+		console.log(result);
+		deferred.resolve(curPool);
+	}).fail(deferred.reject);
 	return deferred.promise;
 }
 

@@ -233,6 +233,8 @@ function poolDefineCeph(curPool){
 	then(poolSecretSetValue).
 	then(poolSavePoolXML).
 	then(poolDefineVirshPool).
+	then(poolSetAutostart).
+	then(poolStart).
 	then(function(curPool){
 		deferred.resolve("OK");
 	}).fail(deferred.reject);
@@ -316,6 +318,24 @@ function poolSavePoolXML(curPool){
 function poolDefineVirshPool(curPool){
 	var deferred = Q.defer();
 	tools.runLocalCommand("virsh pool-define --file " + curPool.poolFile).
+	then(function(result){
+		deferred.resolve(curPool);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function poolSetAutostart(curPool){
+	var deferred = Q.defer();
+	tools.runLocalCommand("virsh pool-autostart " + curPool.id).
+	then(function(result){
+		deferred.resolve(curPool);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function poolStart(curPool){
+	var deferred = Q.defer();
+	tools.runLocalCommand("virsh pool-start " + curPool.id).
 	then(function(result){
 		deferred.resolve(curPool);
 	}).fail(deferred.reject);

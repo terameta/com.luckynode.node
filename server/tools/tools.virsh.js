@@ -394,25 +394,19 @@ function poolRemove(curPool){
 	var cL = []; //command List
 	poolGetDBDetails(curPool.name).
 	then(function(curPoolfromDB){
-		console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-		console.log(curPoolfromDB);
-		console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-	});
-	console.log("=============================================================");
-	console.log(curPool);
-	console.log("=============================================================");
-	if(curPool.isactive) cL.push('virsh pool-destroy ' + curPool.name);
-	cL.push('virsh pool-delete ' + curPool.name);
-	cL.push('virsh pool-undefine ' + curPool.name);
-	console.log(cL);
-	tools.runLocalCommands(cL).then(
-		function(result){ 
-			deferred.resolve(result); 
-		},
-		function(issue){
-			deferred.reject(issue);
-		}
-	);
+		if(curPool.isactive) cL.push('virsh pool-destroy ' + curPool.name);
+		if(curPoolfromDB.type == 'NFS') cL.push('virsh pool-delete ' + curPool.name);
+		cL.push('virsh pool-undefine ' + curPool.name);
+		tools.runLocalCommands(cL).then(
+			function(result){ 
+				deferred.resolve(result); 
+			},
+			function(issue){
+				deferred.reject(issue);
+			}
+		);
+	}).fail(deferred.reject);
+	
 	return deferred.promise;
 }
 

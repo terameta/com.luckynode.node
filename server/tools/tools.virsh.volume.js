@@ -2,6 +2,7 @@ var Q				= require('q');
 var tools			= require('../tools/tools.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
 var virshMain		= require('../tools/tools.virsh.main.js');
+var virshPool		= require('../tools/tools.virsh.pool.js');
 
 module.exports = {
 	create: 	create,
@@ -10,6 +11,11 @@ module.exports = {
 
 function create(diskName, pool, size, type, bVol){
 	var deferred = Q.defer();
+	virshPool.getPoolDetailsDB(pool).then(function(poolDetails){
+		console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		console.log(poolDetails);
+		console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	});
 	tools.logger.info("CreateVolume Start", pool);
 	var theCmd  = 	'virsh vol-create-as --pool '+ pool;
 		theCmd +=	' --name '+ diskName;

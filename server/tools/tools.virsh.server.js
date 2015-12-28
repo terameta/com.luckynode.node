@@ -404,7 +404,7 @@ function createDomainDiskFile(cSrv){
 	}
 	
 	var deferred = Q.defer();
-	volume.create(csrv.diskName, cSrv.store, cSrv.hdd, cSrv.imageType, cSrv.baseImage).
+	volume.create(cSrv.diskName, cSrv.store, cSrv.hdd, cSrv.imageType, cSrv.baseImage).
 		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); deferred.resolve(cSrv); }).
 		fail(function( issue){ tools.logger.info('createDomainDiskFile failed   ', issue ); deferred.reject(issue); });
 	

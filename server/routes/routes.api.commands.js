@@ -311,12 +311,12 @@ module.exports = function(app, express, db, tools) {
 						}
 					).fail(
 						function(issue){
-							tools.logger.info("Pools Define Failed:", issue);
+							tools.logger.info("Pools Define Failed:", issue,true);
 						}
 					);
 					virsh.poolsRemove(poolsToRemove).then(
 						function(result){
-							tools.logger.info("Pools Remove Succeeded:", result);
+							tools.logger.info("Pools Remove Succeeded:", result,true);
 						}
 					).fail(
 						function(issue){

@@ -274,14 +274,30 @@ function poolSavePoolXML(curPool){
 	curPool.poolXML+= "		<name>"+curPool.name+"</name>\n";
 	var sourcesList = curPool.source.split(',');
 	sourcesList.forEach(function(curSource){
-		console.log(curSource);
+		//console.log(curSource);
 		var curSourceDetails = {};
 		curSourceDetails.address = curSource.trim().split(':')[0].trim();
 		curSourceDetails.port = curSource.trim().split(':')[1].trim();
-		console.log(curSourceDetails);
+		//console.log(curSourceDetails);
+	curPool.poolXML+= "		<host name='"+curSourceDetails.address+"' port='"+curSourceDetails.port+"' />\n";
 	});
+	curPool.poolXML+= "		<auth username='"+curPool.username+"' type='ceph'>\n";
+	curPool.poolXML+= "			<secret uuid='"+curPool.secretuuid+"' />\n";
+	curPool.poolXML+= "		</auth>\n";
 	curPool.poolXML+= "	</source>\n";
 	curPool.poolXML+= "</pool>\n";
+	console.log(curPool.poolXML);
+	curPool.poolFile = '/tmp/'+curPool.id+'-pool.xml';
+	fs.writeFile(curPool.poolFile, curPool.poolXML, function(err) {
+		if (err){
+			deferred.reject(err);
+		} else {
+			tools.logger.info("Pool XML file for the new pool " + curPool.id + " is saved.", true);
+			deferred.resolve(curPool);
+		}
+	});
+	console.log("=========================================================");
+	console.log(curPool);
 	deferred.resolve(curPool);
 	return deferred.promise;
 }

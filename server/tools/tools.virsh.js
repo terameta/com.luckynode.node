@@ -200,8 +200,19 @@ function poolsDefine(poolList){
 
 function poolDefine(curPool){
 	var deferred = Q.defer();
+	if(curPool.type == 'NFS'){
+		deferred.resolve(poolDefineNFS(curPool));
+	} else if(curPool.type == 'ceph'){
+		deferred.resolve(poolDefineCeph(curPool));
+	} else {
+		deferred.reject("No pool type defined");
+	}
+	return deferred.promise;
+}
+
+function poolDefineNFS(curPool){
+	var deferred = Q.defer();
 	var cL = []; //command List
-	console.log(curPool);
 	cL.push("virsh pool-define-as "+curPool.id+" netfs --source-host="+curPool.source.split(":")[0]+" --source-path="+curPool.source.split(":")[1]+" --target=/mnt/luckynodepools/"+curPool.name);
 	cL.push('virsh pool-build ' + curPool.id);
 	cL.push('virsh pool-autostart ' + curPool.id);
@@ -211,7 +222,13 @@ function poolDefine(curPool){
 	).fail(
 		function(issue){ deferred.reject(issue); }
 	);
-	
+	return deferred.promise;
+}
+
+function poolDefineCeph(curPool){
+	var deferred = Q.defer();
+	console.log(curPool);
+	deferred.resolve("OK");
 	return deferred.promise;
 }
 

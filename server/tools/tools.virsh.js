@@ -229,8 +229,24 @@ function poolDefineCeph(curPool){
 	var deferred = Q.defer();
 	console.log(curPool);
 	curPool.secretXML = "<secret ephemeral='no' private='yes'><usage type='ceph'><name>client."+curPool.username+" secret</name></usage></secret>";
-	console.log(curPool.secretXML);
-	deferred.resolve("OK");
+	poolSaveSecretXML(curPool).
+	then(function(curPool){
+		deferred.resolve("OK");
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function poolSaveSecretXML(curPool){
+	var deferred = Q.defer();
+	var fs = require('fs');
+	fs.writeFile('/tmp/'+curPool.id+'-secret.xml', curPool.secretXML, function(err) {
+		if (err){
+			deferred.reject(err);
+		} else {
+			tools.logger.info("Secret XML file for the new pool " + curPool.id + " is saved.", true);
+			deferred.resolve(curPool);
+		}
+	});
 	return deferred.promise;
 }
 

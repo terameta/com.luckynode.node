@@ -269,8 +269,8 @@ function poolDefineVirshSecret(curPool){
 	}).
 	then(function(result){
 		console.log("Returner Result:\n",result);
-	}).
-	fail(deferred.reject);
+		return poolDefineVirshSecretAction(curPool);
+	}).then(deferred.resolve).fail(deferred.reject);
 	return deferred.promise;
 }
 

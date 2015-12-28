@@ -120,6 +120,9 @@ function deleteDiskFiles(cSrv){
 		console.log(cSrv);
 		console.log("===================================================");
 		cSrv.hdds.forEach(function(curDisk){
+			console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+			console.log(curDisk);
+			console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 			theCmds.push("virsh vol-delete --vol "+ curDisk.Name +" --pool " + curDisk.Store);
 		});
 		console.log(theCmds);

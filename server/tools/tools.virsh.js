@@ -3,6 +3,7 @@ var Q				= require('q');
 var tools			= require('../tools/tools.main.js');
 var virshMain		= require('../tools/tools.virsh.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
+var mongojs 		= require('mongojs');
 var virshTools 	= 
 	{
 		pool: 	require('../tools/tools.virsh.pool.js'),
@@ -391,6 +392,12 @@ function poolsRemove(poolList){
 function poolRemove(curPool){
 	var deferred = Q.defer();
 	var cL = []; //command List
+	poolGetDBDetails(curPool.name).
+	then(function(curPoolfromDB){
+		console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+		console.log(curPoolfromDB);
+		console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+	});
 	console.log("=============================================================");
 	console.log(curPool);
 	console.log("=============================================================");
@@ -406,6 +413,20 @@ function poolRemove(curPool){
 			deferred.reject(issue);
 		}
 	);
+	return deferred.promise;
+}
+
+function poolGetDBDetails(id){
+	var deferred = Q.defer();
+	tools.db.storages.findOne({_id:mongojs.ObjectId(id)}, function(err, pool){
+		if(err){
+			deferred.reject(err);
+		} else if(!pool){
+			deferred.reject("No pool found");
+		} else {
+			deferred.resolve(pool);
+		}
+	});
 	return deferred.promise;
 }
 

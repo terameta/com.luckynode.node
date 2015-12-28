@@ -10,6 +10,7 @@ module.exports = {
 
 function create(diskName, pool, size, type, bVol){
 	var deferred = Q.defer();
+	tools.logger.info("CreateVolume Start", pool);
 	var theCmd  = 	'virsh vol-create-as --pool '+ pool;
 		theCmd +=	' --name '+ diskName;
 		theCmd +=	' --capacity '+ size +'G';

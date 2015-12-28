@@ -287,7 +287,7 @@ function poolSavePoolXML(curPool){
 	curPool.poolXML = "<pool type='rbd'>\n";
 	curPool.poolXML+= "	<name>"+curPool.id+"</name>\n";
 	curPool.poolXML+= "	<source>\n";
-	curPool.poolXML+= "		<name>"+curPool.name+"</name>\n";
+	curPool.poolXML+= "		<name>"+curPool.rbdname+"</name>\n";
 	var sourcesList = curPool.source.split(',');
 	sourcesList.forEach(function(curSource){
 		//console.log(curSource);

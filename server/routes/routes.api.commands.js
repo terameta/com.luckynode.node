@@ -273,6 +273,7 @@ module.exports = function(app, express, db, tools) {
 		if(newPools.length > 0){
 			if(newPools[0].pool == 'NoAssignedPoolForTheNode' ) newPools = [];
 			newPools.forEach(function(curNewPool) {
+				if(curNewPool.type=='ceph') curNewPool.rbdname = curNewPool.name;
 			   curNewPool.name = curNewPool.id; 
 			});
 			//Get the Existing Pools List

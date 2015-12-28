@@ -758,6 +758,13 @@ function ejectISO(details){
 function attachISO(details){
 	tools.logger.info("serverAttachISO is called", details);
 	var deferred = Q.defer();
+	virshPool.getPoolDetailsDB(details.pool).
+	then(function(poolDetails){
+		console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		console.log(poolDetails);
+		console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+			
+	});
 	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	console.log(details);
 	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");

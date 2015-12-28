@@ -686,6 +686,7 @@ function createDomainandStart(cSrv){
 
 function diskList(cSrv){
 	tools.logger.info("serverDiskList is called for " + cSrv.id);
+	tools.logger.info("serverDiskList is called for " + cSrv);
 	var deferred = Q.defer();
 	tools.runLocalCommand('virsh domblklist '+ cSrv.id +' --details').then(
 		function(result){

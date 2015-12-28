@@ -2,6 +2,7 @@ var Q				= require('q');
 //var config 			= require('../config/config.main.js');
 var tools			= require('../tools/tools.main.js');
 var virshMain		= require('../tools/tools.virsh.main.js');
+var returner		= require('../tools/tools.virsh.returner.js');
 var virshTools 	= 
 	{
 		pool: 	require('../tools/tools.virsh.pool.js'),
@@ -261,6 +262,16 @@ function poolSaveSecretXML(curPool){
 }
 
 function poolDefineVirshSecret(curPool){
+	var deferred = Q.defer();
+	tools.runLocalCommand("virsh secret-list").
+	then(function(result){
+		console.log(result);
+		deferred.resolve(curPool);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function poolDefineVirshSecretAction(curPool){
 	var deferred = Q.defer();
 	tools.runLocalCommand("virsh secret-define --file " + curPool.secretFile).
 	then(function(result){

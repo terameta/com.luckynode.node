@@ -10,6 +10,7 @@ function prepare(result, command){
 	if(command == 'list'){			wte = ['Id', 'Name', 'State'];											}
 	if(command == 'vol-list'){		wte = ['Name', 'Path', 'Type', 'Capacity', 'Allocation'];		}
 	if(command == 'domblklist'){	wte = ['Type', 'Device', 'Target', 'Source'];						}
+	if(command == 'secret-list'){	wte = ['UUID', 'Usage'];													}
 	
 	result = result.trim();
 

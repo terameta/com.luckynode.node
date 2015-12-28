@@ -123,7 +123,7 @@ function deleteDiskFiles(cSrv){
 			console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
 			console.log(curDisk);
 			console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-			theCmds.push("virsh vol-delete --vol "+ curDisk.Name +" --pool " + curDisk.Store);
+			theCmds.push("virsh vol-delete --vol "+ curDisk.Source);
 		});
 		console.log(theCmds);
 		

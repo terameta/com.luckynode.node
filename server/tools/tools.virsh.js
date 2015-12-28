@@ -181,6 +181,7 @@ function nodeBridgeAssign(bridge, iface){
 }
 
 function poolsDefine(poolList){
+	console.log(poolList);
 	var promises = [];
 	poolList.forEach(function(curPool){
 		var deferred = Q.defer();

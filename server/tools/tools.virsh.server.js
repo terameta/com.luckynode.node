@@ -354,7 +354,7 @@ function composeDomainXML(cSrv){
 	+	'	<on_crash>restart</on_crash>'																											+ '\n'
 	+	'	<devices>'																																	+ '\n'
 	+	'		<disk type=\'network\' device=\'disk\'>'																						+ '\n'
-	+	'			<source protocol=\'rbd\' name=\''+cSrv.poolDetails.name+'/'+cSrv.diskName+'\'>'								+ '\n'
+	+	'			<source protocol=\'rbd\' name=\''+cSrv.poolDetails.name+'/'+cSrv.diskName+'\' />'							+ '\n'
 	+	'			<target dev=\''+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +'\' bus=\''+ cSrv.diskdriver +'\'/>'		+ '\n'
 	+	'		</disk>'																																	+ '\n'
 	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'										+ '\n'

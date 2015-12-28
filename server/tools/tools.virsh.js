@@ -228,7 +228,7 @@ function poolDefineNFS(curPool){
 function poolDefineCeph(curPool){
 	var deferred = Q.defer();
 	console.log(curPool);
-	curPool.secretXML = "<secret ephemeral='no' private='yes'><usage type='ceph'><name>client."+curPool.user+" secret</name></usage></secret>";
+	curPool.secretXML = "<secret ephemeral='no' private='yes'><usage type='ceph'><name>client."+curPool.username+" secret</name></usage></secret>";
 	console.log(curPool.secretXML);
 	deferred.resolve("OK");
 	return deferred.promise;

@@ -2,6 +2,7 @@ var Q					= require('q');
 var tools			= require('../tools/tools.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
 var virshMain		= require('../tools/tools.virsh.main.js');
+var virshPool		= require('../tools/tools.virsh.pool.js');
 var volume			= require('../tools/tools.virsh.volume.js');
 var fs				= require('fs');
 var mongojs 		= require('mongojs');
@@ -257,6 +258,7 @@ function define(cSrv){
 	
 	writeDHCPItem(cSrv).
 		then(virshMain.getMostAvailablePool).
+		then(getServerPoolDetailsDB).
 		then(composeDomainXML).
 		then(saveDomainXML).
 		then(createDomainDiskFile).
@@ -315,10 +317,20 @@ function deleteDHCPItem(cSrv){
 	return deferred.promise;
 }
 
+function getServerPoolDetailsDB(cSrv){
+	var deferred = Q.defer();
+	virshPool.getPoolDetailsDB(cSrv.store).
+	then(function(poolDetails){
+		cSrv.poolDetails = poolDetails;
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
 function composeDomainXML(cSrv){
 	tools.logger.info('composeDomainXML is called', cSrv);
 	var deferred = Q.defer();
-	var diskFile = '/mnt/luckynodepools/'+ cSrv.store +'/'+ 'disk-'+ cSrv.id +'-'+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +(cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
+	cSrv.diskName = 'disk-' + cSrv.id + '-' + (cSrv.diskdriver == 'ide' ? 'hda' : 'vda');
 	var theXML = ''
 	+ 	'<domain type=\'kvm\'>'																														+ '\n'
 	+ 	'	<name>'+ cSrv.id +'</name>'																											+ '\n'
@@ -341,9 +353,8 @@ function composeDomainXML(cSrv){
 	+	'	<on_reboot>restart</on_reboot>'																										+ '\n'
 	+	'	<on_crash>restart</on_crash>'																											+ '\n'
 	+	'	<devices>'																																	+ '\n'
-	+	'		<disk type=\'file\' device=\'disk\'>'																							+ '\n'
-	+	'			<driver name=\'qemu\' type=\''+ cSrv.imageType +'\' cache=\'none\' />'											+ '\n'
-	+	'			<source file=\''+ diskFile +'\' />'																							+ '\n'
+	+	'		<disk type=\'network\' device=\'disk\'>'																						+ '\n'
+	+	'			<source protocol=\'rbd\' name=\''+cSrv.poolDetails.name+'/'+cSrv.diskName+'\'>'								+ '\n'
 	+	'			<target dev=\''+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +'\' bus=\''+ cSrv.diskdriver +'\'/>'		+ '\n'
 	+	'		</disk>'																																	+ '\n'
 	+	'		<disk type=\'file\' device=\'cdrom\'><target dev=\'hdc\'/><readonly/></disk>'										+ '\n'
@@ -391,11 +402,9 @@ function createDomainDiskFile(cSrv){
 	} else {
 		tools.logger.info('createDomainDiskFile baseimage', 'existing one will be used');
 	}
-	var diskName  = 'disk-'+ cSrv.id +'-';
-		 diskName += (cSrv.diskdriver == 'ide' ? 'hda' : 'vda');
 	
 	var deferred = Q.defer();
-	volume.create(diskName, cSrv.store, cSrv.hdd, cSrv.imageType, cSrv.baseImage).
+	volume.create(csrv.diskName, cSrv.store, cSrv.hdd, cSrv.imageType, cSrv.baseImage).
 		then(function(result){ tools.logger.info('createDomainDiskFile succeeded', result); deferred.resolve(cSrv); }).
 		fail(function( issue){ tools.logger.info('createDomainDiskFile failed   ', issue ); deferred.reject(issue); });
 	

@@ -265,9 +265,12 @@ function poolDefineVirshSecret(curPool){
 	var deferred = Q.defer();
 	tools.runLocalCommand("virsh secret-list").
 	then(function(result){
-		console.log(result);
-		deferred.resolve(curPool);
-	}).fail(deferred.reject);
+		return returner.prepare(result,'secret-list');
+	}).
+	then(function(result){
+		console.log("Returner Result:\n",result);
+	}).
+	fail(deferred.reject);
 	return deferred.promise;
 }
 

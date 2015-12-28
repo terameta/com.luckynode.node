@@ -758,6 +758,9 @@ function ejectISO(details){
 function attachISO(details){
 	tools.logger.info("serverAttachISO is called", details);
 	var deferred = Q.defer();
+	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+	console.log(details);
+	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	var theCommand = 'virsh change-media'
 						+' --domain '+ details.server 
 						+' --source /mnt/luckynodepools/'+ details.pool +'/'+ details.iso

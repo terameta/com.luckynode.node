@@ -269,6 +269,13 @@ function poolDefineVirshSecret(curPool){
 	}).
 	then(function(result){
 		console.log("Returner Result:\n",result);
+		curPool.shouldDefineSecret = true;
+		result.forEach(function(curResult){
+			if(curResult.Usage == 'ceph client.'+curPool.username+' secret'){
+				curPool.shouldDefineSecret = false;
+				curPool.secretuuid = curResult.UUID;
+			}
+		});
 		return poolDefineVirshSecretAction(curPool);
 	}).then(deferred.resolve).fail(deferred.reject);
 	return deferred.promise;
@@ -276,13 +283,17 @@ function poolDefineVirshSecret(curPool){
 
 function poolDefineVirshSecretAction(curPool){
 	var deferred = Q.defer();
-	tools.runLocalCommand("virsh secret-define --file " + curPool.secretFile).
-	then(function(result){
-		//console.log("Result:", result);
-		curPool.secretuuid = result.toString().replace("Secret", "").replace("created", "").trim();
-		//console.log("UUID", curPool.secretuuid);
+	if(curPool.shouldDefineSecret){
+		tools.runLocalCommand("virsh secret-define --file " + curPool.secretFile).
+		then(function(result){
+			//console.log("Result:", result);
+			curPool.secretuuid = result.toString().replace("Secret", "").replace("created", "").trim();
+			//console.log("UUID", curPool.secretuuid);
+			deferred.resolve(curPool);
+		}).fail(deferred.reject);
+	} else {
 		deferred.resolve(curPool);
-	}).fail(deferred.reject);
+	}
 	return deferred.promise;
 }
 

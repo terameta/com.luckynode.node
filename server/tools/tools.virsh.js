@@ -257,6 +257,9 @@ function poolDefineVirshSecret(curPool){
 	tools.runLocalCommand("virsh secret-define --file " + curPool.secretFile).
 	then(function(result){
 		console.log("Result:", result);
+		curPool.secretuuid = result.toString().replace("Secret", "").replace("created", "").trim();
+		
+		console.log("UUID", curPool.secretuuid);
 		deferred.resolve(curPool);
 	}).fail(deferred.reject);
 	return deferred.promise;

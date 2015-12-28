@@ -228,7 +228,6 @@ function poolDefineNFS(curPool){
 function poolDefineCeph(curPool){
 	var deferred = Q.defer();
 	console.log(curPool);
-	curPool.secretXML = "<secret ephemeral='no' private='yes'><usage type='ceph'><name>client."+curPool.username+" secret</name></usage></secret>";
 	poolSaveSecretXML(curPool).
 	then(poolDefineVirshSecret).
 	then(function(curPool){
@@ -240,6 +239,7 @@ function poolDefineCeph(curPool){
 function poolSaveSecretXML(curPool){
 	var deferred = Q.defer();
 	var fs = require('fs');
+	curPool.secretXML = "<secret ephemeral='no' private='yes'><usage type='ceph'><name>client."+curPool.username+" secret</name></usage></secret>";
 	curPool.secretFile = '/tmp/'+curPool.id+'-secret.xml';
 	fs.writeFile(curPool.secretFile, curPool.secretXML, function(err) {
 		if (err){

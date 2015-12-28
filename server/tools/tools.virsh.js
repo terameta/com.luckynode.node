@@ -230,6 +230,7 @@ function poolDefineCeph(curPool){
 	console.log(curPool);
 	poolSaveSecretXML(curPool).
 	then(poolDefineVirshSecret).
+	then(poolSecretSetValue).
 	then(poolSavePoolXML).
 	then(poolDefineVirshPool).
 	then(function(curPool){
@@ -261,6 +262,15 @@ function poolDefineVirshSecret(curPool){
 		//console.log("Result:", result);
 		curPool.secretuuid = result.toString().replace("Secret", "").replace("created", "").trim();
 		//console.log("UUID", curPool.secretuuid);
+		deferred.resolve(curPool);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function poolSecretSetValue(curPool){
+	var deferred = Q.defer();
+	tools.runLocalCommand("virsh secret-set-value --secret "+ curPool.secretuuid +" --base64 " + curPool.key).
+	then(function(result){
 		deferred.resolve(curPool);
 	}).fail(deferred.reject);
 	return deferred.promise;

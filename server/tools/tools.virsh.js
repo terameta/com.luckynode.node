@@ -230,6 +230,7 @@ function poolDefineCeph(curPool){
 	console.log(curPool);
 	poolSaveSecretXML(curPool).
 	then(poolDefineVirshSecret).
+	then(poolSavePoolXML).
 	then(function(curPool){
 		deferred.resolve("OK");
 	}).fail(deferred.reject);
@@ -256,12 +257,32 @@ function poolDefineVirshSecret(curPool){
 	var deferred = Q.defer();
 	tools.runLocalCommand("virsh secret-define --file " + curPool.secretFile).
 	then(function(result){
-		console.log("Result:", result);
+		//console.log("Result:", result);
 		curPool.secretuuid = result.toString().replace("Secret", "").replace("created", "").trim();
-		
-		console.log("UUID", curPool.secretuuid);
+		//console.log("UUID", curPool.secretuuid);
 		deferred.resolve(curPool);
 	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function poolSavePoolXML(curPool){
+	var deferred = Q.defer();
+	var fs = require('fs');
+	curPool.poolXML = "<pool type='rbd'>\n";
+	curPool.poolXML+= "	<name>"+curPool.id+"</name>\n";
+	curPool.poolXML+= "	<source>\n";
+	curPool.poolXML+= "		<name>"+curPool.name+"</name>\n";
+	var sourcesList = curPool.source.split(',');
+	sourcesList.forEach(function(curSource){
+		console.log(curSource);
+		var curSourceDetails = {};
+		curSourceDetails.address = curSource.trim().split(':')[0].trim();
+		curSourceDetails.port = curSource.trim().split(':')[1].trim();
+		console.log(curSourceDetails);
+	});
+	curPool.poolXML+= "	</source>\n";
+	curPool.poolXML+= "</pool>\n";
+	deferred.resolve(curPool);
 	return deferred.promise;
 }
 

@@ -393,7 +393,6 @@ function createDomainDiskFile(cSrv){
 	}
 	var diskName  = 'disk-'+ cSrv.id +'-';
 		 diskName += (cSrv.diskdriver == 'ide' ? 'hda' : 'vda');
-		 diskName += (cSrv.imageType == 'qcow2' ? '.qcow2' : '.img');
 	
 	var deferred = Q.defer();
 	volume.create(diskName, cSrv.store, cSrv.hdd, cSrv.imageType, cSrv.baseImage).

@@ -12,7 +12,8 @@ module.exports = function(){
 	return module;
 };
 
-function list(){
+function list(toReturn){
+	if(!toReturn) toReturn = {};
 	var deferred = Q.defer();
 	tools.runLocalCommand("virsh secret-list").
 	then(function(result){
@@ -20,7 +21,8 @@ function list(){
 	}).
 	then(function(result){
 		console.log("Returner Result:\n",result);
-		deferred.resolve(result);
+		toReturn.secretList = result;
+		deferred.resolve(toReturn);
 	}).fail(deferred.reject);
 	return deferred.promise;
 }

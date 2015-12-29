@@ -757,7 +757,7 @@ function ejectISOOLD(details){
 }
 
 function ejectISO(details){
-	tools.logger.info("serverAttachISO is called", details, true);
+	tools.logger.info("serverejectISO is called", details, true);
 	var deferred = Q.defer();
 	virshPool.getPoolDetailsDB(details.pool).
 	then(secretModule.list).

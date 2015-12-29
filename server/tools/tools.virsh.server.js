@@ -6,6 +6,7 @@ var virshPool		= require('../tools/tools.virsh.pool.js');
 var volume			= require('../tools/tools.virsh.volume.js');
 var fs				= require('fs');
 var mongojs 		= require('mongojs');
+var secretModule	= require('../modules/module.virsh.secret.js');
 
 module.exports = {
 	define: 					define,

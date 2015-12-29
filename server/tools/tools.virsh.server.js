@@ -737,7 +737,7 @@ function vncAddress(cSrv){
 	return deferred.promise;
 }
 
-function ejectISO(details){
+function ejectISOOLD(details){
 	tools.logger.info("serverEjectISO is called", details);
 	var deferred = Q.defer();
 	var theCommand = 'virsh change-media --domain '+ details.server +' --path '+ details.target +' --config --eject';
@@ -756,17 +756,48 @@ function ejectISO(details){
 	return deferred.promise;
 }
 
-function saveISOXML(details){
+function ejectISO(details){
+	tools.logger.info("serverAttachISO is called", details);
 	var deferred = Q.defer();
-	var fs = require('fs');
-	fs.writeFile(details.xmlloc, details.xml, function(err) {
-		if (err){
-			deferred.reject(err);
-		} else {
-			tools.logger.info("XML file for the cdrom " + details.xmlloc + " is saved.", details, true);
-			deferred.resolve(details);
-		}
-	});
+	virshPool.getPoolDetailsDB(details.pool).
+	then(secretModule.list).
+	then(function(poolDetails){
+		var selectedUUID = '';
+		poolDetails.secretList.forEach(function(curSecret){
+			console.log(curSecret, poolDetails.username);
+			if(curSecret.Usage == 'ceph client.'+poolDetails.username+' secret') selectedUUID = curSecret.UUID;
+		});
+		var theXML = '';
+		theXML += "<disk type='network' device='cdrom'>\n";
+		//theXML += "	<source protocol='rbd' name='"+poolDetails.name+"/"+details.iso+"' />\n";
+		theXML += "	<target dev='"+details.target+"' />\n";
+		theXML += "	<readonly />\n";
+		theXML += "	<driver name='qemu' type='raw' cache='writethrough' />\n";
+		theXML += "	<auth username='"+poolDetails.username+"'>\n";
+		theXML += "		<secret type='ceph' uuid='"+selectedUUID+"' />\n";
+		theXML += "	</auth>\n";
+		theXML += "</disk>\n";
+		console.log("theXML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		console.log("Details:", details);
+		console.log("PoolDetails:", poolDetails);
+		console.log("SelectedUUID:", selectedUUID);
+		console.log(theXML);
+		console.log("theXML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		poolDetails.xml = theXML;
+		poolDetails.xmlloc = '/tmp/isomount-'+details.server+'-'+details.target+'.xml';
+		return saveISOXML(poolDetails);
+	}).
+	then(function(poolDetails){
+		poolDetails.command = "virsh update-device --config "+ details.server +" " + poolDetails.xmlloc;
+		var theCurDom = {id: details.server};
+		state(theCurDom).then(function(result){
+			if(theCurDom.domstate == 'running') poolDetails.command += ' --live';
+			return tools.runLocalCommand(poolDetails.command);
+		}).fail(deferred.reject);
+	}).
+	then(deferred.resolve).
+	fail(deferred.reject);
+	
 	return deferred.promise;
 }
 
@@ -802,40 +833,29 @@ function attachISO(details){
 		return saveISOXML(poolDetails);
 	}).
 	then(function(poolDetails){
-		poolDetails.command = "virsh update-device --live --config "+ details.server +" " + poolDetails.xmlloc;
-		return tools.runLocalCommand(poolDetails.command);
+		poolDetails.command = "virsh update-device --config "+ details.server +" " + poolDetails.xmlloc;
+		var theCurDom = {id: details.server};
+		state(theCurDom).then(function(result){
+			if(theCurDom.domstate == 'running') poolDetails.command += ' --live';
+			return tools.runLocalCommand(poolDetails.command);
+		}).fail(deferred.reject);
 	}).
 	then(deferred.resolve).
 	fail(deferred.reject);
+	
 	return deferred.promise;
-	
-	
-	
-	
-	
-	
-	
-	
-	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-	console.log(details);
-	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-	var theCommand = 'virsh change-media'
-						+' --domain '+ details.server 
-						+' --source /mnt/luckynodepools/'+ details.pool +'/'+ details.iso
-						+' --path '+ details.target
-						+' --config';
-	var theCurDom = {id: details.server};
-	state(theCurDom).then(function(result){
-		if(theCurDom.domstate == 'running'){
-			theCommand += ' --live';
+}
+ 
+function saveISOXML(details){
+	var deferred = Q.defer();
+	var fs = require('fs');
+	fs.writeFile(details.xmlloc, details.xml, function(err) {
+		if (err){
+			deferred.reject(err);
+		} else {
+			tools.logger.info("XML file for the cdrom " + details.xmlloc + " is saved.", details, true);
+			deferred.resolve(details);
 		}
-		tools.runLocalCommand(theCommand).then(function(result){
-			deferred.resolve(result);
-		}).fail(function(issue){
-			deferred.reject(issue);
-		});
-	}).fail(function(issue){
-		deferred.reject(issue);
 	});
 	return deferred.promise;
 }

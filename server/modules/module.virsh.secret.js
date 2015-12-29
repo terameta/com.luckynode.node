@@ -13,6 +13,7 @@ module.exports = function(){
 };
 
 function list(toReturn){
+	console.log("SecretList Called inside<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	if(!toReturn) toReturn = {};
 	var deferred = Q.defer();
 	tools.runLocalCommand("virsh secret-list").

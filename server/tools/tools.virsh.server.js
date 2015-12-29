@@ -761,9 +761,11 @@ function attachISO(details){
 	var deferred = Q.defer();
 	virshPool.getPoolDetailsDB(details.pool).
 	then(secretModule.list).
-	then(function(result){
+	then(function(poolDetails){
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		console.log(result);
+		poolDetails.secretList.forEach(function(curSecret){
+			console.log(curSecret, poolDetails.username);
+		});
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	});
 	return deferred.promise;

@@ -800,7 +800,13 @@ function attachISO(details){
 		poolDetails.xml = theXML;
 		poolDetails.xmlloc = '/tmp/isomount-'+details.server+'-'+details.target+'.xml';
 		return saveISOXML(poolDetails);
-	});
+	}).
+	then(function(poolDetails){
+		poolDetails.command = "virsh update-device --live --config "+ details.server +" " + poolDetails.xmlloc;
+		return tools.runLocalCommand(poolDetails.command);
+	}).
+	then(deferred.resolve).
+	fail(deferred.reject);
 	return deferred.promise;
 	
 	

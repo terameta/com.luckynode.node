@@ -763,9 +763,12 @@ function attachISO(details){
 	then(secretModule.list).
 	then(function(poolDetails){
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		var selectedUUID = '';
 		poolDetails.secretList.forEach(function(curSecret){
 			console.log(curSecret, poolDetails.username);
+			if(curSecret.Usage == 'ceph client.'+poolDetails.username+' secret') selectedUUID = curSecret.UUID;
 		});
+		console.log(selectedUUID);
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	});
 	return deferred.promise;

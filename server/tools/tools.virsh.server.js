@@ -759,34 +759,16 @@ function ejectISOOLD(details){
 function ejectISO(details){
 	tools.logger.info("serverejectISO is called", details, true);
 	var deferred = Q.defer();
-	virshPool.getPoolDetailsDB(details.pool).
-	then(secretModule.list).
-	then(function(poolDetails){
-		var selectedUUID = '';
-		poolDetails.secretList.forEach(function(curSecret){
-			console.log(curSecret, poolDetails.username);
-			if(curSecret.Usage == 'ceph client.'+poolDetails.username+' secret') selectedUUID = curSecret.UUID;
-		});
-		var theXML = '';
-		theXML += "<disk type='network' device='cdrom'>\n";
-		//theXML += "	<source protocol='rbd' name='"+poolDetails.name+"/"+details.iso+"' />\n";
-		theXML += "	<target dev='"+details.target+"' />\n";
-		theXML += "	<readonly />\n";
-		theXML += "	<driver name='qemu' type='raw' cache='writethrough' />\n";
-		theXML += "	<auth username='"+poolDetails.username+"'>\n";
-		theXML += "		<secret type='ceph' uuid='"+selectedUUID+"' />\n";
-		theXML += "	</auth>\n";
-		theXML += "</disk>\n";
-		console.log("theXML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		console.log("Details:", details);
-		console.log("PoolDetails:", poolDetails);
-		console.log("SelectedUUID:", selectedUUID);
-		console.log(theXML);
-		console.log("theXML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		poolDetails.xml = theXML;
-		poolDetails.xmlloc = '/tmp/isomount-'+details.server+'-'+details.target+'.xml';
-		return saveISOXML(poolDetails);
-	}).
+	var theXML = '';
+	theXML += "<disk type='file' device='cdrom'>\n";
+	theXML += "	<source file='' />\n";
+	theXML += "	<target dev='"+details.target+"' />\n";
+	theXML += "	<readonly />\n";
+	theXML += "</disk>\n";
+	var poolDetails = {};
+	poolDetails.xml = theXML;
+	poolDetails.xmlloc = '/tmp/isomount-'+details.server+'-'+details.target+'.xml';
+	saveISOXML(poolDetails).
 	then(function(poolDetails){
 		poolDetails.command = "virsh update-device --config "+ details.server +" " + poolDetails.xmlloc;
 		var theCurDom = {id: details.server};

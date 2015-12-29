@@ -760,19 +760,11 @@ function attachISO(details){
 	tools.logger.info("serverAttachISO is called", details);
 	var deferred = Q.defer();
 	virshPool.getPoolDetailsDB(details.pool).
-	then(function(poolDetails){
+	then(secretModule.list).
+	then(function(result){
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		console.log(poolDetails);
+		console.log(details);
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		console.log("Calling secret list");
-		console.log(secretModule);
-		console.log(secretModule.list);
-		secretModule.list().then(function(result){
-			console.log("SecretList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-			console.log(result);
-			console.log("SecretList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		});
-		console.log("Called secret list");
 	});
 	return deferred.promise;
 	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");

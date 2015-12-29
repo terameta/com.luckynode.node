@@ -769,7 +769,13 @@ function attachISO(details){
 		});
 		var theXML = '';
 		theXML += "<disk type='network' device='cdrom'>\n";
-		theXML += "	<source protocol='rbd' name='"+poolDetails.name+"/"+details.iso+"' />";
+		theXML += "	<source protocol='rbd' name='"+poolDetails.name+"/"+details.iso+"' />\n";
+		theXML += "	<target dev='"+details.target+"' />\n";
+		theXML += "	<readonly />\n";
+		theXML += "	<driver name='qemu' type='raw' cache='writethrough' />\n";
+		theXML += "	<auth username='"+poolDetails.username+"'>\n";
+		theXML += "		<secret type='ceph' uuid='"+selectedUUID+"' />\n";
+		theXML += "	</auth>\n";
 		theXML += "</disk>\n";
 		console.log("theXML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		console.log("Details:", details);

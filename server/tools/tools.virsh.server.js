@@ -769,6 +769,7 @@ function attachISO(details){
 			if(curSecret.Usage == 'ceph client.'+poolDetails.username+' secret') selectedUUID = curSecret.UUID;
 		});
 		console.log(selectedUUID);
+		console.log(details);
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	});
 	return deferred.promise;

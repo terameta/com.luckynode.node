@@ -6,6 +6,7 @@ var tools			= require('../tools/tools.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
 
 module.exports = function(){
+	console.log("Secret Module is getting defined now");
 	var module = {
 		list: list
 	};

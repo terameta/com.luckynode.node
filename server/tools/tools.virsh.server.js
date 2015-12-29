@@ -756,6 +756,20 @@ function ejectISO(details){
 	return deferred.promise;
 }
 
+function saveISOXML(details){
+	var deferred = Q.defer();
+	var fs = require('fs');
+	fs.writeFile(details.xmlloc, details.xml, function(err) {
+		if (err){
+			deferred.reject(err);
+		} else {
+			tools.logger.info("XML file for the cdrom " + details.xmlloc + " is saved.", details, true);
+			deferred.resolve(details);
+		}
+	});
+	return deferred.promise;
+}
+
 function attachISO(details){
 	tools.logger.info("serverAttachISO is called", details);
 	var deferred = Q.defer();
@@ -783,6 +797,9 @@ function attachISO(details){
 		console.log("SelectedUUID:", selectedUUID);
 		console.log(theXML);
 		console.log("theXML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		poolDetails.xml = theXML;
+		poolDetails.xmlloc = '/tmp/isomount-'+details.server+'-'+details.target+'.xml';
+		return saveISOXML(poolDetails);
 	});
 	return deferred.promise;
 	

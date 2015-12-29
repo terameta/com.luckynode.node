@@ -768,7 +768,12 @@ function attachISO(details){
 			if(curSecret.Usage == 'ceph client.'+poolDetails.username+' secret') selectedUUID = curSecret.UUID;
 		});
 		var theXML = '';
+		theXML += "<disk type='network' device='cdrom'";
+		theXML += "	<source protocol='rbd' name='' />";
 		console.log("theXML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		console.log("Details:", details);
+		console.log("PoolDetails:", poolDetails);
+		console.log("SelectedUUID:", selectedUUID);
 		console.log(theXML);
 		console.log("theXML<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	});

@@ -765,6 +765,7 @@ function attachISO(details){
 		console.log(poolDetails);
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		console.log("Calling secret list");
+		console.log(secretModule);
 		secretModule.list().then(function(result){
 			console.log("SecretList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 			console.log(result);

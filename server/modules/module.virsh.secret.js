@@ -20,7 +20,9 @@ function list(toReturn){
 		return returner.prepare(result,'secret-list');
 	}).
 	then(function(result){
+		console.log("SecretList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		console.log("Returner Result:\n",result);
+		console.log("SecretList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		toReturn.secretList = result;
 		deferred.resolve(toReturn);
 	}).fail(deferred.reject);

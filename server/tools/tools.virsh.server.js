@@ -764,7 +764,9 @@ function attachISO(details){
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		console.log(poolDetails);
 		console.log("PoolDetails<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-			
+		secretModule.list().then(function(result){
+			console.log(result);
+		});
 	});
 	console.log("<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 	console.log(details);

@@ -5,8 +5,7 @@ var moment			= require('moment');
 var tools			= require('../tools/tools.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
 
-module.exports = function(refdb){
-	db = refdb;
+module.exports = function(){
 	var module = {
 		list: list
 	};

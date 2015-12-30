@@ -22,7 +22,7 @@ function get(toReturn){
 	then(function(secList){
 		toReturn.poolsecret = '';
 		secList.forEach(function(curSecret){
-			if(curSecret.Usage == 'ceph client.'+toReturn.poolDetails.username+' secret') toReturn.poolsecret = curSecret.uuid;
+			if(curSecret.Usage == 'ceph client.'+toReturn.poolDetails.username+' secret') toReturn.poolsecret = curSecret.UUID;
 		});
 		console.log("ToReturn<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		console.log("ToReturn After:\n",toReturn);

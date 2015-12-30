@@ -68,6 +68,7 @@ function volCloneFromServer(cSrv, cTarget){
 		}).
 		then(function(cSrv){
 			volCloneFromServerStatusCheck(cSrv, cTarget, deferred);
+			console.log(cTarget);
 			return tools.runLocalCommand('virsh vol-clone --vol '+cTarget.srcvol+' --newname image-'+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
 			/*setTimeout(function(){
 				deferred.resolve();

@@ -1,6 +1,7 @@
 var Q				= require('q');
 var tools			= require('../tools/tools.main.js');
 var returner		= require('../tools/tools.virsh.returner.js');
+var mongojs			= require('mongojs');
 
 module.exports = {
 	getMostAvailablePool: 	getMostAvailablePool,
@@ -54,6 +55,12 @@ function getMostAvailablePool(cSrv){
 		});
 		if(curMax !=''){
 			cSrv.store = curMax;
+			tools.db.servers.update({_id:mongojs.ObjectId(cSrv.id)}, {$set:{store:cSrv.store}}, function(err, data){
+				tools.logger.info("Defining store for the server", cSrv.store);
+				if(err){
+					tools.logger.error("Defining store for the server failed", cSrv.store);
+				}
+			});
 			tools.logger.info("getMostAvailablePool has succeeded", { id: cSrv.id, name: cSrv.name, pool: cSrv.store });
 			deferred.resolve(cSrv);
 		} else {

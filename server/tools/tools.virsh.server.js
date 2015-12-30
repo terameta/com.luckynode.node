@@ -263,6 +263,7 @@ function define(cSrv){
 	writeDHCPItem(cSrv).
 		then(virshMain.getMostAvailablePool).
 		then(getServerPoolDetailsDB).
+		then(secretModule.get).
 		then(composeDomainXML).
 		then(saveDomainXML).
 		then(createDomainDiskFile).

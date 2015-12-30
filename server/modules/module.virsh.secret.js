@@ -7,10 +7,26 @@ var returner		= require('../tools/tools.virsh.returner.js');
 
 module.exports = function(){
 	var module = {
-		list: list
+		list: list,
+		get: get
 	};
 	return module;
 };
+
+function get(toReturn){
+	var deferred = Q.defer();
+	tools.runLocalCommand("virsh secret-list").
+	then(function(result){
+		return returner.prepare(result,'secret-list');
+	}).
+	then(function(secList){
+		console.log("SecList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		console.log(secList);
+		console.log("SecList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		deferred.resolve(toReturn);
+	});
+	return deferred.promise;
+}
 
 function list(toReturn){
 	console.log("ToReturn<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");

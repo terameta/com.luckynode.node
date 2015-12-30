@@ -24,6 +24,9 @@ function get(toReturn){
 		secList.forEach(function(curSecret){
 			if(curSecret.Usage == 'ceph client.'+toReturn.poolDetails.username+' secret') toReturn.poolsecret = curSecret.uuid;
 		});
+		console.log("ToReturn<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		console.log("ToReturn After:\n",toReturn);
+		console.log("ToReturn<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
 		deferred.resolve(toReturn);
 	});
 	

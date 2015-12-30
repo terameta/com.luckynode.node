@@ -327,6 +327,7 @@ function getServerPoolDetailsDB(cSrv){
 	virshPool.getPoolDetailsDB(cSrv.store).
 	then(function(poolDetails){
 		cSrv.poolDetails = poolDetails;
+		tools.logger.info("getServerPoolDetailsDB is successful", cSrv, true);
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;

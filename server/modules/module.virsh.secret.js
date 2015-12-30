@@ -20,11 +20,13 @@ function get(toReturn){
 		return returner.prepare(result,'secret-list');
 	}).
 	then(function(secList){
-		console.log("SecList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
-		console.log(secList);
-		console.log("SecList<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<");
+		toReturn.poolsecret = '';
+		secList.forEach(function(curSecret){
+			if(curSecret.Usage == 'ceph client.'+toReturn.poolDetails.username+' secret') toReturn.poolsecret = curSecret.uuid;
+		});
 		deferred.resolve(toReturn);
 	});
+	
 	return deferred.promise;
 }
 

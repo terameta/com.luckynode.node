@@ -365,7 +365,7 @@ function composeDomainXML(cSrv){
 //	+	'				<host name=\'lncmon03.luckynode.com\' port=\'6789\'/>'															+ '\n'
 	+	'			</source>'																															+ '\n'
 	+	'			<auth username=\'libvirt\'>'																									+ '\n'
-   +	'			     <secret type=\'ceph\' uuid=\'84bc37a6-f446-455b-952c-2fb9427b13ec\' />'									+ '\n'
+   +	'			     <secret type=\'ceph\' uuid=\''+cSrv.poolsecret+'\' />'															+ '\n'
 	+	'			</auth>'																																+ '\n'
 	+	'			<target dev=\''+ (cSrv.diskdriver == 'ide' ? 'hda' : 'vda') +'\' bus=\''+ cSrv.diskdriver +'\'/>'		+ '\n'
 	+	'		</disk>'																																	+ '\n'
@@ -732,25 +732,6 @@ function vncAddress(cSrv){
 				deferred.reject(issue);
 			});
 		}
-	}).fail(function(issue) {
-		deferred.reject(issue);
-	});
-	return deferred.promise;
-}
-
-function ejectISOOLD(details){
-	tools.logger.info("serverEjectISO is called", details);
-	var deferred = Q.defer();
-	var theCommand = 'virsh change-media --domain '+ details.server +' --path '+ details.target +' --config --eject';
-	state({id: details.server}).then(function(result){
-		if(result.domstate == 'running'){
-			theCommand += ' --live';
-		}
-		tools.runLocalCommand(theCommand).then(function(result){
-			deferred.resolve(result);
-		}).fail(function(issue) {
-			deferred.reject(issue);
-		});
 	}).fail(function(issue) {
 		deferred.reject(issue);
 	});

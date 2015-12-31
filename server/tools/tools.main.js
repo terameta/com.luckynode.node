@@ -198,12 +198,12 @@ function spawnLocalCommand(command, args, preDeferred){
 	var toReturn = '';
 	var toError = '';
 	curCommand.stdout.on('data', function(data) {
-		console.log(">>>>>>>>>>>>>>>>>>>Spawner Data:", data);
+		console.log(">>>>>>>>>>>>>>>>>>>Spawner Data:", data.toString());
 		toReturn += data;
 	});
 	
 	curCommand.stderr.on('data', function(data) {
-		console.log(">>>>>>>>>>>>>>>>>>>Spawner Error:", data);
+		console.log(">>>>>>>>>>>>>>>>>>>Spawner Error:", data.toString());
 		toError += data;
 	});
 	

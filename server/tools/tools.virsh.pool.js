@@ -17,7 +17,7 @@ function createImage(newImage){
 		//tools.spawnLocalCommand("sudo rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile+ " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf").
 		var args = [
 			"ls",
-			"--keyring /etc/ceph/ceph.client.libvirt.keyring -c /etc/ceph/ceph.conf --id libvirt lnblocktier200"
+			"--keyring /etc/ceph/ceph.client.libvirt.keyring -c /etc/ceph/ceph.conf --id libvirt -p lnblocktier200"
 		];
 		tools.spawnLocalCommand("rbd", args).
 		then(function(result){

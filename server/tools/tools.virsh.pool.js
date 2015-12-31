@@ -13,6 +13,12 @@ function createImage(newImage){
 	var deferred = Q.defer();
 	console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
 	console.log(newImage);
+	tools.runLocalCommand('virsh vol-clone --vol '+newImage.baseDisk.Name+' --newname image-'+ newImage.id +' --pool '+newImage.targetPool.name +' --prealloc-metadata').
+	then(function(result){
+		console.log("Result:", result);
+	}).fail(function(issue){
+		console.log("Issue:", issue);
+	});
 	console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
 	deferred.resolve();
 	return deferred.promise;

@@ -18,7 +18,7 @@ function createImage(newImage){
 		var args = [
 			"ls",
 			"--keyring /etc/ceph/ceph.client.libvirt.keyring",
-			"-c /etc/ceph/ceph.conf"
+			"--conf /etc/ceph/ceph.conf"
 		];
 		tools.spawnLocalCommand("rbd", args).
 		then(function(result){

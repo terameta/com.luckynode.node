@@ -19,7 +19,7 @@ function createImage(newImage){
 			"ls",
 			"--keyring /etc/ceph/ceph.client.libvirt.keyring -c /etc/ceph/ceph.conf --id libvirt -p lnblocktier200"
 		];
-		tools.spawnLocalCommand("rbd", args).
+		tools.spawnLocalCommand("sudo rbd", args).
 		then(function(result){
 			deferred.resolve(result);
 			console.log("Result:", result);

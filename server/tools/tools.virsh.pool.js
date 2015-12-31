@@ -9,11 +9,12 @@ module.exports = {
 	createImage: createImage
 };
 
-function createImage(a,b,c){
+function createImage(newImage){
 	var deferred = Q.defer();
-	console.log(">>>>>>>>>>>>>>>>>>>>>>>>a:",a);
-	console.log(">>>>>>>>>>>>>>>>>>>>>>>>b:",b);
-	console.log(">>>>>>>>>>>>>>>>>>>>>>>>c:",c);
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
+	console.log(newImage);
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
+	deferred.resolve();
 	return deferred.promise;
 }
 

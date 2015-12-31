@@ -16,14 +16,10 @@ function createImage(newImage){
 	if(newImage.basePool.type == 'ceph'){
 		//tools.spawnLocalCommand("sudo rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile+ " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf").
 		var args = [
-			"cp",
-			newImage.basePool.name+"/"+newImage.baseDisk.Name,
-			newImage.targetPool.name+"/"+newImage.basefile,
-			"--keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring",
-			"--id "+newImage.basePool.username,
-			"-c /etc/ceph/ceph.conf"
+			"-lh",
+			"/etc/ceph/"
 		];
-		tools.spawnLocalCommand("rbd", args).
+		tools.spawnLocalCommand("ls", args).
 		then(function(result){
 			deferred.resolve(result);
 			console.log("Result:", result);

@@ -193,6 +193,8 @@ function runLocalCommand(command, resolveTo){
 
 function spawnLocalCommand(command, args, preDeferred){
 	var deferred = Q.defer();
+	console.log(command);
+	console.log(args);
 	logger.info("spawnLocalCommand called", {command:command, args:args});
 	var curCommand = spawn(command,args);
 	var toReturn = '';

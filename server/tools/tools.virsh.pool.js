@@ -11,12 +11,15 @@ module.exports = {
 
 function createImage(newImage){
 	var deferred = Q.defer();
+	tools.logger.info("createImage is called", newImage.basefile,true);
 	if(newImage.basePool.type == 'ceph'){
 		tools.runLocalCommand("sudo rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile+ " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf").
 		then(function(result){
+			tools.logger.info("createImage is finished", newImage.basefile,true);
 			deferred.resolve(result);
 			console.log("Result:", result);
 		}).fail(function(issue){
+			tools.logger.info("createImage is failed", newImage.basefile,true);
 			deferred.reject(issue);
 			console.log("Issue:", issue);
 		});

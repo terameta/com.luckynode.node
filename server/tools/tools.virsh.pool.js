@@ -11,15 +11,8 @@ module.exports = {
 
 function createImage(newImage){
 	var deferred = Q.defer();
-	console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
-	console.log(newImage);
 	if(newImage.basePool.type == 'ceph'){
-		//tools.spawnLocalCommand("sudo rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile+ " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf").
-		var args = [
-			"ls",
-			"--keyring /etc/ceph/ceph.client.libvirt.keyring -c /etc/ceph/ceph.conf --id libvirt -p lnblocktier200"
-		];
-		tools.spawnLocalCommand("sudo rbd", args).
+		tools.runLocalCommand("sudo rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile+ " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf").
 		then(function(result){
 			deferred.resolve(result);
 			console.log("Result:", result);

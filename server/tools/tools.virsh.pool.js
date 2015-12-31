@@ -13,14 +13,26 @@ function createImage(newImage){
 	var deferred = Q.defer();
 	console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
 	console.log(newImage);
-	tools.runLocalCommand('virsh vol-clone --vol '+newImage.baseDisk.Name+' --newname image-'+ newImage.id +' --pool '+newImage.targetPool.id +' --prealloc-metadata').
-	then(function(result){
-		console.log("Result:", result);
-	}).fail(function(issue){
-		console.log("Issue:", issue);
-	});
-	console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
-	deferred.resolve();
+	if(newImage.basePool.type == 'ceph'){
+		tools.runLocalCommand("rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile).
+		then(function(result){
+			deferred.resolve(result);
+			console.log("Result:", result);
+		}).fail(function(issue){
+			deferred.reject(issue);
+			console.log("Issue:", issue);
+		});
+	} else {
+		tools.runLocalCommand('virsh vol-clone --vol '+newImage.baseDisk.Name+' --newname image-'+ newImage.id +' --pool '+newImage.targetPool.id +' --prealloc-metadata').
+		then(function(result){
+			deferred.resolve(result);
+			console.log("Result:", result);
+		}).fail(function(issue){
+			deferred.reject(issue);
+			console.log("Issue:", issue);
+		});
+	}
+	
 	return deferred.promise;
 }
 

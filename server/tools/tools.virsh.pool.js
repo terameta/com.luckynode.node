@@ -5,8 +5,17 @@ var mongojs			= require('mongojs');
 
 module.exports = {
 	getFiles: getFiles,
-	getPoolDetailsDB: getPoolDetailsDB
+	getPoolDetailsDB: getPoolDetailsDB,
+	createImage: createImage
 };
+
+function createImage(a,b,c){
+	var deferred = Q.defer();
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>a:",a);
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>b:",b);
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>c:",c);
+	return deferred.promise;
+}
 
 function getFiles(cPool){
 	var deferred = Q.defer();

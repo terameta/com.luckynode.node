@@ -21,7 +21,6 @@ module.exports = {
 	nodeInterfaceList:		virshMain.nodeInterfaceList,
 	nodeBridgeAssign:			nodeBridgeAssign,
 	nodeBridgeDetach:			nodeBridgeDetach,
-	volCloneFromServer:		volCloneFromServer,
 	volDelete:					volDelete,
 	runVirsh:					runVirsh,
 	virshTools:					virshTools
@@ -39,44 +38,6 @@ function volDelete(cVol){
 	}).fail(function(issue) {
 		deferred.reject(issue);
 	});
-	return deferred.promise;
-}
-
-function volCloneFromServer(cSrv, cTarget){
-	tools.logger.info("volCloneFromServer is called");
-	var deferred = Q.defer();
-	virshTools.server.state(cSrv).
-		then(virshTools.server.shutdown).
-		then(function(cSrv){
-			var deferred = Q.defer();
-			serverWaitForShutDown(cSrv, deferred);
-			return deferred.promise;
-		}).
-		then(function(cSrv){
-			var deferred = Q.defer();
-			virshTools.server.diskList(cSrv).then(function(diskList){
-				diskList.forEach(function(curDisk){
-					console.log(curDisk);
-					if(curDisk.Target == 'vda' || curDisk.Target == 'hda'){
-						cTarget.pool = curDisk.Store;
-						cTarget.srcvol = curDisk.Name;
-					}
-				});
-				deferred.resolve(cSrv);
-			}).fail(deferred.reject);
-			return deferred.promise;
-		}).
-		then(function(cSrv){
-			volCloneFromServerStatusCheck(cSrv, cTarget, deferred);
-			console.log(cTarget);
-			return tools.runLocalCommand('virsh vol-clone --vol '+cTarget.srcvol+' --newname image-'+ cTarget.id +'.qcow2 --pool '+cTarget.pool+' --prealloc-metadata');
-			/*setTimeout(function(){
-				deferred.resolve();
-			}, 30000);
-			return deferred.promise;*/
-		}).
-		then(function(result){deferred.resolve(cTarget);}).
-		fail(deferred.reject);
 	return deferred.promise;
 }
 

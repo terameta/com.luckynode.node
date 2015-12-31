@@ -14,7 +14,7 @@ function createImage(newImage){
 	console.log(">>>>>>>>>>>>>>>>>>>>>>>>");
 	console.log(newImage);
 	if(newImage.basePool.type == 'ceph'){
-		tools.runLocalCommand("sudo rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile+ " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf").
+		tools.spawnLocalCommand("sudo rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile+ " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf").
 		then(function(result){
 			deferred.resolve(result);
 			console.log("Result:", result);

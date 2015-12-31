@@ -3,6 +3,7 @@ var bcrypt   		= require('bcrypt-nodejs');
 var jwt				= require('jsonwebtoken');
 var config 			= require('../config/config.main.js');
 var exec 			= require('child_process').exec;
+var spawn			= require('child_process').spawn;
 var fs 				= require("fs");
 var mongojs 		= require('mongojs');
 
@@ -72,6 +73,7 @@ module.exports = {
 	unfortunateWaiter:unfortunateWaiter,
 	runLocalCommand: runLocalCommand,
 	runLocalCommands: runLocalCommands,
+	spawnLocalCommand: spawnLocalCommand,
 	runIfLocalCommand: function(command, resolveTo, ifStat){
 		if(!ifStat){
 			var deferred = Q.defer();
@@ -184,6 +186,32 @@ function runLocalCommand(command, resolveTo){
 			} else {
 				deferred.resolve(stdout);
 			}
+		}
+	});
+	return deferred.promise;
+}
+
+function spawnLocalCommand(command, args, preDeferred){
+	var deferred = Q.defer();
+	logger.info("spawnLocalCommand called", {command:command, args:args});
+	var curCommand = spawn(command,args);
+	var toReturn = '';
+	var toError = '';
+	curCommand.stdout.on('data', function(data) {
+		console.log(">>>>>>>>>>>>>>>>>>>Spawner Data:", data);
+		toReturn += data;
+	});
+	
+	curCommand.stderr.on('data', function(data) {
+		console.log(">>>>>>>>>>>>>>>>>>>Spawner Error:", data);
+		toError += data;
+	});
+	
+	curCommand.on('exit', function(code) {
+		if(toError){
+			deferred.reject(toError);
+		} else {
+			deferred.resolve(toReturn);
 		}
 	});
 	return deferred.promise;

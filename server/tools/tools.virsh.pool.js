@@ -13,7 +13,14 @@ function createImage(newImage){
 	var deferred = Q.defer();
 	tools.logger.info("createImage is called", newImage.basefile,true);
 	if(newImage.basePool.type == 'ceph'){
-		tools.runLocalCommand("sudo rbd cp "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile+ " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf").
+		var authStr = " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf";
+		var snapname = "snap-"+newImage.baseDisk.Name;
+		var theCmds = [];
+		theCmds.push("sudo rbd mv "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile + authStr);
+		theCmds.push("sudo rbd snap create "+newImage.targetPool.name+"/"+newImage.basefile+"@"+snapname + authStr);
+		theCmds.push("sudo rbd snap protect "+newImage.targetPool.name+"/"+newImage.basefile+"@"+snapname + authStr);
+		theCmds.push("sudo rbd clone "+newImage.targetPool.name+"/"+newImage.basefile+"@"+snapname+" "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+authStr);
+		tools.runLocalCommands(theCmds).
 		then(function(result){
 			tools.logger.info("createImage is finished", newImage.basefile,true);
 			deferred.resolve(result);

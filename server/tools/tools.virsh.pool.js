@@ -14,7 +14,8 @@ function createImage(newImage){
 	tools.logger.info("createImage is called", newImage.basefile,true);
 	if(newImage.basePool.type == 'ceph'){
 		var authStr = " --keyring /etc/ceph/ceph.client."+newImage.basePool.username+".keyring --id "+newImage.basePool.username+" -c /etc/ceph/ceph.conf";
-		var snapname = "snap-"+newImage.baseDisk.Name;
+		// var snapname = "snap-"+newImage.baseDisk.Name; //this used to be the way I wanted to name the snapshots. Just doesn't make sense
+		var snapname = "basesnap";
 		var theCmds = [];
 		theCmds.push("sudo rbd mv "+newImage.basePool.name+"/"+newImage.baseDisk.Name+" "+newImage.targetPool.name+"/"+newImage.basefile + authStr);
 		theCmds.push("sudo rbd snap create "+newImage.targetPool.name+"/"+newImage.basefile+"@"+snapname + authStr);

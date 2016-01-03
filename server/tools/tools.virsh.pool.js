@@ -52,7 +52,7 @@ function getFiles(cPool){
 
 function getPoolDetailsDB(id){
 	var deferred = Q.defer();
-	tools.db.storages.findOne({_id:mongojs.ObjectId(id)}, function(err, pool){
+	tools.db.storages.findOne({_id:mongojs.ObjectId(id)}, {key:0},function(err, pool){
 		if(err){
 			deferred.reject(err);
 		} else if(!pool){

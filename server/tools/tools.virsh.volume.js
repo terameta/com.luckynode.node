@@ -15,6 +15,13 @@ function create(diskName, pool, size, type, bVol){
 	
 	virshPool.getPoolDetailsDB(pool).then(function(poolDetails){
 		tools.logger.info("CreateVolume Pool Details Received", pool);
+		console.log("We are creating disk");
+		console.log("DiskName:", diskName);
+		console.log("pool:", pool);
+		console.log("size:",size);
+		console.log("Type:", type);
+		console.log("bVol:", bVol);
+		console.log("PoolDetailsFromDB:",poolDetails);
 		
 		var theCmd  = 	'virsh vol-create-as --pool '+ pool;
 			theCmd +=	' --name '+ diskName;

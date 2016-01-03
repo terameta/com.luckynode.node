@@ -36,10 +36,10 @@ function create(diskName, pool, size, type, bVol){
 			theCmd = "sudo rbd clone "+poolDetails.name+"/"+bVol+"@basesnap "+poolDetails.name+"/"+diskName+" "+authStr;
 		}
 			
-		tools.logger.info('createVolume command', theCmd);
+		tools.logger.info('createVolume command', theCmd, true);
 		tools.runLocalCommand(theCmd).
-			then(function(result){ tools.logger.info('createVolume succeeded', result); 	deferred.resolve(result); }).
-			fail(function(issue){ tools.logger.error('createVolume failed', issue);			deferred.reject(issue); });
+			then(function(result){ tools.logger.info('createVolume succeeded', result, true); 	deferred.resolve(result); }).
+			fail(function(issue){ tools.logger.error('createVolume failed', issue, true);			deferred.reject(issue); });
 		
 	}).fail(deferred.reject);
 	

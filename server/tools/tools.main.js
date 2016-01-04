@@ -14,9 +14,10 @@ var whoamid			= whoami.whoamid;
 var dbconfig;
 
 try {
-	//console.log(fs.readFileSync("dbconf.conf", "utf8"));
+	
 	console.log(fs.readdirSync('./'));
 	console.log("we are currently here");
+	console.log(fs.readFileSync("dbconf.conf", "utf8"));
 	dbconfig = JSON.parse(fs.readFileSync("./dbconf.conf", "utf8"));
 	console.log("we are currently here too");
 	//console.log("dbconfig exists");

@@ -276,6 +276,15 @@ function define(cSrv){
 }
 
 function writeDHCPItem(cSrv){
+	var deferred = Q.defer();
+	killdnsmasq(cSrv).
+	then(writeDHCPItemAction).
+	then(deferred.resolve).
+	fail(deferred.reject);
+	return deferred.promise;
+}
+
+function writeDHCPItemAction(cSrv){
 	console.log("writeServerDHCPItem is called", cSrv);
 	var deferred = Q.defer();
 	var theCommands = [];
@@ -665,6 +674,34 @@ function getNBDPID(cSrv){
 		for(var i = 0; i < result.length; i++){
 			if(result[i].indexOf(cSrv.id) >= 0){
 				cSrv.NBDPID = tools.splitBySpace(result[i])[1];
+			}
+		}
+		deferred.resolve(cSrv);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function killdnsmasq(cSrv){
+	var deferred = Q.defer();
+	getdnsmasqPID(cSrv).then(function(cSrv){
+		if(cSrv.dmPID > 0){
+			tools.runLocalCommand("sudo kill -SIGTERM "+cSrv.dmPID).then(function(result){
+				deferred.resolve(cSrv);
+			}).fail(deferred.reject);
+		}
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function getdnsmasqPID(cSrv){
+	var deferred = Q.defer();
+	var curCommand = "ps aux";
+	tools.runLocalCommand(curCommand).then(function(result) {
+		result = result.trim().split('\n');
+		cSrv.dmPID = 0;
+		for(var i = 0; i < result.length; i++){
+			if(result[i].indexOf("dnsmasq") >= 0){
+				cSrv.dmPID = tools.splitBySpace(result[i])[1];
 			}
 		}
 		deferred.resolve(cSrv);

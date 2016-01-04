@@ -16,7 +16,7 @@ var dbconfig;
 try {
 	//console.log(fs.readFileSync("dbconf.conf", "utf8"));
 	console.log(fs.readdirSync('./'));
-	dbconfig = JSON.parse(fs.readFileSync("dbconf.conf", "utf8"));
+	dbconfig = JSON.parse(fs.readFileSync("./dbconf.conf", "utf8"));
 	//console.log("dbconfig exists");
 }
 catch (err) {

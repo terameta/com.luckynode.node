@@ -99,7 +99,7 @@ function nodeInterfaceList(){
 }
 
 function refreshDHCPConfig(){
-	tools.logger.info("refreshDHCPConfig is called");
+	tools.logger.info("refreshDHCPConfig is called", true, true);
 	var interfaceString = '';
 	var deferred = Q.defer();
 	var theCommands = [];
@@ -119,10 +119,10 @@ function refreshDHCPConfig(){
 		theCommands.push('cd && sudo sh -c "cat dhcpd.conf.head dhcpd.conf.body* > /etc/dhcp/dhcpd.conf"');
 		theCommands.push('sudo service isc-dhcp-server restart');
 		tools.runLocalCommands(theCommands).then(function(result) {
-			tools.logger.info("refreshDHCPConfig succeeded with interfaces:"+interfaceString, result);
+			tools.logger.info("refreshDHCPConfig succeeded with interfaces:"+interfaceString, result, true);
 			deferred.resolve(result);
 		}).fail(function(issue) {
-			tools.logger.error("refreshDHCPConfig failed with interfaces:"+interfaceString, issue);
+			tools.logger.error("refreshDHCPConfig failed with interfaces:"+interfaceString, issue, true);
 			deferred.reject(issue);
 		});
 	}).fail(function(issue) {

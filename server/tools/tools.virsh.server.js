@@ -498,6 +498,7 @@ function findFreeNBD(cSrv){
 		}
 		if(numNBD.length > 0 && !shouldReject){
 			cSrv.targetNBD = numNBD[0];
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Found free NBD", cSrv.targetNBD);
 			deferred.resolve(cSrv);
 		} else if(shouldReject){
 			deferred.reject("This virtual server is already mounted to an NBD device. Kill the assignment.");

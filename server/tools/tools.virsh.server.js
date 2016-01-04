@@ -216,6 +216,7 @@ function stateUpdate(cSrvID){
 	list().then(function(result){
 		result.forEach(function(curDom){
 			if(curDom.Name == cSrvID){
+				console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>CurDom");
 				tools.db.servers.update({_id: mongojs.ObjectId(cSrvID)}, {$set: {status: curDom.State, domstate: curDom.State}}, function(err, data){
 					if(err){
 						console.log("Server Status update on db failed:",err);

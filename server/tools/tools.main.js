@@ -19,7 +19,7 @@ try {
 	//console.log("dbconfig exists");
 }
 catch (err) {
-	console.log("dbconfig doesn't exist");
+	console.log("===dbconfig doesn't exist");
 	// If the type is not what you want, then just throw the error again.
 	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
 	if (err.code !== 'ENOENT') throw err;

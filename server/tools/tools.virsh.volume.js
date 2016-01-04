@@ -31,7 +31,7 @@ function create(diskName, pool, size, type, bVol){
 			if(poolDetails.type== 'NFS') theCmd +=	(bVol != 'CreateNew' ? ' --backing-vol '+ bVol : '');
 			if(poolDetails.type== 'NFS') theCmd +=	(bVol != 'CreateNew' ? ' --backing-vol-format qcow2' : '');
 		
-		if(poolDetails.type=='ceph'){
+		if(poolDetails.type=='ceph' && bVol != 'CreateNew'){
 			var authStr = " --keyring /etc/ceph/ceph.client."+poolDetails.username+".keyring --id "+poolDetails.username+" -c /etc/ceph/ceph.conf";
 			theCmd = "sudo rbd clone "+poolDetails.name+"/"+bVol+"@basesnap "+poolDetails.name+"/"+diskName+" "+authStr;
 		}

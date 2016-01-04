@@ -690,6 +690,8 @@ function killdnsmasq(cSrv){
 			tools.runLocalCommand("sudo kill -SIGTERM "+cSrv.dmPID).then(function(result){
 				deferred.resolve(cSrv);
 			}).fail(deferred.reject);
+		} else {
+			deferred.resolve(cSrv);
 		}
 	}).fail(deferred.reject);
 	return deferred.promise;
@@ -707,6 +709,7 @@ function getdnsmasqPID(cSrv){
 				cSrv.dmPID = tools.splitBySpace(result[i])[1];
 			}
 		}
+		console.log("=============================================================dnsmsqPID", cSrv.dmPID);
 		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;

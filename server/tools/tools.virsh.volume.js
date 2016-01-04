@@ -48,6 +48,8 @@ function create(diskName, pool, size, type, bVol){
 
 function resize(name, pool, capacity){
 	var deferred = Q.defer();
+	var commandList = [];
+	commandList.push("virsh pool-refresh --pool " + pool);
 	var curCommand = "sudo virsh vol-resize --vol "+ name +" --pool "+ pool +" --capacity "+ capacity +"G";
 	tools.runLocalCommand(curCommand).then(function(result) {
 		deferred.resolve(result);

@@ -303,10 +303,10 @@ function writeDHCPItemAction(cSrv){
 	tools.runLocalCommands(theCommands).
 		then(virshMain.refreshDHCPConfig).
 		then(function(result){
-			console.log("writeServerDHCPItem is succeeded", cSrv);
+			console.log("====================================================================writeServerDHCPItem is succeeded", cSrv);
 			deferred.resolve(cSrv);
 		}).fail(function(issue){
-			tools.logger.error("writeServerDHCPItem is failed", issue);
+			tools.logger.error("====================================================================writeServerDHCPItem is failed", issue, true);
 			deferred.reject(issue);
 		});
 	return deferred.promise;

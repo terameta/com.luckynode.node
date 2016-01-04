@@ -684,6 +684,7 @@ function getNBDPID(cSrv){
 
 function killdnsmasq(cSrv){
 	var deferred = Q.defer();
+	console.log("=============================================================killdnsmasq");
 	getdnsmasqPID(cSrv).then(function(cSrv){
 		if(cSrv.dmPID > 0){
 			tools.runLocalCommand("sudo kill -SIGTERM "+cSrv.dmPID).then(function(result){
@@ -696,6 +697,7 @@ function killdnsmasq(cSrv){
 
 function getdnsmasqPID(cSrv){
 	var deferred = Q.defer();
+	console.log("=============================================================getdnsmasqPID");
 	var curCommand = "ps aux";
 	tools.runLocalCommand(curCommand).then(function(result) {
 		result = result.trim().split('\n');

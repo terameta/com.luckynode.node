@@ -526,6 +526,8 @@ function findNumberofNBD(){
 
 function lockFreeNBD(cSrv){
 	var deferred = Q.defer();
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>We are at lockFreeNBD", cSrv.targetNBD);
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Pool Details are as: ", cSrv.poolDetails.type);
 	var curCommand = "sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/disk-"+cSrv.id+"-vda.qcow2";
 	tools.runLocalCommand(curCommand).then(function(result){
 		console.log("lockFreeNBD finish");

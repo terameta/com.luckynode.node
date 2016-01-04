@@ -277,6 +277,7 @@ function define(cSrv){
 
 function writeDHCPItem(cSrv){
 	var deferred = Q.defer();
+	console.log("=============================================================writeDHCPItem");
 	killdnsmasq(cSrv).
 	then(writeDHCPItemAction).
 	then(deferred.resolve).

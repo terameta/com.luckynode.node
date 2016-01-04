@@ -15,15 +15,15 @@ var dbconfig;
 
 try {
 	
-	console.log(fs.readdirSync('./'));
-	console.log("we are currently here");
-	console.log(fs.readFileSync("dbconf.conf", "utf8"));
+	//console.log(fs.readdirSync('./'));
+	//console.log("we are currently here");
+	//console.log(fs.readFileSync("dbconf.conf", "utf8"));
 	dbconfig = JSON.parse(fs.readFileSync("./dbconf.conf", "utf8"));
-	console.log("we are currently here too");
+	//console.log("we are currently here too");
 	//console.log("dbconfig exists");
 }
 catch (err) {
-	console.log("===dbconfig doesn't exist");
+	console.log("dbconfig doesn't exist for tools.main.js");
 	// If the type is not what you want, then just throw the error again.
 	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
 	if (err.code !== 'ENOENT') throw err;

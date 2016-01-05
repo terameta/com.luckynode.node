@@ -478,6 +478,7 @@ function vdaResize(cSrv){
 
 function enableNBD(cSrv){
 	var deferred = Q.defer();
+	console.log(cSrv);
 	var curCommand = 'sudo modprobe nbd max_part=63 nbds_max=64';
 	tools.runLocalCommand(curCommand).then(function(result) {
 		console.log("enableNBD Finish");

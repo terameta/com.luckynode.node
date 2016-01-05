@@ -294,7 +294,7 @@ function writeDHCPItemAction(cSrv){
 	var nameservers = [];
 		if(cSrv.nameserver1) nameservers.push(cSrv.nameserver1);
 		if(cSrv.nameserver2) nameservers.push(cSrv.nameserver2);
-	var theContent  = 'host '+ cSrv.id + '{';
+	var theContent  = 'host '+ cSrv.id + '{\n';
 		theContent += '	hardware ethernet '+ cSrv.mac +';\n';
 		theContent += '	option routers '+ cSrv.gateway +';\n';
 		theContent += '	option subnet-mask '+ cSrv.netmask +';\n';

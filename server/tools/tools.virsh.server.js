@@ -295,11 +295,11 @@ function writeDHCPItemAction(cSrv){
 		if(cSrv.nameserver1) nameservers.push(cSrv.nameserver1);
 		if(cSrv.nameserver2) nameservers.push(cSrv.nameserver2);
 	var theContent  = 'host '+ cSrv.id + '{';
-		theContent += '  hardware ethernet '+ cSrv.mac +';\\n';
-		theContent += '  option routers '+ cSrv.gateway +';\\n';
-		theContent += '  option subnet-mask '+ cSrv.netmask +';\\n';
-		theContent += '  fixed-address '+ cSrv.ip +';\\n';
-		theContent += '  option domain-name-servers '+ nameservers.join(',') +';\\n';
+		theContent += '  hardware ethernet '+ cSrv.mac +';\\\\n';
+		theContent += '  option routers '+ cSrv.gateway +';\\\\n';
+		theContent += '  option subnet-mask '+ cSrv.netmask +';\\\\n';
+		theContent += '  fixed-address '+ cSrv.ip +';\\\\n';
+		theContent += '  option domain-name-servers '+ nameservers.join(',') +';\\\\n';
 		theContent += '}';
 	
 	theCommands.push('cd && echo "'+ theContent +'" > dhcpd.conf.body.'+cSrv.id);

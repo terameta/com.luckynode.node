@@ -556,7 +556,7 @@ function lockFreeNBD(cSrv){
 	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Command is: ", curCommand);
 	tools.runLocalCommand(curCommand).then(function(result){
 		console.log("lockFreeNBD finish");
-		cSrv.assignedRBDDevice = result;
+		cSrv.assignedRBDDevice = result.toString().trim();
 		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Result is: ", cSrv.assignedRBDDevice);
 		deferred.resolve(cSrv);
 	}).fail(function(issue){

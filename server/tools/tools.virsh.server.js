@@ -553,9 +553,11 @@ function lockFreeNBD(cSrv){
 	if(cSrv.imageType == 'ceph'){
 		curCommand = "sudo rbd map "+cSrv.poolDetails.name+"/"+cSrv.diskName+" -k /etc/ceph/ceph.client."+cSrv.poolDetails.username+".keyring --name client."+cSrv.poolDetails.username;
 	}
-	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Pool Details are as: ", curCommand);
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Command is: ", curCommand);
 	tools.runLocalCommand(curCommand).then(function(result){
 		console.log("lockFreeNBD finish");
+		cSrv.assignedRBDDevice = result;
+		console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Result is: ", cSrv.assignedRBDDevice);
 		deferred.resolve(cSrv);
 	}).fail(function(issue){
 		deferred.reject(issue);

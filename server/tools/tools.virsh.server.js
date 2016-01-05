@@ -479,6 +479,10 @@ function vdaResize(cSrv){
 function enableNBD(cSrv){
 	var deferred = Q.defer();
 	console.log(cSrv);
+	if(cSrv.imageType == 'ceph'){
+		deferred.resolve(cSrv);
+		return deferred.promise;
+	}
 	var curCommand = 'sudo modprobe nbd max_part=63 nbds_max=64';
 	tools.runLocalCommand(curCommand).then(function(result) {
 		console.log("enableNBD Finish");
@@ -489,6 +493,10 @@ function enableNBD(cSrv){
 
 function findFreeNBD(cSrv){
 	var deferred = Q.defer();
+	if(cSrv.imageType == 'ceph'){
+		deferred.resolve(cSrv);
+		return deferred.promise;
+	}
 	var numNBD = findNumberofNBD();
 	var shouldReject = false;
 	var curCommand = 'ps aux | grep qemu-nbd';
@@ -542,6 +550,10 @@ function lockFreeNBD(cSrv){
 	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>We are at lockFreeNBD", cSrv.targetNBD);
 	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Pool Details are as: ", cSrv.poolDetails.type);
 	var curCommand = "sudo qemu-nbd -c "+ cSrv.targetNBD +" /mnt/luckynodepools/"+cSrv.store+"/disk-"+cSrv.id+"-vda.qcow2";
+	if(cSrv.imageType == 'ceph'){
+		curCommand = "sudo rbd map "+cSrv.poolDetails.name+"/"+cSrv.diskName+" -k /etc/ceph/ceph.client."+cSrv.poolDetails.username+".keyring --name client."+cSrv.poolDetails.username;
+	}
+	console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>Pool Details are as: ", curCommand);
 	tools.runLocalCommand(curCommand).then(function(result){
 		console.log("lockFreeNBD finish");
 		deferred.resolve(cSrv);

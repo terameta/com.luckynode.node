@@ -662,6 +662,9 @@ function releaseNBD(cSrv){
 	console.log("releaseNBD============================================================");
 	console.log("releaseNBD============================================================");
 	console.log("releaseNBD============================================================");
+	if(cSrv.imageType == 'ceph'){
+		return releaseRBD(cSrv);
+	}
 	var deferred = Q.defer();
 	getNBDPID(cSrv).then(function(result){
 		if(cSrv.NBDPID > 0){
@@ -679,6 +682,23 @@ function releaseNBD(cSrv){
 			console.log("There is no NBD process attached to this server");
 			deferred.resolve(cSrv);
 		}
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
+
+function releaseRBD(cSrv){
+	var deferred = Q.defer();
+	console.log("releaseRBD", cSrv.id);
+	console.log("releaseRBD============================================================");
+	console.log("releaseRBD============================================================");
+	console.log("releaseRBD============================================================");
+	var curCommand = "sudo rbd unmap "+cSrv.targetNBD;
+	tools.runLocalCommand(curCommand).
+	then(function(result){
+		console.log("releaseRBD==========================================================OK");
+		console.log("releaseRBD==========================================================OK");
+		console.log("releaseRBD==========================================================OK");
+		deferred.resolve(cSrv);
 	}).fail(deferred.reject);
 	return deferred.promise;
 }

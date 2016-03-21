@@ -114,7 +114,7 @@ function refreshDHCPConfig(){
 		theCommands.push('sudo sh -c \'echo INTERFACE=\\\"'+ interfaceString +'\\\" > /etc/default/isc-dhcp-server\'');
 		theCommands.push('cd && echo "subnet 0.0.0.0 netmask 0.0.0.0 {" 									> dhcpd.conf.head');
 		theCommands.push('cd && echo "	authoritative;" 													>> dhcpd.conf.head');
-		theCommands.push('cd && echo "	default-lease-time 21600000;								 		>> dhcpd.conf.head');
+		theCommands.push('cd && echo "	default-lease-time 21600000;"								 		>> dhcpd.conf.head');
 		theCommands.push('cd && echo "	max-lease-time 432000000;" 											>> dhcpd.conf.head');
 		theCommands.push('cd && echo "}" 																	>> dhcpd.conf.head');
 		theCommands.push('cd && echo "ddns-update-style none;" >> dhcpd.conf.head');

@@ -36,7 +36,7 @@ function create(diskName, pool, size, type, bVol){
 			theCmd = "sudo rbd clone "+poolDetails.name+"/"+bVol+"@basesnap "+poolDetails.name+"/"+diskName+" "+authStr;
 		}
 		
-		if(poolDetails.type=='ceph' && bVol != 'CreateNew'){
+		if(poolDetails.type=='ceph' && bVol == 'CreateNew'){
 			theCmd = "sudo qemu-img create -f rbd rbd:"+poolDetails.name+"/"+diskName+" "+size+"G";
 		}
 		

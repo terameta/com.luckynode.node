@@ -303,7 +303,13 @@ function writeDHCPItemAction(cSrv){
 		theContent += '	option domain-name-servers '+ nameservers.join(',') +';\n';
 		theContent += '}';
 	
-	theCommands.push('cd && echo -e "'+ theContent +'" > dhcpd.conf.body.'+cSrv.id);
+	theCommands.push('cd && echo "host '+ cSrv.id + '{" 														> dhcpd.conf.body.'+cSrv.id);
+	theCommands.push('cd && echo "	hardware ethernet '+ cSrv.mac +';" 									>> dhcpd.conf.body.'+cSrv.id);
+	theCommands.push('cd && echo "	option routers '+ cSrv.gateway +';" 								>> dhcpd.conf.body.'+cSrv.id);
+	theCommands.push('cd && echo "	option subnet-mask '+ cSrv.netmask +';" 							>> dhcpd.conf.body.'+cSrv.id);
+	theCommands.push('cd && echo "	fixed-address '+ cSrv.ip +';" 										>> dhcpd.conf.body.'+cSrv.id);
+	theCommands.push('cd && echo "	option domain-name-servers '+ nameservers.join(',') +';" 	>> dhcpd.conf.body.'+cSrv.id);
+	theCommands.push('cd && echo "}" >> dhcpd.conf.body.'+cSrv.id);
 	tools.runLocalCommands(theCommands).
 		then(virshMain.refreshDHCPConfig).
 		then(function(result){

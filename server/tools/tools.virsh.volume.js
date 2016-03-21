@@ -35,9 +35,17 @@ function create(diskName, pool, size, type, bVol){
 			var authStr = " --keyring /etc/ceph/ceph.client."+poolDetails.username+".keyring --id "+poolDetails.username+" -c /etc/ceph/ceph.conf";
 			theCmd = "sudo rbd clone "+poolDetails.name+"/"+bVol+"@basesnap "+poolDetails.name+"/"+diskName+" "+authStr;
 		}
+		
+		if(poolDetails.type=='ceph' && bVol != 'CreateNew'){
+			theCmd = "sudo qemu-img create -f rbd rbd:"+poolDetails.name+"/"+diskName+" "+size+"G";
+		}
+		
+		var refreshCMD = "virsh pool-refresh --pool "+poolDetails.name;
+		
+		
 			
 		tools.logger.info('createVolume command', theCmd, true);
-		tools.runLocalCommand(theCmd).
+		tools.runLocalCommands([theCmd, refreshCMD]).
 			then(function(result){ tools.logger.info('createVolume succeeded', result, true); 	deferred.resolve(result); }).
 			fail(function(issue){ tools.logger.error('createVolume failed', issue, true);			deferred.reject(issue); });
 		

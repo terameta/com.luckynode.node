@@ -40,7 +40,7 @@ function create(diskName, pool, size, type, bVol){
 			theCmd = "sudo qemu-img create -f rbd rbd:"+poolDetails.name+"/"+diskName+" "+size+"G";
 		}
 		
-		var refreshCMD = "virsh pool-refresh --pool "+poolDetails.name;
+		var refreshCMD = "virsh pool-refresh --pool "+poolDetails._id;
 		
 		
 			

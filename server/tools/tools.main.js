@@ -143,7 +143,7 @@ function waitWithServer(cSrv){
 }
 
 function runLocalCommands(commandList){
-	logger.info("runLocalCommands called", commandList);
+	logger.info("runLocalCommands called", commandList, true);
 	var deferred = Q.defer();
 	if(commandList.length > 0){
 		var curCommand = commandList.shift();
@@ -183,7 +183,7 @@ function runLocalCommand(command, resolveTo){
 			console.log("stderr", stderr);
 			deferred.reject(stderr);
 		} else {
-			logger.info("runLocalCommand succeeded", command);
+			logger.info("runLocalCommand succeeded", command, true);
 			if(resolveTo){
 				deferred.resolve(resolveTo);
 			} else {

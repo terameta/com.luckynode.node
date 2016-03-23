@@ -47,6 +47,7 @@ function createImage(newImage){
 
 function getFiles(cPool){
 	var deferred = Q.defer();
+	console.log("We are getting files");
 	var commandList = [];
 	commandList.push("virsh pool-refresh --pool "+cPool.id);
 	commandList.push("virsh vol-list --pool "+ cPool.id +" --details");

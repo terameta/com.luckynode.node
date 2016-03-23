@@ -48,10 +48,9 @@ function createImage(newImage){
 function getFiles(cPool){
 	var deferred = Q.defer();
 	console.log("We are getting files", cPool.id);
-	var commandList = [];
-	commandList.push("virsh pool-refresh --pool "+cPool.id);
-	commandList.push("virsh vol-list --pool "+ cPool.id +" --details");
-	tools.runLocalCommands(commandList).then(function(result){ console.log("===", result); return returner.prepare(result, 'vol-list') }).then(deferred.resolve).fail(deferred.reject);
+	tools.runLocalCommand("virsh pool-refresh --pool "+cPool.id).then(function(){
+		return tools.runLocalCommand("virsh vol-list --pool "+ cPool.id +" --details");
+	}).then(function(result){ console.log("===", result); return returner.prepare(result, 'vol-list') }).then(deferred.resolve).fail(deferred.reject);
 	return deferred.promise;
 }
 

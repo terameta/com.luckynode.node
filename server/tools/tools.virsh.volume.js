@@ -38,6 +38,7 @@ function create(diskName, pool, size, type, bVol){
 		
 		if(poolDetails.type=='ceph' && bVol == 'CreateNew'){
 			theCmd = "sudo rbd create --image-format 2 "+poolDetails.name+"/"+diskName+" --size "+parseInt(size,10)*1024;
+			
 		}
 		
 		var refreshCMD = "virsh pool-refresh --pool "+poolDetails._id;

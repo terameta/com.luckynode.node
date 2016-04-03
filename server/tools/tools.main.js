@@ -19,8 +19,8 @@ try {
 	//console.log("we are currently here");
 	//console.log(fs.readFileSync("dbconf.conf", "utf8"));
 	dbconfig = JSON.parse(fs.readFileSync("./dbconf.conf", "utf8"));
-	//console.log("we are currently here too");
-	//console.log("dbconfig exists");
+	console.log("we are currently here too");
+	console.log("dbconfig exists");
 }
 catch (err) {
 	console.log("dbconfig doesn't exist for tools.main.js");

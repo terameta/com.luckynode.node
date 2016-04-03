@@ -42,6 +42,7 @@ catch (err) {
 	// Handle a file-not-found error aa
 }
 
+console.log(dbconfig);
 var cloudConnStr	= dbconfig.connstr;
 var cloudColls		= ['logs', 'servers', 'nodes','storages'];
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });

@@ -68,7 +68,6 @@ var logger = {
 	error:	function(message, metadata, shouldLogToConsole){ this.log('error', 	message, metadata, shouldLogToConsole); }
 };
 
-
 module.exports = {
 	whoami: whoami,
 	whoamid: whoamid,

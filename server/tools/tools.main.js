@@ -26,6 +26,7 @@ catch (err) {
 	console.log("dbconfig doesn't exist for tools.main.js");
 	// If the type is not what you want, then just throw the error again.
 	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
+	console.log(curManagers);
 	if (err.code !== 'ENOENT') throw err;
 	console.log(curManagers);
 	sendHTTPSRequest(curManagers[0], '/api/getDBConfigForNode', false).then(function(result){

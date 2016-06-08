@@ -18,6 +18,7 @@ module.exports = {
 	poolDefine: 				poolDefine,
 	poolsRemove: 				poolsRemove,
 	poolRemove: 				poolRemove,
+	secretDefine:				secretDefine,
 	nodeInterfaceList:		virshMain.nodeInterfaceList,
 	nodeBridgeAssign:			nodeBridgeAssign,
 	nodeBridgeDetach:			nodeBridgeDetach,
@@ -28,6 +29,18 @@ module.exports = {
 
 function runVirsh(details){
 	return virshTools[details.region][details.command](details.details);
+}
+
+function secretDefine(curPool){
+	var deferred = Q.defer();
+	console.log(curPool);
+	poolSaveSecretXML(curPool).
+	then(poolDefineVirshSecret).
+	then(poolSecretSetValue).
+	then(function(curPool){
+		deferred.resolve("OK");
+	}).fail(deferred.reject);
+	return deferred.promise;
 }
 
 function volDelete(cVol){
@@ -234,7 +247,7 @@ function poolDefineVirshSecret(curPool){
 		console.log("Returner Result:\n",result);
 		curPool.shouldDefineSecret = true;
 		result.forEach(function(curResult){
-			if(curResult.Usage == 'ceph client.'+curPool.username+' secret'){
+			if(curResult.Usage == 'ceph '+curPool.name+' secret'){
 				curPool.shouldDefineSecret = false;
 				curPool.secretuuid = curResult.UUID;
 			}

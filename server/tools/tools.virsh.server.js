@@ -881,7 +881,7 @@ function attachISO(details){
 		theXML += "	<source protocol='rbd' name='"+poolDetails.name+"/"+details.iso+"' />\n";
 		theXML += "	<target dev='"+details.target+"' />\n";
 		theXML += "	<readonly />\n";
-		theXML += "	<driver name='qemu' type='raw' cache='writethrough' />\n";
+		theXML += "	<driver name='qemu' type='raw' />\n";
 		theXML += "	<auth username='"+poolDetails.username+"'>\n";
 		theXML += "		<secret type='ceph' uuid='"+selectedUUID+"' />\n";
 		theXML += "	</auth>\n";

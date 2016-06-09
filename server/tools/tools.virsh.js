@@ -252,7 +252,7 @@ function poolDefineVirshSecret(curPool){
 		console.log("Returner Result:\n",result);
 		curPool.shouldDefineSecret = true;
 		result.forEach(function(curResult){
-			if(curResult.Usage == 'ceph '+curPool.name+' secret'){
+			if(curResult.Usage == 'ceph '+curPool.rbdname+' secret'){
 				curPool.shouldDefineSecret = false;
 				curPool.secretuuid = curResult.UUID;
 			}

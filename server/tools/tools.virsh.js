@@ -229,7 +229,7 @@ function poolSaveSecretXML(curPool){
 	console.log(curPool);
 	console.log("=============================================================");
 	console.log("=============================================================");
-	curPool.secretXML = "<secret ephemeral='no' private='yes'><uuid>"+curPool.secretuuid+"</uuid><usage type='ceph'><name>"+curPool.name+" secret</name></usage></secret>";
+	curPool.secretXML = "<secret ephemeral='no' private='yes'><uuid>"+curPool.secretuuid+"</uuid><usage type='ceph'><name>"+curPool.rbdname+" secret</name></usage></secret>";
 	curPool.secretFile = '/tmp/'+curPool.id+'-secret.xml';
 	fs.writeFile(curPool.secretFile, curPool.secretXML, function(err) {
 		if (err){

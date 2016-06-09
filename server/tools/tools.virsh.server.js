@@ -872,6 +872,10 @@ function attachISO(details){
 			console.log(curSecret, poolDetails.username);
 			if(curSecret.Usage == 'ceph client.'+poolDetails.username+' secret') selectedUUID = curSecret.UUID;
 		});
+		poolDetails.secretList.forEach(function(curSecret){
+			console.log(curSecret, poolDetails.username);
+			if(curSecret.Usage == 'ceph '+poolDetails.name+' secret') selectedUUID = curSecret.UUID;
+		});
 		var theXML = '';
 		theXML += "<disk type='network' device='cdrom'>\n";
 		theXML += "	<source protocol='rbd' name='"+poolDetails.name+"/"+details.iso+"' />\n";

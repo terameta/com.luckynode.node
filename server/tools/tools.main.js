@@ -187,7 +187,6 @@ function defineSSH(){
 				nodes.forEach(function(curNode){
 					refObject.nodeKeys.push(curNode.pubkey);
 				});
-				console.log(refObject.nodeKeys);
 				deferred.resolve(refObject);
 			}
 		});

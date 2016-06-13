@@ -192,7 +192,7 @@ function defineSSH(){
 			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			var curCommand = "echo '" + refObject.nodeKeys[i] + "' >> " + getUserHome() + "/.ssh/authorized_keys";
-			writeLocalKeyAction(curCommand, i);
+			if(!doWeHave) writeLocalKeyAction(curCommand, i);
 			console.log(i, doWeHave, refObject.nodeKeys[i]);
 			//console.log(curCommand);
 		}

@@ -166,7 +166,7 @@ function defineSSH(){
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
 	
 	function createSSHKeys(refObject){
-		var deferred = Q.defe();
+		var deferred = Q.defer();
 		if(refObject.doWeHaveSSHKeys){
 			deferred.resolve(refObject);
 		} else {

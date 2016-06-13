@@ -21,11 +21,11 @@ function define(refObject){
 	return deferred.promise;
 }
 
-function exists(curPool){
+function exists(refObject){
 	var deferred = Q.defer();
 	list().then(function(secretList){
 		secretList.forEach(function(curSecret){
-			console.log("Exists:", curSecret);
+			console.log("Exists:", curSecret.UUID, refObject.secretuuid);
 		});
 	}).fail(deferred.reject);
 	return deferred.promise;

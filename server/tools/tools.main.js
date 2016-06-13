@@ -171,9 +171,15 @@ function defineSSH(){
 	
 	function readLocalPubKeys(refObject){
 		var deferred = Q.defer();
-		refObject.pubkey = fs.readFileSync(getUserHome()+"/.ssh/authorized_keys", "utf-8").toString().trim();
-		console.log(refObject);
-		deferred.resolve(refObject);
+		fs.readFile(getUserHome()+"/.ssh/authorized_keys", "utf-8", function(err, data){
+			if(err){
+				refObject.localkeys = false;
+			} else {
+				refObject.localkeys = data;
+				console.log(refObject);
+				deferred.resolve(refObject);
+			}
+		});
 		return deferred.promise;
 	}
 	

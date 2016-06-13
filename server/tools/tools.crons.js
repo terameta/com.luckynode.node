@@ -21,6 +21,7 @@ module.exports = function(db){
 
 function everytensecs(){
 	 console.log(new Date());
+	 console.log(getUserHome());
 	 virsh.virshTools.server.list().then(function(serverList){
 	 	serverList.forEach(function(curServer){
 	 		//console.log(curServer);
@@ -32,6 +33,10 @@ function everytensecs(){
 
 function everyminute(){
 	findResourceUsage();
+}
+
+function getUserHome() {
+  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 }
 
 function findResourceUsage(){

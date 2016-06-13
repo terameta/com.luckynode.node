@@ -158,12 +158,47 @@ function getNodes(){
 }
 
 function defineSSH(){
-	var homeFolders = fs.readdirSync(getUserHome());
-	var doWeHaveSSHFolder = false;
-	homeFolders.forEach(function(curFolder){
-		console.log(curFolder);
-	});
-	//ssh-keygen -t rsa -N '' -f ~/.ssh/id_dsa -q
+	var refObject = {};
+	checkSSHFolder(refObject).
+	then(createSSHFolder).
+	then(checkSSHKeys).
+	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
+	//ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -q
+	
+	function checkSSHKeys(refObject){
+		var deferred = Q.defer();
+		refObject.doWeHaveSSHKeys = false;
+		var keyFiles = fs.readdirSync(getUserHome()+"/.ssh");
+		keyFiles.forEach(function(curFile){
+			console.log(curFile);
+			if(curFile == 'id_rsa') refObject.doWeHaveSSHKeys = true;
+		});
+		deferred.resolve(refObject);
+		return deferred.promise;
+	}
+	
+	function createSSHFolder(refObject){
+		var deferred = Q.defer();
+		if(refObject.doWeHaveSSHFolder){
+			deferred.resolve(refObject);
+		} else {
+			runLocalCommand("mkdir .ssh").then(function(){
+				refObject.doWeHaveSSHFolder = true;
+			}).fail(deferred.reject);
+		}
+		return deferred.promise;
+	}
+	
+	function checkSSHFolder(refObject){
+		var deferred = Q.defer();
+		refObject.doWeHaveSSHFolder = false;
+		var homeFolders =fs.readdirSync(getUserHome());
+		homeFolders.forEach(function(curFolder){
+			if(curFolder == '.ssh') refObject.doWeHaveSSHFolder = true;
+		});
+		deferred.resolve(refObject);
+		return deferred.promise;
+	}
 }
 
 function waitWithServer(cSrv){

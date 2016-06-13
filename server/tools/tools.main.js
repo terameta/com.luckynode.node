@@ -158,8 +158,11 @@ function getNodes(){
 }
 
 function defineSSH(){
-	var files = fs.readdirSync(getUserHome());
-	console.log(files);
+	var homeFolders = fs.readdirSync(getUserHome());
+	var doWeHaveSSHFolder = false;
+	homeFolders.forEach(function(curFolder){
+		console.log(curFolder);
+	});
 	//ssh-keygen -t rsa -N '' -f ~/.ssh/id_dsa -q
 }
 

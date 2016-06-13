@@ -17,7 +17,9 @@ function define(refObject){
 	console.log(refObject);
 	var deferred = Q.defer();
 	deferred.resolve("We are now defining");
-	exists(refObject).saveXML(console.log);
+	exists(refObject).
+	then(saveXML).
+	then(console.log);
 	return deferred.promise;
 }
 

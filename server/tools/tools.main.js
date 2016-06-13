@@ -174,6 +174,7 @@ function defineSSH(){
 		fs.readFile(getUserHome()+"/.ssh/authorized_keys", "utf-8", function(err, data){
 			if(err){
 				refObject.localkeys = false;
+				deferred.resolve(refObject);
 			} else {
 				refObject.localkeys = data;
 				console.log(refObject);

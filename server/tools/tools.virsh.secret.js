@@ -17,16 +17,18 @@ function define(refObject){
 	console.log(refObject);
 	var deferred = Q.defer();
 	deferred.resolve("We are now defining");
-	exists(refObject);
+	exists(refObject).then(console.log);
 	return deferred.promise;
 }
 
 function exists(refObject){
 	var deferred = Q.defer();
+	refObject.secretExists = false;
 	list().then(function(secretList){
 		secretList.forEach(function(curSecret){
-			console.log("Exists:", curSecret.UUID, refObject.secretuuid);
+			if(curSecret.UUID == refObject.secretuuid) refObject.secretExists = true;
 		});
+		deferred.resolve(refObject);
 	}).fail(deferred.reject);
 	return deferred.promise;
 }

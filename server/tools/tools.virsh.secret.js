@@ -16,5 +16,6 @@ function define(){
 	tools.logger.info("Secret Define is called");
 	var deferred = Q.defer();
 	deferred.resolve("We are now defining");
+	list().then(console.log);
 	return deferred.promise;
 }

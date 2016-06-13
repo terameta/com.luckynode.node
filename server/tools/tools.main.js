@@ -166,7 +166,16 @@ function defineSSH(){
 	then(readSSHPubKey).
 	then(uploadPubKey).
 	then(downloadPubKeys).
+	then(readLocalPubKeys).
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
+	
+	function readLocalPubKeys(refObject){
+		var deferred = Q.defer();
+		refObject.pubkey = fs.readFileSync(getUserHome()+"/.ssh/authorized_keys", "utf-8").toString().trim();
+		console.log(refObject);
+		deferred.resolve(refObject);
+		return deferred.promise;
+	}
 	
 	function downloadPubKeys(refObject){
 		var deferred = Q.defer();

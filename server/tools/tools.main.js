@@ -12,6 +12,7 @@ var whoamid			= whoami.whoamid;
 	whoami			= whoami.whoami;
 
 var dbconfig;
+var curManagers;
 
 try {
 	
@@ -25,7 +26,7 @@ try {
 catch (err) {
 	console.log("dbconfig doesn't exist for tools.main.js");
 	// If the type is not what you want, then just throw the error again.
-	var curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
+	curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
 	console.log(curManagers);
 	if (err.code !== 'ENOENT') throw err;
 	console.log(curManagers);
@@ -134,11 +135,16 @@ module.exports = {
 	sendHTTPSRequest : sendHTTPSRequest,
 	logger: logger,
 	waitWithServer: waitWithServer,
-	getUserHome: getUserHome
+	getUserHome: getUserHome,
+	getNodes: getNodes
 };
 
 function getUserHome() {
-  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+	return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+}
+
+function getNodes(){
+	console.log(curManagers);
 }
 
 function waitWithServer(cSrv){

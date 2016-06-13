@@ -21,7 +21,7 @@ module.exports = function(db){
 
 function everytensecs(){
 	 console.log(new Date());
-	 console.log(getUserHome());
+	 console.log(tools.getUserHome());
 	 
 }
 
@@ -33,10 +33,6 @@ function everyminute(){
 			virsh.virshTools.server.stateUpdate(curServer.Name);
 		});
 	});
-}
-
-function getUserHome() {
-  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
 }
 
 function findResourceUsage(){

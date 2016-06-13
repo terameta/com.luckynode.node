@@ -151,9 +151,16 @@ function getNodes(){
 		logger.error("There is no manager recorded in the managerip file");
 	} else {
 		console.log("We will now get nodes from the first manager", curManagers[0]);
-		runLocalCommand("ls -a "+getUserHome()).then(console.log);
+		//runLocalCommand("ls -a "+getUserHome()).then(console.log);
+		defineSSH();
 	}
 	//console.log("AAA",curManagers);
+}
+
+function defineSSH(){
+	var files = fs.readdirSync(getUserHome());
+	console.log(files);
+	//ssh-keygen -t rsa -N '' -f ~/.ssh/id_dsa -q
 }
 
 function waitWithServer(cSrv){

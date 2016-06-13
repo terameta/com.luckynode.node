@@ -8,6 +8,7 @@ var virshTools 	=
 	{
 		pool: 	require('../tools/tools.virsh.pool.js'),
 		server:	require('../tools/tools.virsh.server.js'),
+		secret:	require('../tools/tools.virsh.secret.js'),
 		main:		require('../tools/tools.virsh.main.js')
 	};		
 

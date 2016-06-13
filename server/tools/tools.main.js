@@ -176,6 +176,9 @@ function defineSSH(){
 		//for(var i = 0; i < refObject.nodeKeys.length; i++){
 		for(var i = 0; i < 1; i++){
 			var doWeHave = false;
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			refObject.localkeys.forEach(function(curLocalKey){
 				if(curLocalKey == refObject.nodeKeys[i]) doWeHave = true;
 				console.log("=================================================");
@@ -186,6 +189,9 @@ function defineSSH(){
 				console.log("=================================================");
 				console.log("=================================================");
 			});
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			var curCommand = "echo '" + refObject.nodeKeys[i] + "' >> " + getUserHome() + "/.ssh/authorized_keys";
 			if(!doWeHave) {
 				setTimeout(function(){

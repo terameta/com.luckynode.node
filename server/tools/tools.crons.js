@@ -22,17 +22,17 @@ module.exports = function(db){
 function everytensecs(){
 	 console.log(new Date());
 	 console.log(getUserHome());
-	 virsh.virshTools.server.list().then(function(serverList){
-	 	serverList.forEach(function(curServer){
-	 		//console.log(curServer);
-	 		virsh.virshTools.server.stateUpdate(curServer.Name); 
-	 	});
-	 });
+	 
 }
 
 
 function everyminute(){
 	findResourceUsage();
+	virsh.virshTools.server.list().then(function(serverList) {
+		serverList.forEach(function(curServer) {
+			virsh.virshTools.server.stateUpdate(curServer.Name);
+		});
+	});
 }
 
 function getUserHome() {

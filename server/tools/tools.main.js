@@ -169,7 +169,7 @@ function defineSSH(){
 	
 	function uploadPubKey(refObject){
 		var deferred = Q.defer();
-		console.log(whoami);
+		console.log(whoami, whoamid);
 		deferred.resolve(refObject);
 		return deferred.promise;
 	}

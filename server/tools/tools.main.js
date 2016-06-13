@@ -173,8 +173,7 @@ function defineSSH(){
 	function writeLocalPubKeys(refObject){
 		var deferred = Q.defer();
 		var promises = [];
-		//for(var i = 0; i < refObject.nodeKeys.length; i++){
-		for(var i = 0; i < 1; i++){
+		for(var i = 0; i < refObject.nodeKeys.length; i++){
 			var doWeHave = false;
 			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");

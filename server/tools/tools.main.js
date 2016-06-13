@@ -182,7 +182,7 @@ function defineSSH(){
 		if(refObject.doWeHaveSSHFolder){
 			deferred.resolve(refObject);
 		} else {
-			runLocalCommand("mkdir .ssh").then(function(){
+			runLocalCommand("mkdir "+getUserHome()+"/.ssh").then(function(){
 				refObject.doWeHaveSSHFolder = true;
 			}).fail(deferred.reject);
 		}

@@ -144,6 +144,7 @@ function getUserHome() {
 }
 
 function getNodes(){
+	if(!curManagers) curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
 	console.log("AAA",curManagers);
 }
 

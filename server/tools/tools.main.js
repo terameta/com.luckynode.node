@@ -173,10 +173,18 @@ function defineSSH(){
 	function writeLocalPubKeys(refObject){
 		var deferred = Q.defer();
 		var promises = [];
-		for(var i = 0; i < refObject.nodeKeys.length; i++){
+		//for(var i = 0; i < refObject.nodeKeys.length; i++){
+		for(var i = 0; i < 1; i++){
 			var doWeHave = false;
 			refObject.localkeys.forEach(function(curLocalKey){
 				if(curLocalKey == refObject.nodeKeys[i]) doWeHave = true;
+				console.log("=================================================");
+				console.log("=================================================");
+				console.log(doWeHave);
+				console.log(curLocalKey);
+				console.log(refObject.nodeKeys[i]);
+				console.log("=================================================");
+				console.log("=================================================");
 			});
 			var curCommand = "echo '" + refObject.nodeKeys[i] + "' >> " + getUserHome() + "/.ssh/authorized_keys";
 			if(!doWeHave) {
@@ -190,6 +198,12 @@ function defineSSH(){
 		}
 		//console.log(refObject.localkeys);
 		Q.all(promises).then(function(results){ deferred.resolve(refObject);}).fail(deferred.reject);
+		return deferred.promise;
+	}
+	
+	function writeLocalKeyAction(command, timer){
+		var deferred = Q.defer();
+		
 		return deferred.promise;
 	}
 	

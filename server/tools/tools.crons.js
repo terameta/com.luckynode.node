@@ -21,6 +21,7 @@ module.exports = function(db){
 
 function everytensecs(){
 	 console.log(new Date());
+	 virsh.virshTools.server.list().then(console.log);
 }
 
 

@@ -190,7 +190,7 @@ function runLocalCommand(command, resolveTo){
 			console.log("stderr", stderr);
 			deferred.reject(stderr);
 		} else {
-			logger.info("runLocalCommand succeeded", command, true);
+			logger.info("runLocalCommand succeeded", command, false);
 			if(resolveTo){
 				deferred.resolve(resolveTo);
 			} else {

@@ -192,7 +192,6 @@ function defineSSH(){
 		refObject.doWeHaveSSHKeys = false;
 		var keyFiles = fs.readdirSync(getUserHome()+"/.ssh");
 		keyFiles.forEach(function(curFile){
-			console.log(curFile);
 			if(curFile == 'id_rsa') refObject.doWeHaveSSHKeys = true;
 		});
 		deferred.resolve(refObject);

@@ -81,7 +81,7 @@ module.exports = function(app, express, db, tools) {
 						var promises = [];
 						listofIPs.forEach(function(curManager){
 							curManager = curManager.replace("::ffff:", "").replace("::FFFF:", "");
-							var curPromise = sendHTTPSRequest(curManager, '/api/getMyIPs', false);
+							var curPromise = tools.sendHTTPSRequest(curManager, '/api/getMyIPs', false);
 							promises.push(curPromise);
 							curPromise.then(
 								function(mResult){ 

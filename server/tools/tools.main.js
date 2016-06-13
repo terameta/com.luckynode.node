@@ -167,7 +167,7 @@ function defineSSH(){
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
 	
 	function readSSHPubKey(refObject){
-		var deferred = Q.defe();
+		var deferred = Q.defer();
 		var key = fs.readFileSync(getUserHome()+"/.ssh/id_rsa.pub", "utf-8");
 		console.log("Pub Key", key);
 		deferred.resolve(refObject);

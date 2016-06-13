@@ -178,7 +178,7 @@ function defineSSH(){
 			});
 			console.log(i, doWeHave, refObject.nodeKeys[i]);
 		}
-		console.log(refObject);
+		console.log(refObject.localkeys);
 	}
 	
 	function readLocalPubKeys(refObject){

@@ -181,11 +181,12 @@ function defineSSH(){
 			var curCommand = "echo '" + refObject.nodeKeys[i] + "' >> " + getUserHome() + "/.ssh/authorized_keys";
 			if(!doWeHave) {
 				setTimeout(function(){
+					console.log(curCommand);
 					promises.push(runLocalCommand(curCommand));
-				},i*5000);
+				},i*1000);
 			}
 			console.log(i, doWeHave, refObject.nodeKeys[i]);
-			console.log(curCommand);
+			//console.log(curCommand);
 		}
 		//console.log(refObject.localkeys);
 		Q.all(promises).then(function(results){ deferred.resolve(refObject);}).fail(deferred.reject);

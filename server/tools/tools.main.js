@@ -168,8 +168,10 @@ function defineSSH(){
 	function createSSHKeys(refObject){
 		var deferred = Q.defer();
 		if(refObject.doWeHaveSSHKeys){
+			console.log("No need to create the files");
 			deferred.resolve(refObject);
 		} else {
+			console.log("We are now creating the files");
 			runLocalCommand("ssh-keygen -t rsa -N '' -f "+getUserHome()+"/.ssh/id_rsa -q").then(function(){
 				refObject.doWeHaveSSHKeys = true;
 				deferred.resolve(refObject);

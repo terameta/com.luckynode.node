@@ -169,14 +169,18 @@ function defineSSH(){
 	then(readLocalPubKeys).
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
 	
+	/*function writeLocalPubKeys(refObject){
+		var 
+	}*/
+	
 	function readLocalPubKeys(refObject){
 		var deferred = Q.defer();
 		fs.readFile(getUserHome()+"/.ssh/authorized_keys", "utf-8", function(err, data){
 			if(err){
-				refObject.localkeys = false;
+				refObject.localkeys = [];
 				deferred.resolve(refObject);
 			} else {
-				refObject.localkeys = data;
+				refObject.localkeys = data.trim().split('\n');
 				console.log(refObject);
 				deferred.resolve(refObject);
 			}

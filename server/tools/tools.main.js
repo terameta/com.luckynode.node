@@ -172,7 +172,11 @@ function defineSSH(){
 	
 	function writeLocalPubKeys(refObject){
 		for(var i = 0; i < refObject.nodeKeys.length; i++){
-			console.log(i, refObject.nodeKeys[i]);
+			var doWeHave = false;
+			refObject.localkeys.forEach(function(curLocalKey){
+				if(curLocalKey == refObject.nodeKeys[i]) doWeHave = true;
+			});
+			console.log(i, doWeHave, refObject.nodeKeys[i]);
 		}
 		console.log(refObject);
 	}

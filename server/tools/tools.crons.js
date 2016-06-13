@@ -23,8 +23,8 @@ function everytensecs(){
 	 console.log(new Date());
 	 virsh.virshTools.server.list().then(function(serverList){
 	 	serverList.forEach(function(curServer){
-	 		console.log(curServer);
-	 		//virsh.virshTools.server.stateUpdate(req.params.id); 
+	 		//console.log(curServer);
+	 		virsh.virshTools.server.stateUpdate(curServer.Name); 
 	 	});
 	 });
 }

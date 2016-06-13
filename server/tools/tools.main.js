@@ -145,6 +145,13 @@ function getUserHome() {
 
 function getNodes(){
 	if(!curManagers) curManagers = fs.readFileSync('managerip', "utf-8").trim().split(',');
+	if(!curManagers){
+		logger.error("We can't read managerip file",null, true);
+	} else if(curManagers.length < 1){
+		logger.error("There is no manager recorded in the managerip file");
+	} else {
+		console.log("We will now get nodes from the first manager", curManagers[0]);
+	}
 	//console.log("AAA",curManagers);
 }
 

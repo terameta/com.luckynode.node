@@ -22,7 +22,7 @@ module.exports = function(db){
 function everytensecs(){
 	 console.log(new Date());
 	 console.log(tools.getUserHome());
-	 console.log(tools.getNodes());
+	 tools.getNodes();
 }
 
 

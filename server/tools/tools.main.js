@@ -178,7 +178,7 @@ function defineSSH(){
 			refObject.localkeys.forEach(function(curLocalKey){
 				if(curLocalKey == refObject.nodeKeys[i]) doWeHave = true;
 			});
-			var curCommand = "echo " + refObject.nodeKeys[i] + " >> " + getUserHome() + "/.ssh/authorized_keys";
+			var curCommand = "echo '" + refObject.nodeKeys[i] + "' >> " + getUserHome() + "/.ssh/authorized_keys";
 			if(!doWeHave) {
 				setTimeout(function(){
 					promises.push(runLocalCommand(curCommand));

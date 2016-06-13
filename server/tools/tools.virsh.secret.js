@@ -17,7 +17,7 @@ function define(refObject){
 	console.log(refObject);
 	var deferred = Q.defer();
 	deferred.resolve("We are now defining");
-	exists(refObject).then(console.log);
+	exists(refObject).saveXML(console.log);
 	return deferred.promise;
 }
 
@@ -33,23 +33,31 @@ function exists(refObject){
 	return deferred.promise;
 }
 
-function saveSecretXML(curPool){
+function saveXML(refObject){
 	var deferred = Q.defer();
 	var fs = require('fs');
-	console.log("=============================================================");
-	console.log("=============================================================");
-	console.log(curPool);
-	console.log("=============================================================");
-	console.log("=============================================================");
-	curPool.secretXML = "<secret ephemeral='no' private='yes'><uuid>"+curPool.secretuuid+"</uuid><usage type='ceph'><name>"+curPool.rbdname+" secret</name></usage></secret>";
-	curPool.secretFile = '/tmp/'+curPool.id+'-secret.xml';
-	fs.writeFile(curPool.secretFile, curPool.secretXML, function(err) {
-		if (err){
-			deferred.reject(err);
+	if(refObject.secretExists){
+		deferred.resolve(refObject);
+	} else {
+		console.log("=============================================================");
+		console.log(refObject);
+		console.log("=============================================================");
+		if(refObject.rbdname){
+			refObject.secretName = refObject.rbdname + " secret";
 		} else {
-			tools.logger.info("Secret XML file for the new pool " + curPool.id + " is saved.", true);
-			deferred.resolve(curPool);
+			refObject.secretName = refObject.name + " secret";
 		}
-	});
+		
+		refObject.secretXML = "<secret ephemeral='no' private='yes'><uuid>"+refObject.secretuuid+"</uuid><usage type='ceph'><name>"+refObject.secretName+"</name></usage></secret>";
+		refObject.secretFile = '/tmp/'+refObject.id+'-secret.xml';
+		fs.writeFile(refObject.secretFile, refObject.secretXML, function(err) {
+			if (err){
+				deferred.reject(err);
+			} else {
+				tools.logger.info("Secret XML file for the new pool " + refObject.id + " is saved.", true);
+				deferred.resolve(refObject);
+			}
+		});
+	}
 	return deferred.promise;
 }

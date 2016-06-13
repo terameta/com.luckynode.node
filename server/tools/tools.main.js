@@ -163,15 +163,22 @@ function defineSSH(){
 	then(createSSHFolder).
 	then(checkSSHKeys).
 	then(createSSHKeys).
+	then(readSSHPubKey).
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
+	
+	function readSSHPubKey(refObject){
+		var deferred = Q.defe();
+		var key = fs.readFileSync(getUserHome()+"/.ssh/id_rsa.pub", "utf-8");
+		console.log("Pub Key", key);
+		deferred.resolve(refObject);
+		return deferred.promise;
+	}
 	
 	function createSSHKeys(refObject){
 		var deferred = Q.defer();
 		if(refObject.doWeHaveSSHKeys){
-			console.log("No need to create the files");
 			deferred.resolve(refObject);
 		} else {
-			console.log("We are now creating the files");
 			runLocalCommand("ssh-keygen -t rsa -N '' -f "+getUserHome()+"/.ssh/id_rsa -q").then(function(){
 				refObject.doWeHaveSSHKeys = true;
 				deferred.resolve(refObject);

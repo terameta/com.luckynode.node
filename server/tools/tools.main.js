@@ -164,12 +164,19 @@ function defineSSH(){
 	then(checkSSHKeys).
 	then(createSSHKeys).
 	then(readSSHPubKey).
+	then(uploadPubKey).
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
+	
+	function uploadPubKey(refObject){
+		var deferred = Q.defer();
+		console.log(whoami());
+		deferred.resolve(refObject);
+		return deferred.promise;
+	}
 	
 	function readSSHPubKey(refObject){
 		var deferred = Q.defer();
-		var key = fs.readFileSync(getUserHome()+"/.ssh/id_rsa.pub", "utf-8");
-		console.log("Pub Key", key);
+		refObject.pubkey = fs.readFileSync(getUserHome()+"/.ssh/id_rsa.pub", "utf-8");
 		deferred.resolve(refObject);
 		return deferred.promise;
 	}

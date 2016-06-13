@@ -167,11 +167,15 @@ function defineSSH(){
 	then(uploadPubKey).
 	then(downloadPubKeys).
 	then(readLocalPubKeys).
+	then(writeLocalPubKeys).
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
 	
-	/*function writeLocalPubKeys(refObject){
-		var 
-	}*/
+	function writeLocalPubKeys(refObject){
+		for(var i = 0; i < refObject.nodeKeys.length; i++){
+			console.log(i, refObject.nodeKeys[i]);
+		}
+		console.log(refObject);
+	}
 	
 	function readLocalPubKeys(refObject){
 		var deferred = Q.defer();
@@ -183,7 +187,6 @@ function defineSSH(){
 				refObject.localkeys = data.trim().split('\n');
 				deferred.resolve(refObject);
 			}
-			console.log(refObject);
 		});
 		return deferred.promise;
 	}

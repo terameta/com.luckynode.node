@@ -169,10 +169,11 @@ function defineSSH(){
 	
 	function uploadPubKey(refObject){
 		var deferred = Q.defer();
-		db.nodes.find(function(err, nodes){
+		/*db.nodes.update({_id: mongojs.ObjectId(whoamid)},{$set: {pubkey: }}, function(err, nodes){
 			console.log(nodes);
-		});
+		});*/
 		console.log(whoami, whoamid);
+		console.log(refObject);
 		//console.log(process.env);
 		deferred.resolve(refObject);
 		return deferred.promise;

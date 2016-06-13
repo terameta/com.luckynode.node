@@ -181,9 +181,9 @@ function defineSSH(){
 				deferred.resolve(refObject);
 			} else {
 				refObject.localkeys = data.trim().split('\n');
-				console.log(refObject);
 				deferred.resolve(refObject);
 			}
+			console.log(refObject);
 		});
 		return deferred.promise;
 	}

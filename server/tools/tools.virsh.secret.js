@@ -12,8 +12,9 @@ function list(){
 	return  tools.runLocalCommand('virsh secret-list').then(function(result){ return returner.prepare(result, 'secret-list') });
 }
 
-function define(){
+function define(secretInfo){
 	tools.logger.info("Secret Define is called");
+	console.log(secretInfo);
 	var deferred = Q.defer();
 	deferred.resolve("We are now defining");
 	list().then(console.log);

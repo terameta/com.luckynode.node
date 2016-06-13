@@ -188,7 +188,7 @@ function defineSSH(){
 			console.log(curCommand);
 		}
 		console.log(refObject.localkeys);
-		Q.all(promises).then(function(results){ console.log("=============="); console.log(results); console.log("==================");deferred.resolve(refObject);}).fail(deferred.reject);
+		Q.all(promises).then(function(results){ deferred.resolve(refObject);}).fail(deferred.reject);
 		return deferred.promise;
 	}
 	

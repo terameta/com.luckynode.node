@@ -144,7 +144,7 @@ function getUserHome() {
 }
 
 function getNodes(){
-	console.log(curManagers);
+	console.log("AAA",curManagers);
 }
 
 function waitWithServer(cSrv){

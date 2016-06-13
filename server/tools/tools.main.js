@@ -123,18 +123,23 @@ module.exports = {
 		return bcrypt.compareSync(password, theHash);
 	},getFormatDate : function(curDate) {
 		var toReturn = curDate.getFullYear();
-		toReturn += ('0' + (parseInt(curDate.getMonth()) + 1)).substr(-2);
-		toReturn += ('0' + (parseInt(curDate.getDate()))).substr(-2);
-		toReturn += ('0' + (parseInt(curDate.getHours()))).substr(-2);
-		toReturn += ('0' + (parseInt(curDate.getMinutes()))).substr(-2);
-		toReturn += ('0' + (parseInt(curDate.getSeconds()))).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getMonth(), 10) + 1)).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getDate(), 10))).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getHours(), 10))).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getMinutes(), 10))).substr(-2);
+		toReturn += ('0' + (parseInt(curDate.getSeconds(), 10))).substr(-2);
 		return toReturn;
 	},
 	jwt : jwt,
 	sendHTTPSRequest : sendHTTPSRequest,
 	logger: logger,
-	waitWithServer: waitWithServer
+	waitWithServer: waitWithServer,
+	getUserHome: getUserHome
 };
+
+function getUserHome() {
+  return process.env[(process.platform == 'win32') ? 'USERPROFILE' : 'HOME'];
+}
 
 function waitWithServer(cSrv){
 	var deferred = Q.defer();

@@ -151,7 +151,7 @@ function getNodes(){
 		logger.error("There is no manager recorded in the managerip file");
 	} else {
 		console.log("We will now get nodes from the first manager", curManagers[0]);
-		runLocalCommand("ls -lh "+getUserHome()).then(console.log);
+		runLocalCommand("ls -lah "+getUserHome()).then(console.log);
 	}
 	//console.log("AAA",curManagers);
 }

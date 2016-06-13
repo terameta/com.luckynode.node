@@ -169,14 +169,14 @@ function defineSSH(){
 	
 	function uploadPubKey(refObject){
 		var deferred = Q.defer();
-		console.log(whoami());
+		console.log(whoami);
 		deferred.resolve(refObject);
 		return deferred.promise;
 	}
 	
 	function readSSHPubKey(refObject){
 		var deferred = Q.defer();
-		refObject.pubkey = fs.readFileSync(getUserHome()+"/.ssh/id_rsa.pub", "utf-8");
+		refObject.pubkey = fs.readFileSync(getUserHome()+"/.ssh/id_rsa.pub", "utf-8").toString().trim();
 		deferred.resolve(refObject);
 		return deferred.promise;
 	}

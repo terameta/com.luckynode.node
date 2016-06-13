@@ -173,7 +173,7 @@ function defineSSH(){
 			console.log(nodes);
 		});
 		console.log(whoami, whoamid);
-		console.log(process.env);
+		//console.log(process.env);
 		deferred.resolve(refObject);
 		return deferred.promise;
 	}

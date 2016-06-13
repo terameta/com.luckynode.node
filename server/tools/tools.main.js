@@ -162,8 +162,21 @@ function defineSSH(){
 	checkSSHFolder(refObject).
 	then(createSSHFolder).
 	then(checkSSHKeys).
+	then(createSSHKeys).
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
-	//ssh-keygen -t rsa -N '' -f ~/.ssh/id_rsa -q
+	
+	function createSSHKeys(refObject){
+		var deferred = Q.defe();
+		if(refObject.doWeHaveSSHKeys){
+			deferred.resolve(refObject);
+		} else {
+			runLocalCommand("ssh-keygen -t rsa -N '' -f "+getUserHome()+"/.ssh/id_rsa -q").then(function(){
+				refObject.doWeHaveSSHKeys = true;
+				deferred.resolve(refObject);
+			}).fail(deferred.reject);
+		}
+		return deferred.promise;
+	}
 	
 	function checkSSHKeys(refObject){
 		var deferred = Q.defer();
@@ -184,6 +197,7 @@ function defineSSH(){
 		} else {
 			runLocalCommand("mkdir "+getUserHome()+"/.ssh").then(function(){
 				refObject.doWeHaveSSHFolder = true;
+				deferred.resolve(refObject);
 			}).fail(deferred.reject);
 		}
 		return deferred.promise;

@@ -192,12 +192,7 @@ function defineSSH(){
 			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			var curCommand = "echo '" + refObject.nodeKeys[i] + "' >> " + getUserHome() + "/.ssh/authorized_keys";
-			if(!doWeHave) {
-				setTimeout(function(){
-					console.log(curCommand);
-					promises.push(runLocalCommand(curCommand));
-				},i*1000);
-			}
+			writeLocalKeyAction(curCommand, i);
 			console.log(i, doWeHave, refObject.nodeKeys[i]);
 			//console.log(curCommand);
 		}
@@ -208,7 +203,9 @@ function defineSSH(){
 	
 	function writeLocalKeyAction(command, timer){
 		var deferred = Q.defer();
-		
+		setTimeout(function(){
+			runLocalCommand(command).then(deferred.resolve).fail(deferred.reject);
+		}, timer*1000);
 		return deferred.promise;
 	}
 	

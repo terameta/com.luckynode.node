@@ -178,13 +178,17 @@ function defineSSH(){
 			refObject.localkeys.forEach(function(curLocalKey){
 				if(curLocalKey == refObject.nodeKeys[i]) doWeHave = true;
 			});
-			setTimeout(function(){
-				promises.push(runLocalCommand("echo " + refObject.nodeKeys[i] + " >> " + getUserHome() + "/.ssh/authorized_keys"));
-			},i*5000);
+			var curCommand = "echo " + refObject.nodeKeys[i] + " >> " + getUserHome() + "/.ssh/authorized_keys";
+			if(!doWeHave) {
+				setTimeout(function(){
+					promises.push(runLocalCommand(curCommand));
+				},i*5000);
+			}
 			console.log(i, doWeHave, refObject.nodeKeys[i]);
+			console.log(curCommand);
 		}
 		console.log(refObject.localkeys);
-		Q.all(promises).then(function(){ deferred.resolve(refObject);}).fail(deferred.reject);
+		Q.all(promises).then(function(results){ console.log("=============="); console.log(results); console.log("==================");deferred.resolve(refObject);}).fail(deferred.reject);
 		return deferred.promise;
 	}
 	

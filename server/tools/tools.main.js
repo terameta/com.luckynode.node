@@ -169,12 +169,14 @@ function defineSSH(){
 	
 	function uploadPubKey(refObject){
 		var deferred = Q.defer();
-		/*db.nodes.update({_id: mongojs.ObjectId(whoamid)},{$set: {pubkey: }}, function(err, nodes){
-			console.log(nodes);
-		});*/
-		console.log(whoami, whoamid);
-		console.log(refObject);
-		//console.log(process.env);
+		db.nodes.update({_id: mongojs.ObjectId(whoamid)},{$set: {pubkey: refObject.pubkey}}, function(err, result){
+			if(err){
+				deferred.reject(err);
+			} else {
+				console.log(result);
+				deferred.resolve(refObject);
+			}
+		});
 		deferred.resolve(refObject);
 		return deferred.promise;
 	}

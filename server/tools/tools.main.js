@@ -165,7 +165,7 @@ function defineSSH(){
 	then(createSSHKeys).
 	then(readSSHPubKey).
 	then(uploadPubKey).
-	then(downloadPubKeys).
+	then(downloadNodeDetails).
 	then(readLocalPubKeys).
 	then(writeLocalPubKeys).
 	then(uploadHostNames).
@@ -260,7 +260,7 @@ function defineSSH(){
 		return deferred.promise;
 	}
 	
-	function downloadPubKeys(refObject){
+	function downloadNodeDetails(refObject){
 		var deferred = Q.defer();
 		db.nodes.find(function(err, nodes){
 			if(err){

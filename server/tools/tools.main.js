@@ -270,7 +270,7 @@ function defineSSH(){
 				refObject.nodeKeys = [];
 				nodes.forEach(function(curNode){
 					refObject.nodeKeys.push(curNode.pubkey);
-					console.log(curNode);
+					//console.log(curNode);
 				});
 				deferred.resolve(refObject);
 			}

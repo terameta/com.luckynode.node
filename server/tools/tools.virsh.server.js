@@ -33,7 +33,9 @@ function migrate(details){
 	deferred.resolve();
 	//fetchServerFromDB({id: details.server}).then(console.log);
 	//tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
-	//tools.db.nodes.findOne()
+	tools.db.nodes.findOne({_id:mongojs.ObjectId(details.targetNode)}, function(err, targetNode){
+		console.log(targetNode);
+	});
 	return deferred.promise;
 }
 

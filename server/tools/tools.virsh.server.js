@@ -31,7 +31,8 @@ function migrate(details){
 	var deferred = Q.defer();
 	console.log(details);
 	deferred.resolve();
-	fetchServerFromDB({id: details.server}).then(console.log);
+	//fetchServerFromDB({id: details.server}).then(console.log);
+	tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
 	return deferred.promise;
 }
 

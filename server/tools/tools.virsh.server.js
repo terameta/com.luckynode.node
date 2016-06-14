@@ -38,6 +38,7 @@ function migrate(details){
 		} else {
 			var curCommand = "virsh migrate "+ details.server +" qemu+ssh://"+ targetNode.hostnameshort +"/system --live --undefinesource";
 			curCommand = "whoami";
+			curCommand = "sudo -H -u aliriza bash -c 'echo \"I am $USER, with uid $UID\"' ";
 			tools.runLocalCommand(curCommand).then(console.log);
 			deferred.resolve("OK");
 		}

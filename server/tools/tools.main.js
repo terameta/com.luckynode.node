@@ -181,14 +181,6 @@ function defineSSH(){
 		return deferred.promise;
 	}
 	
-	function downloadHostnames(refObject){
-		var deferred = Q.defer();
-		db.nodes.find(function(err, nodes){
-			
-		});
-		return deferred.promise;
-	}
-	
 	function readLocalSSHConfig(refObject){
 		var deferred = Q.defer();
 		fs.readFile(getUserHome()+"/.ssh/config", "utf-8", function(err, data){
@@ -268,9 +260,15 @@ function defineSSH(){
 				deferred.reject(err);
 			} else {
 				refObject.nodeKeys = [];
+				refObject.configFileItems = [];
 				nodes.forEach(function(curNode){
 					refObject.nodeKeys.push(curNode.pubkey);
-					console.log(curNode);
+					refObject.configFileItems.push({
+						ip: curNode.ip, 
+						hostnamelong: curNode.hostnamelong,
+						hostnameshort: curNode.hostnameshort,
+						user: curNode.username
+					});
 				});
 				deferred.resolve(refObject);
 			}

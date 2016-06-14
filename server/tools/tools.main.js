@@ -159,6 +159,7 @@ function getNodes(){
 }
 
 function defineSSH(){
+	console.log("Defining SSH");
 	var refObject = {};
 	checkSSHFolder(refObject).
 	then(createSSHFolder).

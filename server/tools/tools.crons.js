@@ -8,7 +8,8 @@ module.exports = function(db){
 	
 	var curModule = {
 		everytensecs: everytensecs,
-		everyminute: everyminute
+		everyminute: everyminute,
+		everyfiveminute: everyfiveminute
 	};
 	 /*
 	 curModule.everytensecs = function(){
@@ -21,7 +22,10 @@ module.exports = function(db){
 
 function everytensecs(){
 	 console.log(new Date());
-	 tools.defineSSH();
+}
+
+function everyfiveminute(){
+	tools.defineSSH();
 }
 
 

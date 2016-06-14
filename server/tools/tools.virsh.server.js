@@ -34,7 +34,9 @@ function migrate(details){
 	//tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
 	migrationGetTargetNode(details).
 	then(migrationGetSourceNode).
-	then(migrateAction);
+	then(migrateAction).
+	then(deferred.resolve).
+	fail(deferred.reject);
 	
 	return deferred.promise;
 }

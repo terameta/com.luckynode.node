@@ -23,8 +23,16 @@ module.exports = {
 	diskList:				diskList,
 	vncAddress:				vncAddress,
 	attachISO:				attachISO,
-	ejectISO:				ejectISO
+	ejectISO:				ejectISO,
+	migrate: 				migrate
 };
+
+function migrate(details){
+	var deferred = Q.defer();
+	console.log(details);
+	deferred.resolve();
+	return deferred.promise;
+}
 
 function start(cSrv){
 	console.log("serverStart is called for:" + cSrv.id);

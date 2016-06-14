@@ -35,19 +35,6 @@ function migrate(details){
 	migrationGetTargetNode(details).
 	then(migrationGetSourceNode).
 	then(migrateAction);
-	tools.db.nodes.findOne({_id:mongojs.ObjectId(details.targetNode)}, function(err, targetNode){
-		if(err){
-			deferred.reject(err);
-		} else {
-			var curCommand = "";
-			curCommand = "whoami";
-			curCommand = "sudo -H -u aliriza bash -c 'echo \"I am $USER, with uid $UID\"' ";
-			tools.runLocalCommand(curCommand).then(console.log);
-			deferred.resolve("OK");
-		}
-	});
-	
-	
 	
 	return deferred.promise;
 }
@@ -56,7 +43,7 @@ function migrateAction(refObject){
 	var deferred = Q.defer();
 	var curCommand = "sudo -H -u "+ refObject.sourceNodeDetails.username +" bash -c 'virsh migrate "+ refObject.server +" qemu+ssh://"+ refObject.targetNodeDetails.hostnameshort +"/system --live --undefinesource' ";
 	console.log(curCommand);
-	
+	tools.runLocalCommand(curCommand).then(console.log);
 	deferred.resolve(refObject);
 	return deferred.promise;
 }

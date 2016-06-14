@@ -175,22 +175,9 @@ function defineSSH(){
 		var promises = [];
 		for(var i = 0; i < refObject.nodeKeys.length; i++){
 			var doWeHave = false;
-			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			refObject.localkeys.forEach(function(curLocalKey){
 				if(curLocalKey == refObject.nodeKeys[i]) doWeHave = true;
-				console.log("=================================================");
-				console.log("=================================================");
-				console.log(doWeHave);
-				console.log(curLocalKey);
-				console.log(refObject.nodeKeys[i]);
-				console.log("=================================================");
-				console.log("=================================================");
 			});
-			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
 			var curCommand = "echo '" + refObject.nodeKeys[i] + "' >> " + getUserHome() + "/.ssh/authorized_keys";
 			if(!doWeHave) writeLocalKeyAction(curCommand, i);
 			console.log(i, doWeHave, refObject.nodeKeys[i]);

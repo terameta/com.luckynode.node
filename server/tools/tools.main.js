@@ -188,6 +188,7 @@ function defineSSH(){
 				curCommands.push("echo '	Hostname "+ 	refObject.configFileItems[i].ip 			+ "' >> " + getUserHome() + "/.ssh/config");
 				curCommands.push("echo '	User "+ 		refObject.configFileItems[i].user			+ "' >> " + getUserHome() + "/.ssh/config");
 				curCommands.push("echo '	Port 14422"													+ "' >> " + getUserHome() + "/.ssh/config");
+				curCommands.push("echo '	StrictHostKeyChecking no"									+ "' >> " + getUserHome() + "/.ssh/config");
 				writeLocalSSHConfigAction(curCommands, i);
 			}
 		}

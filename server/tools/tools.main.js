@@ -161,6 +161,7 @@ function defineSSH(){
 	var refObject = {};
 	checkSSHFolder(refObject).
 	then(createSSHFolder).
+	then(reownSSHFolder).
 	then(checkSSHKeys).
 	then(createSSHKeys).
 	then(readSSHPubKey).
@@ -341,6 +342,20 @@ function defineSSH(){
 			if(curFile == 'id_rsa') refObject.doWeHaveSSHKeys = true;
 		});
 		deferred.resolve(refObject);
+		return deferred.promise;
+	}
+	
+	function reownSSHFolder(refObject){
+		var deferred = Q.defer();
+		var curUser = process.env.USER;
+		if(process.env.SUDO_USER) curUser = process.env.SUDO_USER;
+		curUser = curUser.toString().trim();
+		var commands = [];
+		commands.push("chown -R "+ curUser +". "+getUserHome()+"/.ssh");
+		runLocalCommands(commands).then(function(){
+			refObject.doWeHaveSSHFolder = true;
+			deferred.resolve(refObject);
+		}).fail(deferred.reject);
 		return deferred.promise;
 	}
 	

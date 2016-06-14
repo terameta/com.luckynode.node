@@ -169,7 +169,30 @@ function defineSSH(){
 	then(readLocalPubKeys).
 	then(writeLocalPubKeys).
 	then(uploadHostNames).
+	then(readLocalSSHConfig).
+	then(writeLocalSSHConfig).
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
+	
+	function writeLocalSSHConfig(refObject){
+		var deferred = Q.defer();
+		console.log(refObject.localconfig);
+		deferred.resolve(refObject);
+		return deferred.promise;
+	}
+	
+	function readLocalSSHConfig(refObject){
+		var deferred = Q.defer();
+		fs.readFile(getUserHome()+"/.ssh/config", "utf-8", function(err, data){
+			if(err){
+				refObject.localconfig = [];
+				deferred.resolve(refObject);
+			} else {
+				refObject.localconfig = data.trim().split('\n');
+				deferred.resolve(refObject);
+			}
+		});
+		return deferred.promise;
+	}
 	
 	function uploadHostNames(refObject){
 		var deferred = Q.defer();

@@ -37,7 +37,8 @@ function migrate(details){
 			deferred.reject(err);
 		} else {
 			var curCommand = "virsh migrate "+ details.server +" qemu+ssh://"+ targetNode.hostnameshort +"/system --live --undefinesource";
-			tools.runLocalCommand(curCommand);
+			curCommand = "whoami";
+			tools.runLocalCommand(curCommand).then(console.log);
 			deferred.resolve("OK");
 		}
 	});

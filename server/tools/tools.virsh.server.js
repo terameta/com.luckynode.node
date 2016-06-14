@@ -45,18 +45,13 @@ function migrateAction(refObject){
 	var deferred = Q.defer();
 	var curCommand = "sudo -H -u "+ refObject.sourceNodeDetails.username +" bash -c 'virsh migrate "+ refObject.server +" qemu+ssh://"+ refObject.targetNodeDetails.hostnameshort +"/system --live --undefinesource' ";
 	//console.log(curCommand);
-	/*var progressInterval = 
-	
-	
-	var interval = setInterval(function(str1, str2) {
-  console.log(str1 + " " + str2);
-}, 1000, "Hello.", "How are you?");
-
-clearInterval(interval);
-	*/
+	var progressInterval = setInterval(function() {
+		migrateProgress(refObject);
+	}, 1000, "Hello.", "How are you?");
 	
 	tools.runLocalCommand(curCommand).
 	then(function(){
+		clearInterval(progressInterval);
 		migrateUpdateNode(refObject);
 	});
 	deferred.resolve(refObject);
@@ -64,7 +59,7 @@ clearInterval(interval);
 }
 
 function migrateProgress(refObject){
-	
+	tools.runLocalCommand("virsh domjobinfo " + refObject.server).then(console.log);
 }
 
 function migrateUpdateNode(refObject){

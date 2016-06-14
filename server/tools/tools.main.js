@@ -150,7 +150,7 @@ function getNodes(){
 	} else if(curManagers.length < 1){
 		logger.error("There is no manager recorded in the managerip file");
 	} else {
-		console.log("We will now get nodes from the first manager", curManagers[0]);
+		//console.log("We will now get nodes from the first manager", curManagers[0]);
 		//runLocalCommand("ls -a "+getUserHome()).then(console.log);
 		defineSSH();
 	}

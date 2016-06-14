@@ -32,6 +32,9 @@ function migrate(details){
 	console.log(details);
 	//fetchServerFromDB({id: details.server}).then(console.log);
 	//tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
+	migrationGetTargetNode(details).
+	then(migrationGetSourceNode).
+	then(console.log);
 	tools.db.nodes.findOne({_id:mongojs.ObjectId(details.targetNode)}, function(err, targetNode){
 		if(err){
 			deferred.reject(err);
@@ -41,6 +44,35 @@ function migrate(details){
 			curCommand = "sudo -H -u aliriza bash -c 'echo \"I am $USER, with uid $UID\"' ";
 			tools.runLocalCommand(curCommand).then(console.log);
 			deferred.resolve("OK");
+		}
+	});
+	
+	
+	
+	return deferred.promise;
+}
+
+function migrationGetTargetNode(refObject){
+	var deferred = Q.defer();
+	tools.db.nodes.findeOne({_id:mongojs.ObjectId(refObject.targetNode)}, function(err, targetNode){
+		if(err){
+			deferred.reject(err);
+		} else {
+			refObject.targetNodeDetails = targetNode;
+			deferred.resolve(refObject);
+		}
+	});
+	return deferred.promise;
+}
+
+function migrationGetSourceNode(refObject){
+	var deferred = Q.defer();
+	tools.db.nodes.findeOne({_id:mongojs.ObjectId(refObject.sourceNode)}, function(err, sourceNode){
+		if(err){
+			deferred.reject(err);
+		} else {
+			refObject.sourceNodeDetails = sourceNode;
+			deferred.resolve(refObject);
 		}
 	});
 	return deferred.promise;

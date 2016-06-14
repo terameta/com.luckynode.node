@@ -30,11 +30,16 @@ module.exports = {
 function migrate(details){
 	var deferred = Q.defer();
 	console.log(details);
-	deferred.resolve();
 	//fetchServerFromDB({id: details.server}).then(console.log);
 	//tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
 	tools.db.nodes.findOne({_id:mongojs.ObjectId(details.targetNode)}, function(err, targetNode){
-		console.log(targetNode);
+		if(err){
+			deferred.reject(err);
+		} else {
+			var curCommand = "virsh migrate "+ details.server +" qemu+ssh://"+ targetNode.hostnameshort +"/system --live --undefinesource";
+			tools.runLocalCommand(curCommand);
+			deferred.resolve("OK");
+		}
 	});
 	return deferred.promise;
 }

@@ -44,10 +44,38 @@ function migrate(details){
 function migrateAction(refObject){
 	var deferred = Q.defer();
 	var curCommand = "sudo -H -u "+ refObject.sourceNodeDetails.username +" bash -c 'virsh migrate "+ refObject.server +" qemu+ssh://"+ refObject.targetNodeDetails.hostnameshort +"/system --live --undefinesource' ";
-	console.log(curCommand);
-	tools.runLocalCommand(curCommand).then(console.log);
+	//console.log(curCommand);
+	/*var progressInterval = 
+	
+	
+	var interval = setInterval(function(str1, str2) {
+  console.log(str1 + " " + str2);
+}, 1000, "Hello.", "How are you?");
+
+clearInterval(interval);
+	*/
+	
+	tools.runLocalCommand(curCommand).
+	then(function(){
+		migrateUpdateNode(refObject);
+	});
 	deferred.resolve(refObject);
 	return deferred.promise;
+}
+
+function migrateProgress(refObject){
+	
+}
+
+function migrateUpdateNode(refObject){
+	tools.db.servers.update({_id:mongojs.ObjectId(refObject.server)}, { $set:{"node":refObject.targetNode}, $unset:{"migrating":""} }, function(err,result){
+		if(err){
+			console.log("Server update failed after migration");
+		} else {
+			console.log("Server update finished after migration");
+			console.log(result);
+		}
+	});
 }
 
 function migrationGetTargetNode(refObject){

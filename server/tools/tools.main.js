@@ -168,7 +168,16 @@ function defineSSH(){
 	then(downloadPubKeys).
 	then(readLocalPubKeys).
 	then(writeLocalPubKeys).
+	then(uploadHostNames).
 	fail(function(issue){ logger.error("We can't define SSH files",issue, true);});
+	
+	function uploadHostNames(refObject){
+		var deferred = Q.defer();
+		runLocalCommand("hostname").then(console.log);
+		runLocalCommand("hostname -s").then(console.log);
+		deferred.resolve(refObject);
+		return deferred.promise;
+	}
 	
 	function writeLocalPubKeys(refObject){
 		var deferred = Q.defer();

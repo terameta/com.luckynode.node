@@ -175,10 +175,31 @@ function defineSSH(){
 	
 	function writeLocalSSHConfig(refObject){
 		var deferred = Q.defer();
-		console.log(refObject.localconfig);
-		console.log(refObject.configFileItems);
+		//console.log(refObject.localconfig);
+		//console.log(refObject.configFileItems);
+		for(var i = 0; i < refObject.configFileItems.length; i++){
+			var doWeHave = false;
+			refObject.localconfig.forEach(function(curLocalConfig){
+				if(curLocalConfig == "Host "+refObject.configFileItems[i].hostnameshort) doWeHave = true;
+			});
+			if(!doWeHave){
+				var curCommands = [];
+				curCommands.push("echo 'Host "+ 			refObject.configFileItems[i].hostnameshort	+ "' >> " + getUserHome() + "/.ssh/config");
+				curCommands.push("echo '	Hostname "+ 	refObject.configFileItems[i].ip 			+ "' >> " + getUserHome() + "/.ssh/config");
+				curCommands.push("echo '	User "+ 		refObject.configFileItems[i].user			+ "' >> " + getUserHome() + "/.ssh/config");
+				curCommands.push("echo '	Port 14422"													+ "' >> " + getUserHome() + "/.ssh/config");
+				writeLocalSSHConfigAction(curCommands, i);
+			}
+		}
 		deferred.resolve(refObject);
 		return deferred.promise;
+	}
+	
+	function writeLocalSSHConfigAction(commands, timer){
+		setTimeout(function(){
+			console.log(commands);
+			runLocalCommands(commands);
+		}, timer * 1000);
 	}
 	
 	function readLocalSSHConfig(refObject){

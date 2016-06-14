@@ -179,7 +179,7 @@ function defineSSH(){
 		}).then(function(result){
 			refObject.hostnameshort = result.toString().trim();
 			db.nodecs.find(function(err, nodes){
-				console.log(nodes);
+				console.log("TheCS", nodes);
 			});
 		});
 		

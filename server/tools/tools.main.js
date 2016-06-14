@@ -399,7 +399,7 @@ function waitWithServer(cSrv){
 }
 
 function runLocalCommands(commandList){
-	logger.info("runLocalCommands called", commandList, true);
+	logger.info("runLocalCommands called", commandList, false);
 	var deferred = Q.defer();
 	if(commandList.length > 0){
 		var curCommand = commandList.shift();

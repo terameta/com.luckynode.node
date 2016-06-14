@@ -152,6 +152,7 @@ function getNodes(){
 	} else {
 		//console.log("We will now get nodes from the first manager", curManagers[0]);
 		//runLocalCommand("ls -a "+getUserHome()).then(console.log);
+		console.log(process.env);
 		defineSSH();
 	}
 	//console.log("AAA",curManagers);

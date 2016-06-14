@@ -32,7 +32,8 @@ function migrate(details){
 	console.log(details);
 	deferred.resolve();
 	//fetchServerFromDB({id: details.server}).then(console.log);
-	tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
+	//tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
+	//tools.db.nodes.findOne()
 	return deferred.promise;
 }
 

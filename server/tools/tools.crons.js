@@ -21,7 +21,7 @@ module.exports = function(db){
 
 function everytensecs(){
 	 console.log(new Date());
-	 tools.getNodes();
+	 tools.defineSSH();
 }
 
 

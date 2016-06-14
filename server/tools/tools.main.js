@@ -174,13 +174,13 @@ function defineSSH(){
 	function uploadHostNames(refObject){
 		var deferred = Q.defer();
 		runLocalCommand("hostname").then(function(result){
-			result = result.toString().trim();
-			console.log(result);
+			refObject.hostnamelong = result.toString().trim();
 			return runLocalCommand("hostname -s");
 		}).then(function(result){
-			result = result.toString().trim();
-			console.log(result);
-			return runLocalCommand("hostname -s");
+			refObject.hostnameshort = result.toString().trim();
+			db.nodes.find(function(err, nodes){
+				console.log(nodes);
+			});
 		});
 		
 		deferred.resolve(refObject);

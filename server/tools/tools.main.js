@@ -136,7 +136,8 @@ module.exports = {
 	logger: logger,
 	waitWithServer: waitWithServer,
 	getUserHome: getUserHome,
-	getNodes: getNodes
+	getNodes: getNodes,
+	defineSSH: defineSSH
 };
 
 function getUserHome() {

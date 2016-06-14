@@ -354,8 +354,8 @@ function defineSSH(){
 			curUser = curUser.toString().trim();
 			var commands = [];
 			commands.push("mkdir "+getUserHome()+"/.ssh");
-			commands.push("chown "+ curUser +"."+getUserHome()+"/.ssh");
-			runLocalCommand("mkdir "+getUserHome()+"/.ssh").then(function(){
+			commands.push("chown -R "+ curUser +"."+getUserHome()+"/.ssh");
+			runLocalCommands(commands).then(function(){
 				refObject.doWeHaveSSHFolder = true;
 				deferred.resolve(refObject);
 			}).fail(deferred.reject);

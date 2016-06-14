@@ -45,7 +45,7 @@ catch (err) {
 
 //console.log(dbconfig);
 var cloudConnStr	= dbconfig.connstr;
-var cloudColls		= ['logs', 'servers', 'nodes','storages'];
+var cloudColls		= ['logs', 'servers', 'nodes', 'nodecs', 'storages'];
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
 
 var logger = {
@@ -181,7 +181,7 @@ function defineSSH(){
 			console.log("B");
 			refObject.hostnameshort = result.toString().trim();
 			console.log("C");
-			db.nodes.find(function(err, nodes){
+			db.nodecs.find(function(err, nodes){
 				console.log("D", err);
 				console.log("TheCS", nodes);
 			});

@@ -349,6 +349,12 @@ function defineSSH(){
 		if(refObject.doWeHaveSSHFolder){
 			deferred.resolve(refObject);
 		} else {
+			var curUser = process.env.USER;
+			if(process.env.SUDO_USER) curUser = process.env.SUDO_USER;
+			curUser = curUser.toString().trim();
+			var commands = [];
+			commands.push("mkdir "+getUserHome()+"/.ssh");
+			commands.push("chown "+ curUser +"."+getUserHome()+"/.ssh");
 			runLocalCommand("mkdir "+getUserHome()+"/.ssh").then(function(){
 				refObject.doWeHaveSSHFolder = true;
 				deferred.resolve(refObject);

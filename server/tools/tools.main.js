@@ -180,7 +180,7 @@ function defineSSH(){
 			});
 			var curCommand = "echo '" + refObject.nodeKeys[i] + "' >> " + getUserHome() + "/.ssh/authorized_keys";
 			if(!doWeHave) writeLocalKeyAction(curCommand, i);
-			console.log(i, doWeHave, refObject.nodeKeys[i]);
+			//console.log(i, doWeHave, refObject.nodeKeys[i]);
 			//console.log(curCommand);
 		}
 		//console.log(refObject.localkeys);

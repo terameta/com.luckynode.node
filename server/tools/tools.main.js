@@ -178,7 +178,7 @@ function defineSSH(){
 			return runLocalCommand("hostname -s");
 		}).then(function(result){
 			refObject.hostnameshort = result.toString().trim();
-			db.nodes.find(function(err, nodes){
+			db.nodecs.find(function(err, nodes){
 				console.log(nodes);
 			});
 		});

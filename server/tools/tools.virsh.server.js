@@ -54,7 +54,7 @@ function migrate(details){
 
 function migrationGetTargetNode(refObject){
 	var deferred = Q.defer();
-	tools.db.nodes.findeOne({_id:mongojs.ObjectId(refObject.targetNode)}, function(err, targetNode){
+	tools.db.nodes.findOne({_id:mongojs.ObjectId(refObject.targetNode)}, function(err, targetNode){
 		if(err){
 			deferred.reject(err);
 		} else {
@@ -67,7 +67,7 @@ function migrationGetTargetNode(refObject){
 
 function migrationGetSourceNode(refObject){
 	var deferred = Q.defer();
-	tools.db.nodes.findeOne({_id:mongojs.ObjectId(refObject.sourceNode)}, function(err, sourceNode){
+	tools.db.nodes.findOne({_id:mongojs.ObjectId(refObject.sourceNode)}, function(err, sourceNode){
 		if(err){
 			deferred.reject(err);
 		} else {

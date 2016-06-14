@@ -174,20 +174,18 @@ function defineSSH(){
 	function uploadHostNames(refObject){
 		var deferred = Q.defer();
 		runLocalCommand("hostname").then(function(result){
-			console.log("A");
 			refObject.hostnamelong = result.toString().trim();
 			return runLocalCommand("hostname -s");
 		}).then(function(result){
-			console.log("B");
 			refObject.hostnameshort = result.toString().trim();
-			console.log("C");
-			db.nodecs.find(function(err, nodes){
-				console.log("D", err);
-				console.log("TheCS", nodes);
+			db.nodes.update({_id: mongojs.ObjectId(whoamid)},{$set: {hostnamelong: refObject.hostnamelong, hostnameshort: refObject.hostnameshort}}, function(err, result){
+				if(err){
+					deferred.reject(err);
+				} else {
+					deferred.resolve(refObject);
+				}
 			});
 		});
-		
-		deferred.resolve(refObject);
 		return deferred.promise;
 	}
 	
@@ -256,7 +254,6 @@ function defineSSH(){
 				deferred.resolve(refObject);
 			}
 		});
-		deferred.resolve(refObject);
 		return deferred.promise;
 	}
 	

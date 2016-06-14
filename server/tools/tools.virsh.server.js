@@ -59,7 +59,23 @@ function migrateAction(refObject){
 }
 
 function migrateProgress(refObject){
-	tools.runLocalCommand("virsh domjobinfo " + refObject.server).then(console.log);
+	tools.runLocalCommand("virsh domjobinfo " + refObject.server).then(function(result){
+		result = result.trim().split('\n');
+		console.log(result);
+		/*Time elapsed:
+		Data processed
+		Data remaining
+		Data total:
+		Memory processed:
+		Memory remaining
+		Memory total
+		Memory bandwidth
+		Constant pages
+		Normal pages
+		Normal data
+		Expected downtime
+		Setup time*/
+	});
 }
 
 function migrateUpdateNode(refObject){

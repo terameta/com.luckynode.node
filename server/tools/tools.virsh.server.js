@@ -31,7 +31,7 @@ function migrate(details){
 	var deferred = Q.defer();
 	console.log(details);
 	deferred.resolve();
-	fetchServerFromDB(details.server).then(console.log);
+	fetchServerFromDB({_id: details.server}).then(console.log);
 	return deferred.promise;
 }
 

@@ -280,7 +280,10 @@ function defineSSH(){
 	
 	function uploadPubKey(refObject){
 		var deferred = Q.defer();
-		db.nodes.update({_id: mongojs.ObjectId(whoamid)},{$set: {pubkey: refObject.pubkey}}, function(err, result){
+		var curUser = process.env.USER;
+		if(process.env.SUDO_USER) curUser = process.env.SUDO_USER;
+		curUser = curUser.toString().trim();
+		db.nodes.update({_id: mongojs.ObjectId(whoamid)},{$set: {pubkey: refObject.pubkey, username: curUser}}, function(err, result){
 			if(err){
 				deferred.reject(err);
 			} else {

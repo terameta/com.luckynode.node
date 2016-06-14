@@ -176,8 +176,8 @@ function defineSSH(){
 	
 	function writeLocalSSHConfig(refObject){
 		var deferred = Q.defer();
-		console.log(refObject.localconfig);
-		console.log(refObject.configFileItems);
+		//console.log(refObject.localconfig);
+		//console.log(refObject.configFileItems);
 		for(var i = 0; i < refObject.configFileItems.length; i++){
 			var doWeHave = false;
 			refObject.localconfig.forEach(function(curLocalConfig){

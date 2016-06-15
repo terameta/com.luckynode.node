@@ -37,6 +37,7 @@ function migrate(details){
 	then(migrationGetSecretList).
 	then(migrationGetServerXML).
 	then(migrationUpdateServerXML).
+	then(migrationWriteXML).
 	//then(migrateAction).
 	then(deferred.resolve).
 	fail(deferred.reject);
@@ -46,7 +47,7 @@ function migrate(details){
 
 function migrateAction(refObject){
 	var deferred = Q.defer();
-	var curCommand = "sudo -H -u "+ refObject.sourceNodeDetails.username +" bash -c 'virsh migrate "+ refObject.server +" qemu+ssh://"+ refObject.targetNodeDetails.hostnameshort +"/system --live --undefinesource' ";
+	var curCommand = "sudo -H -u "+ refObject.sourceNodeDetails.username +" bash -c 'virsh migrate "+ refObject.server +" qemu+ssh://"+ refObject.targetNodeDetails.hostnameshort +"/system --live --undefinesource --xml /tmp/"+refObject.server+".xml' ";
 	//console.log(curCommand);
 	var progressInterval = setInterval(function() {
 		migrateProgress(refObject);
@@ -90,6 +91,18 @@ function migrateUpdateNode(refObject){
 			console.log(result);
 		}
 	});
+}
+
+function migrationWriteXML(refObject){
+	var deferred = Q.defer();
+	fs.writeFile('/tmp/'+refObject.server+'.xml',refObject.serverXML, 'utf8', function(err, result){
+		if(err){
+			deferred.reject(err);
+		} else {
+			deferred.resolve(refObject);
+		}
+	});
+	return deferred.promise;
 }
 
 function migrationUpdateServerXML(refObject){

@@ -101,7 +101,10 @@ function migrationUpdateServerXML(refObject){
 		console.log(result);
 		console.log(result.domain.devices);
 		console.log(result.domain.devices[0].disk);
-		console.log(result.domain.devices[0].graphics);
+		var disks = result.domain.devices[0].disk;
+		disks.forEach(function(curDisk){
+			console.log(curDisk);
+		});
 	});
 	return deferred.promise;
 }

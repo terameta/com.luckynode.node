@@ -38,8 +38,8 @@ function migrate(details){
 	then(migrationGetServerXML).
 	then(migrationUpdateServerXML).
 	then(migrationWriteXML).
-	then(printMigrationXML).
-	//then(migrateAction).
+	//then(printMigrationXML).
+	then(migrateAction).
 	then(deferred.resolve).
 	fail(deferred.reject);
 	

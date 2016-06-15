@@ -98,9 +98,9 @@ function migrationUpdateServerXML(refObject){
 	//console.log(refObject.secretList);
 	var parseString = require('xml2js').parseString;
 	parseString(refObject.serverXML, function (err, result) {
-		console.log(result);
-		console.log(result.domain.devices);
-		console.log(result.domain.devices[0].disk);
+		//console.log(result);
+		//console.log(result.domain.devices);
+		//console.log(result.domain.devices[0].disk);
 		var disks = result.domain.devices[0].disk;
 		disks.forEach(function(curDisk){
 			console.log(curDisk);

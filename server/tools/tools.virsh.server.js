@@ -69,21 +69,21 @@ function migrateProgress(refObject){
 		var toUpload = {};
 		result.forEach(function(curItem){
 			console.log(curItem.substr(0,12));
-			if(curItem.substr(0,12) == "Time elapsed") toUpload.timeElapsed = curItem.replace("Time elapsed:", "").trim().split(/\ +/);
+			if(curItem.substr(0,12) == "Time elapsed")		toUpload.timeElapsed 		= curItem.replace("Time elapsed:", "").trim().split(/\ +/);
+			if(curItem.substr(0,14) == "Data processed")		toUpload.dataProcessed		= curItem.replace("Data processed:", "").trim().split(/\ +/);
+			if(curItem.substr(0,14) == "Data remaining")		toUpload.dataRemaining		= curItem.replace("Data remaining:", "").trim().split(/\ +/);
+			if(curItem.substr(0,10) == "Data total")			toUpload.dataTotal			= curItem.replace("Data total:", "").trim().split(/\ +/);
+			if(curItem.substr(0,14) == "Data bandwidth")		toUpload.dataBandwidth		= curItem.replace("Data bandwidth:", "").trim().split(/\ +/);
+			if(curItem.substr(0,16) == "Memory processed")	toUpload.memoryProcessed	= curItem.replace("Memory processed:", "").trim().split(/\ +/);
+			if(curItem.substr(0,16) == "Memory remaining")	toUpload.memoryRemaining	= curItem.replace("Memory remaining:", "").trim().split(/\ +/);
+			if(curItem.substr(0,12) == "Memory total")		toUpload.memoryTotal			= curItem.replace("Memory total:", "").trim().split(/\ +/);
+			if(curItem.substr(0,16) == "Memory bandwidth")	toUpload.memoryBandwidth	= curItem.replace("Memory bandwidth:", "").trim().split(/\ +/);
+			if(curItem.substr(0,14) == "Constant pages")		toUpload.constantPages		= curItem.replace("Constant pages:", "").trim().split(/\ +/);
+			if(curItem.substr(0,12) == "Normal pages")		toUpload.normalPages 		= curItem.replace("Normal pages:", "").trim().split(/\ +/);
+			if(curItem.substr(0,14) == "Normal data")			toUpload.normalData			= curItem.replace("Normal data:", "").trim().split(/\ +/);
+			if(curItem.substr(0,17) == "Expected downtime")	toUpload.expectedDowntime	= curItem.replace("Expected downtime:", "").trim().split(/\ +/);
+			if(curItem.substr(0,10) == "Setup time")			toUpload.setupTime			= curItem.replace("Setup time:", "").trim().split(/\ +/);
 		});
-		/*Time elapsed:
-		Data processed
-		Data remaining
-		Data total:
-		Memory processed:
-		Memory remaining
-		Memory total
-		Memory bandwidth
-		Constant pages
-		Normal pages
-		Normal data
-		Expected downtime
-		Setup time*/
 		console.log(toUpload);
 	});
 }

@@ -38,10 +38,19 @@ function migrate(details){
 	then(migrationGetServerXML).
 	then(migrationUpdateServerXML).
 	then(migrationWriteXML).
-	then(migrateAction).
+	then(printMigrationXML).
+	//then(migrateAction).
 	then(deferred.resolve).
 	fail(deferred.reject);
 	
+	return deferred.promise;
+}
+
+function printMigrationXML(refObject){
+	var deferred = Q.defer();
+	fs.readFile("/tmp/"+refObject.server+".xml",function(err, file){
+		console.log(file);
+	});
 	return deferred.promise;
 }
 

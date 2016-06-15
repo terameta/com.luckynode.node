@@ -86,16 +86,17 @@ function migrateProgress(refObject){
 		});
 		if(toUpload.timeElapsed){
 			var timeElapsed = toUpload.timeElapsed[0];
-			var mseconds	=timeElapsed%1000;
-			var seconds		=parseInt(timeElapsed/1000,10)%60;
-			var minutes		=parseInt(timeElapsed/1000/60,10)%60;
-			var hours		=parseInt(timeElapsed/1000/60/60,10)%24;
+			var mseconds	= timeElapsed%1000;
+			var seconds		= timeElapsed/1000;
+			var minutes		= seconds/60;
+			var hours		= minutes/60;
 			timeElapsed = mseconds;
 			timeElapsed = ("0"+seconds).substr(("0"+seconds) - 2) + "." + timeElapsed;
 			timeElapsed = ("0"+minutes).substr(("0"+minutes) - 2) + ":" + timeElapsed;
 			timeElapsed = ("0"+hours  ).substr(("0"+hours  ) - 2) + ":" + timeElapsed;
 			
 			console.log(toUpload.timeElapsed, timeElapsed);
+			console.log(hours, minutes, seconds, mseconds);
 		}
 		console.log(toUpload);
 	});

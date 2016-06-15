@@ -48,7 +48,7 @@ function migrate(details){
 
 function printMigrationXML(refObject){
 	var deferred = Q.defer();
-	fs.readFile("/tmp/"+refObject.server+".xml",function(err, file){
+	fs.readFile("/tmp/"+refObject.server+".xml", 'utf8', function(err, file){
 		console.log(file);
 	});
 	return deferred.promise;

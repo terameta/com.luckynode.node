@@ -90,24 +90,21 @@ function migrateProgress(refObject){
 			var seconds		= timeElapsed/1000;
 			var minutes		= seconds/60;
 			var hours		= minutes/60;
-			timeElapsed = mseconds;
-			timeElapsed = ("0"+seconds).substr(("0"+seconds) - 2) + "." + timeElapsed;
-			timeElapsed = ("0"+minutes).substr(("0"+minutes) - 2) + ":" + timeElapsed;
-			timeElapsed = ("0"+hours  ).substr(("0"+hours  ) - 2) + ":" + timeElapsed;
-			
-			console.log(toUpload.timeElapsed, timeElapsed);
-			console.log(hours, minutes, seconds, mseconds);
 			seconds	= Math.floor(seconds);
 			minutes	= Math.floor(minutes);
 			hours 	= Math.floor(hours);
-			console.log(hours, minutes, seconds, mseconds);
 			seconds = ("0"+seconds).slice(-2);
 			minutes = ("0"+minutes).slice(-2);
-			console.log(hours, minutes, seconds, mseconds);
 			timeElapsed = minutes + ":" + seconds + "." + mseconds;
 			if(parseInt(hours,10) > 0) timeElapsed = hours + ":" + timeElapsed;
-			console.log(timeElapsed);
+			toUpload.timeElapsed = timeElapsed;
 		}
+		if(toUpload.dataProcessed)			toUpload.dataProcessedRaw		= tools.size2realsize(toUpload.dataProcessed[0], toUpload.dataProcessed[1]);
+		if(toUpload.dataRemaining)			toUpload.dataRemainingRaw		= tools.size2realsize(toUpload.dataRemaining[0], toUpload.dataRemaining[1]);
+		if(toUpload.dataTotal)				toUpload.dataTotalRaw			= tools.size2realsize(toUpload.dataTotal[0], toUpload.dataTotal[1]);
+		if(toUpload.memoryProcessed)		toUpload.memoryProcessedRaw	= tools.size2realsize(toUpload.memoryProcessed[0], toUpload.memoryProcessed[1]);
+		if(toUpload.memoryRemaining)		toUpload.memoryRemainingRaw	= tools.size2realsize(toUpload.memoryRemaining[0], toUpload.memoryRemaining[1]);
+		if(toUpload.memoryTotal)			toUpload.memoryTotalRaw			= tools.size2realsize(toUpload.memoryTotal[0], toUpload.memoryTotal[1]);
 		console.log(toUpload);
 	});
 }

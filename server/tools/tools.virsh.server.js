@@ -69,6 +69,7 @@ function migrateProgress(refObject){
 		var toUpload = {};
 		result.forEach(function(curItem){
 			console.log(curItem);
+			if(curItem.substr(0,12 == "Time elapsed")) toUpload.timeElapsed = curItem.replace("Time elapsed:", "").trim().split(" ");
 		});
 		/*Time elapsed:
 		Data processed
@@ -83,6 +84,7 @@ function migrateProgress(refObject){
 		Normal data
 		Expected downtime
 		Setup time*/
+		console.log(toUpload);
 	});
 }
 

@@ -34,7 +34,7 @@ function migrate(details){
 	//tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
 	migrationGetTargetNode(details).
 	then(migrationGetSourceNode).
-	then(migrateAction).
+	//then(migrateAction).
 	then(deferred.resolve).
 	fail(deferred.reject);
 	
@@ -47,7 +47,7 @@ function migrateAction(refObject){
 	//console.log(curCommand);
 	var progressInterval = setInterval(function() {
 		migrateProgress(refObject);
-	}, 1000, "Hello.", "How are you?");
+	}, 1000);
 	
 	tools.runLocalCommand(curCommand).
 	then(function(){

@@ -98,29 +98,34 @@ function migrationUpdateServerXML(refObject){
 	//console.log(refObject.secretList);
 	var parseString = require('xml2js').parseString;
 	parseString(refObject.serverXML, function (err, result) {
-		//console.log(result);
-		//console.log(result.domain.devices);
-		//console.log(result.domain.devices[0].disk);
-		var disks = result.domain.devices[0].disk;
-		disks.forEach(function(curDisk){
-			if(curDisk.auth){
-				console.log(curDisk);
-				var currentUUID = curDisk.auth[0].secret[0].$.uuid;
-				console.log(currentUUID);
-				var currentName = curDisk.source[0].$.name;
-				currentName = currentName.substr(0,currentName.indexOf('/'));
-				console.log(currentName);
-				refObject.secretList.forEach(function(curSecret){
-					console.log(curSecret);
-					console.log(curSecret.Usage.indexOf(currentName));
-					if(curSecret.Usage.indexOf(currentName) >= 0){
-						console.log("We should replace");
-						refObject.serverXML = refObject.serverXML.replace(currentUUID, curSecret.UUID);
-					} 
-				});
-			}
-		});
-		console.log(refObject.serverXML);
+		if(err){ 
+			deferred.reject(err);
+		} else {
+			//console.log(result);
+			//console.log(result.domain.devices);
+			//console.log(result.domain.devices[0].disk);
+			var disks = result.domain.devices[0].disk;
+			disks.forEach(function(curDisk){
+				if(curDisk.auth){
+					console.log(curDisk);
+					var currentUUID = curDisk.auth[0].secret[0].$.uuid;
+					console.log(currentUUID);
+					var currentName = curDisk.source[0].$.name;
+					currentName = currentName.substr(0,currentName.indexOf('/'));
+					console.log(currentName);
+					refObject.secretList.forEach(function(curSecret){
+						console.log(curSecret);
+						console.log(curSecret.Usage.indexOf(currentName));
+						if(curSecret.Usage.indexOf(currentName) >= 0){
+							console.log("We should replace");
+							refObject.serverXML = refObject.serverXML.replace(currentUUID, curSecret.UUID);
+						} 
+					});
+				}
+			});
+			console.log(refObject.serverXML);
+			deferred.resolve(refObject);
+		}
 	});
 	return deferred.promise;
 }

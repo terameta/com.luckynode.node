@@ -34,6 +34,7 @@ function migrate(details){
 	//tools.runLocalCommand("virsh dumpxml " + details.server).then(console.log);
 	migrationGetTargetNode(details).
 	then(migrationGetSourceNode).
+	then(migrationGetSecretList).
 	//then(migrateAction).
 	then(deferred.resolve).
 	fail(deferred.reject);
@@ -87,6 +88,12 @@ function migrateUpdateNode(refObject){
 			console.log(result);
 		}
 	});
+}
+
+function migrationGetSecretList(refObject){
+	var deferred = Q.defer();
+	secretModule.list().then(console.log);
+	return deferred.promise;
 }
 
 function migrationGetTargetNode(refObject){

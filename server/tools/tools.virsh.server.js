@@ -87,9 +87,9 @@ function migrateProgress(refObject){
 		if(toUpload.timeElapsed){
 			var timeElapsed = toUpload.timeElapsed[0];
 			var mseconds	=timeElapsed%1000;
-			var seconds		=Math.floor(timeElapsed/1000)%60;
-			var minutes		=Math.floor(timeElapsed/1000/60)%60;
-			var hours		=Math.floor(timeElapsed/1000/60/60)%24;
+			var seconds		=parseInt(timeElapsed/1000,10)%60;
+			var minutes		=parseInt(timeElapsed/1000/60,10)%60;
+			var hours		=parseInt(timeElapsed/1000/60/60,10)%24;
 			timeElapsed = mseconds;
 			timeElapsed = ("0"+seconds).substr(("0"+seconds) - 2) + "." + timeElapsed;
 			timeElapsed = ("0"+minutes).substr(("0"+minutes) - 2) + ":" + timeElapsed;

@@ -68,7 +68,7 @@ function migrateProgress(refObject){
 		console.log(result);
 		var toUpload = {};
 		result.forEach(function(curItem){
-			console.log(curItem);
+			console.log(curItem.substr(0,12));
 			if(curItem.substr(0,12 == "Time elapsed")) toUpload.timeElapsed = curItem.replace("Time elapsed:", "").trim().split(" ");
 		});
 		/*Time elapsed:

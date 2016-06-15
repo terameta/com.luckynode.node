@@ -56,7 +56,7 @@ function printMigrationXML(refObject){
 
 function migrateAction(refObject){
 	var deferred = Q.defer();
-	var curCommand = "sudo -H -u "+ refObject.sourceNodeDetails.username +" bash -c 'virsh migrate "+ refObject.server +" qemu+ssh://"+ refObject.targetNodeDetails.hostnameshort +"/system --live --undefinesource --xml /tmp/"+refObject.server+".xml' ";
+	var curCommand = "sudo -H -u "+ refObject.sourceNodeDetails.username +" bash -c 'virsh migrate "+ refObject.server +" qemu+ssh://"+ refObject.targetNodeDetails.hostnameshort +"/system --live --undefinesource --persistent --xml /tmp/"+refObject.server+".xml' ";
 	//console.log(curCommand);
 	var progressInterval = setInterval(function() {
 		migrateProgress(refObject);

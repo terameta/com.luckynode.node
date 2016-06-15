@@ -284,8 +284,7 @@ function undefine(cSrv){
 		console.log("===========================================");
 		console.log("===========================================");
 		return(state(cSrv));
-	}).
-		then(deleteDHCPItem).
+	}).then(deleteDHCPItem).
 		then(destroy).
 		then(checkDiskFiles).
 		then(deleteDiskFiles).

@@ -95,7 +95,11 @@ function migrateUpdateNode(refObject){
 function migrationUpdateServerXML(refObject){
 	var deferred = Q.defer();
 	console.log(refObject.serverXML);
-	console.log(refObject.secretList);
+	//console.log(refObject.secretList);
+	var parseString = require('xml2js').parseString;
+	parseString(refObject.serverXML, function (err, result) {
+		console.dir(result);
+	});
 	return deferred.promise;
 }
 

@@ -36,6 +36,7 @@ function migrate(details){
 	then(migrationGetSourceNode).
 	then(migrationGetSecretList).
 	then(migrationGetServerXML).
+	then(migrationUpdateServerXML).
 	//then(migrateAction).
 	then(deferred.resolve).
 	fail(deferred.reject);
@@ -91,10 +92,18 @@ function migrateUpdateNode(refObject){
 	});
 }
 
+function migrationUpdateServerXML(refObject){
+	var deferred = Q.defer();
+	console.log(refObject.serverXML);
+	console.log(refObject.secretList);
+	return deferred.promise;
+}
+
 function migrationGetServerXML(refObject){
 	var deferred = Q.defer();
 	tools.runLocalCommand("virsh dumpxml "+refObject.server+" --migratable").then(function(result){
-		console.log(result);
+		refObject.serverXML = result;
+		deferred.resolve(refObject);
 	}).fail(deferred.reject);
 	return deferred.promise;
 }

@@ -110,7 +110,10 @@ function migrationUpdateServerXML(refObject){
 				var currentName = curDisk.source[0].$.name;
 				currentName = currentName.substr(0,currentName.indexOf('/'));
 				console.log(currentName);
-				console.log(refObject.secretList);
+				refObject.secretList.forEach(function(curSecret){
+					console.log(curSecret);
+					console.log(curSecret.Usage.indexOf(currentName));
+				});
 			}
 		});
 	});

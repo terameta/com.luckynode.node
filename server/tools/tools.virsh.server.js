@@ -99,7 +99,7 @@ function migrationUpdateServerXML(refObject){
 	var parseString = require('xml2js').parseString;
 	parseString(refObject.serverXML, function (err, result) {
 		console.log(result);
-		
+		console.log(result.devices);
 	});
 	return deferred.promise;
 }

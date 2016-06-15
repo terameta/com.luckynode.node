@@ -98,7 +98,8 @@ function migrationUpdateServerXML(refObject){
 	//console.log(refObject.secretList);
 	var parseString = require('xml2js').parseString;
 	parseString(refObject.serverXML, function (err, result) {
-		console.dir(result);
+		console.log(result);
+		
 	});
 	return deferred.promise;
 }

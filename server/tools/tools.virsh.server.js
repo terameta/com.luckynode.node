@@ -92,7 +92,11 @@ function migrateUpdateNode(refObject){
 
 function migrationGetSecretList(refObject){
 	var deferred = Q.defer();
-	secretModule.list().then(console.log);
+	secretModule.list().then(function(result){
+		console.log("====");
+		console.log(result);
+		console.log("====");
+	});
 	return deferred.promise;
 }
 

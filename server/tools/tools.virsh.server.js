@@ -84,6 +84,15 @@ function migrateProgress(refObject){
 			if(curItem.substr(0,17) == "Expected downtime")	toUpload.expectedDowntime	= curItem.replace("Expected downtime:", "").trim().split(/\ +/);
 			if(curItem.substr(0,10) == "Setup time")			toUpload.setupTime			= curItem.replace("Setup time:", "").trim().split(/\ +/);
 		});
+		if(toUpload.timeElapsed){
+			var timeElapsed = toUpload.timeElapsed[0];
+			var mseconds=timeElapsed%1000;
+			var seconds=(timeElapsed/1000)%60;
+			var minutes=(seconds/60)%60;
+			var hours=(minutes/60)%24;
+			timeElapsed = hours + ":" + minutes + ":" + seconds + "." + mseconds;
+			console.log(toUpload.timeElapsed, timeElapsed);
+		}
 		console.log(toUpload);
 	});
 }

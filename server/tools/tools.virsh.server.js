@@ -105,8 +105,11 @@ function migrationUpdateServerXML(refObject){
 		disks.forEach(function(curDisk){
 			if(curDisk.auth){
 				console.log(curDisk);
-				console.log(curDisk.auth[0].secret[0].$.uuid);
-				console.log(curDisk.source[0].$.name);
+				var currentUUID = curDisk.auth[0].secret[0].$.uuid;
+				console.log(currentUUID);
+				var currentName = curDisk.source[0].$.name;
+				currentName = currentName.substr(0,currentName.indexOf('/'));
+				console.log(currentName);
 				console.log(refObject.secretList);
 			}
 		});

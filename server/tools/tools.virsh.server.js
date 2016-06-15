@@ -115,7 +115,7 @@ function migrateProgress(refObject){
 }
 
 function migrateUpdateNode(refObject){
-	tools.db.servers.update({_id:mongojs.ObjectId(refObject.server)}, { $set:{"node":refObject.targetNode}, $unset:{"migrating":"", "migrationStats":""} }, function(err,result){
+	tools.db.servers.update({_id:mongojs.ObjectId(refObject.server)}, { $set:{"node":refObject.targetNode, "migrationStats": "finished"}, $unset:{"migrating":"" } }, function(err,result){
 		if(err){
 			console.log("Server update failed after migration");
 		} else {

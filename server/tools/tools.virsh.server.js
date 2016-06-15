@@ -104,6 +104,8 @@ function migrateProgress(refObject){
 			seconds = ("0"+seconds).slice(-2);
 			minutes = ("0"+minutes).slice(-2);
 			console.log(hours, minutes, seconds, mseconds);
+			timeElapsed = hours + ":" + minutes + ":" + seconds + "." + mseconds;
+			console.log(timeElapsed);
 		}
 		console.log(toUpload);
 	});

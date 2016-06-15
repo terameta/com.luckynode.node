@@ -38,7 +38,6 @@ function migrate(details){
 	then(migrationGetServerXML).
 	then(migrationUpdateServerXML).
 	then(migrationWriteXML).
-	//then(printMigrationXML).
 	then(migrateAction).
 	then(deferred.resolve).
 	fail(deferred.reject);
@@ -67,6 +66,10 @@ function migrateProgress(refObject){
 	tools.runLocalCommand("virsh domjobinfo " + refObject.server).then(function(result){
 		result = result.trim().split('\n');
 		console.log(result);
+		var toUpload = {};
+		result.forEach(function(curItem){
+			console.log(curItem);
+		});
 		/*Time elapsed:
 		Data processed
 		Data remaining

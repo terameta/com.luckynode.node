@@ -38,7 +38,7 @@ function migrate(details){
 	then(migrationGetServerXML).
 	then(migrationUpdateServerXML).
 	then(migrationWriteXML).
-	//then(migrateAction).
+	then(migrateAction).
 	then(deferred.resolve).
 	fail(deferred.reject);
 	

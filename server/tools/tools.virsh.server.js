@@ -97,6 +97,10 @@ function migrateProgress(refObject){
 			
 			console.log(toUpload.timeElapsed, timeElapsed);
 			console.log(hours, minutes, seconds, mseconds);
+			seconds	= Math.floor(seconds);
+			minutes	= Math.floor(minutes);
+			hours 	= Math.floor(hours);
+			console.log(hours, minutes, seconds, mseconds);
 		}
 		console.log(toUpload);
 	});

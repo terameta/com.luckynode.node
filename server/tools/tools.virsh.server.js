@@ -46,14 +46,6 @@ function migrate(details){
 	return deferred.promise;
 }
 
-function printMigrationXML(refObject){
-	var deferred = Q.defer();
-	fs.readFile("/tmp/"+refObject.server+".xml", 'utf8', function(err, file){
-		console.log(file);
-	});
-	return deferred.promise;
-}
-
 function migrateAction(refObject){
 	var deferred = Q.defer();
 	var curCommand = "sudo -H -u "+ refObject.sourceNodeDetails.username +" bash -c 'virsh migrate "+ refObject.server +" qemu+ssh://"+ refObject.targetNodeDetails.hostnameshort +"/system --live --undefinesource --persistent --xml /tmp/"+refObject.server+".xml' ";

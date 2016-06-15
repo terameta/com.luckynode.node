@@ -113,10 +113,14 @@ function migrationUpdateServerXML(refObject){
 				refObject.secretList.forEach(function(curSecret){
 					console.log(curSecret);
 					console.log(curSecret.Usage.indexOf(currentName));
-					if(curSecret.Usage.indexOf(currentName) >= 0) console.log("We should replace");
+					if(curSecret.Usage.indexOf(currentName) >= 0){
+						console.log("We should replace");
+						refObject.serverXML = refObject.serverXML.replace(currentUUID, curSecret.UUID);
+					} 
 				});
 			}
 		});
+		console.log(refObject.serverXML);
 	});
 	return deferred.promise;
 }

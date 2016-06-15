@@ -277,7 +277,14 @@ function undefine(cSrv){
 	tools.logger.info("serverDelete called for " + cSrv.id);
 	var deferred = Q.defer();
 	
-	state(cSrv).
+	virshPool.refresh().then(function(result){
+		console.log("===========================================");
+		console.log("===========================================");
+		console.log("Refresh result", result);
+		console.log("===========================================");
+		console.log("===========================================");
+		return(state(cSrv));
+	}).
 		then(deleteDHCPItem).
 		then(destroy).
 		then(checkDiskFiles).

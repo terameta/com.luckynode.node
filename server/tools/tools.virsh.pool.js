@@ -6,8 +6,34 @@ var mongojs			= require('mongojs');
 module.exports = {
 	getFiles: getFiles,
 	getPoolDetailsDB: getPoolDetailsDB,
-	createImage: createImage
+	createImage: createImage,
+	refresh: refresh,
+	list: list
 };
+
+function refresh(curPool){
+	var deferred = Q.defer();
+	if(curPool){
+		tools.runLocalCommand("virsh pool-refresh --pool " + curPool.id).then(deferred.resolve).fail(deferred.reject);
+	} else {
+		var curCommands = [];
+		list().then(function(poolList){
+			poolList.forEach(function(cPool){
+				curCommands.push("virsh pool-refresh --pool " + cPool.Name);
+			});
+			tools.runLocalCommands(curCommands).then(deferred.resolve).fail(deferred.reject);
+		}).fail(deferred.reject);
+	}
+	return deferred.promise;
+}
+
+function list(){
+	var deferred = Q.defer();
+	tools.runLocalCommand("virsh pool-list --all --details").then(function(result){
+		returner.prepare(result, "pool-list").then(deferred.resolve).fail(deferred.reject);
+	}).fail(deferred.reject);
+	return deferred.promise;
+}
 
 function createImage(newImage){
 	var deferred = Q.defer();

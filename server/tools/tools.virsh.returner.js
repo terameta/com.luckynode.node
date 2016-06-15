@@ -7,10 +7,11 @@ module.exports = {
 function prepare(result, command){
 	var deferred = Q.defer();
 	var wte = ''; 		//What to Expect
-	if(command == 'list'){			wte = ['Id', 'Name', 'State'];											}
-	if(command == 'vol-list'){		wte = ['Name', 'Path', 'Type', 'Capacity', 'Allocation'];		}
-	if(command == 'domblklist'){	wte = ['Type', 'Device', 'Target', 'Source'];						}
-	if(command == 'secret-list'){	wte = ['UUID', 'Usage'];													}
+	if(command == 'list'){			wte = ['Id', 'Name', 'State'];																					}
+	if(command == 'vol-list'){		wte = ['Name', 'Path', 'Type', 'Capacity', 'Allocation'];												}
+	if(command == 'domblklist'){	wte = ['Type', 'Device', 'Target', 'Source'];																}
+	if(command == 'secret-list'){	wte = ['UUID', 'Usage'];																							}
+	if(command == 'pool-list'){	wte = ['Name', 'State', 'Autostart', 'Persistent', 'Capacity', 'Allocation', 'Available'];	}
 	
 	result = result.trim();
 

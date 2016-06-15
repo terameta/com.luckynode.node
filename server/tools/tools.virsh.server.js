@@ -105,7 +105,8 @@ function migrationUpdateServerXML(refObject){
 		disks.forEach(function(curDisk){
 			console.log(curDisk);
 			if(curDisk.auth){
-				console.log(curDisk.auth[0].secret[0]);
+				console.log(curDisk.auth[0].secret[0].$.uuid);
+				console.log(curDisk.source[0]);
 			}
 		});
 	});

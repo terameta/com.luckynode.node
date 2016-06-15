@@ -106,11 +106,16 @@ function migrateProgress(refObject){
 		if(toUpload.memoryRemaining)		toUpload.memoryRemainingRaw	= tools.size2realsize(toUpload.memoryRemaining[0], toUpload.memoryRemaining[1]);
 		if(toUpload.memoryTotal)			toUpload.memoryTotalRaw			= tools.size2realsize(toUpload.memoryTotal[0], toUpload.memoryTotal[1]);
 		console.log(toUpload);
+		tools.db.servers.update({_id:mongojs.ObjectId(refObject.server)}, { $set:{migrationStats:toUpload} }, function(err, result){
+			if(err){
+				console.log(err);
+			}
+		});
 	});
 }
 
 function migrateUpdateNode(refObject){
-	tools.db.servers.update({_id:mongojs.ObjectId(refObject.server)}, { $set:{"node":refObject.targetNode}, $unset:{"migrating":""} }, function(err,result){
+	tools.db.servers.update({_id:mongojs.ObjectId(refObject.server)}, { $set:{"node":refObject.targetNode}, $unset:{"migrating":"", "migrationStats":""} }, function(err,result){
 		if(err){
 			console.log("Server update failed after migration");
 		} else {

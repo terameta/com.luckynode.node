@@ -107,6 +107,7 @@ function migrationUpdateServerXML(refObject){
 				console.log(curDisk);
 				console.log(curDisk.auth[0].secret[0].$.uuid);
 				console.log(curDisk.source[0].$.name);
+				console.log(refObject.secretList);
 			}
 		});
 	});

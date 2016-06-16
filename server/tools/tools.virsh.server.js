@@ -267,7 +267,7 @@ function fetchServerFromDB(cSrv){
 			data.id = data._id.toString();
 			deferred.resolve(data);
 			console.log("Resolved");
-			console.log("==================================");console.log("==================================");console.log("==================================");
+			console.log("==================================");
 		}
 	});
 	return deferred.promise;

@@ -28,7 +28,7 @@ catch (err) {
 
 var cloudConnStr	= dbconfig.connstr;
 var cloudColls		= ['users','datacenters','nodes','ipblocks','storages','nodecs','nodetokens','managers','plans','servers','images','isofiles'];
-var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1' });
+var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1', connectionTimeout: 30000 });
 //console.log(db);
 //console.log(cloudConnStr);
 

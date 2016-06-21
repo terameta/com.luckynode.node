@@ -175,8 +175,10 @@ function migrationUpdateServerXML(refObject){
 			console.log(refObject.serverXML);
 			var slStart = refObject.serverXML.indexOf("<seclabel");
 			var slEnd = refObject.serverXML.indexOf("</seclabel>");
+				 slEnd = parseInt(slEnd, 10) + 11;
+			var slText = refObject.serverXML.substring(slStart, slEnd); 
 			console.log(slStart, slEnd);
-			console.log(refObject.serverXML.substring(slStart, slEnd));
+			console.log(slText);
 			console.log("=======================================================");
 			console.log("=======================================================");
 			deferred.resolve(refObject);

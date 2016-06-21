@@ -168,9 +168,15 @@ function migrationUpdateServerXML(refObject){
 					});
 				}
 			});
-			refObject.serverXML = refObject.serverXML.replace("<seclabel", "<--seclabel");
-			refObject.serverXML = refObject.serverXML.replace("</seclabel>", "</seclabel-->");
+			//refObject.serverXML = refObject.serverXML.replace("<seclabel", "<--seclabel");
+			//refObject.serverXML = refObject.serverXML.replace("</seclabel>", "</seclabel-->");
+			console.log("=======================================================");
+			console.log("=======================================================");
 			console.log(refObject.serverXML);
+			console.log(refObject.serverXML.indexOf("<seclabel"));
+			console.log(refObject.serverXML.indexOf("</seclabel>"));
+			console.log("=======================================================");
+			console.log("=======================================================");
 			deferred.resolve(refObject);
 		}
 	});

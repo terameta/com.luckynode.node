@@ -168,7 +168,8 @@ function migrationUpdateServerXML(refObject){
 					});
 				}
 			});
-			refObject.serverXML = refObject.serverXML.replace("<seclabel", "<;seclabel");
+			refObject.serverXML = refObject.serverXML.replace("<seclabel", "<--seclabel");
+			refObject.serverXML = refObject.serverXML.replace("</seclabel>", "</seclabel-->");
 			console.log(refObject.serverXML);
 			deferred.resolve(refObject);
 		}

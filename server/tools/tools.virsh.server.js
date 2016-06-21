@@ -179,7 +179,7 @@ function migrationUpdateServerXML(refObject){
 			var slText = refObject.serverXML.substring(slStart, slEnd); 
 			console.log(slStart, slEnd);
 			console.log("+++"+slText+"+++");
-			//refObject.serverXML = refObject.serverXML.replace(slText, "");
+			refObject.serverXML = refObject.serverXML.replace(slText, "");
 			console.log("=======================================================");
 			console.log("=======================================================");
 			deferred.resolve(refObject);

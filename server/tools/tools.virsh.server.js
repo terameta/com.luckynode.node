@@ -60,7 +60,7 @@ function migrateAction(refObject){
 	}).fail(function(issue){
 		console.log("Migration failed:", issue);
 		clearInterval(progressInterval);
-		migrateUpdateNode(refObject);
+		//migrateUpdateNode(refObject);
 	});
 	deferred.resolve(refObject);
 	return deferred.promise;

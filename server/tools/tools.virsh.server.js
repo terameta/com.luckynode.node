@@ -173,8 +173,10 @@ function migrationUpdateServerXML(refObject){
 			console.log("=======================================================");
 			console.log("=======================================================");
 			console.log(refObject.serverXML);
-			console.log(refObject.serverXML.indexOf("<seclabel"));
-			console.log(refObject.serverXML.indexOf("</seclabel>"));
+			var slStart = refObject.serverXML.indexOf("<seclabel");
+			var slEnd = refObject.serverXML.indexOf("</seclabel>");
+			console.log(slStart, slEnd);
+			console.log(refObject.serverXML.substring(slStart, slEnd));
 			console.log("=======================================================");
 			console.log("=======================================================");
 			deferred.resolve(refObject);

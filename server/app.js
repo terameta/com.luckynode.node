@@ -1,5 +1,6 @@
 var cluster         = require( 'cluster' );
 var cCPUs           = require('os').cpus().length;
+	if(parseInt(cCPUs,10) > 4) cCPUs = 4;
 var fs				= require('fs');
 var tools			= require('./tools/tools.main.js');
 

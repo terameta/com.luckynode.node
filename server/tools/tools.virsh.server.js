@@ -600,7 +600,7 @@ function composeDomainXML(cSrv){
 	+	'		<input type=\'tablet\'/>'																											+ '\n'
 	+	'		<input type=\'mouse\'/>'																											+ '\n'
 	+	'		<graphics type=\'vnc\' port=\'-1\' autoport=\'yes\' passwd=\''+ cSrv.id +'\' listen=\'0.0.0.0\'/>'			+ '\n'
-	+	'		<video><model type=\'vga\' vram=\'9216\' heads=\'1\'/></video>'														+ '\n'
+	+	'		<video><model type=\'qxl\' vram=\'32768\' heads=\'1\'/></video>'														+ '\n'
 	+	'	</devices>'																																	+ '\n'
 	+ 	'</domain>';
 	cSrv.theXML = theXML;

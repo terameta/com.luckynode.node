@@ -601,8 +601,9 @@ function composeDomainXML(cSrv){
 	+	'		<input type=\'mouse\'/>'																											+ '\n'
 	+	'		<graphics type=\'vnc\' port=\'-1\' autoport=\'yes\' passwd=\''+ cSrv.id +'\' listen=\'0.0.0.0\'/>'			+ '\n'
 	+	'		<video>'																																	+ '\n'
-	+	'			<model type=\'cirrus\' vram=\'32768\' heads=\'1\'/>'																	+ '\n'
-	+	'			<acceleration accel3d=\'no\' accel2d=\'yes\'/>'																			+ '\n'
+	+	'			<model type=\'cirrus\' vram=\'32768\' heads=\'1\'>'																	+ '\n'
+	+	'				<acceleration accel3d=\'no\' accel2d=\'yes\'/>'																		+ '\n'
+	+	'			</model>'																															+ '\n'
 	+	'		</video>'																																+ '\n'
 	+	'	</devices>'																																	+ '\n'
 	+ 	'</domain>';

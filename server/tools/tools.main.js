@@ -48,6 +48,7 @@ var cloudConnStr	= dbconfig.connstr;
 var cloudColls		= ['logs', 'servers', 'nodes', 'nodecs', 'storages'];
 var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1', connectionTimeout: 30000  });
 
+
 var logger = {
 	log: function(level, message, metadata, shouldLogToConsole){
 		shouldLogToConsole = true;

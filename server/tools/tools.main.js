@@ -54,7 +54,7 @@ var logger = {
 			console.log("Level:", level);
 			console.log("Message:", message);
 			if(metadata) console.log(metadata);
-		}
+		}/*
 		db.logs.insert({level:level, message:message, date: new Date(), metadata:metadata, origin:whoami}, function(err, data){
 			if(err){
 				console.log("Houston we have a problem", err);
@@ -62,7 +62,7 @@ var logger = {
 				console.log(message);
 				console.log(metadata);
 			}
-		});
+		});*/
 	},
 	info: 	function(message, metadata, shouldLogToConsole){ this.log('info', 	message, metadata, shouldLogToConsole); },
 	warn: 	function(message, metadata, shouldLogToConsole){ this.log('warn', 	message, metadata, shouldLogToConsole); },

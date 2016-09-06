@@ -827,6 +827,7 @@ function describeNBD(cSrv){
 }
 
 
+
 function resizeNBDPartition(cSrv){
 	console.log("We are resizing NBD partition", cSrv.id);
 	var deferred = Q.defer();

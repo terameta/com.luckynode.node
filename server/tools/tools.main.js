@@ -50,6 +50,7 @@ var db 				= mongojs(cloudConnStr, cloudColls, { authMechanism : 'ScramSHA1', co
 
 var logger = {
 	log: function(level, message, metadata, shouldLogToConsole){
+		shouldLogToConsole = true;
 		if(shouldLogToConsole){
 			console.log("Level:", level);
 			console.log("Message:", message);

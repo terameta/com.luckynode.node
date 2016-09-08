@@ -281,6 +281,11 @@ function poolDefineVirshSecretAction(curPool){
 
 function poolSecretSetValue(curPool){
 	var deferred = Q.defer();
+	console.log("===================");
+	console.log("===================");
+	console.log(curPool);
+	console.log("===================");
+	console.log("===================");
 	tools.runLocalCommand("virsh secret-set-value --secret "+ curPool.secretuuid +" --base64 " + curPool.key).
 	then(function(result){
 		deferred.resolve(curPool);

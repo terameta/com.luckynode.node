@@ -43,7 +43,7 @@ catch (err) {
 	// Handle a file-not-found error aa
 }
 
-//console.log(dbconfig);
+console.log(dbconfig);
 var cloudConnStr	= dbconfig.connstr;
 var cloudColls		= ['logs', 'servers', 'nodes', 'nodecs', 'storages'];
 var db 				= mongojs(cloudConnStr, cloudColls);

@@ -8,6 +8,7 @@ if [ "$reslog" != "" ] ; then
     echo thereischange
     git reset --hard origin/master
     git merge origin/master
+    npm install
     forever restart nodeluckynode
 else
     echo nochange

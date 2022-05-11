@@ -1,6 +1,6 @@
 module.exports = {
 
-    'secret': '***REMOVED***',
-    'database_maybewecanuselaterstglikethis': '***REMOVED***'
+    'secret': '***REPLACED***',
+    'database_maybewecanuselaterstglikethis': '***REPLACED***'
 
 };
